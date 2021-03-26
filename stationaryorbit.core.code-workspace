@@ -119,7 +119,7 @@
 	"launch": {
 		"configurations": [
 			{
-				"name": "(gdb) Launch test.core",
+				"name": "(gdb) Launch stationaryorbit.test.core",
 				"type": "cppdbg",
 				"request": "launch",
 				"program": "${workspaceFolder}/build/test/stationaryorbit.core.test",
