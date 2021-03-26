@@ -27,7 +27,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED true)
 
 set(Include_Dir ${PROJECT_SOURCE_DIR}/include)
 
-# ライブラリのビルドとインストール
+# stationaryorbit.core のビルドとインストール
 add_subdirectory(src)
 list(APPEND HEADER_DIRECTORIES
     include/stationaryorbit/core
@@ -58,3 +58,6 @@ install(DIRECTORY ${HEADER_DIRECTORIES} DESTINATION include/stationaryorbit)
 install(EXPORT stationaryorbit.core.export FILE stationaryorbit.core-config.cmake DESTINATION share/cmake/stationaryorbit.core/ EXPORT_LINK_INTERFACE_LIBRARIES)
 
 add_subdirectory(test)
+target_link_libraries(stationaryorbit.core.test
+    stationaryorbit.core
+)

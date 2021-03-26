@@ -25,7 +25,3 @@ add_executable(stationaryorbit.core.test
     test-general.cpp
     utilities.cpp
 )
-target_link_libraries(stationaryorbit.core.test
-    ${DEP_LIBS}
-    stationaryorbit.core
-)
