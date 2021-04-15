@@ -35,11 +35,11 @@ do_test(stationaryorbit.core.test.bitmask 4)
 
 add_executable(stationaryorbit.core.test.endian test.endian.cpp)
 target_link_libraries(stationaryorbit.core.test.endian stationaryorbit.core)
-add_test(NAME stationaryorbit.core.test.endian COMMAND stationaryorbit.core.test.endian)
-set_tests_properties(stationaryorbit.core.test.endian
-    PROPERTIES
-        FAIL_REGULAR_EXPRESSION ".*NG"
-)
+do_test(stationaryorbit.core.test.endian 1)
+do_test(stationaryorbit.core.test.endian 2)
+do_test(stationaryorbit.core.test.endian 3)
+do_test(stationaryorbit.core.test.endian 4)
+do_test(stationaryorbit.core.test.endian 5)
 
 add_executable(stationaryorbit.core.test
     delegate.cpp

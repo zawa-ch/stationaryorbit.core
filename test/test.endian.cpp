@@ -20,9 +20,20 @@
 #include "stationaryorbit/core.bitoperation.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
+int test1();
+int test2();
+int test3();
+int test4();
+int test5();
+
 int main(int argc, char const *argv[])
 {
 	std::cout << "<--- Endian --->" << std::endl;
+	if (argc < 2)
+	{
+		std::cerr << "E: At least 1 argument is required";
+		return 2;
+	}
 
 	std::cout << "Current Endian: ";
 	if (Endians::native == Endians::little)
@@ -40,64 +51,104 @@ int main(int argc, char const *argv[])
 		std::cout << "not specified" << std::endl;
 	}
 
-	uint32_t deadbeef = 0xDEADBEEF;
-	uint32be_t be_beef = deadbeef;
-	uint32le_t le_beef = deadbeef;
+	auto test_index = std::stoi(argv[1]);
+	switch(test_index)
+	{
+		case 1: { return test1(); }
+		case 2: { return test2(); }
+		case 3: { return test3(); }
+		case 4: { return test4(); }
+		case 5: { return test5(); }
+		default:
+		{
+			std::cerr << "Invalid test index";
+			return 2;
+		}
+	}
+}
 
+int test1()
+{
 	std::cout << "1. LE->BE(0xDEADBEEF) ->0xEFBEADDE?";
-	if (EndianConverter<Endians::little, Endians::big>::Convert(deadbeef) == 0xEFBEADDE)
+	if (EndianConverter<Endians::little, Endians::big>::Convert(0xDEADBEEF) == 0xEFBEADDE)
 	{
 		std::cout << "...OK" << std::endl;
+		return 0;
 	}
 	else
 	{
 		std::cout << "...NG" << std::endl;
-		throw std::runtime_error("test 1 failed");
+		return 1;
 	}
+}
 
+int test2()
+{
 	std::cout << "2. BE->LE(0xEFBEADDE) ->0xDEADBEEF?";
 	if (EndianConverter<Endians::little, Endians::big>::Convert(0xEFBEADDE) == 0xDEADBEEF)
 	{
 		std::cout << "...OK" << std::endl;
+		return 0;
 	}
 	else
 	{
 		std::cout << "...NG" << std::endl;
-		throw std::runtime_error("test 2 failed");
+		return 1;
 	}
+}
+
+int test3()
+{
+	uint32_t deadbeef = 0xDEADBEEF;
+	uint32le_t le_beef = deadbeef;
 
 	std::cout << "3. LE(0xDEADBEEF).Value() ->0xDEADBEEF?";
 	if (le_beef.Value() == 0xDEADBEEF)
 	{
 		std::cout << "...OK" << std::endl;
+		return 0;
 	}
 	else
 	{
 		std::cout << "...NG" << std::endl;
-		throw std::runtime_error("test 3 failed");
+		return 1;
 	}
+}
+
+int test4()
+{
+	uint32_t deadbeef = 0xDEADBEEF;
+	uint32be_t be_beef = deadbeef;
 
 	std::cout << "4. BE(0xDEADBEEF).Value() ->0xDEADBEEF?";
 	if (be_beef.Value() == 0xDEADBEEF)
 	{
 		std::cout << "...OK" << std::endl;
+		return 0;
 	}
 	else
 	{
 		std::cout << "...NG" << std::endl;
-		throw std::runtime_error("test 4 failed");
+		return 1;
 	}
+}
+
+int test5()
+{
+	uint32_t deadbeef = 0xDEADBEEF;
+	uint32be_t be_beef = deadbeef;
+	uint32le_t le_beef = deadbeef;
 
 	std::cout << "5. LE(0xDEADBEEF).Data() != BE(0xDEADBEEF).Data() ->true?";
-	if (be_beef.Value() == 0xDEADBEEF)
+	if (le_beef.Data() != be_beef.Data())
 	{
 		std::cout << "...OK" << std::endl;
+		return 0;
 	}
 	else
 	{
 		std::cout << "...NG" << std::endl;
-		throw std::runtime_error("test 5 failed");
+		return 1;
 	}
-
-	return 0;
 }
+
