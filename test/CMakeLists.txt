@@ -16,13 +16,22 @@
 # If not, see <http://www.gnu.org/licenses/>.
 #
 
+function(do_test target index)
+    add_test(NAME ${target}.${index} COMMAND ${target} ${index})
+    set_tests_properties(${target}.${index}
+    PROPERTIES
+        PASS_REGULAR_EXPRESSION ".*OK"
+        FAIL_REGULAR_EXPRESSION ".*NG"
+        SKIP_RETURN_CODE 255
+)
+endfunction(do_test)
+
 add_executable(stationaryorbit.core.test.bitmask test.bitmask.cpp)
 target_link_libraries(stationaryorbit.core.test.bitmask stationaryorbit.core)
-add_test(NAME stationaryorbit.core.test.bitmask COMMAND stationaryorbit.core.test.bitmask)
-set_tests_properties(stationaryorbit.core.test.bitmask
-    PROPERTIES
-        FAIL_REGULAR_EXPRESSION ".*NG"
-)
+do_test(stationaryorbit.core.test.bitmask 1)
+do_test(stationaryorbit.core.test.bitmask 2)
+do_test(stationaryorbit.core.test.bitmask 3)
+do_test(stationaryorbit.core.test.bitmask 4)
 
 add_executable(stationaryorbit.core.test.endian test.endian.cpp)
 target_link_libraries(stationaryorbit.core.test.endian stationaryorbit.core)
