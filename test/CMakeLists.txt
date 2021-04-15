@@ -41,8 +41,11 @@ do_test(stationaryorbit.core.test.endian 3)
 do_test(stationaryorbit.core.test.endian 4)
 do_test(stationaryorbit.core.test.endian 5)
 
+add_executable(stationaryorbit.core.test.delegate test.delegate.cpp)
+target_link_libraries(stationaryorbit.core.test.delegate stationaryorbit.core)
+do_test(stationaryorbit.core.test.delegate 1)
+
 add_executable(stationaryorbit.core.test
-    delegate.cpp
     iteration.cpp
     numeral.cpp
     property.cpp

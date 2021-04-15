@@ -1,5 +1,5 @@
-//	stationaryorbit.core.test:/delegate
-//	Copyright 2020 zawa-ch.
+//	stationaryorbit.core.test.bitmask:/test.bitmask.cpp
+//	Copyright 2021 zawa-ch.
 //	GPLv3 (or later) license
 //
 //	This program is free software: you can redistribute it and/or modify
@@ -35,9 +35,32 @@ public:
 	}
 };
 
-void Test_Delegate()
+int test1();
+
+int main(int argc, char const *argv[])
 {
 	std::cout << "<--- Delegate/Event --->" << std::endl;
+	if (argc < 2)
+	{
+		std::cerr << "E: At least 1 argument is required";
+		return 2;
+	}
+
+	auto test_index = std::stoi(argv[1]);
+	switch(test_index)
+	{
+		case 1: { return test1(); }
+		default:
+		{
+			std::cerr << "Invalid test index";
+			return 2;
+		}
+	}
+}
+
+int test1()
+{
+	std::cout << "1. Event Invoke ->?" << std::endl;
 	// Delegate型を使用したイベントを持つ型を用意する
 	auto inst = Has_Event();
 	bool handled = false;
@@ -51,5 +74,14 @@ void Test_Delegate()
 	// Default_Eventに登録されたイベントは
 	// DelegateをInvokeしたスレッド(ここではメインスレッド)で実行されるため
 	// ハンドラを正しく呼び出せている場合はこの段階で必ずhandled==trueになる
-	if (!handled) { throw std::exception(); }
+	if (handled)
+	{
+		std::cout << "...OK" << std::endl;
+		return 0;
+	}
+	else
+	{
+		std::cout << "...NG" << std::endl;
+		return 1;
+	}
 }
