@@ -17,7 +17,6 @@
 //	If not, see <http://www.gnu.org/licenses/>.
 //
 void Test_Numeral();
-void Test_BitOperation();
 void Test_Iteration();
 void Test_Delegate();
 int Test_Property();
@@ -26,7 +25,6 @@ void Test_Utilities();
 int main(int argc, char const *argv[])
 {
 	Test_Numeral();
-	Test_BitOperation();
 	Test_Iteration();
 	Test_Delegate();
 	Test_Property();

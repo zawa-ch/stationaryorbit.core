@@ -16,8 +16,23 @@
 # If not, see <http://www.gnu.org/licenses/>.
 #
 
+add_executable(stationaryorbit.core.test.bitmask test.bitmask.cpp)
+target_link_libraries(stationaryorbit.core.test.bitmask stationaryorbit.core)
+add_test(NAME stationaryorbit.core.test.bitmask COMMAND stationaryorbit.core.test.bitmask)
+set_tests_properties(stationaryorbit.core.test.bitmask
+    PROPERTIES
+        FAIL_REGULAR_EXPRESSION ".*NG"
+)
+
+add_executable(stationaryorbit.core.test.endian test.endian.cpp)
+target_link_libraries(stationaryorbit.core.test.endian stationaryorbit.core)
+add_test(NAME stationaryorbit.core.test.endian COMMAND stationaryorbit.core.test.endian)
+set_tests_properties(stationaryorbit.core.test.endian
+    PROPERTIES
+        FAIL_REGULAR_EXPRESSION ".*NG"
+)
+
 add_executable(stationaryorbit.core.test
-    bitoperation.cpp
     delegate.cpp
     iteration.cpp
     numeral.cpp
@@ -25,3 +40,4 @@ add_executable(stationaryorbit.core.test
     test-general.cpp
     utilities.cpp
 )
+target_link_libraries(stationaryorbit.core.test stationaryorbit.core)
