@@ -16,37 +16,50 @@
 # If not, see <http://www.gnu.org/licenses/>.
 #
 
-function(do_test target index)
+function(do_test_nofail target index)
     add_test(NAME ${target}.${index} COMMAND ${target} ${index})
     set_tests_properties(${target}.${index}
     PROPERTIES
         PASS_REGULAR_EXPRESSION ".*OK"
-        FAIL_REGULAR_EXPRESSION ".*NG"
+        FAIL_REGULAR_EXPRESSION "NG"
         SKIP_RETURN_CODE 255
 )
-endfunction(do_test)
+endfunction(do_test_nofail)
+function(do_test_pattern target index pattern)
+    add_test(NAME ${target}.${index} COMMAND ${target} ${index})
+    set_tests_properties(${target}.${index}
+    PROPERTIES
+        PASS_REGULAR_EXPRESSION ${pattern}
+        SKIP_RETURN_CODE 255
+)
+endfunction(do_test_pattern)
 
 add_executable(stationaryorbit.core.test.bitmask test.bitmask.cpp)
 target_link_libraries(stationaryorbit.core.test.bitmask stationaryorbit.core)
-do_test(stationaryorbit.core.test.bitmask 1)
-do_test(stationaryorbit.core.test.bitmask 2)
-do_test(stationaryorbit.core.test.bitmask 3)
-do_test(stationaryorbit.core.test.bitmask 4)
+do_test_nofail(stationaryorbit.core.test.bitmask 1)
+do_test_nofail(stationaryorbit.core.test.bitmask 2)
+do_test_nofail(stationaryorbit.core.test.bitmask 3)
+do_test_nofail(stationaryorbit.core.test.bitmask 4)
 
 add_executable(stationaryorbit.core.test.endian test.endian.cpp)
 target_link_libraries(stationaryorbit.core.test.endian stationaryorbit.core)
-do_test(stationaryorbit.core.test.endian 1)
-do_test(stationaryorbit.core.test.endian 2)
-do_test(stationaryorbit.core.test.endian 3)
-do_test(stationaryorbit.core.test.endian 4)
-do_test(stationaryorbit.core.test.endian 5)
+do_test_nofail(stationaryorbit.core.test.endian 1)
+do_test_nofail(stationaryorbit.core.test.endian 2)
+do_test_nofail(stationaryorbit.core.test.endian 3)
+do_test_nofail(stationaryorbit.core.test.endian 4)
+do_test_nofail(stationaryorbit.core.test.endian 5)
 
 add_executable(stationaryorbit.core.test.delegate test.delegate.cpp)
 target_link_libraries(stationaryorbit.core.test.delegate stationaryorbit.core)
-do_test(stationaryorbit.core.test.delegate 1)
+do_test_nofail(stationaryorbit.core.test.delegate 1)
+
+add_executable(stationaryorbit.core.test.iterator test.iterator.cpp)
+target_link_libraries(stationaryorbit.core.test.iterator stationaryorbit.core)
+do_test_pattern(stationaryorbit.core.test.iterator 1 "1 2 3 4 5")
+do_test_pattern(stationaryorbit.core.test.iterator 2 "5 4 3 2 1")
+do_test_pattern(stationaryorbit.core.test.iterator 3 "0 1 2 3 4")
 
 add_executable(stationaryorbit.core.test
-    iteration.cpp
     numeral.cpp
     property.cpp
     test-general.cpp
