@@ -20,7 +20,7 @@ function(do_test_nofail target index)
     add_test(NAME ${target}.${index} COMMAND ${target} ${index})
     set_tests_properties(${target}.${index}
     PROPERTIES
-        PASS_REGULAR_EXPRESSION ".*OK"
+        PASS_REGULAR_EXPRESSION "\.\.\.OK"
         FAIL_REGULAR_EXPRESSION "NG"
         SKIP_RETURN_CODE 255
 )
@@ -52,6 +52,27 @@ do_test_nofail(stationaryorbit.core.test.endian 5)
 add_executable(stationaryorbit.core.test.delegate test.delegate.cpp)
 target_link_libraries(stationaryorbit.core.test.delegate stationaryorbit.core)
 do_test_nofail(stationaryorbit.core.test.delegate 1)
+
+add_executable(stationaryorbit.core.test.fixedpoint test.fixedpoint.cpp)
+target_link_libraries(stationaryorbit.core.test.fixedpoint stationaryorbit.core)
+do_test_nofail(stationaryorbit.core.test.fixedpoint 1)
+do_test_nofail(stationaryorbit.core.test.fixedpoint 2)
+do_test_nofail(stationaryorbit.core.test.fixedpoint 3)
+do_test_nofail(stationaryorbit.core.test.fixedpoint 4)
+do_test_nofail(stationaryorbit.core.test.fixedpoint 5)
+do_test_nofail(stationaryorbit.core.test.fixedpoint 6)
+do_test_nofail(stationaryorbit.core.test.fixedpoint 7)
+do_test_nofail(stationaryorbit.core.test.fixedpoint 8)
+do_test_nofail(stationaryorbit.core.test.fixedpoint 9)
+do_test_nofail(stationaryorbit.core.test.fixedpoint 10)
+do_test_nofail(stationaryorbit.core.test.fixedpoint 11)
+do_test_nofail(stationaryorbit.core.test.fixedpoint 12)
+do_test_nofail(stationaryorbit.core.test.fixedpoint 13)
+do_test_nofail(stationaryorbit.core.test.fixedpoint 14)
+do_test_nofail(stationaryorbit.core.test.fixedpoint 15)
+do_test_pattern(stationaryorbit.core.test.fixedpoint 16 "255\.996")
+do_test_pattern(stationaryorbit.core.test.fixedpoint 17 "0")
+do_test_pattern(stationaryorbit.core.test.fixedpoint 18 "0\.00390625")
 
 add_executable(stationaryorbit.core.test.iterator test.iterator.cpp)
 target_link_libraries(stationaryorbit.core.test.iterator stationaryorbit.core)

@@ -22,7 +22,6 @@
 #include "stationaryorbit/core.numeral.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
-void Test_FixedPoint();
 void Test_Integer();
 void Test_Logic();
 void Test_Point();
@@ -34,7 +33,6 @@ int Test_Vector2d();
 
 void Test_Numeral()
 {
-	Test_FixedPoint();
 	Test_Integer();
 	Test_Logic();
 	Test_Point();
@@ -43,25 +41,6 @@ void Test_Numeral()
 	Test_Rectangle();
 	Test_Rotation();
 	Test_Vector2d();
-}
-
-void Test_FixedPoint()
-{
-	std::cout << "<--- FixedPoint --->" << std::endl;
-	if (!Traits::IsNumericalType<FixedPoint16q8_t>) { throw std::exception(); }
-	auto f1 = FixedPoint16q8_t(16);
-	auto f2 = FixedPoint16q8_t(0.125);
-	if (double(f1) == 16) { std::cout << "f1 = " << double(f1) << std::endl; } else { throw std::exception(); }
-	if (double(f2) == 0.125) { std::cout << "f2 = " << double(f2) << std::endl; } else { throw std::exception(); }
-	if (double(f1 + f2) == 16.125) { std::cout << "f1 + f2 = " << double(f1 + f2) << std::endl; } else { throw std::exception(); }
-	if (double(f1 - f2) == 15.875) { std::cout << "f1 - f2 = " << double(f1 - f2) << std::endl; } else { throw std::exception(); }
-	if (double(f1 * f2) == 2) { std::cout << "f1 * f2 = " << double(f1 * f2) << std::endl; } else { throw std::exception(); }
-	if (double(f1 / f2) == 128) { std::cout << "f1 / f2 = " << double(f1 / f2) << std::endl; } else { throw std::exception(); }
-	if (FixedPoint32q16_t(f1) == FixedPoint32q16_t(16)) { std::cout << "f1 -> " << double(FixedPoint<uint32_t, 16>(16)) << std::endl; } else { throw std::exception(); }
-	if (FixedPoint16q15_t(Proportion16_t(3, 4)) == FixedPoint16q15_t(0.75)) { std::cout << "(3/4) = 0.75" << std::endl; } else { throw std::exception(); }
-	std::cout << "FixedPoint16q8_t::Max() = " << double(FixedPoint16q8_t::Max()) << std::endl;
-	std::cout << "FixedPoint16q8_t::Min() = " << double(FixedPoint16q8_t::Min()) << std::endl;
-	std::cout << "FixedPoint16q8_t::Epsilon() = " << double(FixedPoint16q8_t::Epsilon()) << std::endl;
 }
 
 void Test_Logic()
