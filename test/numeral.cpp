@@ -23,7 +23,6 @@
 using namespace zawa_ch::StationaryOrbit;
 
 void Test_Integer();
-void Test_Logic();
 void Test_Point();
 void Test_Proportion();
 void Test_Range();
@@ -34,23 +33,12 @@ int Test_Vector2d();
 void Test_Numeral()
 {
 	Test_Integer();
-	Test_Logic();
 	Test_Point();
 	Test_Proportion();
 	Test_Range();
 	Test_Rectangle();
 	Test_Rotation();
 	Test_Vector2d();
-}
-
-void Test_Logic()
-{
-	std::cout << "<--- Logic --->" << std::endl;
-	std::cout << Logic::True() << std::endl;
-	if (bool(Logic::Indefinited() || Logic::True())) { std::cout << "I | T -> T" << std::endl; } else { throw std::exception(); }
-	if (!bool(Logic::Indefinited() && Logic::False())) { std::cout << "I & F -> F" << std::endl; } else { throw std::exception(); }
-	if ((!Logic::Indefinited()) == Logic::Indefinited()) { std::cout << "!I -> I" << std::endl; } else { throw std::exception(); }
-	if (Logic::Undefined() != Logic::Undefined()) { std::cout << "U != U" << std::endl; } else { throw std::exception(); }
 }
 
 void Test_Integer()
