@@ -1,4 +1,4 @@
-//	stationaryorbit.core.test.bitmask:/test.bitmask.cpp
+//	stationaryorbit.core.test.delegete:/test.delegete.cpp
 //	Copyright 2021 zawa-ch.
 //	GPLv3 (or later) license
 //
