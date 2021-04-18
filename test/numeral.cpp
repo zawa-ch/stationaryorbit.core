@@ -22,7 +22,6 @@
 #include "stationaryorbit/core.numeral.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
-void Test_Proportion();
 void Test_Range();
 void Test_Rectangle();
 void Test_Rotation();
@@ -30,40 +29,10 @@ int Test_Vector2d();
 
 void Test_Numeral()
 {
-	Test_Proportion();
 	Test_Range();
 	Test_Rectangle();
 	Test_Rotation();
 	Test_Vector2d();
-}
-
-void Test_Proportion()
-{
-	std::cout << "<--- Proportion --->" << std::endl;
-
-	// 型トレイト
-	static_assert(Traits::IsNumericalType<Proportion8_t>, "ProportionがTraitsIsNumeralTypeの要件を満たしません。");
-	static_assert(!Traits::IsBitSequenceType<Proportion8_t>, "ProportionがTraitsIsBitSequenceTypeの要件を満たしました。");
-	static_assert(!Traits::IsIntegralType<Proportion8_t>, "ProportionがTraitsIsIntegerTypeの要件を満たしました。");
-	static_assert(Traits::IsComparable<Proportion8_t>, "ProportionがTraitsComparableの要件を満たしません。");
-	static_assert(Traits::IsEquatable<Proportion8_t>, "ProportionがTraitsEquatableの要件を満たしません。");
-
-	auto p1 = Proportion8_t(0.5);
-	auto p2 = Proportion8_t(0.25);
-	std::cout.precision(16);
-	std::cout << "p1 = " << double(p1) << std::endl;
-	std::cout << "p2 = " << double(p2) << std::endl;
-	if (p1 > p2) { std::cout << "p1 > p2" << std::endl; } else { throw std::exception(); }
-	if (p1 + p2 == Proportion8_t::DirectConstruct(192)) { std::cout << "p1 + p2 = " << double(p1 + p2) << std::endl; } else { throw std::exception(); }
-	if (p1 - p2 == Proportion8_t(0.25)) { std::cout << "p2 - p1 = " << double(p1 - p2) << std::endl; } else { throw std::exception(); }
-	if (p1 * p2 == Proportion8_t(0.125)) { std::cout << "p1 * p2 = " << double(p1 * p2) << std::endl; } else { throw std::exception(); }
-	if (p2 / p1 == Proportion8_t::DirectConstruct(127)) { std::cout << "p2 / p1 = " << double(p2 / p1) << std::endl; } else { throw std::exception(); }
-	auto p3 = Proportion32_t(0.5);
-	if (p1 == Proportion8_t(p3)) { std::cout << "p1 = p3 = " << double(p3) << std::endl; } else { throw std::exception(); }
-	std::cout << "Proportion64_t(p2) = " << double(Proportion64_t(p2)) << std::endl;
-	std::cout << "Proportion64_t(p2).Data = " << Proportion64_t(p2).Data() << std::endl;
-	if (Proportion16_t(FixedPoint16q15_t(0.125)) == Proportion16_t(0.125)) { std::cout << "FP(0.125) == Prop(0.125)" << std::endl; } else { throw std::exception(); }
-	static_assert(Proportion1_t::Max() == Proportion1_t(Proportion8_t::Max()), "Proportion1_t::Max() == Proportion1_t(Proportion8_t::Max())を満たしませんでした。");
 }
 
 void Test_Range()
