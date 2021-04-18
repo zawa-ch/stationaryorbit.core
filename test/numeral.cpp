@@ -22,7 +22,6 @@
 #include "stationaryorbit/core.numeral.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
-void Test_Integer();
 void Test_Point();
 void Test_Proportion();
 void Test_Range();
@@ -32,35 +31,12 @@ int Test_Vector2d();
 
 void Test_Numeral()
 {
-	Test_Integer();
 	Test_Point();
 	Test_Proportion();
 	Test_Range();
 	Test_Rectangle();
 	Test_Rotation();
 	Test_Vector2d();
-}
-
-void Test_Integer()
-{
-	std::cout << "<--- Integer --->" << std::endl;
-	auto v1 = Integer<std::byte>(uint8_t(12));
-	auto v2 = Integer<std::byte>(uint8_t(5));
-	if ((v1 + v2) != Integer<std::byte>(uint8_t(12 + 5))) { throw std::exception(); }
-	if ((v1 - v2) != Integer<std::byte>(uint8_t(12 - 5))) { throw std::exception(); }
-	if ((v1 * v2) != Integer<std::byte>(uint8_t(12 * 5))) { throw std::exception(); }
-	if ((v1 / v2) != Integer<std::byte>(uint8_t(12 / 5))) { throw std::exception(); }
-	if ((v1 % v2) != Integer<std::byte>(uint8_t(12 % 5))) { throw std::exception(); }
-	auto v3 = SignedInteger<std::byte>(uint8_t(12));
-	auto v4 = SignedInteger<std::byte>(uint8_t(5));
-	if ((v3 + v4) != SignedInteger<std::byte>(int8_t(12 + 5))) { throw std::exception(); }
-	if ((v3 - v4) != SignedInteger<std::byte>(int8_t(12 - 5))) { throw std::exception(); }
-	if ((v4 - v3) != SignedInteger<std::byte>(int8_t(5 - 12))) { throw std::exception(); }
-	if ((v3 * v4) != SignedInteger<std::byte>(int8_t(12 * 5))) { throw std::exception(); }
-	if ((v3 * -v4) != SignedInteger<std::byte>(int8_t(12 * -5))) { throw std::exception(); }
-	if ((v3 / v4) != SignedInteger<std::byte>(int8_t(12 / 5))) { throw std::exception(); }
-	if ((-v3 / v4) != SignedInteger<std::byte>(int8_t(-12 / 5))) { throw std::exception(); }
-	if ((v3 % v4) != SignedInteger<std::byte>(int8_t(12 % 5))) { throw std::exception(); }
 }
 
 void Test_Point()
