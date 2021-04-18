@@ -153,6 +153,18 @@ do_test_nofail(stationaryorbit.core.test.logic 42)
 do_test_nofail(stationaryorbit.core.test.logic 43)
 do_test_nofail(stationaryorbit.core.test.logic 44)
 
+add_executable(stationaryorbit.core.test.point2d test.point2d.cpp)
+target_link_libraries(stationaryorbit.core.test.point2d stationaryorbit.core)
+do_test_pattern(stationaryorbit.core.test.point2d 1 "(5, 12)")
+do_test_pattern(stationaryorbit.core.test.point2d 2 "(1, -4)")
+do_test_nofail(stationaryorbit.core.test.point2d 3)
+do_test_pattern(stationaryorbit.core.test.point2d 4 "(-2.8, 3.8)")
+do_test_pattern(stationaryorbit.core.test.point2d 5 "(3.4, -0.2)")
+do_test_pattern(stationaryorbit.core.test.point2d 6 "(0, 2)")
+do_test_pattern(stationaryorbit.core.test.point2d 7 "(0, 1)")
+do_test_pattern(stationaryorbit.core.test.point2d 8 "(1, 2)")
+do_test_pattern(stationaryorbit.core.test.point2d 9 "(0.3, 0.8)")
+
 add_executable(stationaryorbit.core.test
     numeral.cpp
     property.cpp
