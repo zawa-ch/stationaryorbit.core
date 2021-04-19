@@ -165,6 +165,11 @@ do_test_pattern(stationaryorbit.core.test.point2d 7 "(0, 1)")
 do_test_pattern(stationaryorbit.core.test.point2d 8 "(1, 2)")
 do_test_pattern(stationaryorbit.core.test.point2d 9 "(0.3, 0.8)")
 
+add_executable(stationaryorbit.core.test.property test.property.cpp)
+target_link_libraries(stationaryorbit.core.test.property stationaryorbit.core)
+do_test_pattern(stationaryorbit.core.test.property 1 " . 10")
+do_test_pattern(stationaryorbit.core.test.property 2 " . 3")
+
 add_executable(stationaryorbit.core.test.proportion test.proportion.cpp)
 target_link_libraries(stationaryorbit.core.test.proportion stationaryorbit.core)
 do_test_nofail(stationaryorbit.core.test.proportion 1)
@@ -220,7 +225,6 @@ do_test_nofail(stationaryorbit.core.test.range 8)
 
 add_executable(stationaryorbit.core.test
     numeral.cpp
-    property.cpp
     test-general.cpp
     utilities.cpp
 )
