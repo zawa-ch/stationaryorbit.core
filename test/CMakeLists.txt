@@ -205,6 +205,19 @@ do_test_pattern(stationaryorbit.core.test.proportion 35 "4629771061636907072")
 do_test_nofail(stationaryorbit.core.test.proportion 36)
 do_test_nofail(stationaryorbit.core.test.proportion 37)
 
+add_executable(stationaryorbit.core.test.range test.range.cpp)
+target_link_libraries(stationaryorbit.core.test.range stationaryorbit.core)
+do_test_nofail(stationaryorbit.core.test.range 1)
+do_test_nofail(stationaryorbit.core.test.range 2)
+do_test_nofail(stationaryorbit.core.test.range 3)
+do_test_nofail(stationaryorbit.core.test.range 4)
+do_test_nofail(stationaryorbit.core.test.range 5)
+do_test_pattern(stationaryorbit.core.test.range 6 "0 1 2 3 4 5 6 7 8 9")
+set_tests_properties(stationaryorbit.core.test.range.6 PROPERTIES DEPENDS stationaryorbit.core.test.iterator.3)
+do_test_pattern(stationaryorbit.core.test.range 7 "11 10 9 8 7 6 5")
+set_tests_properties(stationaryorbit.core.test.range.7 PROPERTIES DEPENDS stationaryorbit.core.test.iterator.3)
+do_test_nofail(stationaryorbit.core.test.range 8)
+
 add_executable(stationaryorbit.core.test
     numeral.cpp
     property.cpp
