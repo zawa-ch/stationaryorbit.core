@@ -21,12 +21,10 @@
 using namespace zawa_ch::StationaryOrbit;
 
 void Test_ConstArray();
-void Test_ZeroValue();
 
 void Test_Utilities()
 {
 	Test_ConstArray();
-	Test_ZeroValue();
 }
 
 constexpr int Suc(int i) { return i + 1; }
@@ -38,15 +36,4 @@ void Test_ConstArray()
 		std::cout << ConstProgression<int, Suc, 1, 10>::values[i] << " ";
 	}
 	std::cout << std::endl;
-}
-void Test_ZeroValue()
-{
-	static_assert(Zero == false, "Zero == false ではありません。");
-	static_assert(Zero == 0, "Zero == 0 ではありません。");
-	static_assert(Zero == 0L, "Zero == 0L ではありません。");
-	static_assert(Zero == 0UL, "Zero == 0UL ではありません。");
-	static_assert(Zero == 0.0, "Zero == 0.0 ではありません。");
-	static_assert(Zero == '\0', "Zero == '\\0' ではありません。");
-	static_assert(Zero == (void*)(0), "Zero == (void*)0 ではありません。");
-	static_assert((5 + Zero) == 5, "5 + Zero == 5 ではありません。");
 }

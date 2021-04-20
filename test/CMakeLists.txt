@@ -223,6 +223,18 @@ do_test_pattern(stationaryorbit.core.test.range 7 "11 10 9 8 7 6 5")
 set_tests_properties(stationaryorbit.core.test.range.7 PROPERTIES DEPENDS stationaryorbit.core.test.iterator.3)
 do_test_nofail(stationaryorbit.core.test.range 8)
 
+add_executable(stationaryorbit.core.test.zerovalue test.zerovalue.cpp)
+target_link_libraries(stationaryorbit.core.test.zerovalue stationaryorbit.core)
+do_test_nofail(stationaryorbit.core.test.zerovalue 1)
+do_test_nofail(stationaryorbit.core.test.zerovalue 2)
+do_test_nofail(stationaryorbit.core.test.zerovalue 3)
+do_test_nofail(stationaryorbit.core.test.zerovalue 4)
+do_test_nofail(stationaryorbit.core.test.zerovalue 5)
+do_test_nofail(stationaryorbit.core.test.zerovalue 6)
+do_test_nofail(stationaryorbit.core.test.zerovalue 7)
+do_test_nofail(stationaryorbit.core.test.zerovalue 8)
+do_test_pattern(stationaryorbit.core.test.zerovalue 9 "5")
+
 add_executable(stationaryorbit.core.test
     numeral.cpp
     test-general.cpp
