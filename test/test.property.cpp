@@ -59,7 +59,7 @@ std::array<std::function<int(void)>, 2> tests =
 	[]()
 	{
 		auto test = testcase(10);
-		std::cout << "1. set test.x ? ";
+		std::cout << "2. set test.x ? ";
 		test.x = 3;
 		std::cout << test._x << std::endl;
 		return 0;
