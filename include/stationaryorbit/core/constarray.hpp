@@ -1,5 +1,5 @@
 //	stationaryorbit/core/constarray
-//	Copyright 2020 zawa-ch.
+//	Copyright 2020-2021 zawa-ch.
 //	GPLv3 (or later) license
 //
 //	This program is free software: you can redistribute it and/or modify
@@ -35,16 +35,18 @@ namespace zawa_ch::StationaryOrbit
 		~ConstArray() = delete;
 	public:
 		///	この配列の表す型。
-		typedef T type[sizeof...(Values)];
+		typedef T Type[sizeof...(Values)];
 
 		///	この @a ConstArray の内容。
 		static constexpr T values[] = { Values ... };
+		///	この @a ConstArray の配列の大きさ。
+		static constexpr size_t size = sizeof...(Values);
 
 		///	この @a ConstArray の内容に値を追加します。
 		template<T ... ConcatValues>
 		struct Concat
 		{
-			typedef ConstArray<T, Values..., ConcatValues...> type;
+			typedef ConstArray<T, Values..., ConcatValues...> Type;
 		};
 	};
 
@@ -84,7 +86,7 @@ namespace zawa_ch::StationaryOrbit
 	///	配列の要素数。
 	///	N-1回関数が反復され、N個の要素が格納された配列が生成されます。
 	template<class T, T Expr(T), T Init, size_t N>
-	class ConstProgression : public ConstProgression<T, Expr, Init, N - 1>::template Concat<Expr(ConstProgression<T, Expr, Init, N - 1>::last)>::type
+	class ConstProgression : public ConstProgression<T, Expr, Init, N - 1>::template Concat<Expr(ConstProgression<T, Expr, Init, N - 1>::last)>::Type
 	{
 	public:
 		static constexpr T last = Expr(ConstProgression<T, Expr, Init, N - 1>::last);
