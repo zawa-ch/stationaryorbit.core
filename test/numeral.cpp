@@ -22,31 +22,13 @@
 #include "stationaryorbit/core.numeral.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
-void Test_Rectangle();
 void Test_Rotation();
 int Test_Vector2d();
 
 void Test_Numeral()
 {
-	Test_Rectangle();
 	Test_Rotation();
 	Test_Vector2d();
-}
-
-void Test_Rectangle()
-{
-	std::cout << "<--- Rectangle --->" << std::endl;
-	auto r1 = GeometricRectangle(0, 0, 3, 4);
-	std::cout << "r1.left = " << r1.Left() << std::endl;
-	std::cout << "r1.right = " << r1.Right() << std::endl;
-	std::cout << "r1.top = " << r1.Top() << std::endl;
-	std::cout << "r1.bottom = " << r1.Bottom() << std::endl;
-	if (!r1.Contains(GeometricRectangle::PointType(1, 1))) { throw std::exception(); }
-	auto r2 = r1.Offset(GeometricRectangle::PointType(-3, 6));
-	std::cout << "r2.left = " << r2.Left() << std::endl;
-	std::cout << "r2.right = " << r2.Right() << std::endl;
-	std::cout << "r2.top = " << r2.Top() << std::endl;
-	std::cout << "r2.bottom = " << r2.Bottom() << std::endl;
 }
 
 void Test_Rotation()
