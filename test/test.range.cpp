@@ -96,20 +96,24 @@ std::array<std::function<int(void)>, 8> tests =
 int main(int argc, char const *argv[])
 {
 	std::cout << "<--- Range --->" << std::endl;
-	if (argc < 2)
+	int test_index;
+	if (2 <= argc)
 	{
-		std::cerr << "E: At least 1 argument is required";
-		return 2;
+		test_index = std::stoi(argv[1]);
 	}
-
-	auto test_index = std::stoi(argv[1]);
+	else
+	{
+		std::cerr << "W: No test# specified" << std::endl;
+		std::cout << "Test#? ";
+		std::cin >> test_index;
+	}
 	if (0 < test_index && test_index <= tests.size() )
 	{
 		return tests[test_index - 1]();
 	}
 	else
 	{
-		std::cerr << "Invalid test index";
+		std::cerr << "E: Invalid test index" << std::endl;
 		return 2;
 	}
 }
