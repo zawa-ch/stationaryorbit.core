@@ -17,12 +17,10 @@
 //	If not, see <http://www.gnu.org/licenses/>.
 //
 void Test_Numeral();
-void Test_Utilities();
 
 int main(int argc, char const *argv[])
 {
 	Test_Numeral();
-	Test_Utilities();
 
 	return 0;
 }

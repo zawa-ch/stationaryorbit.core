@@ -45,6 +45,10 @@ add_executable(stationaryorbit.core.test.constarray test.constarray.cpp)
 target_link_libraries(stationaryorbit.core.test.constarray stationaryorbit.core)
 do_test_pattern(stationaryorbit.core.test.constarray 1 ". 1 1 2 3 5 8 13")
 
+add_executable(stationaryorbit.core.test.constprogression test.constprogression.cpp)
+target_link_libraries(stationaryorbit.core.test.constprogression stationaryorbit.core)
+do_test_pattern(stationaryorbit.core.test.constprogression 1 ". 1 2 3 4 5 6 7 8 9 10")
+
 add_executable(stationaryorbit.core.test.endian test.endian.cpp)
 target_link_libraries(stationaryorbit.core.test.endian stationaryorbit.core)
 do_test_nofail(stationaryorbit.core.test.endian 1)
@@ -240,6 +244,5 @@ do_test_pattern(stationaryorbit.core.test.zerovalue 9 "5")
 add_executable(stationaryorbit.core.test
     numeral.cpp
     test-general.cpp
-    utilities.cpp
 )
 target_link_libraries(stationaryorbit.core.test stationaryorbit.core)
