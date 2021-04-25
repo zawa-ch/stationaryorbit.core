@@ -22,6 +22,8 @@ project(stationaryorbit.core
 )
 cmake_policy(VERSION 3.13)
 
+enable_testing()
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 
@@ -57,7 +59,5 @@ install(FILES ${HEADER_FILES} DESTINATION include/stationaryorbit)
 install(DIRECTORY ${HEADER_DIRECTORIES} DESTINATION include/stationaryorbit)
 install(EXPORT stationaryorbit.core.export FILE stationaryorbit.core-config.cmake DESTINATION share/cmake/stationaryorbit.core/ EXPORT_LINK_INTERFACE_LIBRARIES)
 
+include(CTest)
 add_subdirectory(test)
-target_link_libraries(stationaryorbit.core.test
-    stationaryorbit.core
-)

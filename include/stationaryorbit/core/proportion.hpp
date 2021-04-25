@@ -152,37 +152,22 @@ namespace zawa_ch::StationaryOrbit
 			}
 			else
 			{
-				if constexpr (std::is_integral_v<Tp> && std::is_integral_v<castT>)
+				if constexpr (BitWidth<Tp> < BitWidth<castT>)
 				{
-					if constexpr (sizeof(Tp) < sizeof(castT))
+					const size_t length = BitWidth<Tp>;
+					const size_t itr = BitWidth<castT> / length;
+					const size_t mod = BitWidth<castT> % length;
+					auto result = castT(_value) >> ((length - mod) % length);
+					for (auto i : Range<size_t>(0, itr).GetStdIterator())
 					{
-						const size_t length = sizeof(Tp) * 8U;
-						const size_t itr = (sizeof(castT) * 8U) / length;
-						const size_t mod = (sizeof(castT) * 8U) % length;
-						auto result = castT(_value) >> ((length - mod) % length);
-						for (auto i : Range<size_t>(0, itr).GetStdIterator())
-						{
-							result |= castT(_value) << ((length * i) + mod);
-						}
-						return Proportion<castT>(result, UnitValue);
+						result |= castT(_value) << ((length * i) + mod);
 					}
-					else
-					{
-						const size_t length = (sizeof(Tp) - sizeof(castT)) * 8U;
-						return Proportion<castT>(castT(_value >> length), UnitValue);
-					}
+					return Proportion<castT>(result, UnitValue);
 				}
 				else
 				{
-					if constexpr (std::is_same_v<Tp, bool> && std::is_integral_v<castT>)
-					{
-						return (_value)?(Proportion<castT>::Max()):(Proportion<castT>::Min());
-					}
-					if constexpr (std::is_integral_v<Tp> && std::is_same_v<castT, bool>)
-					{
-						const size_t length = sizeof(Tp) * 8U;
-						return Proportion<castT>((_value >> (length - 1)) != 0, UnitValue);
-					}
+					const size_t length = BitWidth<Tp> - BitWidth<castT>;
+					return Proportion<castT>(castT(_value >> length), UnitValue);
 				}
 			}
 		}

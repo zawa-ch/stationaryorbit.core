@@ -84,7 +84,7 @@ namespace zawa_ch::StationaryOrbit
         if (value==Logic::False()) { return stream << "false"; }
         else if (value==Logic::True()) { return stream << "true"; }
         else if (value==Logic::Indefinited()) { return stream << "indefinited"; }
-        else { return stream << "Undefined"; }
+        else { return stream << "undefined"; }
     }
 }
 #endif // __stationaryorbit_core_logic__

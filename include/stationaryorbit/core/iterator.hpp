@@ -239,7 +239,7 @@ namespace zawa_ch::StationaryOrbit
 		///	指定されたオブジェクトと等価であるか比較します。
 		constexpr bool Equals(const IteratorAdapter<T>& other) const
 		{
-			if (!_itr.has_value()) { return _itr == other._itr; }
+			if (!_itr.has_value()) { return !other._itr.has_value(); }
 			if (other._itr.has_value()) { return _itr->Equals(*(other._itr)); }
 			else { return !_itr->HasValue(); }
 		}
@@ -286,7 +286,7 @@ namespace zawa_ch::StationaryOrbit
 		///	指定されたオブジェクトと等価であるか比較します。
 		constexpr bool Equals(const IteratorAdapter<T>& other) const
 		{
-			if (!_itr.has_value()) { return _itr == other._itr; }
+			if (!_itr.has_value()) { return !other._itr.has_value(); }
 			if (other._itr.has_value()) { return _itr->Equals(*(other._itr)); }
 			else { return !_itr->HasValue(); }
 		}
@@ -346,7 +346,7 @@ namespace zawa_ch::StationaryOrbit
 		///	指定されたオブジェクトと等価であるか比較します。
 		constexpr bool Equals(const IteratorAdapter<T>& other) const
 		{
-			if (!_itr.has_value()) { return _itr == other._itr; }
+			if (!_itr.has_value()) { return !other._itr.has_value(); }
 			if (other._itr.has_value()) { return _itr->Equals(*(other._itr)); }
 			else { return !_itr->HasValue(); }
 		}
@@ -466,7 +466,7 @@ namespace zawa_ch::StationaryOrbit
 		///	指定されたオブジェクトと等価であるか比較します。
 		constexpr bool Equals(const IteratorReverseAdapter<T>& other) const
 		{
-			if (!_itr.has_value()) { return _itr == other._itr; }
+			if (!_itr.has_value()) { return !other._itr.has_value(); }
 			if (other._itr.has_value()) { return _itr->Equals(*(other._itr)); }
 			else { return !_itr->HasValue(); }
 		}
@@ -526,7 +526,7 @@ namespace zawa_ch::StationaryOrbit
 		///	指定されたオブジェクトと等価であるか比較します。
 		constexpr bool Equals(const IteratorReverseAdapter<T>& other) const
 		{
-			if (!_itr.has_value()) { return _itr == other._itr; }
+			if (!_itr.has_value()) { return !other._itr.has_value(); }
 			if (other._itr.has_value()) { return _itr->Equals(*(other._itr)); }
 			else { return !_itr->HasValue(); }
 		}
