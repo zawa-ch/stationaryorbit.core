@@ -17,36 +17,23 @@
 //	If not, see <http://www.gnu.org/licenses/>.
 //
 #include <iostream>
+#include <array>
+#include <functional>
 #include "stationaryorbit/core.iteration.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
-int test1();
-int test2();
-int test3();
-int test4();
-
-int main(int argc, char const *argv[])
+constexpr int check_if(bool condition)
 {
-	std::cout << "<--- Iterator --->" << std::endl;
-	if (argc < 2)
+	if (condition)
 	{
-		std::cerr << "E: At least 1 argument is required";
-		return 2;
+		std::cout << "...OK" << std::endl;
+		return 0;
 	}
-
-	auto test_index = std::stoi(argv[1]);
-	switch(test_index)
+	else
 	{
-		case 1: { return test1(); }
-		case 2: { return test2(); }
-		case 3: { return test3(); }
-		default:
-		{
-			std::cerr << "Invalid test index";
-			return 2;
-		}
+		std::cout << "...NG" << std::endl;
+		return 1;
 	}
-	return 0;
 }
 
 class IncrementIterator
@@ -66,29 +53,55 @@ public:
 };
 static_assert(IteratorTraits::IsSequencialOrderIterator<IncrementIterator>, "テストに使用される IncrementIterator が IsSequencialOrderIterator の要件を満たしませんでした。");
 
-int test1()
+std::array<std::function<int(void)>, 3> tests =
 {
-	std::vector<int> cont = {1, 2, 3, 4, 5};
-	ItrProcesser::ForEach(LegacyIterator(cont), [](auto item) { std::cout << item << " "; });
-	std::cout << std::endl;
-	return 0;
-}
-
-int test2()
-{
-	std::vector<int> cont = {1, 2, 3, 4, 5};
-	ItrProcesser::ForEach(LegacyReverseIterator(cont), [](const auto& item)->void { std::cout << item << " "; });
-	std::cout << std::endl;
-	return 0;
-}
-
-int test3()
-{
-	auto it = IncrementIterator(5);
-	for(auto i: IteratorAdaptContainer(it))
+	[]()
 	{
-		std::cout << i << " ";
+		std::vector<int> cont = {1, 2, 3, 4, 5};
+		ItrProcesser::ForEach(LegacyIterator(cont), [](auto item) { std::cout << item << " "; });
+		std::cout << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::vector<int> cont = {1, 2, 3, 4, 5};
+		ItrProcesser::ForEach(LegacyReverseIterator(cont), [](const auto& item)->void { std::cout << item << " "; });
+		std::cout << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		auto it = IncrementIterator(5);
+		for(auto i: IteratorAdaptContainer(it))
+		{
+			std::cout << i << " ";
+		}
+		std::cout << std::endl;
+		return 0;
+	},
+};
+
+int main(int argc, char const *argv[])
+{
+	std::cout << "<--- Iterator --->" << std::endl;
+	int test_index;
+	if (2 <= argc)
+	{
+		test_index = std::stoi(argv[1]);
 	}
-	std::cout << std::endl;
-	return 0;
+	else
+	{
+		std::cerr << "W: No test# specified" << std::endl;
+		std::cout << "Test#? ";
+		std::cin >> test_index;
+	}
+	if (0 < test_index && test_index <= tests.size() )
+	{
+		return tests[test_index - 1]();
+	}
+	else
+	{
+		std::cerr << "E: Invalid test index" << std::endl;
+		return 2;
+	}
 }
