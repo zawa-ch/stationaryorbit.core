@@ -17,24 +17,112 @@
 //	If not, see <http://www.gnu.org/licenses/>.
 //
 #include <iostream>
+#include <array>
+#include <functional>
 #include "stationaryorbit/core.bitoperation.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
-int test1();
-int test2();
-int test3();
-int test4();
-int test5();
+constexpr int check_if(bool condition)
+{
+	if (condition)
+	{
+		std::cout << "...OK" << std::endl;
+		return 0;
+	}
+	else
+	{
+		std::cout << "...NG" << std::endl;
+		return 1;
+	}
+}
+
+std::array<std::function<int(void)>, 5> tests =
+{
+	[]()
+	{
+		std::cout << "1. LE->BE(0xDEADBEEF) ->0xEFBEADDE?";
+		if (EndianConverter<Endians::little, Endians::big>::Convert(0xDEADBEEF) == 0xEFBEADDE)
+		{
+			std::cout << "...OK" << std::endl;
+			return 0;
+		}
+		else
+		{
+			std::cout << "...NG" << std::endl;
+			return 1;
+		}
+	},
+	[]()
+	{
+		std::cout << "2. BE->LE(0xEFBEADDE) ->0xDEADBEEF?";
+		if (EndianConverter<Endians::little, Endians::big>::Convert(0xEFBEADDE) == 0xDEADBEEF)
+		{
+			std::cout << "...OK" << std::endl;
+			return 0;
+		}
+		else
+		{
+			std::cout << "...NG" << std::endl;
+			return 1;
+		}
+	},
+	[]()
+	{
+		uint32_t deadbeef = 0xDEADBEEF;
+		uint32le_t le_beef = deadbeef;
+
+		std::cout << "3. LE(0xDEADBEEF).Value() ->0xDEADBEEF?";
+		if (le_beef.Value() == 0xDEADBEEF)
+		{
+			std::cout << "...OK" << std::endl;
+			return 0;
+		}
+		else
+		{
+			std::cout << "...NG" << std::endl;
+			return 1;
+		}
+	},
+	[]()
+	{
+		uint32_t deadbeef = 0xDEADBEEF;
+		uint32be_t be_beef = deadbeef;
+
+		std::cout << "4. BE(0xDEADBEEF).Value() ->0xDEADBEEF?";
+		if (be_beef.Value() == 0xDEADBEEF)
+		{
+			std::cout << "...OK" << std::endl;
+			return 0;
+		}
+		else
+		{
+			std::cout << "...NG" << std::endl;
+			return 1;
+		}
+	},
+	[]()
+	{
+		uint32_t deadbeef = 0xDEADBEEF;
+		uint32be_t be_beef = deadbeef;
+		uint32le_t le_beef = deadbeef;
+
+		std::cout << "5. LE(0xDEADBEEF).Data() != BE(0xDEADBEEF).Data() ->true?";
+		if (le_beef.Data() != be_beef.Data())
+		{
+			std::cout << "...OK" << std::endl;
+			return 0;
+		}
+		else
+		{
+			std::cout << "...NG" << std::endl;
+			return 1;
+		}
+	},
+};
 
 int main(int argc, char const *argv[])
 {
 	std::cout << "<--- Endian --->" << std::endl;
-	if (argc < 2)
-	{
-		std::cerr << "E: At least 1 argument is required";
-		return 2;
-	}
-
 	std::cout << "Current Endian: ";
 	if (Endians::native == Endians::little)
 	{
@@ -50,105 +138,24 @@ int main(int argc, char const *argv[])
 	{
 		std::cout << "not specified" << std::endl;
 	}
-
-	auto test_index = std::stoi(argv[1]);
-	switch(test_index)
+	int test_index;
+	if (2 <= argc)
 	{
-		case 1: { return test1(); }
-		case 2: { return test2(); }
-		case 3: { return test3(); }
-		case 4: { return test4(); }
-		case 5: { return test5(); }
-		default:
-		{
-			std::cerr << "Invalid test index";
-			return 2;
-		}
-	}
-}
-
-int test1()
-{
-	std::cout << "1. LE->BE(0xDEADBEEF) ->0xEFBEADDE?";
-	if (EndianConverter<Endians::little, Endians::big>::Convert(0xDEADBEEF) == 0xEFBEADDE)
-	{
-		std::cout << "...OK" << std::endl;
-		return 0;
+		test_index = std::stoi(argv[1]);
 	}
 	else
 	{
-		std::cout << "...NG" << std::endl;
-		return 1;
+		std::cerr << "W: No test# specified" << std::endl;
+		std::cout << "Test#? ";
+		std::cin >> test_index;
 	}
-}
-
-int test2()
-{
-	std::cout << "2. BE->LE(0xEFBEADDE) ->0xDEADBEEF?";
-	if (EndianConverter<Endians::little, Endians::big>::Convert(0xEFBEADDE) == 0xDEADBEEF)
+	if (0 < test_index && test_index <= tests.size() )
 	{
-		std::cout << "...OK" << std::endl;
-		return 0;
+		return tests[test_index - 1]();
 	}
 	else
 	{
-		std::cout << "...NG" << std::endl;
-		return 1;
+		std::cerr << "E: Invalid test index" << std::endl;
+		return 2;
 	}
 }
-
-int test3()
-{
-	uint32_t deadbeef = 0xDEADBEEF;
-	uint32le_t le_beef = deadbeef;
-
-	std::cout << "3. LE(0xDEADBEEF).Value() ->0xDEADBEEF?";
-	if (le_beef.Value() == 0xDEADBEEF)
-	{
-		std::cout << "...OK" << std::endl;
-		return 0;
-	}
-	else
-	{
-		std::cout << "...NG" << std::endl;
-		return 1;
-	}
-}
-
-int test4()
-{
-	uint32_t deadbeef = 0xDEADBEEF;
-	uint32be_t be_beef = deadbeef;
-
-	std::cout << "4. BE(0xDEADBEEF).Value() ->0xDEADBEEF?";
-	if (be_beef.Value() == 0xDEADBEEF)
-	{
-		std::cout << "...OK" << std::endl;
-		return 0;
-	}
-	else
-	{
-		std::cout << "...NG" << std::endl;
-		return 1;
-	}
-}
-
-int test5()
-{
-	uint32_t deadbeef = 0xDEADBEEF;
-	uint32be_t be_beef = deadbeef;
-	uint32le_t le_beef = deadbeef;
-
-	std::cout << "5. LE(0xDEADBEEF).Data() != BE(0xDEADBEEF).Data() ->true?";
-	if (le_beef.Data() != be_beef.Data())
-	{
-		std::cout << "...OK" << std::endl;
-		return 0;
-	}
-	else
-	{
-		std::cout << "...NG" << std::endl;
-		return 1;
-	}
-}
-
