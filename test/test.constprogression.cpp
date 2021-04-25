@@ -1,4 +1,4 @@
-//	stationaryorbit.core.test:/test.constprogression
+//	stationaryorbit.core.test.constprogression:/test.constprogression
 //	Copyright 2021 zawa-ch.
 //	GPLv3 (or later) license
 //
@@ -17,6 +17,8 @@
 //	If not, see <http://www.gnu.org/licenses/>.
 //
 #include <iostream>
+#include <array>
+#include <functional>
 #include "stationaryorbit/core.utilities.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
