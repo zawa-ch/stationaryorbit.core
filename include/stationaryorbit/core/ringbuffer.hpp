@@ -51,6 +51,7 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		constexpr RingBuffer() : _data(), _orig(0), _size(0) {}
 
+		[[nodiscard]] constexpr bool empty() const noexcept { return _size == 0; }
 		[[nodiscard]] constexpr SizeType size() const noexcept { return _size; }
 		[[nodiscard]] constexpr SizeType capacity() const noexcept { return N; }
 		[[nodiscard]] constexpr Reference at(SizeType pos)
