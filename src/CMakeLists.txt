@@ -18,6 +18,7 @@
 
 add_library(stationaryorbit.core SHARED
     ${Include_Dir}/stationaryorbit/core.bitoperation.hpp
+    ${Include_Dir}/stationaryorbit/core.datastructure.hpp
     ${Include_Dir}/stationaryorbit/core.delegate.hpp
     ${Include_Dir}/stationaryorbit/core.event.hpp
     ${Include_Dir}/stationaryorbit/core.exception.hpp

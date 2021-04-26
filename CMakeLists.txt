@@ -36,6 +36,7 @@ list(APPEND HEADER_DIRECTORIES
 )
 list(APPEND HEADER_FILES
     include/stationaryorbit/core.bitoperation.hpp
+    include/stationaryorbit/core.datastructure.hpp
     include/stationaryorbit/core.delegate.hpp
     include/stationaryorbit/core.event.hpp
     include/stationaryorbit/core.exception.hpp
