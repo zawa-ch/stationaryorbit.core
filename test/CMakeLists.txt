@@ -23,14 +23,27 @@ function(do_test_nofail target index)
         PASS_REGULAR_EXPRESSION "\.\.\.OK"
         FAIL_REGULAR_EXPRESSION "NG"
         SKIP_RETURN_CODE 255
+        TIMEOUT 1
 )
 endfunction(do_test_nofail)
+function(do_test_willfail target index)
+    add_test(NAME ${target}.${index} COMMAND ${target} ${index})
+    set_tests_properties(${target}.${index}
+    PROPERTIES
+        PASS_REGULAR_EXPRESSION "\.\.\.OK"
+        FAIL_REGULAR_EXPRESSION "NG"
+        WILL_FAIL true
+        SKIP_RETURN_CODE 255
+        TIMEOUT 1
+)
+endfunction(do_test_willfail)
 function(do_test_pattern target index pattern)
     add_test(NAME ${target}.${index} COMMAND ${target} ${index})
     set_tests_properties(${target}.${index}
     PROPERTIES
         PASS_REGULAR_EXPRESSION ${pattern}
         SKIP_RETURN_CODE 255
+        TIMEOUT 1
 )
 endfunction(do_test_pattern)
 
@@ -240,6 +253,15 @@ do_test_pattern(stationaryorbit.core.test.rectangle2d 6 "r2\.left . -3")
 do_test_pattern(stationaryorbit.core.test.rectangle2d 7 "r2\.right . 0")
 do_test_pattern(stationaryorbit.core.test.rectangle2d 8 "r2\.top . 10")
 do_test_pattern(stationaryorbit.core.test.rectangle2d 9 "r2\.bottom . 6")
+
+add_executable(stationaryorbit.core.test.ringbuffer test.ringbuffer.cpp)
+target_link_libraries(stationaryorbit.core.test.ringbuffer stationaryorbit.core)
+do_test_pattern(stationaryorbit.core.test.ringbuffer 1 " . 1 2 4 7")
+do_test_pattern(stationaryorbit.core.test.ringbuffer 2 " . 1 2 4 7")
+do_test_pattern(stationaryorbit.core.test.ringbuffer 3 " . 7 4 2 1")
+do_test_pattern(stationaryorbit.core.test.ringbuffer 4 " . 7 4 2 1")
+do_test_willfail(stationaryorbit.core.test.ringbuffer 5)
+do_test_willfail(stationaryorbit.core.test.ringbuffer 6)
 
 add_executable(stationaryorbit.core.test.zerovalue test.zerovalue.cpp)
 target_link_libraries(stationaryorbit.core.test.zerovalue stationaryorbit.core)
