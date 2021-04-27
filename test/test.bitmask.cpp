@@ -36,75 +36,167 @@ constexpr int check_if(bool condition)
 	}
 }
 
-std::array<std::function<int(void)>, 4> tests =
+std::array<std::function<int(void)>, 20> tests =
 {
 	[]()
 	{
-		auto mask = BitMask<uint32_t>(0xF0);
 		std::cout << "mask: 0xF0" << std::endl;
-
-		std::cout << "1. mask.GetFrom(0x38) ->0x30?";
-		if (mask.GetFrom(0x38) == 0x30)
-		{
-			std::cout << "...OK" << std::endl;
-			return 0;
-		}
-		else
-		{
-			std::cout << "...NG" << std::endl;
-			return 1;
-		}
+		auto mask = BitMask<uint32_t>(0xF0);
+		std::cout << "1. mask ? ";
+		std::cout << std::hex << mask.mask << std::endl;
+		return 0;
 	},
 	[]()
 	{
-		auto mask = BitMask<uint32_t>(0xF0);
-		std::cout << "mask: 0xF0" << std::endl;
-
-		std::cout << "2. mask.GetAlignedFrom(0x38) ->0x03?";
-		if (mask.GetAlignedFrom(0x38) == 0x03)
-		{
-			std::cout << "...OK" << std::endl;
-			return 0;
-		}
-		else
-		{
-			std::cout << "...NG" << std::endl;
-			return 1;
-		}
+		std::cout << "mask: 0xAA" << std::endl;
+		auto mask = BitMask<uint32_t>(0xAA);
+		std::cout << "2. mask ? ";
+		std::cout << std::hex << mask.mask << std::endl;
+		return 0;
 	},
 	[]()
 	{
-		auto mask = BitMask<uint32_t>(0x5555);
+		std::cout << "mask: 0xF0" << std::endl;
+		auto mask = BitMask<uint32_t>(0xF0);
+		std::cout << "3. mask.begin_index ? ";
+		std::cout << mask.begin_index() << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "mask: 0xAA" << std::endl;
+		auto mask = BitMask<uint32_t>(0xAA);
+		std::cout << "4. mask.begin_index ? ";
+		std::cout << mask.begin_index() << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "mask: 0xF0" << std::endl;
+		auto mask = BitMask<uint32_t>(0xF0);
+		std::cout << "5. mask.end_index ? ";
+		std::cout << mask.end_index() << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "mask: 0xAA" << std::endl;
+		auto mask = BitMask<uint32_t>(0xAA);
+		std::cout << "6. mask.end_index ? ";
+		std::cout << mask.end_index() << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "mask: 0xF0" << std::endl;
+		auto mask = BitMask<uint32_t>(0xF0);
+		std::cout << "7. mask.length ? ";
+		std::cout << mask.length() << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "mask: 0xAA" << std::endl;
+		auto mask = BitMask<uint32_t>(0xAA);
+		std::cout << "8. mask.length ? ";
+		std::cout << mask.length() << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "mask: 0xF0" << std::endl;
+		auto mask = BitMask<uint32_t>(0xF0);
+		std::cout << "9. mask.get_from(0x38) ? ";
+		std::cout << std::hex << mask.get_from(0x38) << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "mask: 0xF0" << std::endl;
+		auto mask = BitMask<uint32_t>(0xF0);
+		std::cout << "10. mask.get_aligned_from(0x38) ? ";
+		std::cout << std::hex << mask.get_aligned_from(0x38) << std::endl;
+		return 0;
+	},
+	[]()
+	{
 		std::cout << "mask: 0x5555" << std::endl;
-
-		std::cout << "3. mask.GetFrom(0x250) ->0x050?";
-		if (mask.GetFrom(0x250) == 0x50)
-		{
-			std::cout << "...OK" << std::endl;
-			return 0;
-		}
-		else
-		{
-			std::cout << "...NG" << std::endl;
-			return 1;
-		}
+		auto mask = BitMask<uint32_t>(0x5555);
+		std::cout << "11. mask.get_from(0x250) ? ";
+		std::cout << std::hex << mask.get_from(0x250) << std::endl;
+		return 0;
 	},
 	[]()
 	{
-		auto mask = BitMask<uint32_t>(0x040);
 		std::cout << "mask: 0x0040" << std::endl;
-
-		std::cout << "4. mask.GetFrom(0x250) ->0x01?";
-		if (mask.GetAlignedFrom(0x250) == 0x1)
-		{
-			std::cout << "...OK" << std::endl;
-			return 0;
-		}
-		else
-		{
-			std::cout << "...NG" << std::endl;
-			return 1;
-		}
+		auto mask = BitMask<uint32_t>(0x040);
+		std::cout << "12. mask.get_aligned_from(0x250) ? ";
+		std::cout << std::hex << mask.get_aligned_from(0x250) << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "mask: 0xF0" << std::endl;
+		auto mask = BitMask<uint32_t>(0xF0);
+		std::cout << "13. mask.set_to(0x00, 0xAA) ? ";
+		std::cout << std::hex << mask.set_to(0x00, 0xAA) << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "mask: 0xF0" << std::endl;
+		auto mask = BitMask<uint32_t>(0xF0);
+		std::cout << "14. mask.set_aligned_to(0xAA, 3) ? ";
+		std::cout << std::hex << mask.set_aligned_to(0xAA, 3) << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "mask: 0xAAAAAAAA" << std::endl;
+		auto mask = BitMask<uint32_t>(0xAAAAAAAA);
+		std::cout << "15. (~mask) ? ";
+		std::cout << std::hex << (~mask).mask << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "mask: 0xF0" << std::endl;
+		auto mask = BitMask<uint32_t>(0xF0);
+		std::cout << "16. (~mask).get_aligned_from(0x38) ? ";
+		std::cout << std::hex << (~mask).get_aligned_from(0x38) << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "mask: 0xAAAAAAAA" << std::endl;
+		auto mask = BitMask<uint32_t>(0xAAAAAAAA);
+		std::cout << "17. (~mask | mask).get_from(0xFF00FF00) ? ";
+		std::cout << std::hex << (~mask | mask).get_from(0xFF00FF00) << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "mask: 0xAAAAAAAA" << std::endl;
+		auto mask = BitMask<uint32_t>(0xAAAAAAAA);
+		std::cout << "18. (~mask & mask).get_from(0xFF00FF00) ? ";
+		std::cout << std::hex << (~mask & mask).get_from(0xFF00FF00) << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "mask: 0xAAAAAAAA" << std::endl;
+		auto mask = BitMask<uint32_t>(0xAAAAAAAA);
+		std::cout << "19. (~mask ^ mask).get_from(0xFF00FF00) ? ";
+		std::cout << std::hex << (~mask ^ mask).get_from(0xFF00FF00) << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "mask: 0xAAAAAAAA" << std::endl;
+		auto mask = BitMask<uint32_t>(0xAAAAAAAA);
+		std::cout << "20. (mask ^ mask).get_from(0xFF00FF00) ? ";
+		std::cout << std::hex << (mask ^ mask).get_from(0xFF00FF00) << std::endl;
+		return 0;
 	},
 };
 
