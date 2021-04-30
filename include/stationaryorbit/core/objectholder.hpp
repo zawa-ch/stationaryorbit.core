@@ -30,7 +30,6 @@ namespace zawa_ch::StationaryOrbit
 	template<class T, class = std::enable_if_t<!std::is_const_v<T>>>
 	class ObjectHolder final
 	{
-		friend class ObjectHolderHelper;
 	public:
 		typedef T ValueType;
 		typedef T* Pointer;
@@ -51,7 +50,7 @@ namespace zawa_ch::StationaryOrbit
 		///	指定されたオブジェクトを保持する @a ObjectHolder を構築します。
 		ObjectHolder(ValueMove object) : _ptr(create_ptr(std::move(object))), _deleter(default_delete) {}
 		///	指定されたオブジェクトからムーブ構築します。
-		ObjectHolder(ObjectHolder<T>&& other) = default;
+		ObjectHolder(ObjectHolder<T>&& other) : _ptr(std::exchange(other._ptr, _ptr)), _deleter(std::exchange(other._deleter, _deleter)) {}
 	private:
 		constexpr ObjectHolder(Pointer ptr, DeleteHandler deleter) : _ptr(ptr), _deleter(deleter) {}
 	public:
@@ -61,7 +60,13 @@ namespace zawa_ch::StationaryOrbit
 			clear();
 			return *this;
 		}
-		ObjectHolder<T>& operator=(ObjectHolder<T>&& other) = default;
+		ObjectHolder<T>& operator=(ObjectHolder<T>&& other)
+		{
+			clear();
+			other._ptr = std::exchange(_ptr, other._ptr);
+			other._deleter = std::exchange(_deleter, other._deleter);
+			return *this;
+		}
 
 		///	このオブジェクトが値を持っているかを取得します。
 		[[nodiscard]] constexpr bool has_value() const noexcept { return _ptr != nullptr; }
@@ -101,7 +106,6 @@ namespace zawa_ch::StationaryOrbit
 	template<class T>
 	class ObjectHolder<T, std::enable_if_t<(!std::is_const_v<T>) && std::is_copy_constructible_v<T>>> final
 	{
-		friend class ObjectHolderHelper;
 	public:
 		typedef T ValueType;
 		typedef T* Pointer;
@@ -126,7 +130,7 @@ namespace zawa_ch::StationaryOrbit
 		///	指定されたオブジェクトからコピー構築します。
 		ObjectHolder(const ObjectHolder<T>& other) : _ptr((other.has_value())?((other.is_owner())?(create_ptr(other.value())):(other._ptr)):(nullptr)), _deleter((other.has_value() && other.is_owner())?(default_delete):(non_delete)) {}
 		///	指定されたオブジェクトからムーブ構築します。
-		ObjectHolder(ObjectHolder<T>&& other) = default;
+		ObjectHolder(ObjectHolder<T>&& other) : _ptr(std::exchange(other._ptr, _ptr)), _deleter(std::exchange(other._deleter, _deleter)) {}
 	private:
 		constexpr ObjectHolder(Pointer ptr, DeleteHandler deleter) : _ptr(ptr), _deleter(deleter) {}
 	public:
@@ -143,7 +147,13 @@ namespace zawa_ch::StationaryOrbit
 			_deleter = ((other.has_value() && other.is_owner())?(default_delete):(non_delete));
 			return *this;
 		}
-		ObjectHolder<T>& operator=(ObjectHolder<T>&& other) = default;
+		ObjectHolder<T>& operator=(ObjectHolder<T>&& other)
+		{
+			clear();
+			other._ptr = std::exchange(_ptr, other._ptr);
+			other._deleter = std::exchange(_deleter, other._deleter);
+			return *this;
+		}
 
 		///	このオブジェクトが値を持っているかを取得します。
 		[[nodiscard]] constexpr bool has_value() const noexcept { return _ptr != nullptr; }
