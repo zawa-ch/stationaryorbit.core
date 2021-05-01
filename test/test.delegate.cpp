@@ -19,8 +19,7 @@
 #include <iostream>
 #include <array>
 #include <functional>
-#include "stationaryorbit/core.delegate.hpp"
-#include "stationaryorbit/core.event.hpp"
+#include "stationaryorbit/core.utilities.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 constexpr int check_if(bool condition)

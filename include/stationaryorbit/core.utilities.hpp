@@ -20,6 +20,8 @@
 #include "core/algorithms.hpp"
 #include "core/arithmetic.hpp"
 #include "core/constarray.hpp"
+#include "core/delegate.hpp"
+#include "core/event.hpp"
 #include "core/fundamental.hpp"
 #include "core/objectholder.hpp"
 #include "core/zerovalue.hpp"
