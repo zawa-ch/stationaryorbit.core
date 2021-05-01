@@ -40,7 +40,6 @@ list(APPEND HEADER_FILES
     include/stationaryorbit/core.exception.hpp
     include/stationaryorbit/core.iteration.hpp
     include/stationaryorbit/core.numeral.hpp
-    include/stationaryorbit/core.property.hpp
     include/stationaryorbit/core.traits.hpp
     include/stationaryorbit/core.utilities.hpp
 )

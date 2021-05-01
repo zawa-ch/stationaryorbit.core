@@ -24,4 +24,5 @@
 #include "core/event.hpp"
 #include "core/fundamental.hpp"
 #include "core/objectholder.hpp"
+#include "core/property.hpp"
 #include "core/zerovalue.hpp"

@@ -22,7 +22,6 @@ add_library(stationaryorbit.core SHARED
     ${Include_Dir}/stationaryorbit/core.exception.hpp
     ${Include_Dir}/stationaryorbit/core.iteration.hpp
     ${Include_Dir}/stationaryorbit/core.numeral.hpp
-    ${Include_Dir}/stationaryorbit/core.property.hpp
     ${Include_Dir}/stationaryorbit/core.traits.hpp
     ${Include_Dir}/stationaryorbit/core.utilities.hpp
     algorithms.cpp
