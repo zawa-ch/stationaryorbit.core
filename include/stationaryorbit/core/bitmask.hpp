@@ -46,21 +46,21 @@ namespace zawa_ch::StationaryOrbit
 		///	値を取得するマスクされていない値。
 		constexpr T get_from(const T& source) const noexcept { return source & mask; }
 		///	指定された値に値をマスクし結合した値を取得します。
-		///	@param	source
+		///	@param	destination
 		///	値の結合先となるマスクされていない値。
 		///	@param	value
 		///	代入するマスクされていない値。
-		constexpr T set_to(const T& source, const T& value) const noexcept { return (source & ~mask) | (value & mask); }
+		constexpr T set_to(const T& destination, const T& value) const noexcept { return (destination & ~mask) | (value & mask); }
 		///	指定された値からマスクされた部分を取り出し、LSBに詰めて取得します。
 		///	@param	source
 		///	値を取得するマスクされていない値。
 		constexpr T get_aligned_from(const T& source) const noexcept { return get_from(source) >> get_begin_index(mask); }
 		///	指定された値にLSBに詰められた値をマスクし結合した値を取得します。
-		///	@param	source
+		///	@param	destination
 		///	値の結合先となるマスクされていない値。
 		///	@param	value
 		///	代入するマスクされていない値。
-		constexpr T set_aligned_to(const T& source, const T& value) const noexcept { return set_to(source, value << get_begin_index(mask)); }
+		constexpr T set_aligned_to(const T& destination, const T& value) const noexcept { return set_to(destination, value << get_begin_index(mask)); }
 
 		constexpr BitMask<T> operator~() const noexcept { return BitMask<T>(~mask); }
 		constexpr BitMask<T> operator|(const BitMask<T>& other) const noexcept { return BitMask<T>(mask | other.mask); }
