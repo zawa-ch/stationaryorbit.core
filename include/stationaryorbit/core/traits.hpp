@@ -1434,7 +1434,7 @@ namespace zawa_ch::StationaryOrbit
 		~BitCounter() = delete;
 	public:
 		template<class T, std::enable_if_t<Traits::IsBitSequenceType<T>, int> = 0>
-		static constexpr size_t Count()
+		static constexpr size_t count() noexcept
 		{
 			static_assert(std::is_convertible_v<T, uint8_t> || Traits::IsAggregatable<T, uint8_t> || std::is_constructible_v<T, uint8_t>, "テンプレート型 T は (uint8_t) を引数に持つコンストラクタ,集成体初期化またはuint8_tからの暗黙の変換をサポートする必要があります。");
 			T v = T();
@@ -1465,7 +1465,7 @@ namespace zawa_ch::StationaryOrbit
 		}
 	};
 	///	指定された型の有効なビット幅を識別するための機能を提供します。
-	template<class T> struct BitWidth_t : std::integral_constant<size_t, BitCounter::Count<T>()>
+	template<class T> struct BitWidth_t : std::integral_constant<size_t, BitCounter::count<T>()>
 	{
 		static_assert(Traits::IsBitSequenceType<T>, "ビット幅の計数は整数型、boolなどの固定幅のビットシーケンスでのみ有効です。");
 	};
