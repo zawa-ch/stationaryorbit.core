@@ -41,7 +41,7 @@ std::array<std::function<int(void)>, 5> tests =
 	[]()
 	{
 		std::cout << "1. LE->BE(0xDEADBEEF) ->0xEFBEADDE?";
-		if (EndianConverter<Endians::little, Endians::big>::Convert(0xDEADBEEF) == 0xEFBEADDE)
+		if (EndianConverter<Endians::little, Endians::big>::convert(0xDEADBEEF) == 0xEFBEADDE)
 		{
 			std::cout << "...OK" << std::endl;
 			return 0;
@@ -55,7 +55,7 @@ std::array<std::function<int(void)>, 5> tests =
 	[]()
 	{
 		std::cout << "2. BE->LE(0xEFBEADDE) ->0xDEADBEEF?";
-		if (EndianConverter<Endians::little, Endians::big>::Convert(0xEFBEADDE) == 0xDEADBEEF)
+		if (EndianConverter<Endians::little, Endians::big>::convert(0xEFBEADDE) == 0xDEADBEEF)
 		{
 			std::cout << "...OK" << std::endl;
 			return 0;

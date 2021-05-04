@@ -42,7 +42,7 @@ namespace zawa_ch::StationaryOrbit
 	{
 	public:
 		template<class T>
-		[[nodiscard]] static constexpr T Convert(const T& value)
+		[[nodiscard]] static constexpr T convert(const T& value)
 		{
 			static_assert(Traits::IsValueType<T>, "テンプレート引数 T は値型である必要があります。");
 			if constexpr (from == dest) { return value; }
@@ -71,14 +71,14 @@ namespace zawa_ch::StationaryOrbit
 		ValueType _value;
 	public:
 		EndianValueType() = default;
-		constexpr EndianValueType(const ValueType& value) : _value(EndianConverter<Endians::native, order>::Convert(value)) {}
+		constexpr EndianValueType(const ValueType& value) : _value(EndianConverter<Endians::native, order>::convert(value)) {}
 		template<Endians from>
-		constexpr EndianValueType(const EndianValueType<Tp, from>& value) : _value(EndianConverter<from, order>::Convert(value._value)) {}
+		constexpr EndianValueType(const EndianValueType<Tp, from>& value) : _value(EndianConverter<from, order>::convert(value._value)) {}
 
-		[[nodiscard]] constexpr ValueType Value() const { return EndianConverter<Endians::native, order>::Convert(_value); }
+		[[nodiscard]] constexpr ValueType Value() const { return EndianConverter<Endians::native, order>::convert(_value); }
 		[[nodiscard]] constexpr const ValueType& Data() const { return _value; }
 
-		[[nodiscard]] constexpr operator ValueType() const { return EndianConverter<Endians::native, order>::Convert(_value); }
+		[[nodiscard]] constexpr operator ValueType() const { return EndianConverter<Endians::native, order>::convert(_value); }
 	};
 
 	extern template struct EndianValueType<uint8_t, Endians::big>;
