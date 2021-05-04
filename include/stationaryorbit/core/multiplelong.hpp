@@ -74,7 +74,7 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr MultipleULong<T, N> operator*(const MultipleULong<T, N>& other) const noexcept
 		{
 			auto result = MultipleULong<T, N>();
-			for (auto i: Range<size_t>(0, BitWidth<T> * N).GetStdIterator())
+			for (auto i: Range<size_t>(0, bitwidth<T> * N).GetStdIterator())
 			{
 				if ((other & (MultipleULong<T, N>(1)<<i)) != 0)
 				{
@@ -86,9 +86,9 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr DivisionResult<MultipleULong<T, N>> Divide(const MultipleULong<T, N>& other) const noexcept
 		{
 			size_t w = 0;
-			for (auto i: Range<size_t>(0, BitWidth<T> * N).GetStdIterator())
+			for (auto i: Range<size_t>(0, bitwidth<T> * N).GetStdIterator())
 			{
-				if (((other << i) & (MultipleULong<T, N>(1U) << (BitWidth<T> * N - 1))) != 0) { w = i; break; }
+				if (((other << i) & (MultipleULong<T, N>(1U) << (bitwidth<T> * N - 1))) != 0) { w = i; break; }
 			}
 			auto result = MultipleULong<T, N>();
 			MultipleULong<T, N> surplus = *this;
@@ -149,24 +149,24 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr MultipleULong<T, N> operator>>(const size_t& count) const noexcept
 		{
-			size_t shiftindex = count / BitWidth<T>;
-			size_t shiftbit = count % BitWidth<T>;
+			size_t shiftindex = count / bitwidth<T>;
+			size_t shiftbit = count % bitwidth<T>;
 			auto result = MultipleULong<T, N>();
 			for (size_t i = 0U; (i < _data.size()) && ((i + shiftindex) < _data.size()); i++)
 			{
-				if ((shiftbit != 0U) && (i + shiftindex + 1U) < _data.size()) { result._data[i] |= _data[i + shiftindex + 1U] << (BitWidth<T> - shiftbit); }
+				if ((shiftbit != 0U) && (i + shiftindex + 1U) < _data.size()) { result._data[i] |= _data[i + shiftindex + 1U] << (bitwidth<T> - shiftbit); }
 				result._data[i] |= _data[i + shiftindex] >> shiftbit;
 			}
 			return result;
 		}
 		[[nodiscard]] constexpr MultipleULong<T, N> operator<<(const size_t& count) const noexcept
 		{
-			size_t shiftindex = count / BitWidth<T>;
-			size_t shiftbit = count % BitWidth<T>;
+			size_t shiftindex = count / bitwidth<T>;
+			size_t shiftbit = count % bitwidth<T>;
 			auto result = MultipleULong<T, N>();
 			for (size_t i = shiftindex; i < _data.size(); i++)
 			{
-				if ((shiftbit != 0U) && (0U < (i - shiftindex))) { result._data[i] |= _data[i - shiftindex - 1U] >> (BitWidth<T> - shiftbit); }
+				if ((shiftbit != 0U) && (0U < (i - shiftindex))) { result._data[i] |= _data[i - shiftindex - 1U] >> (bitwidth<T> - shiftbit); }
 				result._data[i] |= _data[i - shiftindex] << shiftbit;
 			}
 			return result;
@@ -223,7 +223,7 @@ namespace zawa_ch::StationaryOrbit
 		static constexpr MultipleULong<T, N> Max() noexcept { return ~MultipleULong<T, N>(0); }
 	};
 
-	template<class T, size_t N> struct BitWidth_t<MultipleULong<T, N>> : std::integral_constant<size_t, BitWidth<T> * N> {};
+	template<class T, size_t N> struct BitWidth_t<MultipleULong<T, N>> : std::integral_constant<size_t, bitwidth<T> * N> {};
 
 	typedef MultipleULong<uint8_t, 2UL> uint8double_t;
 	typedef MultipleULong<uint16_t, 2UL> uint16double_t;
@@ -242,7 +242,7 @@ namespace std
 	{
 	public:
 		static constexpr bool is_specialized = true;
-		static constexpr int digits = zawa_ch::StationaryOrbit::BitWidth<zawa_ch::StationaryOrbit::MultipleULong<T, N>>;
+		static constexpr int digits = zawa_ch::StationaryOrbit::bitwidth<zawa_ch::StationaryOrbit::MultipleULong<T, N>>;
 		static constexpr int digits10 = int(digits * 0.30102999566398119521373889472449);
 		static constexpr int max_digits10 = 0;
 		static constexpr bool is_signed = false;

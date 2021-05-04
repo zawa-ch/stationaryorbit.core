@@ -80,14 +80,14 @@ namespace zawa_ch::StationaryOrbit
 		///	指定された値の開始ビットのインデックスを取得します。
 		static constexpr std::size_t get_begin_index(const T& value, const T& start = 0) noexcept
 		{
-			const size_t length = BitWidth<T>;
+			const size_t length = bitwidth<T>;
 			for (std::size_t i = start; i < length; i++) { if ((value & (1 << i)) != 0) { return i; } }
 			return length;
 		}
 		///	指定された値の終端ビットのインデックスを取得します。
 		static constexpr std::size_t get_end_index(const T& value, const T& start = std::numeric_limits<T>::max()) noexcept
 		{
-			const size_t length = BitWidth<T>;
+			const size_t length = bitwidth<T>;
 			for (std::size_t i = ((start < length)?start:length); 0 < i; i--) { if ((value & (1 << (i - 1))) != 0) { return i; } }
 			return length;
 		}

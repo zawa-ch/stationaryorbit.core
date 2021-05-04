@@ -1471,6 +1471,6 @@ namespace zawa_ch::StationaryOrbit
 	};
 	template<std::size_t N> struct BitWidth_t<std::bitset<N>> : std::integral_constant<size_t, N> {};
 	///	指定された型の有効なビット幅を識別します。
-	template<class T> inline constexpr size_t BitWidth = BitWidth_t<T>::value;
+	template<class T> inline constexpr size_t bitwidth = BitWidth_t<T>::value;
 }
 #endif // __stationaryorbit_core_traits__

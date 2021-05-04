@@ -152,11 +152,11 @@ namespace zawa_ch::StationaryOrbit
 			}
 			else
 			{
-				if constexpr (BitWidth<Tp> < BitWidth<castT>)
+				if constexpr (bitwidth<Tp> < bitwidth<castT>)
 				{
-					const size_t length = BitWidth<Tp>;
-					const size_t itr = BitWidth<castT> / length;
-					const size_t mod = BitWidth<castT> % length;
+					const size_t length = bitwidth<Tp>;
+					const size_t itr = bitwidth<castT> / length;
+					const size_t mod = bitwidth<castT> % length;
 					auto result = castT(_value) >> ((length - mod) % length);
 					for (auto i : Range<size_t>(0, itr).GetStdIterator())
 					{
@@ -166,7 +166,7 @@ namespace zawa_ch::StationaryOrbit
 				}
 				else
 				{
-					const size_t length = BitWidth<Tp> - BitWidth<castT>;
+					const size_t length = bitwidth<Tp> - bitwidth<castT>;
 					return Proportion<castT>(castT(_value >> length), UnitValue);
 				}
 			}
