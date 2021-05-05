@@ -1,5 +1,5 @@
 //	stationaryorbit/core.utilities
-//	Copyright 2020 zawa-ch.
+//	Copyright 2020-2021 zawa-ch.
 //	GPLv3 (or later) license
 //
 //	This program is free software: you can redistribute it and/or modify
@@ -21,6 +21,7 @@
 #include "core/arithmetic.hpp"
 #include "core/constarray.hpp"
 #include "core/delegate.hpp"
+#include "core/disperse.hpp"
 #include "core/event.hpp"
 #include "core/fundamental.hpp"
 #include "core/objectholder.hpp"

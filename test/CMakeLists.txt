@@ -90,6 +90,11 @@ add_executable(stationaryorbit.core.test.delegate test.delegate.cpp)
 target_link_libraries(stationaryorbit.core.test.delegate stationaryorbit.core)
 do_test_nofail(stationaryorbit.core.test.delegate 1)
 
+add_executable(stationaryorbit.core.test.disperse test.disperse.cpp)
+target_link_libraries(stationaryorbit.core.test.disperse stationaryorbit.core)
+do_test_pattern(stationaryorbit.core.test.disperse 1 ". 12345678")
+do_test_pattern(stationaryorbit.core.test.disperse 2 ". 1431655765")
+
 add_executable(stationaryorbit.core.test.fixedpoint test.fixedpoint.cpp)
 target_link_libraries(stationaryorbit.core.test.fixedpoint stationaryorbit.core)
 do_test_nofail(stationaryorbit.core.test.fixedpoint 1)
