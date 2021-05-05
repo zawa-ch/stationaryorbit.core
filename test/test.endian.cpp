@@ -71,8 +71,8 @@ std::array<std::function<int(void)>, 5> tests =
 		uint32_t deadbeef = 0xDEADBEEF;
 		uint32le_t le_beef = deadbeef;
 
-		std::cout << "3. LE(0xDEADBEEF).Value() ->0xDEADBEEF?";
-		if (le_beef.Value() == 0xDEADBEEF)
+		std::cout << "3. LE(0xDEADBEEF).value() ->0xDEADBEEF?";
+		if (le_beef.value() == 0xDEADBEEF)
 		{
 			std::cout << "...OK" << std::endl;
 			return 0;
@@ -88,8 +88,8 @@ std::array<std::function<int(void)>, 5> tests =
 		uint32_t deadbeef = 0xDEADBEEF;
 		uint32be_t be_beef = deadbeef;
 
-		std::cout << "4. BE(0xDEADBEEF).Value() ->0xDEADBEEF?";
-		if (be_beef.Value() == 0xDEADBEEF)
+		std::cout << "4. BE(0xDEADBEEF).value() ->0xDEADBEEF?";
+		if (be_beef.value() == 0xDEADBEEF)
 		{
 			std::cout << "...OK" << std::endl;
 			return 0;
@@ -106,8 +106,8 @@ std::array<std::function<int(void)>, 5> tests =
 		uint32be_t be_beef = deadbeef;
 		uint32le_t le_beef = deadbeef;
 
-		std::cout << "5. LE(0xDEADBEEF).Data() != BE(0xDEADBEEF).Data() ->true?";
-		if (le_beef.Data() != be_beef.Data())
+		std::cout << "5. LE(0xDEADBEEF).data() != BE(0xDEADBEEF).data() ->true?";
+		if (le_beef.data() != be_beef.data())
 		{
 			std::cout << "...OK" << std::endl;
 			return 0;

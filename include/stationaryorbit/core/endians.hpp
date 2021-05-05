@@ -66,7 +66,7 @@ namespace zawa_ch::StationaryOrbit
 		static_assert(Traits::IsValueType<Tp>, "テンプレート引数 Tp は値型である必要があります。");
 	public:
 		typedef Tp ValueType;
-		static constexpr Endians Endian = order;
+		static constexpr Endians endian = order;
 	private:
 		ValueType _value;
 	public:
@@ -75,8 +75,8 @@ namespace zawa_ch::StationaryOrbit
 		template<Endians from>
 		constexpr EndianValueType(const EndianValueType<Tp, from>& value) : _value(EndianConverter<from, order>::convert(value._value)) {}
 
-		[[nodiscard]] constexpr ValueType Value() const { return EndianConverter<Endians::native, order>::convert(_value); }
-		[[nodiscard]] constexpr const ValueType& Data() const { return _value; }
+		[[nodiscard]] constexpr ValueType value() const { return EndianConverter<Endians::native, order>::convert(_value); }
+		[[nodiscard]] constexpr const ValueType& data() const { return _value; }
 
 		[[nodiscard]] constexpr operator ValueType() const { return EndianConverter<Endians::native, order>::convert(_value); }
 	};
