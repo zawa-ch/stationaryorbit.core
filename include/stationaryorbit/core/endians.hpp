@@ -1,5 +1,5 @@
 //	stationaryorbit/core/endians
-//	Copyright 2020 zawa-ch.
+//	Copyright 2020-2021 zawa-ch.
 //	GPLv3 (or later) license
 //
 //	This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
 #include <array>
 #include "invalidoperation.hpp"
 #include "traits.hpp"
+#include "disperse.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	///	すべてのスカラー型のエンディアンを表します。
@@ -42,14 +43,29 @@ namespace zawa_ch::StationaryOrbit
 	{
 	public:
 		template<class T>
-		[[nodiscard]] static constexpr T convert(const T& value)
+		[[nodiscard]] static constexpr std::array<std::byte, sizeof(T)> encode(const T& value)
 		{
 			static_assert(Traits::IsValueType<T>, "テンプレート引数 T は値型である必要があります。");
-			if constexpr (from == dest) { return value; }
+			return convert(Disperse::to_binary(value));
+		}
+		template<class T>
+		[[nodiscard]] static constexpr T decode(const std::array<std::byte, sizeof(T)>& data)
+		{
+			static_assert(Traits::IsValueType<T>, "テンプレート引数 T は値型である必要があります。");
+			return Disperse::perse<T>(convert(data));
+		}
+		template<size_t N>
+		[[nodiscard]] static constexpr std::array<std::byte, N> convert(const std::array<std::byte, N>& data)
+		{
+			if constexpr (from == dest) { return data; }
 			if constexpr ((from != dest)&&((from == Endians::little)||(from == Endians::big))&&((dest == Endians::little)||(dest == Endians::big)))
 			{
-				T result = T();
-				for (auto i = 0; i < sizeof(T); i++) { ((uint8_t*)&result)[sizeof(T) - i - 1] = ((uint8_t*)&value)[i]; }
+				auto result = std::array<std::byte, N>();
+				auto si = data.crbegin();
+				auto se = data.crend();
+				auto di = result.begin();
+				auto de = result.end();
+				while((si != se) && (di != de)) { *di = *si; ++di; ++si; }
 				return result;
 			}
 			if constexpr ((from != dest)&&(from != Endians::little)&&(from != Endians::big)&&(dest != Endians::little)&&(dest != Endians::big))
@@ -66,19 +82,20 @@ namespace zawa_ch::StationaryOrbit
 		static_assert(Traits::IsValueType<Tp>, "テンプレート引数 Tp は値型である必要があります。");
 	public:
 		typedef Tp ValueType;
+		typedef std::array<std::byte, sizeof(Tp)> DataType;
 		static constexpr Endians endian = order;
 	private:
-		ValueType _value;
+		alignas(alignof(Tp)) DataType _data;
 	public:
 		EndianValueType() = default;
-		constexpr EndianValueType(const ValueType& value) : _value(EndianConverter<Endians::native, order>::convert(value)) {}
+		constexpr EndianValueType(const ValueType& value) : _data(EndianConverter<Endians::native, order>::encode(value)) {}
 		template<Endians from>
-		constexpr EndianValueType(const EndianValueType<Tp, from>& value) : _value(EndianConverter<from, order>::convert(value._value)) {}
+		constexpr EndianValueType(const EndianValueType<Tp, from>& value) : _data(EndianConverter<from, order>::convert(value._data)) {}
 
-		[[nodiscard]] constexpr ValueType value() const { return EndianConverter<Endians::native, order>::convert(_value); }
-		[[nodiscard]] constexpr const ValueType& data() const { return _value; }
+		[[nodiscard]] constexpr ValueType value() const { return EndianConverter<Endians::native, order>::template decode<Tp>(_data); }
+		[[nodiscard]] constexpr const DataType& data() const { return _data; }
 
-		[[nodiscard]] constexpr operator ValueType() const { return EndianConverter<Endians::native, order>::convert(_value); }
+		[[nodiscard]] constexpr operator ValueType() const { return EndianConverter<Endians::native, order>::template decode<Tp>(_data); }
 	};
 
 	extern template struct EndianValueType<uint8_t, Endians::big>;

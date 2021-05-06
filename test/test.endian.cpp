@@ -36,35 +36,51 @@ constexpr int check_if(bool condition)
 	}
 }
 
-std::array<std::function<int(void)>, 5> tests =
+template<size_t N>
+std::ostream& dump(std::ostream& stream, const std::array<std::byte, N>& data)
+{
+	auto flags = stream.flags();
+	auto width = stream.width();
+	auto fill = stream.fill();
+	size_t n = 0;
+	for(auto i: data)
+	{
+		if(16 <= n)
+		{
+			n = 0;
+			std::cout << std::endl;
+		}
+		stream.width(2);
+		stream.fill('0');
+		stream << std::hex << std::uppercase << uint16_t(i);
+		++n;
+	}
+	stream.flags(flags);
+	stream.width(width);
+	stream.fill(fill);
+	return stream;
+}
+
+constexpr std::array<std::byte, 4> ledata = { std::byte{0xEF}, std::byte{0xBE}, std::byte{0xAD}, std::byte{0xDE} };
+constexpr std::array<std::byte, 4> bedata = { std::byte{0xDE}, std::byte{0xAD}, std::byte{0xBE}, std::byte{0xEF} };
+
+std::array<std::function<int(void)>, 6> tests =
 {
 	[]()
 	{
-		std::cout << "1. LE->BE(0xDEADBEEF) ->0xEFBEADDE?";
-		if (EndianConverter<Endians::little, Endians::big>::convert(0xDEADBEEF) == 0xEFBEADDE)
-		{
-			std::cout << "...OK" << std::endl;
-			return 0;
-		}
-		else
-		{
-			std::cout << "...NG" << std::endl;
-			return 1;
-		}
+		std::cout << "ledata = ";
+		dump(std::cout, ledata) << std::endl;
+		std::cout << "1. LE->BE ? ";
+		dump(std::cout, EndianConverter<Endians::little, Endians::big>::convert(ledata)) << std::endl;;
+		return 0;
 	},
 	[]()
 	{
-		std::cout << "2. BE->LE(0xEFBEADDE) ->0xDEADBEEF?";
-		if (EndianConverter<Endians::little, Endians::big>::convert(0xEFBEADDE) == 0xDEADBEEF)
-		{
-			std::cout << "...OK" << std::endl;
-			return 0;
-		}
-		else
-		{
-			std::cout << "...NG" << std::endl;
-			return 1;
-		}
+		std::cout << "bedata = ";
+		dump(std::cout, ledata) << std::endl;
+		std::cout << "2. BE->LE ? ";
+		dump(std::cout, EndianConverter<Endians::little, Endians::big>::convert(bedata)) << std::endl;;
+		return 0;
 	},
 	[]()
 	{
@@ -72,16 +88,7 @@ std::array<std::function<int(void)>, 5> tests =
 		uint32le_t le_beef = deadbeef;
 
 		std::cout << "3. LE(0xDEADBEEF).value() ->0xDEADBEEF?";
-		if (le_beef.value() == 0xDEADBEEF)
-		{
-			std::cout << "...OK" << std::endl;
-			return 0;
-		}
-		else
-		{
-			std::cout << "...NG" << std::endl;
-			return 1;
-		}
+		return check_if(le_beef.value() == deadbeef);
 	},
 	[]()
 	{
@@ -89,34 +96,25 @@ std::array<std::function<int(void)>, 5> tests =
 		uint32be_t be_beef = deadbeef;
 
 		std::cout << "4. BE(0xDEADBEEF).value() ->0xDEADBEEF?";
-		if (be_beef.value() == 0xDEADBEEF)
-		{
-			std::cout << "...OK" << std::endl;
-			return 0;
-		}
-		else
-		{
-			std::cout << "...NG" << std::endl;
-			return 1;
-		}
+		return check_if(be_beef.value() == deadbeef);
+	},
+	[]()
+	{
+		uint32_t deadbeef = 0xDEADBEEF;
+		uint32le_t le_beef = deadbeef;
+
+		std::cout << "5. LE(0xDEADBEEF).data() ? ";
+		dump(std::cout, le_beef.data()) << std::endl;
+		return 0;
 	},
 	[]()
 	{
 		uint32_t deadbeef = 0xDEADBEEF;
 		uint32be_t be_beef = deadbeef;
-		uint32le_t le_beef = deadbeef;
 
-		std::cout << "5. LE(0xDEADBEEF).data() != BE(0xDEADBEEF).data() ->true?";
-		if (le_beef.data() != be_beef.data())
-		{
-			std::cout << "...OK" << std::endl;
-			return 0;
-		}
-		else
-		{
-			std::cout << "...NG" << std::endl;
-			return 1;
-		}
+		std::cout << "6. BE(0xDEADBEEF).data() ? ";
+		dump(std::cout, be_beef.data()) << std::endl;
+		return 0;
 	},
 };
 

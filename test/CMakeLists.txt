@@ -80,11 +80,12 @@ do_test_pattern(stationaryorbit.core.test.constprogression 1 ". 1 2 3 4 5 6 7 8 
 
 add_executable(stationaryorbit.core.test.endian test.endian.cpp)
 target_link_libraries(stationaryorbit.core.test.endian stationaryorbit.core)
-do_test_nofail(stationaryorbit.core.test.endian 1)
-do_test_nofail(stationaryorbit.core.test.endian 2)
+do_test_pattern(stationaryorbit.core.test.endian 1 "LE->BE . DEADBEEF")
+do_test_pattern(stationaryorbit.core.test.endian 2 "BE->LE . EFBEADDE")
 do_test_nofail(stationaryorbit.core.test.endian 3)
 do_test_nofail(stationaryorbit.core.test.endian 4)
-do_test_nofail(stationaryorbit.core.test.endian 5)
+do_test_pattern(stationaryorbit.core.test.endian 5 "data.. . EFBEADDE")
+do_test_pattern(stationaryorbit.core.test.endian 6 "data.. . DEADBEEF")
 
 add_executable(stationaryorbit.core.test.delegate test.delegate.cpp)
 target_link_libraries(stationaryorbit.core.test.delegate stationaryorbit.core)
