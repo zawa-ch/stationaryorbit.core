@@ -19,22 +19,9 @@
 #include <iostream>
 #include <array>
 #include <functional>
+#include "test-helper.hpp"
 #include "stationaryorbit/core.numeral.hpp"
 using namespace zawa_ch::StationaryOrbit;
-
-constexpr int check_if(bool condition)
-{
-	if (condition)
-	{
-		std::cout << "...OK" << std::endl;
-		return 0;
-	}
-	else
-	{
-		std::cout << "...NG" << std::endl;
-		return 1;
-	}
-}
 
 std::array<std::function<int(void)>, 45> tests =
 {
@@ -241,58 +228,22 @@ std::array<std::function<int(void)>, 45> tests =
 	[]()
 	{
 		std::cout << "42. T == T -> true?";
-		if (Logic::True() == Logic::True())
-		{
-			std::cout << "...OK" << std::endl;
-			return 0;
-		}
-		else
-		{
-			std::cout << "...NG" << std::endl;
-			return 1;
-		}
+		return check_if(Logic::True() == Logic::True());
 	},
 	[]()
 	{
 		std::cout << "43. F == F -> true?";
-		if (Logic::False() == Logic::False())
-		{
-			std::cout << "...OK" << std::endl;
-			return 0;
-		}
-		else
-		{
-			std::cout << "...NG" << std::endl;
-			return 1;
-		}
+		return check_if(Logic::False() == Logic::False());
 	},
 	[]()
 	{
 		std::cout << "44. I == I -> true?";
-		if (Logic::Indefinited() == Logic::Indefinited())
-		{
-			std::cout << "...OK" << std::endl;
-			return 0;
-		}
-		else
-		{
-			std::cout << "...NG" << std::endl;
-			return 1;
-		}
+		return check_if(Logic::Indefinited() == Logic::Indefinited());
 	},
 	[]()
 	{
 		std::cout << "45. U != U -> true?";
-		if (Logic::Undefined() != Logic::Undefined())
-		{
-			std::cout << "...OK" << std::endl;
-			return 0;
-		}
-		else
-		{
-			std::cout << "...NG" << std::endl;
-			return 1;
-		}
+		return check_if(Logic::Undefined() != Logic::Undefined());
 	},
 };
 
