@@ -27,9 +27,11 @@
 namespace zawa_ch::StationaryOrbit
 {
 	///	ライブラリで使用される基本的なアルゴリズムを実装します。
-	///	このクラスは継承できません。
+	///	このクラスのインスタンスを作成することはできません。また、継承することもできません。
 	class Algorithms final
 	{
+		Algorithms() = delete;
+		~Algorithms() = delete;
 	public:
 		///	整数の除算と乗算を行います。
 		///	@param	numerator
@@ -42,7 +44,7 @@ namespace zawa_ch::StationaryOrbit
 		///	std::invalid_argument
 		///	0で除算することはできません。
 		template<class Tp>
-		[[nodiscard]] static constexpr DivisionResult<Tp> IntegralFraction(const Tp& numerator, const Tp& denominator, const Tp& scale)
+		[[nodiscard]] static constexpr DivisionResult<Tp> integral_fraction(const Tp& numerator, const Tp& denominator, const Tp& scale)
 		{
 			static_assert(std::is_same_v<Tp, bool> || Traits::IsIntegralType<Tp>, "テンプレート型 Tp は整数型またはboolである必要があります。");
 
@@ -62,55 +64,55 @@ namespace zawa_ch::StationaryOrbit
 				else
 				{
 					bool s = (numerator < Tp(0)) ^ (denominator < Tp(0)) ^ (scale < Tp(0));
-					auto r = IntegralFraction<std::make_unsigned_t<Tp>>((numerator >= Tp(0))?numerator:-numerator, (denominator >= Tp(0))?denominator:-denominator, (scale >= Tp(0))?scale:-scale);
+					auto r = integral_fraction<std::make_unsigned_t<Tp>>((numerator >= Tp(0))?numerator:-numerator, (denominator >= Tp(0))?denominator:-denominator, (scale >= Tp(0))?scale:-scale);
 					return { Tp((s)?(-Tp(r.Value)):(Tp(r.Value))), Tp((s)?(-Tp(r.Mod)):(Tp(r.Mod))) };
 				}
 			}
 		}
 		///	@a bool のand結合を行います。
 		///	このメソッドはちょうど @a left&right に等しい操作を行います。
-		[[nodiscard]] static constexpr bool And(const bool& left, const bool& right)
+		[[nodiscard]] static constexpr bool boolean_and(const bool& left, const bool& right)
 		{
 			return left & right;
 		}
 		///	@a bool のand結合を行います。
-		[[nodiscard]] static constexpr bool And(const std::initializer_list<bool>& list)
+		[[nodiscard]] static constexpr bool boolean_and(const std::initializer_list<bool>& list)
 		{
 			bool result = true;
 			for(auto i: list)
 			{
-				result = And(result, i);
+				result = boolean_and(result, i);
 			}
 			return result;
 		}
 		///	@a bool のor結合を行います。
 		///	このメソッドはちょうど @a left|right に等しい操作を行います。
-		[[nodiscard]] static constexpr bool Or(const bool& left, const bool& right)
+		[[nodiscard]] static constexpr bool boolean_or(const bool& left, const bool& right)
 		{
 			return left | right;
 		}
 		///	@a bool のor結合を行います。
-		[[nodiscard]] static constexpr bool Or(const std::initializer_list<bool>& list)
+		[[nodiscard]] static constexpr bool boolean_or(const std::initializer_list<bool>& list)
 		{
 			bool result = false;
 			for(auto i: list)
 			{
-				result = Or(result, i);
+				result = boolean_or(result, i);
 			}
 			return result;
 		}
 		///	@a bool のxor結合を行います。
-		[[nodiscard]] static constexpr bool Xor(const bool& left, const bool& right)
+		[[nodiscard]] static constexpr bool boolean_xor(const bool& left, const bool& right)
 		{
 			return (left | right) & !(left & right);
 		}
 		///	@a bool のxor結合を行います。
-		[[nodiscard]] static constexpr bool Xor(const std::initializer_list<bool>& list)
+		[[nodiscard]] static constexpr bool boolean_xor(const std::initializer_list<bool>& list)
 		{
 			bool result = false;
 			for(auto i: list)
 			{
-				result = Xor(result, i);
+				result = boolean_xor(result, i);
 			}
 			return result;
 		}
@@ -118,7 +120,7 @@ namespace zawa_ch::StationaryOrbit
 		///	@param	cos
 		///	cos(x)の値。
 		template<class T>
-		[[nodiscard]] static constexpr T HalfAngleSinFormula(const T& cos)
+		[[nodiscard]] static constexpr T halfangle_sin(const T& cos)
 		{
 			return BasicMathematics::Sqrt((T(1) - cos) / 2);
 		}
@@ -126,7 +128,7 @@ namespace zawa_ch::StationaryOrbit
 		///	@param	cos
 		///	cos(x)の値。
 		template<class T>
-		[[nodiscard]] static constexpr T HalfAngleCosFormula(const T& cos)
+		[[nodiscard]] static constexpr T halfangle_cos(const T& cos)
 		{
 			return BasicMathematics::Sqrt((T(1) + cos) / 2);
 		}
@@ -136,21 +138,21 @@ namespace zawa_ch::StationaryOrbit
 		///	@param	cos
 		///	cos(x)の値。
 		template<class T>
-		[[nodiscard]] static constexpr T HalfAngleTanFormula(const T& sin, const T& cos)
+		[[nodiscard]] static constexpr T halfangle_tan(const T& sin, const T& cos)
 		{
 			return (1 - cos) / sin;
 		}
 	};
 
-	extern template DivisionResult<bool> Algorithms::IntegralFraction<bool>(const bool& numerator, const bool& denominator, const bool& scale);
-	extern template DivisionResult<uint8_t> Algorithms::IntegralFraction<uint8_t>(const uint8_t& numerator, const uint8_t& denominator, const uint8_t& scale);
-	extern template DivisionResult<uint16_t> Algorithms::IntegralFraction<uint16_t>(const uint16_t& numerator, const uint16_t& denominator, const uint16_t& scale);
-	extern template DivisionResult<uint32_t> Algorithms::IntegralFraction<uint32_t>(const uint32_t& numerator, const uint32_t& denominator, const uint32_t& scale);
-	extern template DivisionResult<uint64_t> Algorithms::IntegralFraction<uint64_t>(const uint64_t& numerator, const uint64_t& denominator, const uint64_t& scale);
-	extern template DivisionResult<int8_t> Algorithms::IntegralFraction<int8_t>(const int8_t& numerator, const int8_t& denominator, const int8_t& scale);
-	extern template DivisionResult<int16_t> Algorithms::IntegralFraction<int16_t>(const int16_t& numerator, const int16_t& denominator, const int16_t& scale);
-	extern template DivisionResult<int32_t> Algorithms::IntegralFraction<int32_t>(const int32_t& numerator, const int32_t& denominator, const int32_t& scale);
-	extern template DivisionResult<int64_t> Algorithms::IntegralFraction<int64_t>(const int64_t& numerator, const int64_t& denominator, const int64_t& scale);
+	extern template DivisionResult<bool> Algorithms::integral_fraction<bool>(const bool& numerator, const bool& denominator, const bool& scale);
+	extern template DivisionResult<uint8_t> Algorithms::integral_fraction<uint8_t>(const uint8_t& numerator, const uint8_t& denominator, const uint8_t& scale);
+	extern template DivisionResult<uint16_t> Algorithms::integral_fraction<uint16_t>(const uint16_t& numerator, const uint16_t& denominator, const uint16_t& scale);
+	extern template DivisionResult<uint32_t> Algorithms::integral_fraction<uint32_t>(const uint32_t& numerator, const uint32_t& denominator, const uint32_t& scale);
+	extern template DivisionResult<uint64_t> Algorithms::integral_fraction<uint64_t>(const uint64_t& numerator, const uint64_t& denominator, const uint64_t& scale);
+	extern template DivisionResult<int8_t> Algorithms::integral_fraction<int8_t>(const int8_t& numerator, const int8_t& denominator, const int8_t& scale);
+	extern template DivisionResult<int16_t> Algorithms::integral_fraction<int16_t>(const int16_t& numerator, const int16_t& denominator, const int16_t& scale);
+	extern template DivisionResult<int32_t> Algorithms::integral_fraction<int32_t>(const int32_t& numerator, const int32_t& denominator, const int32_t& scale);
+	extern template DivisionResult<int64_t> Algorithms::integral_fraction<int64_t>(const int64_t& numerator, const int64_t& denominator, const int64_t& scale);
 
 	template<class T>
 	struct TrigonometricResult final
@@ -163,7 +165,7 @@ namespace zawa_ch::StationaryOrbit
 		ConstProgression
 		<
 			TrigonometricResult<T>,
-			[](const TrigonometricResult<T>& b) { return TrigonometricResult<T> { Algorithms::HalfAngleSinFormula(b.Cos), Algorithms::HalfAngleCosFormula(b.Cos) }; },
+			[](const TrigonometricResult<T>& b) { return TrigonometricResult<T> { Algorithms::halfangle_sin(b.Cos), Algorithms::halfangle_cos(b.Cos) }; },
 			TrigonometricResult<T> { 1, 0 },
 			N
 		>

@@ -96,7 +96,7 @@ namespace zawa_ch::StationaryOrbit
 				if (result == 0U) { break; }
 				b = result;	///< 前回値(X[N])保持
 				// a / X[N] の導出
-				ValueType delta = Algorithms::IntegralFraction(_value, b, std::numeric_limits<Tp>::max()).Value;
+				ValueType delta = Algorithms::integral_fraction(_value, b, std::numeric_limits<Tp>::max()).Value;
 				// X[N] / 2
 				result /= 2;
 				// 剰余分の計算
@@ -112,7 +112,7 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr Proportion<Tp> operator+(const Proportion<Tp>& other) const noexcept { return Proportion(Tp(_value + other._value), UnitValue); }
 		[[nodiscard]] constexpr Proportion<Tp> operator-(const Proportion<Tp>& other) const noexcept { return Proportion(Tp(_value - other._value), UnitValue); }
 		[[nodiscard]] constexpr Proportion<Tp> operator*(const Proportion<Tp>& other) const noexcept { return Proportion(multiple_inner(_value, other._value), UnitValue); }
-		[[nodiscard]] constexpr Proportion<Tp> operator/(const Proportion<Tp>& other) const noexcept { return Proportion(Algorithms::IntegralFraction(_value, other._value, std::numeric_limits<Tp>::max()).Value, UnitValue); }
+		[[nodiscard]] constexpr Proportion<Tp> operator/(const Proportion<Tp>& other) const noexcept { return Proportion(Algorithms::integral_fraction(_value, other._value, std::numeric_limits<Tp>::max()).Value, UnitValue); }
 		constexpr Proportion<Tp>& operator+=(const Proportion<Tp>& other) noexcept { return *this = *this + other; }
 		constexpr Proportion<Tp>& operator-=(const Proportion<Tp>& other) noexcept { return *this = *this - other; }
 		constexpr Proportion<Tp>& operator*=(const Proportion<Tp>& other) noexcept { return *this = *this * other; }
@@ -216,11 +216,11 @@ namespace zawa_ch::StationaryOrbit
 			if constexpr ((std::is_integral_v<ValueType>)&&(std::is_unsigned_v<ValueType>))
 			{
 				if (denominator < numerator) { throw std::overflow_error("計算結果はこの型で表せる範囲を超えています。"); }
-				return Algorithms::IntegralFraction(numerator, denominator, std::numeric_limits<Tp>::max());
+				return Algorithms::integral_fraction(numerator, denominator, std::numeric_limits<Tp>::max());
 			}
 			else
 			{
-				return Algorithms::IntegralFraction(numerator, denominator, std::numeric_limits<Tp>::max());
+				return Algorithms::integral_fraction(numerator, denominator, std::numeric_limits<Tp>::max());
 			}
 		}
 		static constexpr ValueType multiple_inner(const ValueType& left, const ValueType& right)

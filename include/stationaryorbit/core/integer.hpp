@@ -121,7 +121,7 @@ namespace zawa_ch::StationaryOrbit
 				{
 					bool a = getbit(i);
 					bool b = other.getbit(i);
-					result.setbit(i, Algorithms::Xor({a, b, c}));
+					result.setbit(i, Algorithms::boolean_xor({a, b, c}));
 					c = (a & b) | (b & c) | (c & a);
 				}
 				return result;
@@ -138,7 +138,7 @@ namespace zawa_ch::StationaryOrbit
 				{
 					bool a = getbit(i);
 					bool b = !other.getbit(i);
-					result.setbit(i, Algorithms::Xor({a, b, c}));
+					result.setbit(i, Algorithms::boolean_xor({a, b, c}));
 					c = (a & b) | (b & c) | (c & a);
 				}
 				return result;
@@ -183,7 +183,7 @@ namespace zawa_ch::StationaryOrbit
 				for (auto i: Range<size_t>(0, bitwidth<T>).GetStdIterator())
 				{
 					bool a = getbit(i);
-					setbit(i, Algorithms::Xor(a, c));
+					setbit(i, Algorithms::boolean_xor(a, c));
 					c = (c & a);
 				}
 				return *this;
@@ -199,7 +199,7 @@ namespace zawa_ch::StationaryOrbit
 				for (auto i: Range<size_t>(0, bitwidth<T>).GetStdIterator())
 				{
 					bool a = getbit(i);
-					setbit(i, Algorithms::Xor({a, true, c}));
+					setbit(i, Algorithms::boolean_xor({a, true, c}));
 					c = (a | c);
 				}
 				return *this;
@@ -371,7 +371,7 @@ namespace zawa_ch::StationaryOrbit
 			{
 				bool a = getbit(i);
 				bool b = other.getbit(i);
-				result.setbit(i, Algorithms::Xor({a, b, c}));
+				result.setbit(i, Algorithms::boolean_xor({a, b, c}));
 				c = (a & b) | (b & c) | (c & a);
 			}
 			return result;
@@ -384,7 +384,7 @@ namespace zawa_ch::StationaryOrbit
 			{
 				bool a = getbit(i);
 				bool b = !other.getbit(i);
-				result.setbit(i, Algorithms::Xor({a, b, c}));
+				result.setbit(i, Algorithms::boolean_xor({a, b, c}));
 				c = (a & b) | (b & c) | (c & a);
 			}
 			return result;
@@ -423,7 +423,7 @@ namespace zawa_ch::StationaryOrbit
 				for (auto i: Range<size_t>(0, bitwidth<T>).GetStdIterator())
 				{
 					bool a = getbit(i);
-					setbit(i, Algorithms::Xor(a, c));
+					setbit(i, Algorithms::boolean_xor(a, c));
 					c = (c & a);
 				}
 				return *this;
@@ -439,7 +439,7 @@ namespace zawa_ch::StationaryOrbit
 				for (auto i: Range<size_t>(0, bitwidth<T>).GetStdIterator())
 				{
 					bool a = getbit(i);
-					setbit(i, Algorithms::Xor({a, true, c}));
+					setbit(i, Algorithms::boolean_xor({a, true, c}));
 					c = (a | c);
 				}
 				return *this;
@@ -462,7 +462,7 @@ namespace zawa_ch::StationaryOrbit
 				auto b = other.getbit(i);
 				if (getbit(i) != other.getbit(i))
 				{
-					if (Algorithms::Xor(getbit(i), sa)) { return 1; }
+					if (Algorithms::boolean_xor(getbit(i), sa)) { return 1; }
 					else { return -1; }
 				}
 			}
@@ -525,7 +525,7 @@ namespace zawa_ch::StationaryOrbit
 					surplus -= div;
 				}
 			}
-			return DivisionResult<SignedInteger<T>>{ (Algorithms::Xor(*this < Zero, other < Zero))?(-result):(result), (Algorithms::Xor(*this < Zero, other < Zero))?(-surplus):(surplus) };
+			return DivisionResult<SignedInteger<T>>{ (Algorithms::boolean_xor(*this < Zero, other < Zero))?(-result):(result), (Algorithms::boolean_xor(*this < Zero, other < Zero))?(-surplus):(surplus) };
 		}
 	};
 

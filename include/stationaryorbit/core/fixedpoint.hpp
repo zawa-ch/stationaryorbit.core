@@ -68,7 +68,7 @@ namespace zawa_ch::StationaryOrbit
 				{
 					const auto n = Proportion<Tp>(i).Data();
 					const auto d = Proportion<Tp>::Max().Data();
-					auto v = Algorithms::IntegralFraction<Tp>(n, d, Tp(1) << Ql);
+					auto v = Algorithms::integral_fraction<Tp>(n, d, Tp(1) << Ql);
 					return v.Value + (((d/2) <= v.Mod)?(1):(0));
 				}(from)
 			)
