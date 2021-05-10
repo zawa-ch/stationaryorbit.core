@@ -19,47 +19,9 @@
 #include <iostream>
 #include <array>
 #include <functional>
+#include "test-helper.hpp"
 #include "stationaryorbit/core.bitoperation.hpp"
 using namespace zawa_ch::StationaryOrbit;
-
-constexpr int check_if(bool condition)
-{
-	if (condition)
-	{
-		std::cout << "...OK" << std::endl;
-		return 0;
-	}
-	else
-	{
-		std::cout << "...NG" << std::endl;
-		return 1;
-	}
-}
-
-template<size_t N>
-std::ostream& dump(std::ostream& stream, const std::array<std::byte, N>& data)
-{
-	auto flags = stream.flags();
-	auto width = stream.width();
-	auto fill = stream.fill();
-	size_t n = 0;
-	for(auto i: data)
-	{
-		if(16 <= n)
-		{
-			n = 0;
-			std::cout << std::endl;
-		}
-		stream.width(2);
-		stream.fill('0');
-		stream << std::hex << std::uppercase << uint16_t(i);
-		++n;
-	}
-	stream.flags(flags);
-	stream.width(width);
-	stream.fill(fill);
-	return stream;
-}
 
 constexpr std::array<std::byte, 4> ledata = { std::byte{0xEF}, std::byte{0xBE}, std::byte{0xAD}, std::byte{0xDE} };
 constexpr std::array<std::byte, 4> bedata = { std::byte{0xDE}, std::byte{0xAD}, std::byte{0xBE}, std::byte{0xEF} };
