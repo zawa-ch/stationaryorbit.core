@@ -19,22 +19,9 @@
 #include <iostream>
 #include <array>
 #include <functional>
+#include "test-helper.hpp"
 #include "stationaryorbit/core.utilities.hpp"
 using namespace zawa_ch::StationaryOrbit;
-
-constexpr int check_if(bool condition)
-{
-	if (condition)
-	{
-		std::cout << "...OK" << std::endl;
-		return 0;
-	}
-	else
-	{
-		std::cout << "...NG" << std::endl;
-		return 1;
-	}
-}
 
 typedef ConstArray<int, 1, 1, 2, 3, 5, 8, 13> A1;
 
