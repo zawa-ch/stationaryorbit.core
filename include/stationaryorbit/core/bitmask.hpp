@@ -22,6 +22,13 @@
 #include "traits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
+	///	ビット列をマスクする機能を提供します
+	///
+	///	マスクするためのビット列を保持し、マスクを用いたビット列の取得・変更を行います。
+	///	このクラスは継承できません。
+	///
+	///	@param	T
+	///	マスクのためのビット列の型。BitSequenceTypeの要件を満たす必要があります。
 	template<class T>
 	class BitMask final
 	{
@@ -33,33 +40,35 @@ namespace zawa_ch::StationaryOrbit
 		///	規定の @a BitMask を構築します。
 		constexpr BitMask() : mask() {}
 		///	マスク値を指定して @a BitMask を構築します。
+		///	@param	value
+		///	マスクを指定したビット列。
 		explicit constexpr BitMask(const T& value) noexcept : mask(value) {}
 
-		///	このマスクの開始ビットのインデックスを取得します。
+		///	このマスクが開始される(最初にビットが1となる)、LSBから数えたビット数を取得します。
 		constexpr std::size_t begin_index() const noexcept { return get_begin_index(mask); }
-		///	このマスクの終端ビットのインデックスを取得します。
+		///	このマスクが終了される(最後にビットが0となる)、LSBから数えたビット数を取得します。
 		constexpr std::size_t end_index() const noexcept { return get_end_index(mask); }
-		///	このマスクのビット長を取得します。
+		///	マスクの開始から終了までのビットの長さを取得します。
 		constexpr std::size_t length() const noexcept { return end_index() - begin_index(); }
-		///	指定された値からマスクされた部分を取得します。
+		///	入力をマスク値に従ってマスクします。
 		///	@param	source
-		///	値を取得するマスクされていない値。
+		///	値を取得するソース。
 		constexpr T get_from(const T& source) const noexcept { return source & mask; }
-		///	指定された値に値をマスクし結合した値を取得します。
+		///	入力をマスク値に従って書き込みます。
 		///	@param	destination
-		///	値の結合先となるマスクされていない値。
+		///	値の設定先。
 		///	@param	value
-		///	代入するマスクされていない値。
+		///	書き込みを行う値。
 		constexpr T set_to(const T& destination, const T& value) const noexcept { return (destination & ~mask) | (value & mask); }
-		///	指定された値からマスクされた部分を取り出し、LSBに詰めて取得します。
+		///	入力をマスク値に従ってマスクし、LSBに詰めます。
 		///	@param	source
-		///	値を取得するマスクされていない値。
+		///	値を取得するソース。
 		constexpr T get_aligned_from(const T& source) const noexcept { return get_from(source) >> get_begin_index(mask); }
-		///	指定された値にLSBに詰められた値をマスクし結合した値を取得します。
+		///	LSBに詰められた入力をマスク値に従って書き込みます。
 		///	@param	destination
-		///	値の結合先となるマスクされていない値。
+		///	値の設定先。
 		///	@param	value
-		///	代入するマスクされていない値。
+		///	書き込みを行う値。
 		constexpr T set_aligned_to(const T& destination, const T& value) const noexcept { return set_to(destination, value << get_begin_index(mask)); }
 
 		constexpr BitMask<T> operator~() const noexcept { return BitMask<T>(~mask); }
