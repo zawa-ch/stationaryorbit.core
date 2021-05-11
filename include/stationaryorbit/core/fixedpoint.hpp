@@ -1,5 +1,5 @@
 //	stationaryorbit/core/fixedpoint
-//	Copyright 2020 zawa-ch.
+//	Copyright 2020-2021 zawa-ch.
 //	GPLv3 (or later) license
 //
 //	This program is free software: you can redistribute it and/or modify
@@ -69,7 +69,7 @@ namespace zawa_ch::StationaryOrbit
 					const auto n = Proportion<Tp>(i).Data();
 					const auto d = Proportion<Tp>::Max().Data();
 					auto v = Algorithms::integral_fraction<Tp>(n, d, Tp(1) << Ql);
-					return v.Value + (((d/2) <= v.Mod)?(1):(0));
+					return v.value + (((d/2) <= v.mod)?(1):(0));
 				}(from)
 			)
 		{}

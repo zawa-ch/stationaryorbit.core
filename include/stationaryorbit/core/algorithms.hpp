@@ -20,6 +20,7 @@
 #define __stationaryorbit__core_algorithms__
 #include <stdexcept>
 #include "traits.hpp"
+#include "divisionresult.hpp"
 #include "constarray.hpp"
 #include "basicmath.hpp"
 #include "range.hpp"
@@ -59,13 +60,13 @@ namespace zawa_ch::StationaryOrbit
 				if constexpr (!std::numeric_limits<Tp>::is_signed)
 				{
 					auto r = (MultipleULong<Tp, 2UL>(numerator) * scale).Divide(denominator);
-					return { Tp(r.Value), Tp(r.Mod) };
+					return { Tp(r.value), Tp(r.mod) };
 				}
 				else
 				{
 					bool s = (numerator < Tp(0)) ^ (denominator < Tp(0)) ^ (scale < Tp(0));
 					auto r = integral_fraction<std::make_unsigned_t<Tp>>((numerator >= Tp(0))?numerator:-numerator, (denominator >= Tp(0))?denominator:-denominator, (scale >= Tp(0))?scale:-scale);
-					return { Tp((s)?(-Tp(r.Value)):(Tp(r.Value))), Tp((s)?(-Tp(r.Mod)):(Tp(r.Mod))) };
+					return { Tp((s)?(-Tp(r.value)):(Tp(r.value))), Tp((s)?(-Tp(r.mod)):(Tp(r.mod))) };
 				}
 			}
 		}

@@ -1,5 +1,5 @@
 //	stationaryorbit/core/multiplelong
-//	Copyright 2020 zawa-ch.
+//	Copyright 2020-2021 zawa-ch.
 //	GPLv3 (or later) license
 //
 //	This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@
 #define __stationaryorbit_core_multiplelong__
 #include <cstddef>
 #include <array>
-#include "fundamental.hpp"
+#include "divisionresult.hpp"
 #include "zerovalue.hpp"
 #include "traits.hpp"
 #include "range.hpp"
@@ -105,11 +105,11 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr MultipleULong<T, N> operator/(const MultipleULong<T, N>& other) const noexcept
 		{
-			return Divide(other).Value;
+			return Divide(other).value;
 		}
 		[[nodiscard]] constexpr MultipleULong<T, N> operator%(const MultipleULong<T, N>& other) const noexcept
 		{
-			return Divide(other).Mod;
+			return Divide(other).mod;
 		}
 		[[nodiscard]] constexpr MultipleULong<T, N> operator~() const noexcept
 		{

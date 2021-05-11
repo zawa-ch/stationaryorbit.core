@@ -1,5 +1,5 @@
 //	stationaryorbit/core/proportion
-//	Copyright 2020 zawa-ch.
+//	Copyright 2020-2021 zawa-ch.
 //	GPLv3 (or later) license
 //
 //	This program is free software: you can redistribute it and/or modify
@@ -65,7 +65,7 @@ namespace zawa_ch::StationaryOrbit
 				{
 					if (d == std::numeric_limits<Tp>::max()) { return n; }
 					auto v = checkedFraction(n, d);
-					return v.Value + (((d/2) <= v.Mod)?(1):(0));
+					return v.value + (((d/2) <= v.mod)?(1):(0));
 				} (numerator, denominator)
 				, UnitValue
 			)
@@ -96,7 +96,7 @@ namespace zawa_ch::StationaryOrbit
 				if (result == 0U) { break; }
 				b = result;	///< 前回値(X[N])保持
 				// a / X[N] の導出
-				ValueType delta = Algorithms::integral_fraction(_value, b, std::numeric_limits<Tp>::max()).Value;
+				ValueType delta = Algorithms::integral_fraction(_value, b, std::numeric_limits<Tp>::max()).value;
 				// X[N] / 2
 				result /= 2;
 				// 剰余分の計算
@@ -112,7 +112,7 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr Proportion<Tp> operator+(const Proportion<Tp>& other) const noexcept { return Proportion(Tp(_value + other._value), UnitValue); }
 		[[nodiscard]] constexpr Proportion<Tp> operator-(const Proportion<Tp>& other) const noexcept { return Proportion(Tp(_value - other._value), UnitValue); }
 		[[nodiscard]] constexpr Proportion<Tp> operator*(const Proportion<Tp>& other) const noexcept { return Proportion(multiple_inner(_value, other._value), UnitValue); }
-		[[nodiscard]] constexpr Proportion<Tp> operator/(const Proportion<Tp>& other) const noexcept { return Proportion(Algorithms::integral_fraction(_value, other._value, std::numeric_limits<Tp>::max()).Value, UnitValue); }
+		[[nodiscard]] constexpr Proportion<Tp> operator/(const Proportion<Tp>& other) const noexcept { return Proportion(Algorithms::integral_fraction(_value, other._value, std::numeric_limits<Tp>::max()).value, UnitValue); }
 		constexpr Proportion<Tp>& operator+=(const Proportion<Tp>& other) noexcept { return *this = *this + other; }
 		constexpr Proportion<Tp>& operator-=(const Proportion<Tp>& other) noexcept { return *this = *this - other; }
 		constexpr Proportion<Tp>& operator*=(const Proportion<Tp>& other) noexcept { return *this = *this * other; }

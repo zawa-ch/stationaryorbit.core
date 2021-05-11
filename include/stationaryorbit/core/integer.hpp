@@ -1,5 +1,5 @@
 //	stationaryorbit/core/integer
-//	Copyright 2020 zawa-ch.
+//	Copyright 2020-2021 zawa-ch.
 //	GPLv3 (or later) license
 //
 //	This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@
 #define __stationaryorbit_core_integer__
 #include <stdexcept>
 #include "traits.hpp"
+#include "divisionresult.hpp"
 #include "algorithms.hpp"
 #include "range.hpp"
 namespace zawa_ch::StationaryOrbit
@@ -160,12 +161,12 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr Integer<T> operator/(const Integer<T>& other) const
 		{
 			if constexpr (Traits::HasDivision<T, T>) { return Integer<T>(T(_data / other._data)); }
-			else { return divide_impl(other).Value; }
+			else { return divide_impl(other).value; }
 		}
 		[[nodiscard]] constexpr Integer<T> operator%(const Integer<T>& other) const
 		{
 			if constexpr (Traits::HasModulation<T, T>) { return Integer<T>(T(_data % other._data)); }
-			else { return divide_impl(other).Mod; }
+			else { return divide_impl(other).mod; }
 		}
 
 		constexpr Integer<T>& operator+=(const Integer<T>& other) { *this = *this + other; return *this; }
@@ -401,11 +402,11 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr SignedInteger<T> operator/(const SignedInteger<T>& other) const
 		{
-			return divide_impl(other).Value;
+			return divide_impl(other).value;
 		}
 		[[nodiscard]] constexpr SignedInteger<T> operator%(const SignedInteger<T>& other) const
 		{
-			return divide_impl(other).Mod;
+			return divide_impl(other).mod;
 		}
 
 		constexpr SignedInteger<T>& operator+=(const SignedInteger<T>& other) { *this = *this + other; return *this; }

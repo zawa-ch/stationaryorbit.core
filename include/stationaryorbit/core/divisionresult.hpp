@@ -1,5 +1,5 @@
-//	stationaryorbit/core/fundamental
-//	Copyright 2020-2021 zawa-ch.
+//	stationaryorbit/core/divisionresult
+//	Copyright 2021 zawa-ch.
 //	GPLv3 (or later) license
 //
 //	This program is free software: you can redistribute it and/or modify
@@ -16,23 +16,16 @@
 //	along with this program.
 //	If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef __stationaryorbit_core_fundamental__
-#define __stationaryorbit_core_fundamental__
-#include <cstdint>
+#ifndef __stationaryorbit_core_divisionresult__
+#define __stationaryorbit_core_divisionresult__
 namespace zawa_ch::StationaryOrbit
 {
-	///	対応する値が存在しない型を表します。
-	struct Unit final {};
-	///	@a Unit の唯一のインスタンスを表します。
-	static constexpr Unit UnitValue = {};
-
-	///	決してインスタンス化することのできない型を表します。
-	typedef void Bottom;
-
-	//	<-- C++基本型に対して与えられる型エイリアスの定義 -->
-
-	typedef float float32_t;
-	typedef double float64_t;
-	typedef long double floatmax_t;
+	///	除算の結果を格納します。
+	template<class T>
+	struct DivisionResult final
+	{
+		T value;
+		T mod;
+	};
 }
-#endif // __stationaryorbit_core_fundamental__
+#endif // __stationaryorbit_core_divisionresult__

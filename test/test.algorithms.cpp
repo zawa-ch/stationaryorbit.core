@@ -35,7 +35,7 @@ std::array<std::function<int(void)>, 40> tests =
 		uint32_t n3 = 7;
 		std::cout << "1. Algorithms::integral_fraction(n1, n2, n3).value ? ";
 		auto result = Algorithms::integral_fraction(n1, n2, n3);
-		std::cout << result.Value << std::endl;
+		std::cout << result.value << std::endl;
 		return 0;
 	},
 	[]()
@@ -48,7 +48,7 @@ std::array<std::function<int(void)>, 40> tests =
 		uint32_t n3 = 7;
 		std::cout << "2. Algorithms::integral_fraction(n1, n2, n3).mod ? ";
 		auto result = Algorithms::integral_fraction(n1, n2, n3);
-		std::cout << result.Mod << std::endl;
+		std::cout << result.mod << std::endl;
 		return 0;
 	},
 	[]()
@@ -61,7 +61,7 @@ std::array<std::function<int(void)>, 40> tests =
 		uint32_t n3 = 3;
 		std::cout << "3. Algorithms::integral_fraction(n1, n2, n3).value ? ";
 		auto result = Algorithms::integral_fraction(n1, n2, n3);
-		std::cout << result.Value << std::endl;
+		std::cout << result.value << std::endl;
 		return 0;
 	},
 	[]()
@@ -74,7 +74,7 @@ std::array<std::function<int(void)>, 40> tests =
 		uint32_t n3 = 3;
 		std::cout << "4. Algorithms::integral_fraction(n1, n2, n3).mod ? ";
 		auto result = Algorithms::integral_fraction(n1, n2, n3);
-		std::cout << result.Mod << std::endl;
+		std::cout << result.mod << std::endl;
 		return 0;
 	},
 	[]()
@@ -89,7 +89,7 @@ std::array<std::function<int(void)>, 40> tests =
 		try
 		{
 			auto result = Algorithms::integral_fraction(n1, n2, n3);
-			std::cout << result.Value << std::endl;
+			std::cout << result.value << std::endl;
 		}
 		catch (std::invalid_argument e)
 		{
@@ -110,7 +110,7 @@ std::array<std::function<int(void)>, 40> tests =
 		try
 		{
 			auto result = Algorithms::integral_fraction(n1, n2, n3);
-			std::cout << result.Mod << std::endl;
+			std::cout << result.mod << std::endl;
 		}
 		catch (std::invalid_argument e)
 		{
