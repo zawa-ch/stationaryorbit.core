@@ -387,6 +387,29 @@ namespace zawa_ch::StationaryOrbit
 		}
 	};
 
+	template<class CharT>
+	std::basic_ostream<CharT>& operator<<(std::basic_ostream<CharT>& stream, ArithmeticOperation::AdditionResultStatus value)
+	{
+		switch(value)
+		{
+			case ArithmeticOperation::AdditionResultStatus::no_error: { return stream << "no_error"; }
+			case ArithmeticOperation::AdditionResultStatus::overflow_positive: { return stream << "overflow_positive"; }
+			case ArithmeticOperation::AdditionResultStatus::overflow_negative: { return stream << "overflow_negative"; }
+			default: { return stream << "<undefined>"; }
+		}
+	}
+	template<class CharT>
+	std::basic_ostream<CharT>& operator<<(std::basic_ostream<CharT>& stream, ArithmeticOperation::MultiplicationResultStatus value)
+	{
+		switch(value)
+		{
+			case ArithmeticOperation::MultiplicationResultStatus::no_error: { return stream << "no_error"; }
+			case ArithmeticOperation::MultiplicationResultStatus::overflow: { return stream << "overflow"; }
+			case ArithmeticOperation::MultiplicationResultStatus::divide_by_zero: { return stream << "divide_by_zero"; }
+			default: { return stream << "<undefined>"; }
+		}
+	}
+
 	extern template ArithmeticOperation::AdditionResult<bool> ArithmeticOperation::add<bool>(const bool&, const bool&);
 	extern template ArithmeticOperation::AdditionResult<char> ArithmeticOperation::add<char>(const char&, const char&);
 	extern template ArithmeticOperation::AdditionResult<signed char> ArithmeticOperation::add<signed char>(const signed char&, const signed char&);
