@@ -44,15 +44,23 @@ namespace zawa_ch::StationaryOrbit
 		{
 			static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
 			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
-			auto eval = std::numeric_limits<T>::max() - right;
-			if (eval < left) { return AdditionResult<T>{ left + right, AdditionResultStatus::overflow_positive }; }
 			if constexpr (std::numeric_limits<T>::is_signed)
 			{
 				if (right < T(0))
 				{
-					eval = std::numeric_limits<T>::lowest() - right;
+					auto eval = std::numeric_limits<T>::lowest() - right;
 					if (left < eval) { return AdditionResult<T>{ left + right, AdditionResultStatus::overflow_negative }; }
 				}
+				else
+				{
+					auto eval = std::numeric_limits<T>::max() - right;
+					if (eval < left) { return AdditionResult<T>{ left + right, AdditionResultStatus::overflow_positive }; }
+				}
+			}
+			else
+			{
+				auto eval = std::numeric_limits<T>::max() - right;
+				if (eval < left) { return AdditionResult<T>{ left + right, AdditionResultStatus::overflow_positive }; }
 			}
 			return AdditionResult<T>{ left + right, AdditionResultStatus::no_error };
 		}
@@ -62,8 +70,6 @@ namespace zawa_ch::StationaryOrbit
 		{
 			static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
 			static_assert(std::is_constructible_v<T, int>, "テンプレート引数型 T は (int) を引数に取るコンストラクタを持つ必要があります。");
-			auto eval = std::numeric_limits<T>::lowest() + right;
-			if (left < eval) { return AdditionResult<T>{ left - right, AdditionResultStatus::overflow_negative }; }
 			if constexpr (std::numeric_limits<T>::is_signed)
 			{
 				if (right < T(0))
@@ -71,6 +77,16 @@ namespace zawa_ch::StationaryOrbit
 					auto eval = std::numeric_limits<T>::max() + right;
 					if (eval < left) { return AdditionResult<T>{ left - right, AdditionResultStatus::overflow_positive }; }
 				}
+				else
+				{
+					auto eval = std::numeric_limits<T>::lowest() + right;
+					if (left < eval) { return AdditionResult<T>{ left - right, AdditionResultStatus::overflow_negative }; }
+				}
+			}
+			else
+			{
+				auto eval = std::numeric_limits<T>::lowest() + right;
+				if (left < eval) { return AdditionResult<T>{ left - right, AdditionResultStatus::overflow_negative }; }
 			}
 			return AdditionResult<T>{ left - right, AdditionResultStatus::no_error };
 		}
@@ -278,14 +294,6 @@ namespace zawa_ch::StationaryOrbit
 		{
 			static_assert(Traits::IsNumericalType<Tp>, "テンプレート引数型 Tp は数値型である必要があります。");
 			static_assert(std::is_constructible_v<Tp, int>, "テンプレート引数型 Tp は (int) を引数に取るコンストラクタを持つ必要があります。");
-			if constexpr (std::true_type::value)
-			{
-				auto eval = std::numeric_limits<Tp>::max() - right;
-				if (eval < left)
-				{
-					return true;
-				}
-			}
 			if constexpr (std::numeric_limits<Tp>::is_signed)
 			{
 				if (right < Tp(0))
@@ -296,6 +304,22 @@ namespace zawa_ch::StationaryOrbit
 						return true;
 					}
 				}
+				else
+				{
+					auto eval = std::numeric_limits<Tp>::max() - right;
+					if (eval < left)
+					{
+						return true;
+					}
+				}
+			}
+			else
+			{
+				auto eval = std::numeric_limits<Tp>::max() - right;
+				if (eval < left)
+				{
+					return true;
+				}
 			}
 			return false;
 		}
@@ -304,14 +328,6 @@ namespace zawa_ch::StationaryOrbit
 		{
 			static_assert(Traits::IsNumericalType<Tp>, "テンプレート引数型 Tp は数値型である必要があります。");
 			static_assert(std::is_constructible_v<Tp, int>, "テンプレート引数型 Tp は (int) を引数に取るコンストラクタを持つ必要があります。");
-			if constexpr (std::true_type::value)
-			{
-				auto eval = std::numeric_limits<Tp>::lowest() + right;
-				if (left < eval)
-				{
-					return true;
-				}
-			}
 			if constexpr (std::numeric_limits<Tp>::is_signed)
 			{
 				if (right < Tp(0))
@@ -321,6 +337,22 @@ namespace zawa_ch::StationaryOrbit
 					{
 						return true;
 					}
+				}
+				else
+				{
+					auto eval = std::numeric_limits<Tp>::lowest() + right;
+					if (left < eval)
+					{
+						return true;
+					}
+				}
+			}
+			else
+			{
+				auto eval = std::numeric_limits<Tp>::lowest() + right;
+				if (left < eval)
+				{
+					return true;
 				}
 			}
 			return false;
