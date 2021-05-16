@@ -20,7 +20,7 @@
 #include "core/fixedpoint.hpp"
 #include "core/integer.hpp"
 #include "core/logic.hpp"
-#include "core/point.hpp"
+#include "core/point2d.hpp"
 #include "core/proportion.hpp"
 #include "core/range.hpp"
 #include "core/rect2dsize.hpp"

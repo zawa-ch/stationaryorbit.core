@@ -33,7 +33,7 @@ add_library(stationaryorbit.core SHARED
     invalidoperation.cpp
     multiplelong.cpp
     nullreference.cpp
-    point.cpp
+    point2d.cpp
     proportion.cpp
     rect2dsize.cpp
     rectangle.cpp

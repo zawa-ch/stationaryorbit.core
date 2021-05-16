@@ -20,7 +20,7 @@
 #define __stationaryorbit_core_rectangle__
 #include "range.hpp"
 #include "rect2dsize.hpp"
-#include "point.hpp"
+#include "point2d.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	///	@a Point2D と @a Rect2DSize によって表される矩形範囲を表します。

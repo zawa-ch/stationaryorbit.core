@@ -1,4 +1,4 @@
-//	stationaryorbit/core/point
+//	stationaryorbit/core/point2d
 //	Copyright 2020-2021 zawa-ch.
 //	GPLv3 (or later) license
 //

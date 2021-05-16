@@ -1,5 +1,5 @@
-//	stationaryorbit.core:/point
-//	Copyright 2020 zawa-ch.
+//	stationaryorbit.core:/point2d
+//	Copyright 2020-2021 zawa-ch.
 //	GPLv3 (or later) license
 //
 //	This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@
 //	along with this program.
 //	If not, see <http://www.gnu.org/licenses/>.
 //
-#include "stationaryorbit/core/point.hpp"
+#include "stationaryorbit/core/point2d.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 template struct
