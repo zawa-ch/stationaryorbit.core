@@ -123,7 +123,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class T>
 		[[nodiscard]] static constexpr T halfangle_sin(const T& cos)
 		{
-			return BasicMathematics::Sqrt((T(1) - cos) / 2);
+			return BasicMathematics::square_root((T(1) - cos) / 2);
 		}
 		///	半角公式によるcos(x/2)の導出を行います。
 		///	@param	cos
@@ -131,7 +131,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class T>
 		[[nodiscard]] static constexpr T halfangle_cos(const T& cos)
 		{
-			return BasicMathematics::Sqrt((T(1) + cos) / 2);
+			return BasicMathematics::square_root((T(1) + cos) / 2);
 		}
 		///	半角公式によるtan(x/2)の導出を行います。
 		///	@param	sin

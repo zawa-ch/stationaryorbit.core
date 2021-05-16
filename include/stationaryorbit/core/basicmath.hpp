@@ -32,25 +32,25 @@ namespace zawa_ch::StationaryOrbit
 		BasicMathematics(BasicMathematics&&) = delete;
 		~BasicMathematics() = delete;
 
-		template<class T, class R = decltype( std::sqrt(std::declval<T&>()) )> struct StdSqrtResult_Impl { typedef R type; };
-		template<class T, class R = decltype( std::declval<const T&>().Sqrt() )> struct SqrtResult_Impl { typedef R type; };
-		template<class T, class = void> struct IsStdSqrtCallable_Impl : std::false_type {};
-		template<class T> struct IsStdSqrtCallable_Impl<T, std::void_t< typename StdSqrtResult_Impl<T>::type >> : std::true_type {};
-		template<class T, class = void> struct HasSqrt_Impl : std::false_type {};
-		template<class T> struct HasSqrt_Impl<T, std::void_t< typename StdSqrtResult_Impl<T>::type >> : std::true_type {};
-		template<class T> static constexpr bool IsStdSqrtCallable = IsStdSqrtCallable_Impl<T>::value;
-		template<class T> static constexpr bool HasSqrt = HasSqrt_Impl<T>::value;
+		template<class T, class R = decltype( std::sqrt(std::declval<T&>()) )> struct StdSqrtResultImpl { typedef R type; };
+		template<class T, class R = decltype( std::declval<const T&>().Sqrt() )> struct SqrtResultImpl { typedef R type; };
+		template<class T, class = void> struct IsStdSqrtCallableImpl : std::false_type {};
+		template<class T> struct IsStdSqrtCallableImpl<T, std::void_t< typename StdSqrtResultImpl<T>::type >> : std::true_type {};
+		template<class T, class = void> struct HasSqrtImpl : std::false_type {};
+		template<class T> struct HasSqrtImpl<T, std::void_t< typename StdSqrtResultImpl<T>::type >> : std::true_type {};
+		template<class T> static constexpr bool is_std_sqrt_callable = IsStdSqrtCallableImpl<T>::value;
+		template<class T> static constexpr bool has_sqrt = HasSqrtImpl<T>::value;
 	public:
 		template<class T>
-		[[nodiscard]] static constexpr std::enable_if_t<Traits::IsNumericalType<T>, T> Abstract(const T& value) noexcept
+		[[nodiscard]] static constexpr std::enable_if_t<Traits::IsNumericalType<T>, T> abstract(const T& value) noexcept
 		{
 			return ( value < T(0) )?(-value):(value);
 		}
 		template<class T, class = decltype( std::abs( std::declval<T&>() ))>
-		[[nodiscard]] static constexpr T Abstract(const T& value) noexcept { return std::abs(value); }
+		[[nodiscard]] static constexpr T abstract(const T& value) noexcept { return std::abs(value); }
 		///	この値の平方根を取得します。
-		template<class T, std::enable_if_t<(!IsStdSqrtCallable<T>) && (!HasSqrt<T>), int> = 0>
-		[[nodiscard]] static constexpr T Sqrt(const T& value) noexcept
+		template<class T, std::enable_if_t<(!is_std_sqrt_callable<T>) && (!has_sqrt<T>), int> = 0>
+		[[nodiscard]] static constexpr T square_root(const T& value) noexcept
 		{
 			static_assert(Traits::IsNumericalType<T>, "テンプレート型 T は数値型である必要があります。");
 			auto result = value;
@@ -78,18 +78,18 @@ namespace zawa_ch::StationaryOrbit
 			} while (T(2) < ((result < b)?(b-result):(result - b)));
 			return result;
 		}
-		template<class T, std::enable_if_t<(IsStdSqrtCallable<T>), int> = 0>
-		[[nodiscard]] static constexpr T Sqrt(const T& value) noexcept { return std::sqrt(value); }
-		template<class T, std::enable_if_t<(!IsStdSqrtCallable<T>) && (HasSqrt<T>), int> = 0>
-		[[nodiscard]] static constexpr decltype( std::declval<const T&>().Sqrt() ) Sqrt(const T& value) noexcept { return value.Sqrt(); }
+		template<class T, std::enable_if_t<(is_std_sqrt_callable<T>), int> = 0>
+		[[nodiscard]] static constexpr T square_root(const T& value) noexcept { return std::sqrt(value); }
+		template<class T, std::enable_if_t<(!is_std_sqrt_callable<T>) && (has_sqrt<T>), int> = 0>
+		[[nodiscard]] static constexpr decltype( std::declval<const T&>().Sqrt() ) square_root(const T& value) noexcept { return value.Sqrt(); }
 		template<class T>
-		[[nodiscard]] static constexpr std::enable_if_t<Traits::IsNumericalType<T>, T> Mod(const T& left, const T& right)
+		[[nodiscard]] static constexpr std::enable_if_t<Traits::IsNumericalType<T>, T> mod(const T& left, const T& right)
 		{
 			// TODO: フォールバック実装の実装
 			throw NotImplementedException();
 		}
 		template<class T, class = decltype( std::fmod( std::declval<T&>(), std::declval<T&>() ))>
-		[[nodiscard]] static constexpr T Mod(const T& value) noexcept { return std::fmod(value); }
+		[[nodiscard]] static constexpr T mod(const T& value) noexcept { return std::fmod(value); }
 	};
 }
 #endif // __stationaryorbit_core_basicmath__
