@@ -32,7 +32,7 @@ public:
 	void InvokeEvent() const
 	{
 		auto args = Default_EventArgs();
-		Default_Event.Invoke(*this, args);
+		Default_Event.invoke(*this, args);
 	}
 };
 
@@ -40,7 +40,7 @@ std::array<std::function<int(void)>, 1> tests =
 {
 	[]()
 	{
-		std::cout << "1. Event Invoke ->?" << std::endl;
+		std::cout << "1. Event invoke ->?" << std::endl;
 		// Delegate型を使用したイベントを持つ型を用意する
 		auto inst = Has_Event();
 		bool handled = false;
