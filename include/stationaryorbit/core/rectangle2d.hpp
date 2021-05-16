@@ -61,18 +61,18 @@ namespace zawa_ch::StationaryOrbit
 		///	@a Rectangle2D の下端のy座標の値を取得します。
 		[[nodiscard]] constexpr ValueType Bottom() const { if constexpr ((quad==Quadrants::DownRight)||(quad==Quadrants::DownLeft)) { return (_o + _s).Y(); } else { return _o.Y(); } }
 		///	@a Rectangle2D の示す矩形の幅を取得します。
-		[[nodiscard]] constexpr ValueType Width() const { return _s.Width(); }
+		[[nodiscard]] constexpr ValueType Width() const { return _s.width(); }
 		///	@a Rectangle2D の示す矩形の高さを取得します。
-		[[nodiscard]] constexpr ValueType Height() const { return _s.Height(); }
+		[[nodiscard]] constexpr ValueType Height() const { return _s.height(); }
 		///	水平軸コンポーネントの値の範囲を示す @a Range を取得します。
-		[[nodiscard]] constexpr Range<ValueType> XRange() const { return Range<ValueType>(_o.X(), _o.X() + _s.Width()); }
+		[[nodiscard]] constexpr Range<ValueType> XRange() const { return Range<ValueType>(_o.X(), _o.X() + _s.width()); }
 		///	垂直軸コンポーネントの値の範囲を示す @a Range を取得します。
-		[[nodiscard]] constexpr Range<ValueType> YRange() const { return Range<ValueType>(_o.Y(), _o.Y() + _s.Height()); }
+		[[nodiscard]] constexpr Range<ValueType> YRange() const { return Range<ValueType>(_o.Y(), _o.Y() + _s.height()); }
 
 		///	指定された点が @a Rectangle2D の領域に含まれるかをテストします。
 		[[nodiscard]] constexpr bool Contains(const PointType& point) const { return (_o.X() <= point.X())&&(_o.Y() <= point.Y())&&(point.X() <= (_o + _s).X())&&(point.Y() <= (_o + _s).Y()); }
 		///	指定された @a Rectangle2D の領域すべてが @a Rectangle2D の領域に含まれるかをテストします。
-		[[nodiscard]] constexpr bool Contains(const Rectangle2D<T, quad>& rect) const { return (_o.X() <= rect._o.X())&&(_o.Y() <= rect._o.Y())&&(rect._s.Width() <= _s.Width())&&(rect._s.Height() <= _s.Height()); }
+		[[nodiscard]] constexpr bool Contains(const Rectangle2D<T, quad>& rect) const { return (_o.X() <= rect._o.X())&&(_o.Y() <= rect._o.Y())&&(rect._s.width() <= _s.width())&&(rect._s.height() <= _s.height()); }
 
 		///	@a Rectangle2D の位置を @a offset 分移動します。
 		[[nodiscard]] constexpr Rectangle2D<T, quad> Offset(const PointType& offset) const { return Rectangle2D<T, quad>(_o + offset, _s); }
@@ -149,18 +149,18 @@ namespace zawa_ch::StationaryOrbit
 		///	@a Rectangle2D の下端のy座標の値を取得します。
 		[[nodiscard]] constexpr ValueType Bottom() const { if constexpr ((quad==Quadrants::DownRight)||(quad==Quadrants::DownLeft)) { return (_o + _s).Y(); } else { return _o.Y(); } }
 		///	@a Rectangle2D の示す矩形の幅を取得します。
-		[[nodiscard]] constexpr ValueType Width() const { return _s.Width(); }
+		[[nodiscard]] constexpr ValueType Width() const { return _s.width(); }
 		///	@a Rectangle2D の示す矩形の高さを取得します。
-		[[nodiscard]] constexpr ValueType Height() const { return _s.Height(); }
+		[[nodiscard]] constexpr ValueType Height() const { return _s.height(); }
 		///	水平軸コンポーネントの値の範囲を示す @a Range を取得します。
-		[[nodiscard]] constexpr Range<ValueType> XRange() const { return Range<ValueType>(_o.X(), _o.X() + _s.Width()); }
+		[[nodiscard]] constexpr Range<ValueType> XRange() const { return Range<ValueType>(_o.X(), _o.X() + _s.width()); }
 		///	垂直軸コンポーネントの値の範囲を示す @a Range を取得します。
-		[[nodiscard]] constexpr Range<ValueType> YRange() const { return Range<ValueType>(_o.Y(), _o.Y() + _s.Height()); }
+		[[nodiscard]] constexpr Range<ValueType> YRange() const { return Range<ValueType>(_o.Y(), _o.Y() + _s.height()); }
 
 		///	指定された点が @a Rectangle2D の領域に含まれるかをテストします。
 		[[nodiscard]] constexpr bool Contains(const PointType& point) const { return (_o.X() <= point.X())&&(_o.Y() <= point.Y())&&(point.X() <= (_o + _s).X())&&(point.Y() <= (_o + _s).Y()); }
 		///	指定された @a Rectangle2D の領域すべてが @a Rectangle2D の領域に含まれるかをテストします。
-		[[nodiscard]] constexpr bool Contains(const Rectangle2D<T, quad>& rect) const { return (_o.X() <= rect._o.X())&&(_o.Y() <= rect._o.Y())&&(rect._s.Width() <= _s.Width())&&(rect._s.Height() <= _s.Height()); }
+		[[nodiscard]] constexpr bool Contains(const Rectangle2D<T, quad>& rect) const { return (_o.X() <= rect._o.X())&&(_o.Y() <= rect._o.Y())&&(rect._s.width() <= _s.width())&&(rect._s.height() <= _s.height()); }
 
 		///	@a Rectangle2D の位置を @a offset 分移動します。
 		[[nodiscard]] constexpr Rectangle2D<T, quad> Offset(const PointType& offset) const { return Rectangle2D<T, quad>(_o + offset, _s); }
@@ -168,11 +168,11 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr Rectangle2D<T, quad> Inflate(const SizeType& size) const { return Rectangle2D<T, quad>(_o, _s + size); }
 
 		///	@a RectangleF を切り捨て方向に丸め、 @a Rectangle2D に変換します。
-		[[nodiscard]] Rectangle2D<T, quad> Floor() const { return Rectangle2D<T, quad>(_o.Floor(), _s.Floor()); }
+		[[nodiscard]] Rectangle2D<T, quad> Floor() const { return Rectangle2D<T, quad>(_o.Floor(), _s.floor()); }
 		///	@a RectangleF を切り上げ方向に丸め、 @a Rectangle2D に変換します。
-		[[nodiscard]] Rectangle2D<T, quad> Ceiling() const { return Rectangle2D<T, quad>(_o.Ceiling(), _s.Ceiling()); }
+		[[nodiscard]] Rectangle2D<T, quad> Ceiling() const { return Rectangle2D<T, quad>(_o.Ceiling(), _s.ceil()); }
 		/// @a RectangleF を最も近い @a Rectangle2D に変換します。
-		[[nodiscard]] Rectangle2D<T, quad> Round() const { return Rectangle2D<T, quad>(_o.Round(), _s.Round()); }
+		[[nodiscard]] Rectangle2D<T, quad> Round() const { return Rectangle2D<T, quad>(_o.Round(), _s.round()); }
 
 		[[nodiscard]] constexpr bool Equals(const Rectangle2D<T, quad>& other) const { return (_o == other._o)&&(_s == other._s); }
 		[[nodiscard]] constexpr bool operator==(const Rectangle2D<T, quad>& other) const { return Equals(other); }

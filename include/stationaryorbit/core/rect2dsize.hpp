@@ -38,20 +38,20 @@ namespace zawa_ch::StationaryOrbit
 		constexpr Rect2DSize() = default;
 		constexpr Rect2DSize(const ValueType& width, const ValueType& height) : _w(width), _h(height) {}
 		template<class fromT, std::enable_if_t<std::is_convertible_v<fromT, T>, int> = 0>
-		constexpr Rect2DSize(const Rect2DSize<fromT>& from) : _w(from.Width()), _h(from.Height()) {}
+		constexpr Rect2DSize(const Rect2DSize<fromT>& from) : _w(from.width()), _h(from.height()) {}
 		template<class fromT, std::enable_if_t<std::conjunction_v<std::negation<std::is_convertible<fromT, T>>, std::is_constructible<T, fromT>>, int> = 0>
-		constexpr explicit Rect2DSize(const Rect2DSize<fromT>& from) : _w(from.Width()), _h(from.Height()) {}
+		constexpr explicit Rect2DSize(const Rect2DSize<fromT>& from) : _w(from.width()), _h(from.height()) {}
 		constexpr Rect2DSize(const ZeroValue_t&) : _w(Zero), _h(Zero) {}
 
 		///	水平軸の値を取得します。
-		[[nodiscard]] constexpr const ValueType& Width() const noexcept { return _w; }
+		[[nodiscard]] constexpr const ValueType& width() const noexcept { return _w; }
 		///	垂直軸の値を取得します。
-		[[nodiscard]] constexpr const ValueType& Height() const noexcept { return _h; }
+		[[nodiscard]] constexpr const ValueType& height() const noexcept { return _h; }
 
 		///	水平軸コンポーネントの値の範囲を示す @a Range を取得します。
-		[[nodiscard]] constexpr Range<T> XRange() const noexcept { return Range(T(0), _w); }
+		[[nodiscard]] constexpr Range<T> range_x() const noexcept { return Range(T(0), _w); }
 		///	垂直軸コンポーネントの値の範囲を示す @a Range を取得します。
-		[[nodiscard]] constexpr Range<T> YRange() const noexcept { return Range(T(0), _h); }
+		[[nodiscard]] constexpr Range<T> range_y() const noexcept { return Range(T(0), _h); }
 
 		[[nodiscard]] constexpr Rect2DSize<T> operator+(const Rect2DSize<T>& other) const noexcept { return Rect2DSize(_w + other._w, _h + other._h); }
 		[[nodiscard]] constexpr Rect2DSize<T> operator-(const Rect2DSize<T>& other) const noexcept { return Rect2DSize(_w - other._w, _h - other._h); }
@@ -69,8 +69,6 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr bool Equals(const Rect2DSize<T>& value) const noexcept { return (_w == value._w)&&(_h == value._h); }
 		[[nodiscard]] constexpr bool operator==(const Rect2DSize<T>& value) const noexcept { return Equals(value); }
 		[[nodiscard]] constexpr bool operator!=(const Rect2DSize<T>& value) const noexcept { return !Equals(value); }
-
-		[[nodiscard]] static constexpr Rect2DSize<T> Empty() { return Rect2DSize<T>{}; }
 	};
 	///	幅・高さを持つオブジェクトの大きさを表します。
 	///	@note
@@ -88,20 +86,20 @@ namespace zawa_ch::StationaryOrbit
 		constexpr Rect2DSize() = default;
 		constexpr Rect2DSize(const ValueType& width, const ValueType& height) : _w(width), _h(height) {}
 		template<class fromT, std::enable_if_t<std::is_convertible_v<fromT, T>, int> = 0>
-		constexpr Rect2DSize(const Rect2DSize<fromT>& from) : _w(from.Width()), _h(from.Height()) {}
+		constexpr Rect2DSize(const Rect2DSize<fromT>& from) : _w(from.width()), _h(from.height()) {}
 		template<class fromT, std::enable_if_t<std::conjunction_v<std::negation<std::is_convertible<fromT, T>>, std::is_constructible<T, fromT>>, int> = 0>
-		constexpr explicit Rect2DSize(const Rect2DSize<fromT>& from) : _w(from.Width()), _h(from.Height()) {}
+		constexpr explicit Rect2DSize(const Rect2DSize<fromT>& from) : _w(from.width()), _h(from.height()) {}
 		constexpr Rect2DSize(const ZeroValue_t&) : _w(Zero), _h(Zero) {}
 
 		///	水平軸の値を取得します。
-		[[nodiscard]] constexpr const ValueType& Width() const noexcept { return _w; }
+		[[nodiscard]] constexpr const ValueType& width() const noexcept { return _w; }
 		///	垂直軸の値を取得します。
-		[[nodiscard]] constexpr const ValueType& Height() const noexcept { return _h; }
+		[[nodiscard]] constexpr const ValueType& height() const noexcept { return _h; }
 
 		///	水平軸コンポーネントの値の範囲を示す @a Range を取得します。
-		[[nodiscard]] constexpr Range<T> XRange() const noexcept { return Range(T(0), _w); }
+		[[nodiscard]] constexpr Range<T> range_x() const noexcept { return Range(T(0), _w); }
 		///	垂直軸コンポーネントの値の範囲を示す @a Range を取得します。
-		[[nodiscard]] constexpr Range<T> YRange() const noexcept { return Range(T(0), _h); }
+		[[nodiscard]] constexpr Range<T> range_y() const noexcept { return Range(T(0), _h); }
 
 		[[nodiscard]] constexpr Rect2DSize<T> operator+(const Rect2DSize<T>& other) const noexcept { return Rect2DSize(_w + other._w, _h + other._h); }
 		[[nodiscard]] constexpr Rect2DSize<T> operator-(const Rect2DSize<T>& other) const noexcept { return Rect2DSize(_w - other._w, _h - other._h); }
@@ -121,18 +119,16 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr bool operator!=(const Rect2DSize<T>& value) const noexcept { return !Equals(value); }
 
 		///	@a Rect2DSize<T> の小数部を抜き出します。
-		[[nodiscard]] Rect2DSize<T> Extract() const { return Rect2DSize<T>(_w - trunc(_w), _h - trunc(_h)); }
+		[[nodiscard]] Rect2DSize<T> extract() const { return Rect2DSize<T>(_w - trunc(_w), _h - trunc(_h)); }
 		///	@a Rect2DSize<T> を切り捨て方向に丸めます。
 		template<class intT = T, std::enable_if_t<std::is_constructible_v<intT, T>, int > = 0>
-		[[nodiscard]] Rect2DSize<intT> Floor() const { return Rect2DSize<intT>(intT(floor(Width())), intT(floor(Height()))); }
+		[[nodiscard]] Rect2DSize<intT> floor() const { return Rect2DSize<intT>(intT(std::floor(width())), intT(std::floor(height()))); }
 		///	@a Rect2DSize<T> を切り上げ方向に丸めます。
 		template<class intT = T, std::enable_if_t<std::is_constructible_v<intT, T>, int > = 0>
-		[[nodiscard]] Rect2DSize<intT> Ceiling() const { return Rect2DSize<intT>(intT(ceil(Width())), intT(ceil(Height()))); }
+		[[nodiscard]] Rect2DSize<intT> ceil() const { return Rect2DSize<intT>(intT(std::ceil(width())), intT(std::ceil(height()))); }
 		/// @a Rect2DSize<T> を最も近い整数に丸めます。
 		template<class intT = T, std::enable_if_t<std::is_constructible_v<intT, T>, int > = 0>
-		[[nodiscard]] Rect2DSize<intT> Round() const { return Rect2DSize<intT>(intT(round(Width())), intT(round(Height()))); }
-
-		[[nodiscard]] static constexpr Rect2DSize<T> Empty() { return Rect2DSize<T>{}; }
+		[[nodiscard]] Rect2DSize<intT> round() const { return Rect2DSize<intT>(intT(std::round(width())), intT(std::round(height()))); }
 	};
 
 	extern template struct Rect2DSize<uint8_t>;
