@@ -40,44 +40,44 @@ namespace zawa_ch::StationaryOrbit
 		constexpr Rectangle2D(const PointType& origin, const SizeType& size) : _o(origin), _s(size) {}
 		constexpr Rectangle2D(const ValueType& originx, const ValueType& originy, const ValueType& width, const ValueType& height) : _o(originx, originy), _s(width, height) {}
 		template<Quadrants2D fromquad>
-		constexpr Rectangle2D(const Rectangle2D<T, fromquad>& from) : _o(from.Origin()), _s(from.Size()) {}
+		constexpr Rectangle2D(const Rectangle2D<T, fromquad>& from) : _o(from.origin()), _s(from.size()) {}
 		template<class fromT, Quadrants2D fromquad, std::enable_if_t<std::is_convertible_v<fromT, T>, int> = 0>
-		constexpr Rectangle2D(const Rectangle2D<fromT, fromquad>& from) : _o(from.Origin()), _s(from.Size()) {}
+		constexpr Rectangle2D(const Rectangle2D<fromT, fromquad>& from) : _o(from.origin()), _s(from.size()) {}
 		template<class fromT, Quadrants2D fromquad, std::enable_if_t<std::conjunction_v<std::negation<std::is_convertible<fromT, T>>, std::is_constructible<T, fromT>>, int> = 0>
-		constexpr explicit Rectangle2D(const Rectangle2D<fromT, fromquad>& from) : _o(from.Origin()), _s(from.Size()) {}
+		constexpr explicit Rectangle2D(const Rectangle2D<fromT, fromquad>& from) : _o(from.origin()), _s(from.size()) {}
 		constexpr Rectangle2D(const ZeroValue_t&) : _o(Zero), _s(Zero) {}
 
 		///	@a Rectangle2D の原点を表す @a PointType を取得します。
-		[[nodiscard]] constexpr const PointType& Origin() const noexcept { return _o; }
+		[[nodiscard]] constexpr const PointType& origin() const noexcept { return _o; }
 		///	@a Rectangle2D の大きさを表す @a SizeType を取得します。
-		[[nodiscard]] constexpr const SizeType& Size() const noexcept { return _s; }
+		[[nodiscard]] constexpr const SizeType& size() const noexcept { return _s; }
 
 		///	@a Rectangle2D の左端のx座標の値を取得します。
-		[[nodiscard]] constexpr ValueType Left() const { if constexpr ((quad==Quadrants2D::UpLeft)||(quad==Quadrants2D::DownLeft)) { return (_o + _s).x(); } else { return _o.x(); } }
+		[[nodiscard]] constexpr ValueType left() const { if constexpr ((quad==Quadrants2D::UpLeft)||(quad==Quadrants2D::DownLeft)) { return (_o + _s).x(); } else { return _o.x(); } }
 		///	@a Rectangle2D の右端のx座標の値を取得します。
-		[[nodiscard]] constexpr ValueType Right() const { if constexpr ((quad==Quadrants2D::UpRight)||(quad==Quadrants2D::DownRight)) { return (_o + _s).x(); } else { return _o.x(); } }
+		[[nodiscard]] constexpr ValueType right() const { if constexpr ((quad==Quadrants2D::UpRight)||(quad==Quadrants2D::DownRight)) { return (_o + _s).x(); } else { return _o.x(); } }
 		///	@a Rectangle2D の上端のy座標の値を取得します。
-		[[nodiscard]] constexpr ValueType Top() const { if constexpr ((quad==Quadrants2D::UpRight)||(quad==Quadrants2D::UpLeft)) { return (_o + _s).y(); } else { return _o.y(); } }
+		[[nodiscard]] constexpr ValueType top() const { if constexpr ((quad==Quadrants2D::UpRight)||(quad==Quadrants2D::UpLeft)) { return (_o + _s).y(); } else { return _o.y(); } }
 		///	@a Rectangle2D の下端のy座標の値を取得します。
-		[[nodiscard]] constexpr ValueType Bottom() const { if constexpr ((quad==Quadrants2D::DownRight)||(quad==Quadrants2D::DownLeft)) { return (_o + _s).y(); } else { return _o.y(); } }
+		[[nodiscard]] constexpr ValueType bottom() const { if constexpr ((quad==Quadrants2D::DownRight)||(quad==Quadrants2D::DownLeft)) { return (_o + _s).y(); } else { return _o.y(); } }
 		///	@a Rectangle2D の示す矩形の幅を取得します。
-		[[nodiscard]] constexpr ValueType Width() const { return _s.width(); }
+		[[nodiscard]] constexpr ValueType width() const { return _s.width(); }
 		///	@a Rectangle2D の示す矩形の高さを取得します。
-		[[nodiscard]] constexpr ValueType Height() const { return _s.height(); }
+		[[nodiscard]] constexpr ValueType height() const { return _s.height(); }
 		///	水平軸コンポーネントの値の範囲を示す @a Range を取得します。
-		[[nodiscard]] constexpr Range<ValueType> XRange() const { return Range<ValueType>(_o.x(), _o.x() + _s.width()); }
+		[[nodiscard]] constexpr Range<ValueType> range_x() const { return Range<ValueType>(_o.x(), _o.x() + _s.width()); }
 		///	垂直軸コンポーネントの値の範囲を示す @a Range を取得します。
-		[[nodiscard]] constexpr Range<ValueType> YRange() const { return Range<ValueType>(_o.y(), _o.y() + _s.height()); }
+		[[nodiscard]] constexpr Range<ValueType> range_y() const { return Range<ValueType>(_o.y(), _o.y() + _s.height()); }
 
 		///	指定された点が @a Rectangle2D の領域に含まれるかをテストします。
-		[[nodiscard]] constexpr bool Contains(const PointType& point) const { return (_o.x() <= point.x())&&(_o.y() <= point.y())&&(point.x() <= (_o + _s).x())&&(point.y() <= (_o + _s).y()); }
+		[[nodiscard]] constexpr bool contains(const PointType& point) const { return (_o.x() <= point.x())&&(_o.y() <= point.y())&&(point.x() <= (_o + _s).x())&&(point.y() <= (_o + _s).y()); }
 		///	指定された @a Rectangle2D の領域すべてが @a Rectangle2D の領域に含まれるかをテストします。
-		[[nodiscard]] constexpr bool Contains(const Rectangle2D<T, quad>& rect) const { return (_o.x() <= rect._o.x())&&(_o.y() <= rect._o.y())&&(rect._s.width() <= _s.width())&&(rect._s.height() <= _s.height()); }
+		[[nodiscard]] constexpr bool contains(const Rectangle2D<T, quad>& rect) const { return (_o.x() <= rect._o.x())&&(_o.y() <= rect._o.y())&&(rect._s.width() <= _s.width())&&(rect._s.height() <= _s.height()); }
 
 		///	@a Rectangle2D の位置を @a offset 分移動します。
-		[[nodiscard]] constexpr Rectangle2D<T, quad> Offset(const PointType& offset) const { return Rectangle2D<T, quad>(_o + offset, _s); }
+		[[nodiscard]] constexpr Rectangle2D<T, quad> offset(const PointType& offset) const { return Rectangle2D<T, quad>(_o + offset, _s); }
 		///	@a Rectangle2D の大きさを @a size 分拡げます。
-		[[nodiscard]] constexpr Rectangle2D<T, quad> Inflate(const SizeType& size) const { return Rectangle2D<T, quad>(_o, _s + size); }
+		[[nodiscard]] constexpr Rectangle2D<T, quad> inflate(const SizeType& size) const { return Rectangle2D<T, quad>(_o, _s + size); }
 
 		[[nodiscard]] constexpr bool Equals(const Rectangle2D<T, quad>& other) const { return (_o == other._o)&&(_s == other._s); }
 		[[nodiscard]] constexpr bool operator==(const Rectangle2D<T, quad>& other) const { return Equals(other); }
@@ -92,7 +92,7 @@ namespace zawa_ch::StationaryOrbit
 		///	矩形の上端に位置する辺のy座標。
 		///	@param	bottom
 		///	矩形の下端に位置する辺のy座標。
-		[[nodiscard]] constexpr static Rectangle2D<T, quad> FromEdge(const ValueType& left, const ValueType& right, const ValueType& top, const ValueType& bottom)
+		[[nodiscard]] constexpr static Rectangle2D<T, quad> from_edge(const ValueType& left, const ValueType& right, const ValueType& top, const ValueType& bottom)
 		{
 			if constexpr (quad == Quadrants2D::UpRight) { return Rectangle2D<T, quad>(left, bottom, right - left, top - bottom); }
 			if constexpr (quad == Quadrants2D::UpLeft) { return Rectangle2D<T, quad>(right, bottom, left - right, top - bottom); }
@@ -101,12 +101,12 @@ namespace zawa_ch::StationaryOrbit
 		}
 	private:
 		template<class fromT, Quadrants2D fromquad, std::enable_if_t<std::is_constructible_v<T, fromT>, int> = 0>
-		[[nodiscard]] constexpr static PointType ConvertPoint(const Rectangle2D<fromT, fromquad>& from)
+		[[nodiscard]] constexpr static PointType convert_point(const Rectangle2D<fromT, fromquad>& from)
 		{
-			if constexpr (quad == Quadrants2D::UpRight) { return PointType(T(from.Left()), T(from.Bottom())); }
-			if constexpr (quad == Quadrants2D::UpLeft) { return PointType(T(from.Right()), T(from.Bottom())); }
-			if constexpr (quad == Quadrants2D::DownLeft) { return PointType(T(from.Right()), T(from.Top())); }
-			if constexpr (quad == Quadrants2D::DownRight) { return PointType(T(from.Left()), T(from.Top())); }
+			if constexpr (quad == Quadrants2D::UpRight) { return PointType(T(from.left()), T(from.bottom())); }
+			if constexpr (quad == Quadrants2D::UpLeft) { return PointType(T(from.right()), T(from.bottom())); }
+			if constexpr (quad == Quadrants2D::DownLeft) { return PointType(T(from.right()), T(from.top())); }
+			if constexpr (quad == Quadrants2D::DownRight) { return PointType(T(from.left()), T(from.top())); }
 		}
 	};
 	///	@a Point2D と @a Rect2DSize によって表される矩形範囲を表します。
@@ -128,44 +128,44 @@ namespace zawa_ch::StationaryOrbit
 		constexpr Rectangle2D(const PointType& origin, const SizeType& size) : _o(origin), _s(size) {}
 		constexpr Rectangle2D(const ValueType& originx, const ValueType& originy, const ValueType& width, const ValueType& height) : _o(originx, originy), _s(width, height) {}
 		template<Quadrants2D fromquad>
-		constexpr Rectangle2D(const Rectangle2D<T, fromquad>& from) : _o(from.Origin()), _s(from.Size()) {}
+		constexpr Rectangle2D(const Rectangle2D<T, fromquad>& from) : _o(from.origin()), _s(from.size()) {}
 		template<class fromT, Quadrants2D fromquad, std::enable_if_t<std::is_convertible_v<fromT, T>, int> = 0>
-		constexpr Rectangle2D(const Rectangle2D<fromT, fromquad>& from) : _o(from.Origin()), _s(from.Size()) {}
+		constexpr Rectangle2D(const Rectangle2D<fromT, fromquad>& from) : _o(from.origin()), _s(from.size()) {}
 		template<class fromT, Quadrants2D fromquad, std::enable_if_t<std::conjunction_v<std::negation<std::is_convertible<fromT, T>>, std::is_constructible<T, fromT>>, int> = 0>
-		constexpr explicit Rectangle2D(const Rectangle2D<fromT, fromquad>& from) : _o(from.Origin()), _s(from.Size()) {}
+		constexpr explicit Rectangle2D(const Rectangle2D<fromT, fromquad>& from) : _o(from.origin()), _s(from.size()) {}
 		constexpr Rectangle2D(const ZeroValue_t&) : _o(Zero), _s(Zero) {}
 
 		///	@a Rectangle2D の原点を表す @a PointType を取得します。
-		[[nodiscard]] constexpr const PointType& Origin() const noexcept { return _o; }
+		[[nodiscard]] constexpr const PointType& origin() const noexcept { return _o; }
 		///	@a Rectangle2D の大きさを表す @a SizeType を取得します。
-		[[nodiscard]] constexpr const SizeType& Size() const noexcept { return _s; }
+		[[nodiscard]] constexpr const SizeType& size() const noexcept { return _s; }
 
 		///	@a Rectangle2D の左端のx座標の値を取得します。
-		[[nodiscard]] constexpr ValueType Left() const { if constexpr ((quad==Quadrants2D::UpLeft)||(quad==Quadrants2D::DownLeft)) { return (_o + _s).x(); } else { return _o.x(); } }
+		[[nodiscard]] constexpr ValueType left() const { if constexpr ((quad==Quadrants2D::UpLeft)||(quad==Quadrants2D::DownLeft)) { return (_o + _s).x(); } else { return _o.x(); } }
 		///	@a Rectangle2D の右端のx座標の値を取得します。
-		[[nodiscard]] constexpr ValueType Right() const { if constexpr ((quad==Quadrants2D::UpRight)||(quad==Quadrants2D::DownRight)) { return (_o + _s).x(); } else { return _o.x(); } }
+		[[nodiscard]] constexpr ValueType right() const { if constexpr ((quad==Quadrants2D::UpRight)||(quad==Quadrants2D::DownRight)) { return (_o + _s).x(); } else { return _o.x(); } }
 		///	@a Rectangle2D の上端のy座標の値を取得します。
-		[[nodiscard]] constexpr ValueType Top() const { if constexpr ((quad==Quadrants2D::UpRight)||(quad==Quadrants2D::UpLeft)) { return (_o + _s).y(); } else { return _o.y(); } }
+		[[nodiscard]] constexpr ValueType top() const { if constexpr ((quad==Quadrants2D::UpRight)||(quad==Quadrants2D::UpLeft)) { return (_o + _s).y(); } else { return _o.y(); } }
 		///	@a Rectangle2D の下端のy座標の値を取得します。
-		[[nodiscard]] constexpr ValueType Bottom() const { if constexpr ((quad==Quadrants2D::DownRight)||(quad==Quadrants2D::DownLeft)) { return (_o + _s).y(); } else { return _o.y(); } }
+		[[nodiscard]] constexpr ValueType bottom() const { if constexpr ((quad==Quadrants2D::DownRight)||(quad==Quadrants2D::DownLeft)) { return (_o + _s).y(); } else { return _o.y(); } }
 		///	@a Rectangle2D の示す矩形の幅を取得します。
-		[[nodiscard]] constexpr ValueType Width() const { return _s.width(); }
+		[[nodiscard]] constexpr ValueType width() const { return _s.width(); }
 		///	@a Rectangle2D の示す矩形の高さを取得します。
-		[[nodiscard]] constexpr ValueType Height() const { return _s.height(); }
+		[[nodiscard]] constexpr ValueType height() const { return _s.height(); }
 		///	水平軸コンポーネントの値の範囲を示す @a Range を取得します。
-		[[nodiscard]] constexpr Range<ValueType> XRange() const { return Range<ValueType>(_o.x(), _o.x() + _s.width()); }
+		[[nodiscard]] constexpr Range<ValueType> range_x() const { return Range<ValueType>(_o.x(), _o.x() + _s.width()); }
 		///	垂直軸コンポーネントの値の範囲を示す @a Range を取得します。
-		[[nodiscard]] constexpr Range<ValueType> YRange() const { return Range<ValueType>(_o.y(), _o.y() + _s.height()); }
+		[[nodiscard]] constexpr Range<ValueType> range_y() const { return Range<ValueType>(_o.y(), _o.y() + _s.height()); }
 
 		///	指定された点が @a Rectangle2D の領域に含まれるかをテストします。
-		[[nodiscard]] constexpr bool Contains(const PointType& point) const { return (_o.x() <= point.x())&&(_o.y() <= point.y())&&(point.x() <= (_o + _s).x())&&(point.y() <= (_o + _s).y()); }
+		[[nodiscard]] constexpr bool contains(const PointType& point) const { return (_o.x() <= point.x())&&(_o.y() <= point.y())&&(point.x() <= (_o + _s).x())&&(point.y() <= (_o + _s).y()); }
 		///	指定された @a Rectangle2D の領域すべてが @a Rectangle2D の領域に含まれるかをテストします。
-		[[nodiscard]] constexpr bool Contains(const Rectangle2D<T, quad>& rect) const { return (_o.x() <= rect._o.x())&&(_o.y() <= rect._o.y())&&(rect._s.width() <= _s.width())&&(rect._s.height() <= _s.height()); }
+		[[nodiscard]] constexpr bool contains(const Rectangle2D<T, quad>& rect) const { return (_o.x() <= rect._o.x())&&(_o.y() <= rect._o.y())&&(rect._s.width() <= _s.width())&&(rect._s.height() <= _s.height()); }
 
 		///	@a Rectangle2D の位置を @a offset 分移動します。
-		[[nodiscard]] constexpr Rectangle2D<T, quad> Offset(const PointType& offset) const { return Rectangle2D<T, quad>(_o + offset, _s); }
+		[[nodiscard]] constexpr Rectangle2D<T, quad> offset(const PointType& offset) const { return Rectangle2D<T, quad>(_o + offset, _s); }
 		///	@a Rectangle2D の大きさを @a size 分拡げます。
-		[[nodiscard]] constexpr Rectangle2D<T, quad> Inflate(const SizeType& size) const { return Rectangle2D<T, quad>(_o, _s + size); }
+		[[nodiscard]] constexpr Rectangle2D<T, quad> inflate(const SizeType& size) const { return Rectangle2D<T, quad>(_o, _s + size); }
 
 		///	@a RectangleF を切り捨て方向に丸め、 @a Rectangle2D に変換します。
 		[[nodiscard]] Rectangle2D<T, quad> Floor() const { return Rectangle2D<T, quad>(_o.floor(), _s.floor()); }
@@ -187,7 +187,7 @@ namespace zawa_ch::StationaryOrbit
 		///	矩形の上端に位置する辺のy座標。
 		///	@param	bottom
 		///	矩形の下端に位置する辺のy座標。
-		[[nodiscard]] constexpr static Rectangle2D<T, quad> FromEdge(const ValueType& left, const ValueType& right, const ValueType& top, const ValueType& bottom)
+		[[nodiscard]] constexpr static Rectangle2D<T, quad> from_edge(const ValueType& left, const ValueType& right, const ValueType& top, const ValueType& bottom)
 		{
 			if constexpr (quad == Quadrants2D::UpRight) { return Rectangle2D<T, quad>(left, bottom, right - left, top - bottom); }
 			if constexpr (quad == Quadrants2D::UpLeft) { return Rectangle2D<T, quad>(right, bottom, left - right, top - bottom); }
@@ -196,12 +196,12 @@ namespace zawa_ch::StationaryOrbit
 		}
 	private:
 		template<class fromT, Quadrants2D fromquad, std::enable_if_t<std::is_constructible_v<T, fromT>, int> = 0>
-		[[nodiscard]] constexpr static PointType ConvertPoint(const Rectangle2D<fromT, fromquad>& from)
+		[[nodiscard]] constexpr static PointType convert_point(const Rectangle2D<fromT, fromquad>& from)
 		{
-			if constexpr (quad == Quadrants2D::UpRight) { return PointType(T(from.Left()), T(from.Bottom())); }
-			if constexpr (quad == Quadrants2D::UpLeft) { return PointType(T(from.Right()), T(from.Bottom())); }
-			if constexpr (quad == Quadrants2D::DownLeft) { return PointType(T(from.Right()), T(from.Top())); }
-			if constexpr (quad == Quadrants2D::DownRight) { return PointType(T(from.Left()), T(from.Top())); }
+			if constexpr (quad == Quadrants2D::UpRight) { return PointType(T(from.left()), T(from.bottom())); }
+			if constexpr (quad == Quadrants2D::UpLeft) { return PointType(T(from.right()), T(from.bottom())); }
+			if constexpr (quad == Quadrants2D::DownLeft) { return PointType(T(from.right()), T(from.top())); }
+			if constexpr (quad == Quadrants2D::DownRight) { return PointType(T(from.left()), T(from.top())); }
 		}
 	};
 

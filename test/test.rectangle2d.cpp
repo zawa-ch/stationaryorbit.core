@@ -29,71 +29,71 @@ std::array<std::function<int(void)>, 9> tests =
 	{
 		auto r1 = GeometricRectangle(0, 0, 3, 4);
 		std::cout << "r1 = GeometricRectangle(0, 0, 3, 4)" << std::endl;
-		std::cout << "1. r1.left ? " << r1.Left() << std::endl;
+		std::cout << "1. r1.left ? " << r1.left() << std::endl;
 		return 0;
 	},
 	[]()
 	{
 		auto r1 = GeometricRectangle(0, 0, 3, 4);
 		std::cout << "r1 = GeometricRectangle(0, 0, 3, 4)" << std::endl;
-		std::cout << "2. r1.right ? " << r1.Right() << std::endl;
+		std::cout << "2. r1.right ? " << r1.right() << std::endl;
 		return 0;
 	},
 	[]()
 	{
 		auto r1 = GeometricRectangle(0, 0, 3, 4);
 		std::cout << "r1 = GeometricRectangle(0, 0, 3, 4)" << std::endl;
-		std::cout << "3. r1.top ? " << r1.Top() << std::endl;
+		std::cout << "3. r1.top ? " << r1.top() << std::endl;
 		return 0;
 	},
 	[]()
 	{
 		auto r1 = GeometricRectangle(0, 0, 3, 4);
 		std::cout << "r1 = GeometricRectangle(0, 0, 3, 4)" << std::endl;
-		std::cout << "4. r1.bottom ? " << r1.Bottom() << std::endl;
+		std::cout << "4. r1.bottom ? " << r1.bottom() << std::endl;
 		return 0;
 	},
 	[]()
 	{
 		auto r1 = GeometricRectangle(0, 0, 3, 4);
 		std::cout << "r1 = GeometricRectangle(0, 0, 3, 4)" << std::endl;
-		std::cout << "5. r1.Contains(GeometricRectangle::PointType(1, 1)) -> true?" << std::endl;
-		return check_if(r1.Contains(GeometricRectangle::PointType(1, 1)));
+		std::cout << "5. r1.contains(GeometricRectangle::PointType(1, 1)) -> true?" << std::endl;
+		return check_if(r1.contains(GeometricRectangle::PointType(1, 1)));
 	},
 	[]()
 	{
 		auto r1 = GeometricRectangle(0, 0, 3, 4);
-		auto r2 = r1.Offset(GeometricRectangle::PointType(-3, 6));
+		auto r2 = r1.offset(GeometricRectangle::PointType(-3, 6));
 		std::cout << "r1 = GeometricRectangle(0, 0, 3, 4)" << std::endl;
-		std::cout << "r2 = r1.Offset(GeometricRectangle::PointType(-3, 6))" << std::endl;
-		std::cout << "6. r2.left ? " << r2.Left() << std::endl;
+		std::cout << "r2 = r1.offset(GeometricRectangle::PointType(-3, 6))" << std::endl;
+		std::cout << "6. r2.left ? " << r2.left() << std::endl;
 		return 0;
 	},
 	[]()
 	{
 		auto r1 = GeometricRectangle(0, 0, 3, 4);
-		auto r2 = r1.Offset(GeometricRectangle::PointType(-3, 6));
+		auto r2 = r1.offset(GeometricRectangle::PointType(-3, 6));
 		std::cout << "r1 = GeometricRectangle(0, 0, 3, 4)" << std::endl;
-		std::cout << "r2 = r1.Offset(GeometricRectangle::PointType(-3, 6))" << std::endl;
-		std::cout << "7. r2.right ? " << r2.Right() << std::endl;
+		std::cout << "r2 = r1.offset(GeometricRectangle::PointType(-3, 6))" << std::endl;
+		std::cout << "7. r2.right ? " << r2.right() << std::endl;
 		return 0;
 	},
 	[]()
 	{
 		auto r1 = GeometricRectangle(0, 0, 3, 4);
-		auto r2 = r1.Offset(GeometricRectangle::PointType(-3, 6));
+		auto r2 = r1.offset(GeometricRectangle::PointType(-3, 6));
 		std::cout << "r1 = GeometricRectangle(0, 0, 3, 4)" << std::endl;
-		std::cout << "r2 = r1.Offset(GeometricRectangle::PointType(-3, 6))" << std::endl;
-		std::cout << "8. r2.top ? " << r2.Top() << std::endl;
+		std::cout << "r2 = r1.offset(GeometricRectangle::PointType(-3, 6))" << std::endl;
+		std::cout << "8. r2.top ? " << r2.top() << std::endl;
 		return 0;
 	},
 	[]()
 	{
 		auto r1 = GeometricRectangle(0, 0, 3, 4);
-		auto r2 = r1.Offset(GeometricRectangle::PointType(-3, 6));
+		auto r2 = r1.offset(GeometricRectangle::PointType(-3, 6));
 		std::cout << "r1 = GeometricRectangle(0, 0, 3, 4)" << std::endl;
-		std::cout << "r2 = r1.Offset(GeometricRectangle::PointType(-3, 6))" << std::endl;
-		std::cout << "9. r2.bottom ? " << r2.Bottom() << std::endl;
+		std::cout << "r2 = r1.offset(GeometricRectangle::PointType(-3, 6))" << std::endl;
+		std::cout << "9. r2.bottom ? " << r2.bottom() << std::endl;
 		return 0;
 	},
 };
