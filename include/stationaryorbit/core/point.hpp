@@ -1,5 +1,5 @@
 //	stationaryorbit/core/point
-//	Copyright 2020 zawa-ch.
+//	Copyright 2020-2021 zawa-ch.
 //	GPLv3 (or later) license
 //
 //	This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
 #include <cmath>
 #include "traits.hpp"
 #include "zerovalue.hpp"
-#include "rectsize.hpp"
+#include "rect2dsize.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	enum class Quadrants { UpRight, UpLeft, DownLeft, DownRight };

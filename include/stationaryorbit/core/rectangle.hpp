@@ -1,5 +1,5 @@
 //	stationaryorbit/core/rectangle
-//	Copyright 2020 zawa-ch.
+//	Copyright 2020-2021 zawa-ch.
 //	GPLv3 (or later) license
 //
 //	This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@
 #ifndef __stationaryorbit_core_rectangle__
 #define __stationaryorbit_core_rectangle__
 #include "range.hpp"
-#include "rectsize.hpp"
+#include "rect2dsize.hpp"
 #include "point.hpp"
 namespace zawa_ch::StationaryOrbit
 {

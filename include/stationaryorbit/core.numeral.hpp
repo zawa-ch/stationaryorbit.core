@@ -1,5 +1,5 @@
 //	stationaryorbit/core.numeral
-//	Copyright 2020 zawa-ch.
+//	Copyright 2020-2021 zawa-ch.
 //	GPLv3 (or later) license
 //
 //	This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 #include "core/point.hpp"
 #include "core/proportion.hpp"
 #include "core/range.hpp"
+#include "core/rect2dsize.hpp"
 #include "core/rectangle.hpp"
-#include "core/rectsize.hpp"
 #include "core/rotation.hpp"
 #include "core/vector2d.hpp"
