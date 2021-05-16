@@ -24,7 +24,7 @@
 namespace zawa_ch::StationaryOrbit
 {
 	///	@a Point2D と @a Rect2DSize によって表される矩形範囲を表します。
-	template<class T, Quadrants quad, class = void>
+	template<class T, Quadrants2D quad, class = void>
 	struct Rectangle2D final
 	{
 		static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
@@ -39,11 +39,11 @@ namespace zawa_ch::StationaryOrbit
 		constexpr Rectangle2D() = default;
 		constexpr Rectangle2D(const PointType& origin, const SizeType& size) : _o(origin), _s(size) {}
 		constexpr Rectangle2D(const ValueType& originx, const ValueType& originy, const ValueType& width, const ValueType& height) : _o(originx, originy), _s(width, height) {}
-		template<Quadrants fromquad>
+		template<Quadrants2D fromquad>
 		constexpr Rectangle2D(const Rectangle2D<T, fromquad>& from) : _o(from.Origin()), _s(from.Size()) {}
-		template<class fromT, Quadrants fromquad, std::enable_if_t<std::is_convertible_v<fromT, T>, int> = 0>
+		template<class fromT, Quadrants2D fromquad, std::enable_if_t<std::is_convertible_v<fromT, T>, int> = 0>
 		constexpr Rectangle2D(const Rectangle2D<fromT, fromquad>& from) : _o(from.Origin()), _s(from.Size()) {}
-		template<class fromT, Quadrants fromquad, std::enable_if_t<std::conjunction_v<std::negation<std::is_convertible<fromT, T>>, std::is_constructible<T, fromT>>, int> = 0>
+		template<class fromT, Quadrants2D fromquad, std::enable_if_t<std::conjunction_v<std::negation<std::is_convertible<fromT, T>>, std::is_constructible<T, fromT>>, int> = 0>
 		constexpr explicit Rectangle2D(const Rectangle2D<fromT, fromquad>& from) : _o(from.Origin()), _s(from.Size()) {}
 		constexpr Rectangle2D(const ZeroValue_t&) : _o(Zero), _s(Zero) {}
 
@@ -53,26 +53,26 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr const SizeType& Size() const noexcept { return _s; }
 
 		///	@a Rectangle2D の左端のx座標の値を取得します。
-		[[nodiscard]] constexpr ValueType Left() const { if constexpr ((quad==Quadrants::UpLeft)||(quad==Quadrants::DownLeft)) { return (_o + _s).X(); } else { return _o.X(); } }
+		[[nodiscard]] constexpr ValueType Left() const { if constexpr ((quad==Quadrants2D::UpLeft)||(quad==Quadrants2D::DownLeft)) { return (_o + _s).x(); } else { return _o.x(); } }
 		///	@a Rectangle2D の右端のx座標の値を取得します。
-		[[nodiscard]] constexpr ValueType Right() const { if constexpr ((quad==Quadrants::UpRight)||(quad==Quadrants::DownRight)) { return (_o + _s).X(); } else { return _o.X(); } }
+		[[nodiscard]] constexpr ValueType Right() const { if constexpr ((quad==Quadrants2D::UpRight)||(quad==Quadrants2D::DownRight)) { return (_o + _s).x(); } else { return _o.x(); } }
 		///	@a Rectangle2D の上端のy座標の値を取得します。
-		[[nodiscard]] constexpr ValueType Top() const { if constexpr ((quad==Quadrants::UpRight)||(quad==Quadrants::UpLeft)) { return (_o + _s).Y(); } else { return _o.Y(); } }
+		[[nodiscard]] constexpr ValueType Top() const { if constexpr ((quad==Quadrants2D::UpRight)||(quad==Quadrants2D::UpLeft)) { return (_o + _s).y(); } else { return _o.y(); } }
 		///	@a Rectangle2D の下端のy座標の値を取得します。
-		[[nodiscard]] constexpr ValueType Bottom() const { if constexpr ((quad==Quadrants::DownRight)||(quad==Quadrants::DownLeft)) { return (_o + _s).Y(); } else { return _o.Y(); } }
+		[[nodiscard]] constexpr ValueType Bottom() const { if constexpr ((quad==Quadrants2D::DownRight)||(quad==Quadrants2D::DownLeft)) { return (_o + _s).y(); } else { return _o.y(); } }
 		///	@a Rectangle2D の示す矩形の幅を取得します。
 		[[nodiscard]] constexpr ValueType Width() const { return _s.width(); }
 		///	@a Rectangle2D の示す矩形の高さを取得します。
 		[[nodiscard]] constexpr ValueType Height() const { return _s.height(); }
 		///	水平軸コンポーネントの値の範囲を示す @a Range を取得します。
-		[[nodiscard]] constexpr Range<ValueType> XRange() const { return Range<ValueType>(_o.X(), _o.X() + _s.width()); }
+		[[nodiscard]] constexpr Range<ValueType> XRange() const { return Range<ValueType>(_o.x(), _o.x() + _s.width()); }
 		///	垂直軸コンポーネントの値の範囲を示す @a Range を取得します。
-		[[nodiscard]] constexpr Range<ValueType> YRange() const { return Range<ValueType>(_o.Y(), _o.Y() + _s.height()); }
+		[[nodiscard]] constexpr Range<ValueType> YRange() const { return Range<ValueType>(_o.y(), _o.y() + _s.height()); }
 
 		///	指定された点が @a Rectangle2D の領域に含まれるかをテストします。
-		[[nodiscard]] constexpr bool Contains(const PointType& point) const { return (_o.X() <= point.X())&&(_o.Y() <= point.Y())&&(point.X() <= (_o + _s).X())&&(point.Y() <= (_o + _s).Y()); }
+		[[nodiscard]] constexpr bool Contains(const PointType& point) const { return (_o.x() <= point.x())&&(_o.y() <= point.y())&&(point.x() <= (_o + _s).x())&&(point.y() <= (_o + _s).y()); }
 		///	指定された @a Rectangle2D の領域すべてが @a Rectangle2D の領域に含まれるかをテストします。
-		[[nodiscard]] constexpr bool Contains(const Rectangle2D<T, quad>& rect) const { return (_o.X() <= rect._o.X())&&(_o.Y() <= rect._o.Y())&&(rect._s.width() <= _s.width())&&(rect._s.height() <= _s.height()); }
+		[[nodiscard]] constexpr bool Contains(const Rectangle2D<T, quad>& rect) const { return (_o.x() <= rect._o.x())&&(_o.y() <= rect._o.y())&&(rect._s.width() <= _s.width())&&(rect._s.height() <= _s.height()); }
 
 		///	@a Rectangle2D の位置を @a offset 分移動します。
 		[[nodiscard]] constexpr Rectangle2D<T, quad> Offset(const PointType& offset) const { return Rectangle2D<T, quad>(_o + offset, _s); }
@@ -94,25 +94,25 @@ namespace zawa_ch::StationaryOrbit
 		///	矩形の下端に位置する辺のy座標。
 		[[nodiscard]] constexpr static Rectangle2D<T, quad> FromEdge(const ValueType& left, const ValueType& right, const ValueType& top, const ValueType& bottom)
 		{
-			if constexpr (quad == Quadrants::UpRight) { return Rectangle2D<T, quad>(left, bottom, right - left, top - bottom); }
-			if constexpr (quad == Quadrants::UpLeft) { return Rectangle2D<T, quad>(right, bottom, left - right, top - bottom); }
-			if constexpr (quad == Quadrants::DownLeft) { return Rectangle2D<T, quad>(right, top, left - right, bottom - top); }
-			if constexpr (quad == Quadrants::DownRight) { return Rectangle2D<T, quad>(left, top, right - left, bottom - top); }
+			if constexpr (quad == Quadrants2D::UpRight) { return Rectangle2D<T, quad>(left, bottom, right - left, top - bottom); }
+			if constexpr (quad == Quadrants2D::UpLeft) { return Rectangle2D<T, quad>(right, bottom, left - right, top - bottom); }
+			if constexpr (quad == Quadrants2D::DownLeft) { return Rectangle2D<T, quad>(right, top, left - right, bottom - top); }
+			if constexpr (quad == Quadrants2D::DownRight) { return Rectangle2D<T, quad>(left, top, right - left, bottom - top); }
 		}
 	private:
-		template<class fromT, Quadrants fromquad, std::enable_if_t<std::is_constructible_v<T, fromT>, int> = 0>
+		template<class fromT, Quadrants2D fromquad, std::enable_if_t<std::is_constructible_v<T, fromT>, int> = 0>
 		[[nodiscard]] constexpr static PointType ConvertPoint(const Rectangle2D<fromT, fromquad>& from)
 		{
-			if constexpr (quad == Quadrants::UpRight) { return PointType(T(from.Left()), T(from.Bottom())); }
-			if constexpr (quad == Quadrants::UpLeft) { return PointType(T(from.Right()), T(from.Bottom())); }
-			if constexpr (quad == Quadrants::DownLeft) { return PointType(T(from.Right()), T(from.Top())); }
-			if constexpr (quad == Quadrants::DownRight) { return PointType(T(from.Left()), T(from.Top())); }
+			if constexpr (quad == Quadrants2D::UpRight) { return PointType(T(from.Left()), T(from.Bottom())); }
+			if constexpr (quad == Quadrants2D::UpLeft) { return PointType(T(from.Right()), T(from.Bottom())); }
+			if constexpr (quad == Quadrants2D::DownLeft) { return PointType(T(from.Right()), T(from.Top())); }
+			if constexpr (quad == Quadrants2D::DownRight) { return PointType(T(from.Left()), T(from.Top())); }
 		}
 	};
 	///	@a Point2D と @a Rect2DSize によって表される矩形範囲を表します。
 	///	@note
 	///	こちらは @a std::is_floting_point_v が @a true の場合の特殊化です。
-	template<class T, Quadrants quad>
+	template<class T, Quadrants2D quad>
 	struct Rectangle2D<T, quad, std::enable_if_t<std::is_floating_point_v<T>>> final
 	{
 		static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
@@ -127,11 +127,11 @@ namespace zawa_ch::StationaryOrbit
 		constexpr Rectangle2D() = default;
 		constexpr Rectangle2D(const PointType& origin, const SizeType& size) : _o(origin), _s(size) {}
 		constexpr Rectangle2D(const ValueType& originx, const ValueType& originy, const ValueType& width, const ValueType& height) : _o(originx, originy), _s(width, height) {}
-		template<Quadrants fromquad>
+		template<Quadrants2D fromquad>
 		constexpr Rectangle2D(const Rectangle2D<T, fromquad>& from) : _o(from.Origin()), _s(from.Size()) {}
-		template<class fromT, Quadrants fromquad, std::enable_if_t<std::is_convertible_v<fromT, T>, int> = 0>
+		template<class fromT, Quadrants2D fromquad, std::enable_if_t<std::is_convertible_v<fromT, T>, int> = 0>
 		constexpr Rectangle2D(const Rectangle2D<fromT, fromquad>& from) : _o(from.Origin()), _s(from.Size()) {}
-		template<class fromT, Quadrants fromquad, std::enable_if_t<std::conjunction_v<std::negation<std::is_convertible<fromT, T>>, std::is_constructible<T, fromT>>, int> = 0>
+		template<class fromT, Quadrants2D fromquad, std::enable_if_t<std::conjunction_v<std::negation<std::is_convertible<fromT, T>>, std::is_constructible<T, fromT>>, int> = 0>
 		constexpr explicit Rectangle2D(const Rectangle2D<fromT, fromquad>& from) : _o(from.Origin()), _s(from.Size()) {}
 		constexpr Rectangle2D(const ZeroValue_t&) : _o(Zero), _s(Zero) {}
 
@@ -141,26 +141,26 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr const SizeType& Size() const noexcept { return _s; }
 
 		///	@a Rectangle2D の左端のx座標の値を取得します。
-		[[nodiscard]] constexpr ValueType Left() const { if constexpr ((quad==Quadrants::UpLeft)||(quad==Quadrants::DownLeft)) { return (_o + _s).X(); } else { return _o.X(); } }
+		[[nodiscard]] constexpr ValueType Left() const { if constexpr ((quad==Quadrants2D::UpLeft)||(quad==Quadrants2D::DownLeft)) { return (_o + _s).x(); } else { return _o.x(); } }
 		///	@a Rectangle2D の右端のx座標の値を取得します。
-		[[nodiscard]] constexpr ValueType Right() const { if constexpr ((quad==Quadrants::UpRight)||(quad==Quadrants::DownRight)) { return (_o + _s).X(); } else { return _o.X(); } }
+		[[nodiscard]] constexpr ValueType Right() const { if constexpr ((quad==Quadrants2D::UpRight)||(quad==Quadrants2D::DownRight)) { return (_o + _s).x(); } else { return _o.x(); } }
 		///	@a Rectangle2D の上端のy座標の値を取得します。
-		[[nodiscard]] constexpr ValueType Top() const { if constexpr ((quad==Quadrants::UpRight)||(quad==Quadrants::UpLeft)) { return (_o + _s).Y(); } else { return _o.Y(); } }
+		[[nodiscard]] constexpr ValueType Top() const { if constexpr ((quad==Quadrants2D::UpRight)||(quad==Quadrants2D::UpLeft)) { return (_o + _s).y(); } else { return _o.y(); } }
 		///	@a Rectangle2D の下端のy座標の値を取得します。
-		[[nodiscard]] constexpr ValueType Bottom() const { if constexpr ((quad==Quadrants::DownRight)||(quad==Quadrants::DownLeft)) { return (_o + _s).Y(); } else { return _o.Y(); } }
+		[[nodiscard]] constexpr ValueType Bottom() const { if constexpr ((quad==Quadrants2D::DownRight)||(quad==Quadrants2D::DownLeft)) { return (_o + _s).y(); } else { return _o.y(); } }
 		///	@a Rectangle2D の示す矩形の幅を取得します。
 		[[nodiscard]] constexpr ValueType Width() const { return _s.width(); }
 		///	@a Rectangle2D の示す矩形の高さを取得します。
 		[[nodiscard]] constexpr ValueType Height() const { return _s.height(); }
 		///	水平軸コンポーネントの値の範囲を示す @a Range を取得します。
-		[[nodiscard]] constexpr Range<ValueType> XRange() const { return Range<ValueType>(_o.X(), _o.X() + _s.width()); }
+		[[nodiscard]] constexpr Range<ValueType> XRange() const { return Range<ValueType>(_o.x(), _o.x() + _s.width()); }
 		///	垂直軸コンポーネントの値の範囲を示す @a Range を取得します。
-		[[nodiscard]] constexpr Range<ValueType> YRange() const { return Range<ValueType>(_o.Y(), _o.Y() + _s.height()); }
+		[[nodiscard]] constexpr Range<ValueType> YRange() const { return Range<ValueType>(_o.y(), _o.y() + _s.height()); }
 
 		///	指定された点が @a Rectangle2D の領域に含まれるかをテストします。
-		[[nodiscard]] constexpr bool Contains(const PointType& point) const { return (_o.X() <= point.X())&&(_o.Y() <= point.Y())&&(point.X() <= (_o + _s).X())&&(point.Y() <= (_o + _s).Y()); }
+		[[nodiscard]] constexpr bool Contains(const PointType& point) const { return (_o.x() <= point.x())&&(_o.y() <= point.y())&&(point.x() <= (_o + _s).x())&&(point.y() <= (_o + _s).y()); }
 		///	指定された @a Rectangle2D の領域すべてが @a Rectangle2D の領域に含まれるかをテストします。
-		[[nodiscard]] constexpr bool Contains(const Rectangle2D<T, quad>& rect) const { return (_o.X() <= rect._o.X())&&(_o.Y() <= rect._o.Y())&&(rect._s.width() <= _s.width())&&(rect._s.height() <= _s.height()); }
+		[[nodiscard]] constexpr bool Contains(const Rectangle2D<T, quad>& rect) const { return (_o.x() <= rect._o.x())&&(_o.y() <= rect._o.y())&&(rect._s.width() <= _s.width())&&(rect._s.height() <= _s.height()); }
 
 		///	@a Rectangle2D の位置を @a offset 分移動します。
 		[[nodiscard]] constexpr Rectangle2D<T, quad> Offset(const PointType& offset) const { return Rectangle2D<T, quad>(_o + offset, _s); }
@@ -168,11 +168,11 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr Rectangle2D<T, quad> Inflate(const SizeType& size) const { return Rectangle2D<T, quad>(_o, _s + size); }
 
 		///	@a RectangleF を切り捨て方向に丸め、 @a Rectangle2D に変換します。
-		[[nodiscard]] Rectangle2D<T, quad> Floor() const { return Rectangle2D<T, quad>(_o.Floor(), _s.floor()); }
+		[[nodiscard]] Rectangle2D<T, quad> Floor() const { return Rectangle2D<T, quad>(_o.floor(), _s.floor()); }
 		///	@a RectangleF を切り上げ方向に丸め、 @a Rectangle2D に変換します。
-		[[nodiscard]] Rectangle2D<T, quad> Ceiling() const { return Rectangle2D<T, quad>(_o.Ceiling(), _s.ceil()); }
+		[[nodiscard]] Rectangle2D<T, quad> Ceiling() const { return Rectangle2D<T, quad>(_o.ceil(), _s.ceil()); }
 		/// @a RectangleF を最も近い @a Rectangle2D に変換します。
-		[[nodiscard]] Rectangle2D<T, quad> Round() const { return Rectangle2D<T, quad>(_o.Round(), _s.round()); }
+		[[nodiscard]] Rectangle2D<T, quad> Round() const { return Rectangle2D<T, quad>(_o.round(), _s.round()); }
 
 		[[nodiscard]] constexpr bool Equals(const Rectangle2D<T, quad>& other) const { return (_o == other._o)&&(_s == other._s); }
 		[[nodiscard]] constexpr bool operator==(const Rectangle2D<T, quad>& other) const { return Equals(other); }
@@ -189,67 +189,67 @@ namespace zawa_ch::StationaryOrbit
 		///	矩形の下端に位置する辺のy座標。
 		[[nodiscard]] constexpr static Rectangle2D<T, quad> FromEdge(const ValueType& left, const ValueType& right, const ValueType& top, const ValueType& bottom)
 		{
-			if constexpr (quad == Quadrants::UpRight) { return Rectangle2D<T, quad>(left, bottom, right - left, top - bottom); }
-			if constexpr (quad == Quadrants::UpLeft) { return Rectangle2D<T, quad>(right, bottom, left - right, top - bottom); }
-			if constexpr (quad == Quadrants::DownLeft) { return Rectangle2D<T, quad>(right, top, left - right, bottom - top); }
-			if constexpr (quad == Quadrants::DownRight) { return Rectangle2D<T, quad>(left, top, right - left, bottom - top); }
+			if constexpr (quad == Quadrants2D::UpRight) { return Rectangle2D<T, quad>(left, bottom, right - left, top - bottom); }
+			if constexpr (quad == Quadrants2D::UpLeft) { return Rectangle2D<T, quad>(right, bottom, left - right, top - bottom); }
+			if constexpr (quad == Quadrants2D::DownLeft) { return Rectangle2D<T, quad>(right, top, left - right, bottom - top); }
+			if constexpr (quad == Quadrants2D::DownRight) { return Rectangle2D<T, quad>(left, top, right - left, bottom - top); }
 		}
 	private:
-		template<class fromT, Quadrants fromquad, std::enable_if_t<std::is_constructible_v<T, fromT>, int> = 0>
+		template<class fromT, Quadrants2D fromquad, std::enable_if_t<std::is_constructible_v<T, fromT>, int> = 0>
 		[[nodiscard]] constexpr static PointType ConvertPoint(const Rectangle2D<fromT, fromquad>& from)
 		{
-			if constexpr (quad == Quadrants::UpRight) { return PointType(T(from.Left()), T(from.Bottom())); }
-			if constexpr (quad == Quadrants::UpLeft) { return PointType(T(from.Right()), T(from.Bottom())); }
-			if constexpr (quad == Quadrants::DownLeft) { return PointType(T(from.Right()), T(from.Top())); }
-			if constexpr (quad == Quadrants::DownRight) { return PointType(T(from.Left()), T(from.Top())); }
+			if constexpr (quad == Quadrants2D::UpRight) { return PointType(T(from.Left()), T(from.Bottom())); }
+			if constexpr (quad == Quadrants2D::UpLeft) { return PointType(T(from.Right()), T(from.Bottom())); }
+			if constexpr (quad == Quadrants2D::DownLeft) { return PointType(T(from.Right()), T(from.Top())); }
+			if constexpr (quad == Quadrants2D::DownRight) { return PointType(T(from.Left()), T(from.Top())); }
 		}
 	};
 
-	extern template struct Rectangle2D<uint8_t, Quadrants::UpRight>;
-	extern template struct Rectangle2D<uint8_t, Quadrants::UpLeft>;
-	extern template struct Rectangle2D<uint8_t, Quadrants::DownLeft>;
-	extern template struct Rectangle2D<uint8_t, Quadrants::DownRight>;
-	extern template struct Rectangle2D<uint16_t, Quadrants::UpRight>;
-	extern template struct Rectangle2D<uint16_t, Quadrants::UpLeft>;
-	extern template struct Rectangle2D<uint16_t, Quadrants::DownLeft>;
-	extern template struct Rectangle2D<uint16_t, Quadrants::DownRight>;
-	extern template struct Rectangle2D<uint32_t, Quadrants::UpRight>;
-	extern template struct Rectangle2D<uint32_t, Quadrants::UpLeft>;
-	extern template struct Rectangle2D<uint32_t, Quadrants::DownLeft>;
-	extern template struct Rectangle2D<uint32_t, Quadrants::DownRight>;
-	extern template struct Rectangle2D<uint64_t, Quadrants::UpRight>;
-	extern template struct Rectangle2D<uint64_t, Quadrants::UpLeft>;
-	extern template struct Rectangle2D<uint64_t, Quadrants::DownLeft>;
-	extern template struct Rectangle2D<uint64_t, Quadrants::DownRight>;
-	extern template struct Rectangle2D<int8_t, Quadrants::UpRight>;
-	extern template struct Rectangle2D<int8_t, Quadrants::UpLeft>;
-	extern template struct Rectangle2D<int8_t, Quadrants::DownLeft>;
-	extern template struct Rectangle2D<int8_t, Quadrants::DownRight>;
-	extern template struct Rectangle2D<int16_t, Quadrants::UpRight>;
-	extern template struct Rectangle2D<int16_t, Quadrants::UpLeft>;
-	extern template struct Rectangle2D<int16_t, Quadrants::DownLeft>;
-	extern template struct Rectangle2D<int16_t, Quadrants::DownRight>;
-	extern template struct Rectangle2D<int32_t, Quadrants::UpRight>;
-	extern template struct Rectangle2D<int32_t, Quadrants::UpLeft>;
-	extern template struct Rectangle2D<int32_t, Quadrants::DownLeft>;
-	extern template struct Rectangle2D<int32_t, Quadrants::DownRight>;
-	extern template struct Rectangle2D<int64_t, Quadrants::UpRight>;
-	extern template struct Rectangle2D<int64_t, Quadrants::UpLeft>;
-	extern template struct Rectangle2D<int64_t, Quadrants::DownLeft>;
-	extern template struct Rectangle2D<int64_t, Quadrants::DownRight>;
-	extern template struct Rectangle2D<float, Quadrants::UpRight>;
-	extern template struct Rectangle2D<float, Quadrants::UpLeft>;
-	extern template struct Rectangle2D<float, Quadrants::DownLeft>;
-	extern template struct Rectangle2D<float, Quadrants::DownRight>;
-	extern template struct Rectangle2D<double, Quadrants::UpRight>;
-	extern template struct Rectangle2D<double, Quadrants::UpLeft>;
-	extern template struct Rectangle2D<double, Quadrants::DownLeft>;
-	extern template struct Rectangle2D<double, Quadrants::DownRight>;
+	extern template struct Rectangle2D<uint8_t, Quadrants2D::UpRight>;
+	extern template struct Rectangle2D<uint8_t, Quadrants2D::UpLeft>;
+	extern template struct Rectangle2D<uint8_t, Quadrants2D::DownLeft>;
+	extern template struct Rectangle2D<uint8_t, Quadrants2D::DownRight>;
+	extern template struct Rectangle2D<uint16_t, Quadrants2D::UpRight>;
+	extern template struct Rectangle2D<uint16_t, Quadrants2D::UpLeft>;
+	extern template struct Rectangle2D<uint16_t, Quadrants2D::DownLeft>;
+	extern template struct Rectangle2D<uint16_t, Quadrants2D::DownRight>;
+	extern template struct Rectangle2D<uint32_t, Quadrants2D::UpRight>;
+	extern template struct Rectangle2D<uint32_t, Quadrants2D::UpLeft>;
+	extern template struct Rectangle2D<uint32_t, Quadrants2D::DownLeft>;
+	extern template struct Rectangle2D<uint32_t, Quadrants2D::DownRight>;
+	extern template struct Rectangle2D<uint64_t, Quadrants2D::UpRight>;
+	extern template struct Rectangle2D<uint64_t, Quadrants2D::UpLeft>;
+	extern template struct Rectangle2D<uint64_t, Quadrants2D::DownLeft>;
+	extern template struct Rectangle2D<uint64_t, Quadrants2D::DownRight>;
+	extern template struct Rectangle2D<int8_t, Quadrants2D::UpRight>;
+	extern template struct Rectangle2D<int8_t, Quadrants2D::UpLeft>;
+	extern template struct Rectangle2D<int8_t, Quadrants2D::DownLeft>;
+	extern template struct Rectangle2D<int8_t, Quadrants2D::DownRight>;
+	extern template struct Rectangle2D<int16_t, Quadrants2D::UpRight>;
+	extern template struct Rectangle2D<int16_t, Quadrants2D::UpLeft>;
+	extern template struct Rectangle2D<int16_t, Quadrants2D::DownLeft>;
+	extern template struct Rectangle2D<int16_t, Quadrants2D::DownRight>;
+	extern template struct Rectangle2D<int32_t, Quadrants2D::UpRight>;
+	extern template struct Rectangle2D<int32_t, Quadrants2D::UpLeft>;
+	extern template struct Rectangle2D<int32_t, Quadrants2D::DownLeft>;
+	extern template struct Rectangle2D<int32_t, Quadrants2D::DownRight>;
+	extern template struct Rectangle2D<int64_t, Quadrants2D::UpRight>;
+	extern template struct Rectangle2D<int64_t, Quadrants2D::UpLeft>;
+	extern template struct Rectangle2D<int64_t, Quadrants2D::DownLeft>;
+	extern template struct Rectangle2D<int64_t, Quadrants2D::DownRight>;
+	extern template struct Rectangle2D<float, Quadrants2D::UpRight>;
+	extern template struct Rectangle2D<float, Quadrants2D::UpLeft>;
+	extern template struct Rectangle2D<float, Quadrants2D::DownLeft>;
+	extern template struct Rectangle2D<float, Quadrants2D::DownRight>;
+	extern template struct Rectangle2D<double, Quadrants2D::UpRight>;
+	extern template struct Rectangle2D<double, Quadrants2D::UpLeft>;
+	extern template struct Rectangle2D<double, Quadrants2D::DownLeft>;
+	extern template struct Rectangle2D<double, Quadrants2D::DownRight>;
 
 	///	幾何学的な座標軸上で表される @a Rectangle 。
-	typedef Rectangle2D<int, Quadrants::UpRight> GeometricRectangle;
+	typedef Rectangle2D<int, Quadrants2D::UpRight> GeometricRectangle;
 	///	幾何学的な座標軸上で表される @a RectangleF 。
-	typedef Rectangle2D<float, Quadrants::UpRight> GeometricRectangleF;
+	typedef Rectangle2D<float, Quadrants2D::UpRight> GeometricRectangleF;
 
 }
 #endif // __stationaryorbit_core_rectangle__

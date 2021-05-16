@@ -24,25 +24,23 @@
 #include "rect2dsize.hpp"
 namespace zawa_ch::StationaryOrbit
 {
-	enum class Quadrants { UpRight, UpLeft, DownLeft, DownRight };
-	template<Quadrants from, Quadrants to> class QuadrantConvertHelper;
-	template<class T, Quadrants quad, class> struct Point2D;
-	template<Quadrants quad> struct Point;
-	template<Quadrants quad> struct PointF;
+	enum class Quadrants2D { UpRight, UpLeft, DownLeft, DownRight };
+	template<Quadrants2D from, Quadrants2D to> class Quadrant2DConvertHelper;
+	template<class T, Quadrants2D quad, class> struct Point2D;
 
-	template<Quadrants from, Quadrants to>
-	class QuadrantConvertHelper final
+	template<Quadrants2D from, Quadrants2D to>
+	class Quadrant2DConvertHelper final
 	{
 	public:
-		static constexpr bool InvertX = (((from==Quadrants::UpRight)||(from==Quadrants::DownRight))&&((to==Quadrants::UpLeft)||(to==Quadrants::DownLeft))) || (((from==Quadrants::UpLeft)||(from==Quadrants::DownLeft))&&((to==Quadrants::UpRight)||(to==Quadrants::DownRight)));
-		static constexpr bool InvertY = (((from==Quadrants::UpRight)||(from==Quadrants::UpLeft))&&((to==Quadrants::DownRight)||(to==Quadrants::DownLeft))) || (((from==Quadrants::DownRight)||(from==Quadrants::DownLeft))&&((to==Quadrants::UpRight)||(to==Quadrants::UpLeft)));
+		static constexpr bool invert_x = (((from==Quadrants2D::UpRight)||(from==Quadrants2D::DownRight))&&((to==Quadrants2D::UpLeft)||(to==Quadrants2D::DownLeft))) || (((from==Quadrants2D::UpLeft)||(from==Quadrants2D::DownLeft))&&((to==Quadrants2D::UpRight)||(to==Quadrants2D::DownRight)));
+		static constexpr bool invert_y = (((from==Quadrants2D::UpRight)||(from==Quadrants2D::UpLeft))&&((to==Quadrants2D::DownRight)||(to==Quadrants2D::DownLeft))) || (((from==Quadrants2D::DownRight)||(from==Quadrants2D::DownLeft))&&((to==Quadrants2D::UpRight)||(to==Quadrants2D::UpLeft)));
 		template<class T, std::enable_if_t< Traits::IsNumericalType<T>, int> = 0>
-		static constexpr T ConvertX(const T& value) { if constexpr (InvertX) { return -value; } else { return value; } }
+		static constexpr T convert_x(const T& value) { if constexpr (invert_x) { return -value; } else { return value; } }
 		template<class T, std::enable_if_t< Traits::IsNumericalType<T>, int> = 0>
-		static constexpr T ConvertY(const T& value) { if constexpr (InvertY) { return -value; } else { return value; } }
+		static constexpr T convert_y(const T& value) { if constexpr (invert_y) { return -value; } else { return value; } }
 	};
 	///	二次元平面上におけるある一点を表します。
-	template<class T, Quadrants quad, class = std::void_t<>>
+	template<class T, Quadrants2D quad, class = std::void_t<>>
 	struct Point2D final
 	{
 		static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
@@ -53,16 +51,16 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		constexpr Point2D() = default;
 		constexpr Point2D(const ValueType& x, const ValueType& y) noexcept : _x(x), _y(y) {}
-		template<Quadrants fromquad>
-		constexpr Point2D(const Point2D<T, fromquad>& from) : _x(QuadrantConvertHelper<fromquad, quad>::ConvertX(from.X())), _y(QuadrantConvertHelper<fromquad, quad>::ConvertY(from.Y())) {}
-		template<class fromT, Quadrants fromquad, std::enable_if_t<std::is_convertible_v<fromT, T>, int> = 0>
-		constexpr Point2D(const Point2D<fromT, fromquad>& from) : _x(QuadrantConvertHelper<fromquad, quad>::ConvertX(T(from.X()))), _y(QuadrantConvertHelper<fromquad, quad>::ConvertY(T(from.Y()))) {}
-		template<class fromT, Quadrants fromquad, std::enable_if_t<std::conjunction_v<std::negation<std::is_convertible<fromT, T>>, std::is_constructible<T, fromT>>, int> = 0>
-		constexpr explicit Point2D(const Point2D<fromT, fromquad>& from) : _x(QuadrantConvertHelper<fromquad, quad>::ConvertX(T(from.X()))), _y(QuadrantConvertHelper<fromquad, quad>::ConvertY(T(from.Y()))) {}
+		template<Quadrants2D fromquad>
+		constexpr Point2D(const Point2D<T, fromquad>& from) : _x(Quadrant2DConvertHelper<fromquad, quad>::convert_x(from.x())), _y(Quadrant2DConvertHelper<fromquad, quad>::convert_y(from.y())) {}
+		template<class fromT, Quadrants2D fromquad, std::enable_if_t<std::is_convertible_v<fromT, T>, int> = 0>
+		constexpr Point2D(const Point2D<fromT, fromquad>& from) : _x(Quadrant2DConvertHelper<fromquad, quad>::convert_x(T(from.x()))), _y(Quadrant2DConvertHelper<fromquad, quad>::convert_y(T(from.y()))) {}
+		template<class fromT, Quadrants2D fromquad, std::enable_if_t<std::conjunction_v<std::negation<std::is_convertible<fromT, T>>, std::is_constructible<T, fromT>>, int> = 0>
+		constexpr explicit Point2D(const Point2D<fromT, fromquad>& from) : _x(Quadrant2DConvertHelper<fromquad, quad>::convert_x(T(from.x()))), _y(Quadrant2DConvertHelper<fromquad, quad>::convert_y(T(from.y()))) {}
 		constexpr Point2D(const ZeroValue_t&) : _x(Zero), _y(Zero) {}
 
-		[[nodiscard]] constexpr const ValueType& X() const { return _x; }
-		[[nodiscard]] constexpr const ValueType& Y() const { return _y; }
+		[[nodiscard]] constexpr const ValueType& x() const { return _x; }
+		[[nodiscard]] constexpr const ValueType& y() const { return _y; }
 
 		[[nodiscard]] constexpr Point2D<T, quad> operator+(const Point2D<T, quad>& other) const { return Point2D<T, quad>(_x + other._x, _y + other._y); }
 		[[nodiscard]] constexpr Point2D<T, quad> operator-(const Point2D<T, quad>& other) const { return Point2D<T, quad>(_x - other._x, _y - other._y); }
@@ -84,13 +82,11 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr bool Equals(const Point2D<T, quad>& value) const { return (_x == value._x)&&(_y == value._y); }
 		[[nodiscard]] constexpr bool operator==(const Point2D<T, quad>& value) const { return Equals(value); }
 		[[nodiscard]] constexpr bool operator!=(const Point2D<T, quad>& value) const { return !Equals(value); }
-
-		[[nodiscard]] static constexpr Point2D<T, quad> Empty() { return Point2D<T, quad>{}; }
 	};
 	///	二次元平面上におけるある一点を表します。
 	///	@note
 	///	こちらは @a std::is_floting_point_v が @a true の場合の特殊化です。
-	template<class T, Quadrants quad>
+	template<class T, Quadrants2D quad>
 	struct Point2D<T, quad, std::void_t<std::enable_if_t<std::is_floating_point_v<T>>>> final
 	{
 		static_assert(Traits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
@@ -101,16 +97,16 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		constexpr Point2D() = default;
 		constexpr Point2D(const ValueType& x, const ValueType& y) noexcept : _x(x), _y(y) {}
-		template<Quadrants fromquad>
-		constexpr Point2D(const Point2D<T, fromquad>& from) : _x(QuadrantConvertHelper<fromquad, quad>::ConvertX(from.X())), _y(QuadrantConvertHelper<fromquad, quad>::ConvertY(from.Y())) {}
-		template<class fromT, Quadrants fromquad, std::enable_if_t<std::is_convertible_v<fromT, T>, int> = 0>
-		constexpr Point2D(const Point2D<fromT, fromquad>& from) : _x(QuadrantConvertHelper<fromquad, quad>::ConvertX(T(from.X()))), _y(QuadrantConvertHelper<fromquad, quad>::ConvertY(T(from.Y()))) {}
-		template<class fromT, Quadrants fromquad, std::enable_if_t<std::conjunction_v<std::negation<std::is_convertible<fromT, T>>, std::is_constructible<T, fromT>>, int> = 0>
-		constexpr explicit Point2D(const Point2D<fromT, fromquad>& from) : _x(QuadrantConvertHelper<fromquad, quad>::ConvertX(T(from.X()))), _y(QuadrantConvertHelper<fromquad, quad>::ConvertY(T(from.Y()))) {}
+		template<Quadrants2D fromquad>
+		constexpr Point2D(const Point2D<T, fromquad>& from) : _x(Quadrant2DConvertHelper<fromquad, quad>::convert_x(from.x())), _y(Quadrant2DConvertHelper<fromquad, quad>::convert_y(from.y())) {}
+		template<class fromT, Quadrants2D fromquad, std::enable_if_t<std::is_convertible_v<fromT, T>, int> = 0>
+		constexpr Point2D(const Point2D<fromT, fromquad>& from) : _x(Quadrant2DConvertHelper<fromquad, quad>::convert_x(T(from.x()))), _y(Quadrant2DConvertHelper<fromquad, quad>::convert_y(T(from.y()))) {}
+		template<class fromT, Quadrants2D fromquad, std::enable_if_t<std::conjunction_v<std::negation<std::is_convertible<fromT, T>>, std::is_constructible<T, fromT>>, int> = 0>
+		constexpr explicit Point2D(const Point2D<fromT, fromquad>& from) : _x(Quadrant2DConvertHelper<fromquad, quad>::convert_x(T(from.x()))), _y(Quadrant2DConvertHelper<fromquad, quad>::convert_y(T(from.y()))) {}
 		constexpr Point2D(const ZeroValue_t&) : _x(Zero), _y(Zero) {}
 
-		[[nodiscard]] constexpr const ValueType& X() const { return _x; }
-		[[nodiscard]] constexpr const ValueType& Y() const { return _y; }
+		[[nodiscard]] constexpr const ValueType& x() const { return _x; }
+		[[nodiscard]] constexpr const ValueType& y() const { return _y; }
 
 		[[nodiscard]] constexpr Point2D<T, quad> operator+(const Point2D<T, quad>& other) const { return Point2D<T, quad>(_x + other._x, _y + other._y); }
 		[[nodiscard]] constexpr Point2D<T, quad> operator-(const Point2D<T, quad>& other) const { return Point2D<T, quad>(_x - other._x, _y - other._y); }
@@ -134,62 +130,60 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr bool operator!=(const Point2D<T, quad>& value) const { return !Equals(value); }
 
 		///	@a Point2D<T, quad> の小数部を抜き出します。
-		[[nodiscard]] Point2D<T, quad> Extract() const { return Point2D<T, quad>(_x - trunc(_x), _y - trunc(_y)); }
+		[[nodiscard]] Point2D<T, quad> extract() const { return Point2D<T, quad>(_x - trunc(_x), _y - trunc(_y)); }
 		///	@a Point2D<T, quad> を切り捨て方向に丸めます。
 		template<class intT = T, std::enable_if_t<std::is_constructible_v<intT, T>, int > = 0>
-		[[nodiscard]] Point2D<intT, quad> Floor() const { return Point2D<intT, quad>(intT(floor(X())), intT(floor(Y()))); }
+		[[nodiscard]] Point2D<intT, quad> floor() const { return Point2D<intT, quad>(intT(std::floor(x())), intT(std::floor(y()))); }
 		///	@a Point2D<T, quad> を切り上げ方向に丸めます。
 		template<class intT = T, std::enable_if_t<std::is_constructible_v<intT, T>, int > = 0>
-		[[nodiscard]] Point2D<intT, quad> Ceiling() const { return Point2D<intT, quad>(intT(ceil(X())), intT(ceil(Y()))); }
+		[[nodiscard]] Point2D<intT, quad> ceil() const { return Point2D<intT, quad>(intT(std::ceil(x())), intT(std::ceil(y()))); }
 		/// @a Point2D<T, quad> を最も近い整数に丸めます。
 		template<class intT = T, std::enable_if_t<std::is_constructible_v<intT, T>, int > = 0>
-		[[nodiscard]] Point2D<intT, quad> Round() const { return Point2D<intT, quad>(intT(round(X())), intT(round(Y()))); }
-
-		[[nodiscard]] static constexpr Point2D<T, quad> Empty() { return Point2D<T, quad>{}; }
+		[[nodiscard]] Point2D<intT, quad> round() const { return Point2D<intT, quad>(intT(std::round(x())), intT(std::round(y()))); }
 	};
 
-	extern template struct Point2D<uint8_t, Quadrants::UpRight>;
-	extern template struct Point2D<uint8_t, Quadrants::UpLeft>;
-	extern template struct Point2D<uint8_t, Quadrants::DownLeft>;
-	extern template struct Point2D<uint8_t, Quadrants::DownRight>;
-	extern template struct Point2D<uint16_t, Quadrants::UpRight>;
-	extern template struct Point2D<uint16_t, Quadrants::UpLeft>;
-	extern template struct Point2D<uint16_t, Quadrants::DownLeft>;
-	extern template struct Point2D<uint16_t, Quadrants::DownRight>;
-	extern template struct Point2D<uint32_t, Quadrants::UpRight>;
-	extern template struct Point2D<uint32_t, Quadrants::UpLeft>;
-	extern template struct Point2D<uint32_t, Quadrants::DownLeft>;
-	extern template struct Point2D<uint32_t, Quadrants::DownRight>;
-	extern template struct Point2D<uint64_t, Quadrants::UpRight>;
-	extern template struct Point2D<uint64_t, Quadrants::UpLeft>;
-	extern template struct Point2D<uint64_t, Quadrants::DownLeft>;
-	extern template struct Point2D<uint64_t, Quadrants::DownRight>;
-	extern template struct Point2D<int8_t, Quadrants::UpRight>;
-	extern template struct Point2D<int8_t, Quadrants::UpLeft>;
-	extern template struct Point2D<int8_t, Quadrants::DownLeft>;
-	extern template struct Point2D<int8_t, Quadrants::DownRight>;
-	extern template struct Point2D<int16_t, Quadrants::UpRight>;
-	extern template struct Point2D<int16_t, Quadrants::UpLeft>;
-	extern template struct Point2D<int16_t, Quadrants::DownLeft>;
-	extern template struct Point2D<int16_t, Quadrants::DownRight>;
-	extern template struct Point2D<int32_t, Quadrants::UpRight>;
-	extern template struct Point2D<int32_t, Quadrants::UpLeft>;
-	extern template struct Point2D<int32_t, Quadrants::DownLeft>;
-	extern template struct Point2D<int32_t, Quadrants::DownRight>;
-	extern template struct Point2D<int64_t, Quadrants::UpRight>;
-	extern template struct Point2D<int64_t, Quadrants::UpLeft>;
-	extern template struct Point2D<int64_t, Quadrants::DownLeft>;
-	extern template struct Point2D<int64_t, Quadrants::DownRight>;
-	extern template struct Point2D<float, Quadrants::UpRight>;
-	extern template struct Point2D<float, Quadrants::UpLeft>;
-	extern template struct Point2D<float, Quadrants::DownLeft>;
-	extern template struct Point2D<float, Quadrants::DownRight>;
-	extern template struct Point2D<double, Quadrants::UpRight>;
-	extern template struct Point2D<double, Quadrants::UpLeft>;
-	extern template struct Point2D<double, Quadrants::DownLeft>;
-	extern template struct Point2D<double, Quadrants::DownRight>;
+	extern template struct Point2D<uint8_t, Quadrants2D::UpRight>;
+	extern template struct Point2D<uint8_t, Quadrants2D::UpLeft>;
+	extern template struct Point2D<uint8_t, Quadrants2D::DownLeft>;
+	extern template struct Point2D<uint8_t, Quadrants2D::DownRight>;
+	extern template struct Point2D<uint16_t, Quadrants2D::UpRight>;
+	extern template struct Point2D<uint16_t, Quadrants2D::UpLeft>;
+	extern template struct Point2D<uint16_t, Quadrants2D::DownLeft>;
+	extern template struct Point2D<uint16_t, Quadrants2D::DownRight>;
+	extern template struct Point2D<uint32_t, Quadrants2D::UpRight>;
+	extern template struct Point2D<uint32_t, Quadrants2D::UpLeft>;
+	extern template struct Point2D<uint32_t, Quadrants2D::DownLeft>;
+	extern template struct Point2D<uint32_t, Quadrants2D::DownRight>;
+	extern template struct Point2D<uint64_t, Quadrants2D::UpRight>;
+	extern template struct Point2D<uint64_t, Quadrants2D::UpLeft>;
+	extern template struct Point2D<uint64_t, Quadrants2D::DownLeft>;
+	extern template struct Point2D<uint64_t, Quadrants2D::DownRight>;
+	extern template struct Point2D<int8_t, Quadrants2D::UpRight>;
+	extern template struct Point2D<int8_t, Quadrants2D::UpLeft>;
+	extern template struct Point2D<int8_t, Quadrants2D::DownLeft>;
+	extern template struct Point2D<int8_t, Quadrants2D::DownRight>;
+	extern template struct Point2D<int16_t, Quadrants2D::UpRight>;
+	extern template struct Point2D<int16_t, Quadrants2D::UpLeft>;
+	extern template struct Point2D<int16_t, Quadrants2D::DownLeft>;
+	extern template struct Point2D<int16_t, Quadrants2D::DownRight>;
+	extern template struct Point2D<int32_t, Quadrants2D::UpRight>;
+	extern template struct Point2D<int32_t, Quadrants2D::UpLeft>;
+	extern template struct Point2D<int32_t, Quadrants2D::DownLeft>;
+	extern template struct Point2D<int32_t, Quadrants2D::DownRight>;
+	extern template struct Point2D<int64_t, Quadrants2D::UpRight>;
+	extern template struct Point2D<int64_t, Quadrants2D::UpLeft>;
+	extern template struct Point2D<int64_t, Quadrants2D::DownLeft>;
+	extern template struct Point2D<int64_t, Quadrants2D::DownRight>;
+	extern template struct Point2D<float, Quadrants2D::UpRight>;
+	extern template struct Point2D<float, Quadrants2D::UpLeft>;
+	extern template struct Point2D<float, Quadrants2D::DownLeft>;
+	extern template struct Point2D<float, Quadrants2D::DownRight>;
+	extern template struct Point2D<double, Quadrants2D::UpRight>;
+	extern template struct Point2D<double, Quadrants2D::UpLeft>;
+	extern template struct Point2D<double, Quadrants2D::DownLeft>;
+	extern template struct Point2D<double, Quadrants2D::DownRight>;
 
-	typedef Point2D<int, Quadrants::UpRight> GeometricPoint;
-	typedef Point2D<float, Quadrants::UpRight> GeometricPointF;
+	typedef Point2D<int, Quadrants2D::UpRight> GeometricPoint;
+	typedef Point2D<float, Quadrants2D::UpRight> GeometricPointF;
 }
 #endif // __stationaryorbit_core_point__

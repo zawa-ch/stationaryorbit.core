@@ -31,7 +31,7 @@ std::array<std::function<int(void)>, 9> tests =
 		std::cout << "p2 = GeometricPoint(2, 8)" << std::endl;
 		auto p1 = GeometricPoint(3, 4);
 		auto p2 = GeometricPoint(2, 8);
-		std::cout << "1. p1 + p2 ? (" << (p1 + p2).X() << ", " << (p1 + p2).Y() << ")" << std::endl;
+		std::cout << "1. p1 + p2 ? (" << (p1 + p2).x() << ", " << (p1 + p2).y() << ")" << std::endl;
 		return 0;
 	},
 	[]()
@@ -40,15 +40,15 @@ std::array<std::function<int(void)>, 9> tests =
 		std::cout << "p2 = GeometricPoint(2, 8)" << std::endl;
 		auto p1 = GeometricPoint(3, 4);
 		auto p2 = GeometricPoint(2, 8);
-		std::cout << "2. p1 - p2 ? (" << (p1 - p2).X() << ", " << (p1 - p2).Y() << ")" << std::endl;
+		std::cout << "2. p1 - p2 ? (" << (p1 - p2).x() << ", " << (p1 - p2).y() << ")" << std::endl;
 		return 0;
 	},
 	[]()
 	{
 		std::cout << "p1 = GeometricPoint(3, 4)" << std::endl;
 		auto p1 = GeometricPoint(3, 4);
-		std::cout << "3. Point2D<int, Quadrants::DownRight>(p1) == Point2D<int, Quadrants::DownRight>(3, -4) ->true?";
-		return check_if(Point2D<int, Quadrants::DownRight>(p1) == Point2D<int, Quadrants::DownRight>(3, -4));
+		std::cout << "3. Point2D<int, Quadrants2D::DownRight>(p1) == Point2D<int, Quadrants2D::DownRight>(3, -4) ->true?";
+		return check_if(Point2D<int, Quadrants2D::DownRight>(p1) == Point2D<int, Quadrants2D::DownRight>(3, -4));
 	},
 	[]()
 	{
@@ -56,7 +56,7 @@ std::array<std::function<int(void)>, 9> tests =
 		std::cout << "fp2 = GeometricPointF(-3.1, 2.0)" << std::endl;
 		auto fp1 = GeometricPointF(0.3, 1.8);
 		auto fp2 = GeometricPointF(-3.1, 2.0);
-		std::cout << "4. fp1 + fp2 ? (" << (fp1 + fp2).X() << ", " << (fp1 + fp2).Y() << ")" << std::endl;
+		std::cout << "4. fp1 + fp2 ? (" << (fp1 + fp2).x() << ", " << (fp1 + fp2).y() << ")" << std::endl;
 		return 0;
 	},
 	[]()
@@ -65,35 +65,35 @@ std::array<std::function<int(void)>, 9> tests =
 		std::cout << "fp2 = GeometricPointF(-3.1, 2.0)" << std::endl;
 		auto fp1 = GeometricPointF(0.3, 1.8);
 		auto fp2 = GeometricPointF(-3.1, 2.0);
-		std::cout << "5. fp1 - fp2 ? (" << (fp1 - fp2).X() << ", " << (fp1 - fp2).Y() << ")" << std::endl;
+		std::cout << "5. fp1 - fp2 ? (" << (fp1 - fp2).x() << ", " << (fp1 - fp2).y() << ")" << std::endl;
 		return 0;
 	},
 	[]()
 	{
 		std::cout << "fp1 = GeometricPointF(0.3, 1.8)" << std::endl;
 		auto fp1 = GeometricPointF(0.3, 1.8);
-		std::cout << "6. fp1.Round() ? (" << fp1.Round().X() << ", " << fp1.Round().Y() << ")" << std::endl;
+		std::cout << "6. fp1.round() ? (" << fp1.round().x() << ", " << fp1.round().y() << ")" << std::endl;
 		return 0;
 	},
 	[]()
 	{
 		std::cout << "fp1 = GeometricPointF(0.3, 1.8)" << std::endl;
 		auto fp1 = GeometricPointF(0.3, 1.8);
-		std::cout << "7. fp1.Floor() ? (" << fp1.Floor().X() << ", " << fp1.Floor().Y() << ")" << std::endl;
+		std::cout << "7. fp1.floor() ? (" << fp1.floor().x() << ", " << fp1.floor().y() << ")" << std::endl;
 		return 0;
 	},
 	[]()
 	{
 		std::cout << "fp1 = GeometricPointF(0.3, 1.8)" << std::endl;
 		auto fp1 = GeometricPointF(0.3, 1.8);
-		std::cout << "8. fp1.Ceiling() ? (" << fp1.Ceiling().X() << ", " << fp1.Ceiling().Y() << ")" << std::endl;
+		std::cout << "8. fp1.ceil() ? (" << fp1.ceil().x() << ", " << fp1.ceil().y() << ")" << std::endl;
 		return 0;
 	},
 	[]()
 	{
 		std::cout << "fp1 = GeometricPointF(0.3, 1.8)" << std::endl;
 		auto fp1 = GeometricPointF(0.3, 1.8);
-		std::cout << "9. fp1.Extract() ? (" << fp1.Extract().X() << ", " << fp1.Extract().Y() << ")" << std::endl;
+		std::cout << "9. fp1.extract() ? (" << fp1.extract().x() << ", " << fp1.extract().y() << ")" << std::endl;
 		return 0;
 	},
 };
