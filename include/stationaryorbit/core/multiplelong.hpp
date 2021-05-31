@@ -225,15 +225,15 @@ namespace zawa_ch::StationaryOrbit
 
 	template<class T, size_t N> struct BitWidth_t<MultipleULong<T, N>> : std::integral_constant<size_t, bitwidth<T> * N> {};
 
-	typedef MultipleULong<uint8_t, 2UL> uint8double_t;
-	typedef MultipleULong<uint16_t, 2UL> uint16double_t;
-	typedef MultipleULong<uint32_t, 2UL> uint32double_t;
-	typedef MultipleULong<uint64_t, 2UL> uint64double_t;
+	typedef MultipleULong<uint64_t, 2UL> uint128_t;
+	typedef MultipleULong<uint64_t, 4UL> uint256_t;
+	typedef MultipleULong<uint64_t, 8UL> uint512_t;
+	typedef MultipleULong<uint64_t, 16UL> uint1024_t;
 
-	extern template struct MultipleULong<uint8_t, 2UL>;
-	extern template struct MultipleULong<uint16_t, 2UL>;
-	extern template struct MultipleULong<uint32_t, 2UL>;
 	extern template struct MultipleULong<uint64_t, 2UL>;
+	extern template struct MultipleULong<uint64_t, 4UL>;
+	extern template struct MultipleULong<uint64_t, 8UL>;
+	extern template struct MultipleULong<uint64_t, 16UL>;
 }
 namespace std
 {

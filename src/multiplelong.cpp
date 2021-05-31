@@ -19,10 +19,10 @@
 #include "stationaryorbit/core/multiplelong.hpp"
 
 template struct
-zawa_ch::StationaryOrbit::MultipleULong<uint8_t, 2UL>;
-template struct
-zawa_ch::StationaryOrbit::MultipleULong<uint16_t, 2UL>;
-template struct
-zawa_ch::StationaryOrbit::MultipleULong<uint32_t, 2UL>;
-template struct
 zawa_ch::StationaryOrbit::MultipleULong<uint64_t, 2UL>;
+template struct
+zawa_ch::StationaryOrbit::MultipleULong<uint64_t, 4UL>;
+template struct
+zawa_ch::StationaryOrbit::MultipleULong<uint64_t, 8UL>;
+template struct
+zawa_ch::StationaryOrbit::MultipleULong<uint64_t, 16UL>;
