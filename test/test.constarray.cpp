@@ -23,7 +23,15 @@
 #include "stationaryorbit/core.utilities.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
-typedef ConstArray<int, 1, 1, 2, 3, 5, 8, 13> A1;
+typedef ConstArray<
+	std::integral_constant<int, 1>,
+	std::integral_constant<int, 1>,
+	std::integral_constant<int, 2>,
+	std::integral_constant<int, 3>,
+	std::integral_constant<int, 5>,
+	std::integral_constant<int, 8>,
+	std::integral_constant<int, 13>
+> A1;
 
 std::array<std::function<int(void)>, 1> tests =
 {

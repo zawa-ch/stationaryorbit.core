@@ -25,7 +25,7 @@ namespace zawa_ch::StationaryOrbit
 	///	値の型。
 	///	@param	Values
 	///	配列の内容。
-	template<class T, T ... Values>
+	template<class FirstValue, class ... Values>
 	struct ConstArray
 	{
 	private:
@@ -34,70 +34,21 @@ namespace zawa_ch::StationaryOrbit
 		ConstArray(ConstArray&&) = delete;
 		~ConstArray() = delete;
 	public:
+		typedef decltype(FirstValue::value) ValueType;
 		///	この配列の表す型。
-		typedef T Type[sizeof...(Values)];
+		typedef ValueType Type[sizeof...(Values) + 1];
 
 		///	この @a ConstArray の内容。
-		static constexpr T values[] = { Values ... };
+		static constexpr Type values = { FirstValue::value, Values::value ... };
 		///	この @a ConstArray の配列の大きさ。
-		static constexpr size_t size = sizeof...(Values);
+		static constexpr size_t size = sizeof...(Values) + 1;
 
 		///	この @a ConstArray の内容に値を追加します。
-		template<T ... ConcatValues>
+		template<class ... ConcatValues>
 		struct Concat
 		{
-			typedef ConstArray<T, Values..., ConcatValues...> Type;
+			typedef ConstArray<FirstValue, Values..., ConcatValues...> Type;
 		};
 	};
-
-	///	constexprな再帰関数を実行するためのイテレータ。
-	///	@param	T
-	///	値の型。
-	///	@param	Expr
-	///	実行する関数。
-	///	constexprな関数でなくてはなりません。
-	///	@param	Init
-	///	関数に渡す初期値。
-	template<class T, T Expr(T), T Init>
-	class ConstExprIterator
-	{
-	public:
-		typedef T ValueType;
-	private:
-		T _value;
-	public:
-		constexpr ConstExprIterator() : _value(Init) {}
-
-		[[nodiscard]] constexpr bool Equals(const ConstExprIterator& other) const noexcept { return _value == other._value; }
-		[[nodiscard]] constexpr bool Next() noexcept { _value = Expr(_value); return true; }
-		[[nodiscard]] constexpr bool HasValue() const noexcept { return true; }
-		[[nodiscard]] constexpr const ValueType& Current() const noexcept { return _value; }
-	};
-
-	///	コンパイル時に値が決定する数列を式と初期値から生成します。
-	///	@param	T
-	///	値の型。
-	///	@param	Expr
-	///	実行する関数。
-	///	constexprな関数でなくてはなりません。
-	///	@param	Init
-	///	関数に渡す初期値。
-	///	@param	N
-	///	配列の要素数。
-	///	N-1回関数が反復され、N個の要素が格納された配列が生成されます。
-	template<class T, T Expr(T), T Init, size_t N>
-	class ConstProgression : public ConstProgression<T, Expr, Init, N - 1>::template Concat<Expr(ConstProgression<T, Expr, Init, N - 1>::last)>::Type
-	{
-	public:
-		static constexpr T last = Expr(ConstProgression<T, Expr, Init, N - 1>::last);
-	};
-	template<class T, T Expr(T), T Init>
-	class ConstProgression<T, Expr, Init, 1> : public ConstArray<T, Init>
-	{
-	public:
-		static constexpr T last = Init;
-	};
-	template<class T, T Expr(T), T Init>
-	class ConstProgression<T, Expr, Init, 0> : public ConstArray<T> {};
 }
 #endif // __stationaryorbit_core_constarray__
