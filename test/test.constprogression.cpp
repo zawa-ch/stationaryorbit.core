@@ -23,7 +23,18 @@
 #include "stationaryorbit/core.utilities.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
-constexpr int Suc(int i) { return i + 1; }
+template<int Init>
+class SuccessorIterator
+{
+public:
+	typedef int ValueType;
+private:
+	int _value;
+public:
+	constexpr SuccessorIterator() : _value(Init) {}
+	constexpr void next() noexcept { _value += 1; }
+	constexpr ValueType current() const noexcept { return _value; }
+};
 
 std::array<std::function<int(void)>, 1> tests =
 {
@@ -32,7 +43,7 @@ std::array<std::function<int(void)>, 1> tests =
 		std::cout << "1. ConstProgression<int, Suc, 1, 10>::values ? ";
 		for (auto i: Range<size_t>(0, 10).GetStdIterator())
 		{
-			std::cout << ConstProgression<int, Suc, 1, 10>::values[i] << " ";
+			std::cout << ConstProgressionArray<SuccessorIterator<1>, 10>::values[i] << " ";
 		}
 		std::cout << std::endl;
 		return 0;
