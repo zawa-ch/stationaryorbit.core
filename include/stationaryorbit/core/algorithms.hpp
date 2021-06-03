@@ -21,7 +21,6 @@
 #include <stdexcept>
 #include "traits.hpp"
 #include "divisionresult.hpp"
-#include "constarray.hpp"
 #include "range.hpp"
 #include "multiplelong.hpp"
 namespace zawa_ch::StationaryOrbit
@@ -188,22 +187,5 @@ namespace zawa_ch::StationaryOrbit
 	extern template DivisionResult<int16_t> Algorithms::integral_fraction<int16_t>(const int16_t& numerator, const int16_t& denominator, const int16_t& scale);
 	extern template DivisionResult<int32_t> Algorithms::integral_fraction<int32_t>(const int32_t& numerator, const int32_t& denominator, const int32_t& scale);
 	extern template DivisionResult<int64_t> Algorithms::integral_fraction<int64_t>(const int64_t& numerator, const int64_t& denominator, const int64_t& scale);
-
-	template<class T>
-	struct TrigonometricResult final
-	{
-		T Sin;
-		T Cos;
-	};
-	template<class T, size_t N>
-	class HalfAngleFormula :
-		ConstProgression
-		<
-			TrigonometricResult<T>,
-			[](const TrigonometricResult<T>& b) { return TrigonometricResult<T> { Algorithms::halfangle_sin(b.Cos), Algorithms::halfangle_cos(b.Cos) }; },
-			TrigonometricResult<T> { 1, 0 },
-			N
-		>
-	{};
 }
 #endif // __stationaryorbit__core_algorithms__

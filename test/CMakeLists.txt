@@ -323,6 +323,29 @@ do_test_pattern(stationaryorbit.core.test.fixedpoint 16 "255\.996")
 do_test_pattern(stationaryorbit.core.test.fixedpoint 17 "0")
 do_test_pattern(stationaryorbit.core.test.fixedpoint 18 "0\.00390625")
 
+add_executable(stationaryorbit.core.test.halfangleformula test.halfangleformula.cpp)
+target_link_libraries(stationaryorbit.core.test.halfangleformula stationaryorbit.core)
+do_test_pattern(stationaryorbit.core.test.halfangleformula 1 "sin .
+1
+0\.707106[0-9]*
+0\.382683[0-9]*
+0\.195090[0-9]*
+0\.0980171[0-9]*
+0\.0490676[0-9]*
+0\.0245412[0-9]*
+0\.0122715[0-9]*
+0\.00613588[0-9]*")
+do_test_pattern(stationaryorbit.core.test.halfangleformula 2 "cos .
+0
+0\.707106[0-9]*
+0\.923879[0-9]*
+0\.980785[0-9]*
+0\.995184[0-9]*
+0\.998795[0-9]*
+0\.999698[0-9]*
+0\.999924[0-9]*
+0\.999981[0-9]*")
+
 add_executable(stationaryorbit.core.test.integer test.integer.cpp)
 target_link_libraries(stationaryorbit.core.test.integer stationaryorbit.core)
 do_test_nofail(stationaryorbit.core.test.integer 1)
