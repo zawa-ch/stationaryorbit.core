@@ -1,5 +1,5 @@
 //	stationaryorbit/core/basicmath
-//	Copyright 2020 zawa-ch.
+//	Copyright 2020-2021 zawa-ch.
 //	GPLv3 (or later) license
 //
 //	This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
 #include "notimplemented.hpp"
 #include "fundamental.hpp"
 #include "traits.hpp"
+#include "algorithms.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	class BasicMathematics
@@ -32,64 +33,76 @@ namespace zawa_ch::StationaryOrbit
 		BasicMathematics(BasicMathematics&&) = delete;
 		~BasicMathematics() = delete;
 
-		template<class T, class R = decltype( std::sqrt(std::declval<T&>()) )> struct StdSqrtResultImpl { typedef R type; };
-		template<class T, class R = decltype( std::declval<const T&>().Sqrt() )> struct SqrtResultImpl { typedef R type; };
-		template<class T, class = void> struct IsStdSqrtCallableImpl : std::false_type {};
-		template<class T> struct IsStdSqrtCallableImpl<T, std::void_t< typename StdSqrtResultImpl<T>::type >> : std::true_type {};
-		template<class T, class = void> struct HasSqrtImpl : std::false_type {};
-		template<class T> struct HasSqrtImpl<T, std::void_t< typename StdSqrtResultImpl<T>::type >> : std::true_type {};
-		template<class T> static constexpr bool is_std_sqrt_callable = IsStdSqrtCallableImpl<T>::value;
-		template<class T> static constexpr bool has_sqrt = HasSqrtImpl<T>::value;
+		template<class Tp, class R = decltype( std::sqrt(std::declval<const Tp&>()) )> struct StdSqrtResultImpl { typedef R type; };
+		template<class Tp, class R = decltype( std::ceil(std::declval<const Tp&>()) )> struct StdCeilResultImpl { typedef R type; };
+		template<class Tp, class R = decltype( std::floor(std::declval<const Tp&>()) )> struct StdFloorResultImpl { typedef R type; };
+		template<class Tp, class R = decltype( std::trunc(std::declval<const Tp&>()) )> struct StdTruncResultImpl { typedef R type; };
+		template<class Tp, class R = decltype( std::round(std::declval<const Tp&>()) )> struct StdRoundResultImpl { typedef R type; };
+		template<class Tp, class R = decltype( std::declval<const Tp&>().Sqrt() )> struct SqrtResultImpl { typedef R type; };
+		template<class Tp, class = void> struct IsStdSqrtCallableImpl : std::false_type {};
+		template<class Tp> struct IsStdSqrtCallableImpl<Tp, std::void_t< typename StdSqrtResultImpl<Tp>::type >> : std::true_type {};
+		template<class Tp, class = void> struct IsStdCeilCallableImpl : std::false_type {};
+		template<class Tp> struct IsStdCeilCallableImpl<Tp, std::void_t< typename StdCeilResultImpl<Tp>::type >> : std::true_type {};
+		template<class Tp, class = void> struct IsStdFloorCallableImpl : std::false_type {};
+		template<class Tp> struct IsStdFloorCallableImpl<Tp, std::void_t< typename StdFloorResultImpl<Tp>::type >> : std::true_type {};
+		template<class Tp, class = void> struct IsStdTruncCallableImpl : std::false_type {};
+		template<class Tp> struct IsStdTruncCallableImpl<Tp, std::void_t< typename StdTruncResultImpl<Tp>::type >> : std::true_type {};
+		template<class Tp, class = void> struct IsStdRoundCallableImpl : std::false_type {};
+		template<class Tp> struct IsStdRoundCallableImpl<Tp, std::void_t< typename StdRoundResultImpl<Tp>::type >> : std::true_type {};
+		template<class Tp, class = void> struct HasSqrtImpl : std::false_type {};
+		template<class Tp> struct HasSqrtImpl<Tp, std::void_t< typename StdSqrtResultImpl<Tp>::type >> : std::true_type {};
+
+		template<class Tp> static constexpr bool is_std_sqrt_callable = IsStdSqrtCallableImpl<Tp>::value;
+		template<class Tp> static constexpr bool is_std_ceil_callable = IsStdCeilCallableImpl<Tp>::value;
+		template<class Tp> static constexpr bool is_std_floor_callable = IsStdFloorCallableImpl<Tp>::value;
+		template<class Tp> static constexpr bool is_std_trunc_callable = IsStdTruncCallableImpl<Tp>::value;
+		template<class Tp> static constexpr bool is_std_round_callable = IsStdRoundCallableImpl<Tp>::value;
+		template<class Tp> static constexpr bool has_sqrt = HasSqrtImpl<Tp>::value;
 	public:
-		template<class T>
-		[[nodiscard]] static constexpr std::enable_if_t<Traits::IsNumericalType<T>, T> abstract(const T& value) noexcept
+		template<class Tp>
+		[[nodiscard]] static constexpr std::enable_if_t<Traits::IsNumericalType<Tp>, Tp> abstract(const Tp& value) noexcept
 		{
-			return ( value < T(0) )?(-value):(value);
+			return ( value < Tp(0) )?(-value):(value);
 		}
-		template<class T, class = decltype( std::abs( std::declval<T&>() ))>
-		[[nodiscard]] static constexpr T abstract(const T& value) noexcept { return std::abs(value); }
+		template<class Tp, class = decltype( std::abs( std::declval<Tp&>() ))>
+		[[nodiscard]] static constexpr Tp abstract(const Tp& value) noexcept { return std::abs(value); }
+
 		///	この値の平方根を取得します。
-		template<class T, std::enable_if_t<(!is_std_sqrt_callable<T>) && (!has_sqrt<T>), int> = 0>
-		[[nodiscard]] static constexpr T square_root(const T& value) noexcept
-		{
-			static_assert(Traits::IsNumericalType<T>, "テンプレート型 T は数値型である必要があります。");
-			auto result = value;
-			auto b = value;
-			do	// X[n+1] = (X[N] + a / X[N]) / 2
-			{
-				// 0除算の回避(sqrt(0) = 0)
-				if (result == T(0))
-				{
-					if constexpr (std::numeric_limits<T>::has_quiet_NaN) { result = std::numeric_limits<T>::quiet_NaN(); }
-					break;
-				}
-				b = result;	///< 前回値(X[N])保持
-				// a / X[N] の導出
-				auto delta = value / b;
-				// X[N] / 2
-				result /= T(2);
-				if constexpr (Traits::IsIntegralType<T>)
-				{
-					// 剰余分の計算
-					result += ((result % T(2)) + (delta % T(2))) / T(2);
-				}
-				// (a / X[n]) / 2
-				result += delta / T(2);
-			} while (T(2) < ((result < b)?(b-result):(result - b)));
-			return result;
-		}
-		template<class T, std::enable_if_t<(is_std_sqrt_callable<T>), int> = 0>
-		[[nodiscard]] static constexpr T square_root(const T& value) noexcept { return std::sqrt(value); }
-		template<class T, std::enable_if_t<(!is_std_sqrt_callable<T>) && (has_sqrt<T>), int> = 0>
-		[[nodiscard]] static constexpr decltype( std::declval<const T&>().Sqrt() ) square_root(const T& value) noexcept { return value.Sqrt(); }
-		template<class T>
-		[[nodiscard]] static constexpr std::enable_if_t<Traits::IsNumericalType<T>, T> mod(const T& left, const T& right)
+		template<class Tp, std::enable_if_t<(!is_std_sqrt_callable<Tp>) && (!has_sqrt<Tp>), int> = 0>
+		[[nodiscard]] static constexpr Tp square_root(const Tp& value) noexcept { return Algorithms::square_root<Tp>(value); }
+		template<class Tp, std::enable_if_t<(is_std_sqrt_callable<Tp>), int> = 0>
+		[[nodiscard]] static constexpr Tp square_root(const Tp& value) noexcept { return std::sqrt(value); }
+		template<class Tp, std::enable_if_t<(!is_std_sqrt_callable<Tp>) && (has_sqrt<Tp>), int> = 0>
+		[[nodiscard]] static constexpr decltype( std::declval<const Tp&>().Sqrt() ) square_root(const Tp& value) noexcept { return value.Sqrt(); }
+
+		template<class Tp, std::enable_if_t<(Traits::IsIntegralType<Tp>), int> = 0>
+		[[nodiscard]] static constexpr Tp ceil(const Tp& value) { return value; }
+		template<class Tp, std::enable_if_t<!(Traits::IsIntegralType<Tp>) && (is_std_ceil_callable<Tp>), int> = 0>
+		[[nodiscard]] static constexpr Tp ceil(const Tp& value) { return std::ceil(value); }
+
+		template<class Tp, std::enable_if_t<(Traits::IsIntegralType<Tp>), int> = 0>
+		[[nodiscard]] static constexpr Tp floor(const Tp& value) { return value; }
+		template<class Tp, std::enable_if_t<!(Traits::IsIntegralType<Tp>) && (is_std_floor_callable<Tp>), int> = 0>
+		[[nodiscard]] static constexpr Tp floor(const Tp& value) { return std::floor(value); }
+
+		template<class Tp, std::enable_if_t<(Traits::IsIntegralType<Tp>), int> = 0>
+		[[nodiscard]] static constexpr Tp truncate(const Tp& value) { return value; }
+		template<class Tp, std::enable_if_t<!(Traits::IsIntegralType<Tp>) && (is_std_trunc_callable<Tp>), int> = 0>
+		[[nodiscard]] static constexpr Tp truncate(const Tp& value) { return std::trunc(value); }
+
+		template<class Tp, std::enable_if_t<(Traits::IsIntegralType<Tp>), int> = 0>
+		[[nodiscard]] static constexpr Tp round(const Tp& value) { return value; }
+		template<class Tp, std::enable_if_t<!(Traits::IsIntegralType<Tp>) && (is_std_round_callable<Tp>), int> = 0>
+		[[nodiscard]] static constexpr Tp round(const Tp& value) { return std::round(value); }
+
+		template<class Tp>
+		[[nodiscard]] static constexpr std::enable_if_t<Traits::IsNumericalType<Tp>, Tp> mod(const Tp& left, const Tp& right)
 		{
 			// TODO: フォールバック実装の実装
 			throw NotImplementedException();
 		}
-		template<class T, class = decltype( std::fmod( std::declval<T&>(), std::declval<T&>() ))>
-		[[nodiscard]] static constexpr T mod(const T& value) noexcept { return std::fmod(value); }
+		template<class Tp, class = decltype( std::fmod( std::declval<Tp&>(), std::declval<Tp&>() ))>
+		[[nodiscard]] static constexpr Tp mod(const Tp& value) noexcept { return std::fmod(value); }
 	};
 }
 #endif // __stationaryorbit_core_basicmath__

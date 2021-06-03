@@ -22,7 +22,6 @@
 #include "traits.hpp"
 #include "divisionresult.hpp"
 #include "constarray.hpp"
-#include "basicmath.hpp"
 #include "range.hpp"
 #include "multiplelong.hpp"
 namespace zawa_ch::StationaryOrbit
@@ -117,13 +116,48 @@ namespace zawa_ch::StationaryOrbit
 			}
 			return result;
 		}
+		template<class Tp>
+		[[nodiscard]] static constexpr Tp square_root(const Tp& value)
+		{
+			static_assert(Traits::IsNumericalType<Tp>, "テンプレート型 Tp は数値型である必要があります。");
+			auto result = value;
+			auto b = value;
+			auto c = Tp(0);
+			do	// X[n+1] = (X[N] + a / X[N]) / 2
+			{
+				// 0除算の回避(sqrt(0) = 0)
+				if (result == Tp(0)) { break; }
+				b = result;	///< 前回値(X[N])保持
+				// a / X[N] の導出
+				auto delta = value / b;
+				if constexpr (Traits::IsIntegralType<Tp>)
+				{
+					// X[N] / 2
+					result /= Tp(2);
+					// 剰余分の計算
+					result += ((result % Tp(2)) + (delta % Tp(2))) / Tp(2);
+					// (a / X[n]) / 2
+					result += delta / Tp(2);
+					if (((result < b)?(b-result):(result - b)) <= Tp(2)) { break; }
+				}
+				else
+				{
+					delta = (delta - b) / 2;
+					delta -= c;
+					result += delta;
+					c = (result - b) - delta;
+					if ((((0 <= delta)?(delta):(-delta)) <= (std::numeric_limits<Tp>::epsilon() * b))) { break; }
+				}
+			} while (true);
+			return result;
+		}
 		///	半角公式によるsin(x/2)の導出を行います。
 		///	@param	cos
 		///	cos(x)の値。
 		template<class T>
 		[[nodiscard]] static constexpr T halfangle_sin(const T& cos)
 		{
-			return BasicMathematics::square_root((T(1) - cos) / 2);
+			return square_root((T(1) - cos) / 2);
 		}
 		///	半角公式によるcos(x/2)の導出を行います。
 		///	@param	cos
@@ -131,7 +165,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class T>
 		[[nodiscard]] static constexpr T halfangle_cos(const T& cos)
 		{
-			return BasicMathematics::square_root((T(1) + cos) / 2);
+			return square_root((T(1) + cos) / 2);
 		}
 		///	半角公式によるtan(x/2)の導出を行います。
 		///	@param	sin
@@ -141,7 +175,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class T>
 		[[nodiscard]] static constexpr T halfangle_tan(const T& sin, const T& cos)
 		{
-			return (1 - cos) / sin;
+			return sin / (1 + cos);
 		}
 	};
 
