@@ -25,6 +25,8 @@
 #include "multiplelong.hpp"
 namespace zawa_ch::StationaryOrbit
 {
+	///	このライブラリで使用するアルゴリズムを定義します
+	///
 	///	ライブラリで使用される基本的なアルゴリズムを実装します。
 	///	このクラスのインスタンスを作成することはできません。また、継承することもできません。
 	class Algorithms final
@@ -32,7 +34,9 @@ namespace zawa_ch::StationaryOrbit
 		Algorithms() = delete;
 		~Algorithms() = delete;
 	public:
-		///	整数の除算と乗算を行います。
+		///	整数の除算と乗算を同時に行います。
+		///	@param	Tp
+		///	演算を行う整数型。型要件:IntegralTypeを満たす型か、 @a bool のどちらかである必要があります。
 		///	@param	numerator
 		///	除算時の被除数。
 		///	@param	denominator
@@ -40,7 +44,7 @@ namespace zawa_ch::StationaryOrbit
 		///	@param	scale
 		///	乗算時の乗数。
 		///	@exception
-		///	std::invalid_argument
+		///	@a std::invalid_argument
 		///	0で除算することはできません。
 		template<class Tp>
 		[[nodiscard]] static constexpr DivisionResult<Tp> integral_fraction(const Tp& numerator, const Tp& denominator, const Tp& scale)
@@ -68,14 +72,19 @@ namespace zawa_ch::StationaryOrbit
 				}
 			}
 		}
+
 		///	@a bool のand結合を行います。
-		///	このメソッドはちょうど @a left&right に等しい操作を行います。
-		[[nodiscard]] static constexpr bool boolean_and(const bool& left, const bool& right)
+		///
+		///	このメソッドはちょうど @a left&amp;right に等しい操作を行います。
+		[[nodiscard]] static constexpr bool boolean_and(const bool& left, const bool& right) noexcept
 		{
 			return left & right;
 		}
+
 		///	@a bool のand結合を行います。
-		[[nodiscard]] static constexpr bool boolean_and(const std::initializer_list<bool>& list)
+		///
+		///	このメソッドは @a std::initializer_list&lt;bool&gt;&amp; 内のすべての値をand結合します。
+		[[nodiscard]] static constexpr bool boolean_and(const std::initializer_list<bool>& list) noexcept
 		{
 			bool result = true;
 			for(auto i: list)
@@ -84,14 +93,19 @@ namespace zawa_ch::StationaryOrbit
 			}
 			return result;
 		}
+
 		///	@a bool のor結合を行います。
+		///
 		///	このメソッドはちょうど @a left|right に等しい操作を行います。
-		[[nodiscard]] static constexpr bool boolean_or(const bool& left, const bool& right)
+		[[nodiscard]] static constexpr bool boolean_or(const bool& left, const bool& right) noexcept
 		{
 			return left | right;
 		}
+
 		///	@a bool のor結合を行います。
-		[[nodiscard]] static constexpr bool boolean_or(const std::initializer_list<bool>& list)
+		///
+		///	このメソッドは @a std::initializer_list&lt;bool&gt;&amp; 内のすべての値をor結合します。
+		[[nodiscard]] static constexpr bool boolean_or(const std::initializer_list<bool>& list) noexcept
 		{
 			bool result = false;
 			for(auto i: list)
@@ -100,13 +114,19 @@ namespace zawa_ch::StationaryOrbit
 			}
 			return result;
 		}
+
 		///	@a bool のxor結合を行います。
-		[[nodiscard]] static constexpr bool boolean_xor(const bool& left, const bool& right)
+		///
+		///	このメソッドはちょうど @a left^right に等しい操作を行います。
+		[[nodiscard]] static constexpr bool boolean_xor(const bool& left, const bool& right) noexcept
 		{
 			return (left | right) & !(left & right);
 		}
+
 		///	@a bool のxor結合を行います。
-		[[nodiscard]] static constexpr bool boolean_xor(const std::initializer_list<bool>& list)
+		///
+		///	このメソッドは @a std::initializer_list&lt;bool&gt;&amp; 内のすべての値をxor結合します。
+		[[nodiscard]] static constexpr bool boolean_xor(const std::initializer_list<bool>& list) noexcept
 		{
 			bool result = false;
 			for(auto i: list)
@@ -115,8 +135,13 @@ namespace zawa_ch::StationaryOrbit
 			}
 			return result;
 		}
+
+		///	指定された数値の平方根を導出します。
+		///
+		///	@note
+		///	このメソッドは @a std::sqrt の @a constexpr な代替であるほか、 @a BasicMathematics::square_root で有効な実装が存在しない場合のフォールバック実装としても用いられます。
 		template<class Tp>
-		[[nodiscard]] static constexpr Tp square_root(const Tp& value)
+		[[nodiscard]] static constexpr Tp square_root(const Tp& value) noexcept
 		{
 			static_assert(Traits::IsNumericalType<Tp>, "テンプレート型 Tp は数値型である必要があります。");
 			auto result = value;
@@ -150,29 +175,32 @@ namespace zawa_ch::StationaryOrbit
 			} while (true);
 			return result;
 		}
+
 		///	半角公式によるsin(x/2)の導出を行います。
 		///	@param	cos
 		///	cos(x)の値。
 		template<class T>
-		[[nodiscard]] static constexpr T halfangle_sin(const T& cos)
+		[[nodiscard]] static constexpr T halfangle_sin(const T& cos) noexcept
 		{
 			return square_root((T(1) - cos) / 2);
 		}
+
 		///	半角公式によるcos(x/2)の導出を行います。
 		///	@param	cos
 		///	cos(x)の値。
 		template<class T>
-		[[nodiscard]] static constexpr T halfangle_cos(const T& cos)
+		[[nodiscard]] static constexpr T halfangle_cos(const T& cos) noexcept
 		{
 			return square_root((T(1) + cos) / 2);
 		}
+
 		///	半角公式によるtan(x/2)の導出を行います。
 		///	@param	sin
 		///	sin(x)の値。
 		///	@param	cos
 		///	cos(x)の値。
 		template<class T>
-		[[nodiscard]] static constexpr T halfangle_tan(const T& sin, const T& cos)
+		[[nodiscard]] static constexpr T halfangle_tan(const T& sin, const T& cos) noexcept
 		{
 			return sin / (1 + cos);
 		}
