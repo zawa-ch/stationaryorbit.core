@@ -26,4 +26,3 @@
 #include "core/rect2dsize.hpp"
 #include "core/rectangle2d.hpp"
 #include "core/rotation.hpp"
-#include "core/vector2d.hpp"

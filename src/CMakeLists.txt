@@ -39,5 +39,4 @@ add_library(stationaryorbit.core SHARED
     rectangle2d.cpp
     rotation.cpp
     traits.cpp
-    vector2d.cpp
 )

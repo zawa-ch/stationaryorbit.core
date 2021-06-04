@@ -619,9 +619,3 @@ do_test_nofail(stationaryorbit.core.test.zerovalue 6)
 do_test_nofail(stationaryorbit.core.test.zerovalue 7)
 do_test_nofail(stationaryorbit.core.test.zerovalue 8)
 do_test_pattern(stationaryorbit.core.test.zerovalue 9 "5")
-
-add_executable(stationaryorbit.core.test
-    numeral.cpp
-    test-general.cpp
-)
-target_link_libraries(stationaryorbit.core.test stationaryorbit.core)
