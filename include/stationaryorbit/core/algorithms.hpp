@@ -25,7 +25,7 @@
 #include "multiplelong.hpp"
 namespace zawa_ch::StationaryOrbit
 {
-	///	このライブラリで使用するアルゴリズムを定義します
+	///	@brief	このライブラリで使用するアルゴリズムを定義します
 	///
 	///	ライブラリで使用される基本的なアルゴリズムを実装します。
 	///	このクラスのインスタンスを作成することはできません。また、継承することもできません。
@@ -34,18 +34,16 @@ namespace zawa_ch::StationaryOrbit
 		Algorithms() = delete;
 		~Algorithms() = delete;
 	public:
-		///	整数の除算と乗算を同時に行います。
+		///	@brief	整数の除算と乗算を同時に行います。
 		///	@param	Tp
-		///	演算を行う整数型。型要件:IntegralTypeを満たす型か、 @a bool のどちらかである必要があります。
+		///	演算を行う整数型。型要件:IntegralTypeを満たす型か、 bool のどちらかである必要があります。
 		///	@param	numerator
 		///	除算時の被除数。
 		///	@param	denominator
 		///	除算時の除数。
 		///	@param	scale
 		///	乗算時の乗数。
-		///	@exception
-		///	@a std::invalid_argument
-		///	0で除算することはできません。
+		///	@exception	std::invalid_argument	除数に0を指定された場合にスローされます。
 		template<class Tp>
 		[[nodiscard]] static constexpr DivisionResult<Tp> integral_fraction(const Tp& numerator, const Tp& denominator, const Tp& scale)
 		{
@@ -73,7 +71,7 @@ namespace zawa_ch::StationaryOrbit
 			}
 		}
 
-		///	@a bool のand結合を行います。
+		///	@brief	bool のand結合を行います。
 		///
 		///	このメソッドはちょうど @a left&amp;right に等しい操作を行います。
 		[[nodiscard]] static constexpr bool boolean_and(const bool& left, const bool& right) noexcept
@@ -81,9 +79,9 @@ namespace zawa_ch::StationaryOrbit
 			return left & right;
 		}
 
-		///	@a bool のand結合を行います。
+		///	@brief	bool のand結合を行います。
 		///
-		///	このメソッドは @a std::initializer_list&lt;bool&gt;&amp; 内のすべての値をand結合します。
+		///	このメソッドは std::initializer_list&lt;bool&gt;&amp; 内のすべての値をand結合します。
 		[[nodiscard]] static constexpr bool boolean_and(const std::initializer_list<bool>& list) noexcept
 		{
 			bool result = true;
@@ -94,7 +92,7 @@ namespace zawa_ch::StationaryOrbit
 			return result;
 		}
 
-		///	@a bool のor結合を行います。
+		///	@brief	bool のor結合を行います。
 		///
 		///	このメソッドはちょうど @a left|right に等しい操作を行います。
 		[[nodiscard]] static constexpr bool boolean_or(const bool& left, const bool& right) noexcept
@@ -102,9 +100,9 @@ namespace zawa_ch::StationaryOrbit
 			return left | right;
 		}
 
-		///	@a bool のor結合を行います。
+		///	@brief	bool のor結合を行います。
 		///
-		///	このメソッドは @a std::initializer_list&lt;bool&gt;&amp; 内のすべての値をor結合します。
+		///	このメソッドは std::initializer_list&lt;bool&gt;&amp; 内のすべての値をor結合します。
 		[[nodiscard]] static constexpr bool boolean_or(const std::initializer_list<bool>& list) noexcept
 		{
 			bool result = false;
@@ -115,7 +113,7 @@ namespace zawa_ch::StationaryOrbit
 			return result;
 		}
 
-		///	@a bool のxor結合を行います。
+		///	@brief	bool のxor結合を行います。
 		///
 		///	このメソッドはちょうど @a left^right に等しい操作を行います。
 		[[nodiscard]] static constexpr bool boolean_xor(const bool& left, const bool& right) noexcept
@@ -123,9 +121,9 @@ namespace zawa_ch::StationaryOrbit
 			return (left | right) & !(left & right);
 		}
 
-		///	@a bool のxor結合を行います。
+		///	@brief	bool のxor結合を行います。
 		///
-		///	このメソッドは @a std::initializer_list&lt;bool&gt;&amp; 内のすべての値をxor結合します。
+		///	このメソッドは std::initializer_list&lt;bool&gt;&amp; 内のすべての値をxor結合します。
 		[[nodiscard]] static constexpr bool boolean_xor(const std::initializer_list<bool>& list) noexcept
 		{
 			bool result = false;
@@ -136,10 +134,10 @@ namespace zawa_ch::StationaryOrbit
 			return result;
 		}
 
-		///	指定された数値の平方根を導出します。
+		///	@brief	指定された数値の平方根を導出します。
 		///
 		///	@note
-		///	このメソッドは @a std::sqrt の @a constexpr な代替であるほか、 @a BasicMathematics::square_root で有効な実装が存在しない場合のフォールバック実装としても用いられます。
+		///	このメソッドは std::sqrt(Tp) の constexpr な代替であるほか、 BasicMathematics::square_root(const Tp&) で有効な実装が存在しない場合のフォールバック実装としても用いられます。
 		template<class Tp>
 		[[nodiscard]] static constexpr Tp square_root(const Tp& value) noexcept
 		{
@@ -151,7 +149,8 @@ namespace zawa_ch::StationaryOrbit
 			{
 				// 0除算の回避(sqrt(0) = 0)
 				if (result == Tp(0)) { break; }
-				b = result;	///< 前回値(X[N])保持
+				// 前回値(X[N])保持
+				b = result;
 				// a / X[N] の導出
 				auto delta = value / b;
 				if constexpr (Traits::IsIntegralType<Tp>)
@@ -176,7 +175,7 @@ namespace zawa_ch::StationaryOrbit
 			return result;
 		}
 
-		///	半角公式によるsin(x/2)の導出を行います。
+		///	@brief	半角公式によるsin(x/2)の導出を行います。
 		///	@param	cos
 		///	cos(x)の値。
 		template<class T>
@@ -185,7 +184,7 @@ namespace zawa_ch::StationaryOrbit
 			return square_root((T(1) - cos) / 2);
 		}
 
-		///	半角公式によるcos(x/2)の導出を行います。
+		///	@brief	半角公式によるcos(x/2)の導出を行います。
 		///	@param	cos
 		///	cos(x)の値。
 		template<class T>
@@ -194,7 +193,7 @@ namespace zawa_ch::StationaryOrbit
 			return square_root((T(1) + cos) / 2);
 		}
 
-		///	半角公式によるtan(x/2)の導出を行います。
+		///	@brief	半角公式によるtan(x/2)の導出を行います。
 		///	@param	sin
 		///	sin(x)の値。
 		///	@param	cos
