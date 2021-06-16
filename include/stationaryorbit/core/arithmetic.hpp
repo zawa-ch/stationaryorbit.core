@@ -22,23 +22,77 @@
 #define __stationaryorbit_core_arithmetic__
 namespace zawa_ch::StationaryOrbit
 {
-	///	数値型による数値演算の拡張を行います。
+	///	@brief	数値型による数値演算の拡張を行います
+	///
+	///	数値型(型要件:NumericalType を満たす型)の演算の拡張を行います。
+	///	このクラスのインスタンスを作成することはできません。また、継承することもできません。
 	class ArithmeticOperation
 	{
 	private:
 		ArithmeticOperation() = delete;
 		~ArithmeticOperation() = delete;
 	public:
-		///	加算の結果を示すフラグ。
-		enum class AdditionResultStatus { no_error = 0, overflow_positive = 1, overflow_negative = -1 };
-		///	加算の結果を表します。
-		template<typename T, typename Tp = typename Traits::PromotionResult<T>> struct AdditionResult final { Tp result; AdditionResultStatus status; };
-		///	乗算の結果を示すフラグ。
-		enum class MultiplicationResultStatus { no_error = 0, overflow = 1, divide_by_zero = -1 };
-		///	乗算の結果を表します。
-		template<typename T, typename Tp = typename Traits::PromotionResult<T>> struct MultiplicationResult final { Tp result; MultiplicationResultStatus status; };
+		///	@brief	加算を行った結果の状態を示すフラグ
+		///
+		///	加減算を行った結果がどのような状態になっているかを表すためのフラグです。
+		enum class AdditionResultStatus
+		{
+			///	正しく加減算が行われたことを示す定数。
+			no_error = 0,
+			///	正方向のオーバーフローが発生したことを示す定数。
+			overflow_positive = 1,
+			///	負方向のオーバーフローが発生したことを示す定数。
+			overflow_negative = -1
+		};
 
-		///	@a AddisionResult を使用し、演算時のエラーを検出する加算を行います。
+		///	@brief	加算を行った結果を格納する構造体
+		///
+		///	加減算を行った結果を格納します。
+		///	このクラスは継承できません。
+		///	@param	Tp
+		///	加減算を行う型。型要件:NumericalType を満たす必要があります。
+		template<typename Tp, typename R = typename Traits::PromotionResult<Tp>>
+		struct AdditionResult final
+		{
+			///	演算結果の内容
+			R result;
+			///	演算結果の状態
+			AdditionResultStatus status;
+		};
+
+		///	@brief	乗算を行った結果の状態を示すフラグ
+		///
+		///	乗除算を行った結果がどのような状態になっているかを表すためのフラグです。
+		enum class MultiplicationResultStatus
+		{
+			///	正しく乗除算が行われたことを示す定数。
+			no_error = 0,
+			///	オーバーフローが発生したことを示す定数。
+			overflow = 1,
+			///	0除算が行われたことを示す定数。
+			divide_by_zero = -1
+		};
+
+		///	@brief	乗算を行った結果を格納する構造体
+		///
+		///	乗除算を行った結果を格納します。
+		///	このクラスは継承できません。
+		///	@param	Tp
+		///	乗除算を行う型。型要件:NumericalType を満たす必要があります。
+		template<typename T, typename Tp = typename Traits::PromotionResult<T>>
+		struct MultiplicationResult final
+		{
+			///	演算結果の内容
+			Tp result;
+			///	演算結果の状態
+			MultiplicationResultStatus status;
+		};
+
+		///	演算時のエラーをレポートする加算を行います。
+		///
+		///	加算を行い、その結果を演算時に検出したエラーとともに返します。
+		///	@param	left	演算子の左辺に代入される値。
+		///	@param	right	演算子の右辺に代入される値。
 		template<typename T>
 		static constexpr AdditionResult<T> add(const T& left, const T& right) noexcept
 		{
@@ -64,7 +118,12 @@ namespace zawa_ch::StationaryOrbit
 			}
 			return AdditionResult<T>{ left + right, AdditionResultStatus::no_error };
 		}
-		///	@a AddisionResult を使用し、演算時のエラーを検出する減算を行います。
+
+		///	演算時のエラーをレポートする減算を行います。
+		///
+		///	減算を行い、その結果を演算時に検出したエラーとともに返します。
+		///	@param	left	演算子の左辺に代入される値。
+		///	@param	right	演算子の右辺に代入される値。
 		template<typename T>
 		static constexpr AdditionResult<T> subtract(const T& left, const T& right) noexcept
 		{
@@ -90,7 +149,12 @@ namespace zawa_ch::StationaryOrbit
 			}
 			return AdditionResult<T>{ left - right, AdditionResultStatus::no_error };
 		}
-		///	@a MultiplicationResult を使用し、演算時のエラーを検出する乗算を行います。
+
+		///	演算時のエラーをレポートする乗算を行います。
+		///
+		///	乗算を行い、その結果を演算時に検出したエラーとともに返します。
+		///	@param	left	演算子の左辺に代入される値。
+		///	@param	right	演算子の右辺に代入される値。
 		template<typename T>
 		static MultiplicationResult<T> multiply(const T& left, const T& right) noexcept
 		{
@@ -130,7 +194,12 @@ namespace zawa_ch::StationaryOrbit
 			auto evalf = std::numeric_limits<T>::lowest() / right;
 			return MultiplicationResult<T>{ left * right, ((left < std::min(evalc, evalf))||(std::max(evalc, evalf) < left))?(MultiplicationResultStatus::overflow):(MultiplicationResultStatus::no_error) };
 		}
-		///	@a MultiplicationResult を使用し、演算時のエラーを検出する除算を行います。
+
+		///	演算時のエラーをレポートする除算を行います。
+		///
+		///	除算を行い、その結果を演算時に検出したエラーとともに返します。
+		///	@param	left	演算子の左辺に代入される値。
+		///	@param	right	演算子の右辺に代入される値。
 		template<typename T>
 		static MultiplicationResult<T> divide(const T& left, const T& right) noexcept
 		{
@@ -153,7 +222,13 @@ namespace zawa_ch::StationaryOrbit
 			auto evalf = std::numeric_limits<T>::lowest() * right;
 			return MultiplicationResult<T>{ left / right, ((left < std::min(evalc, evalf))||(std::max(evalc, evalf) < left))?(MultiplicationResultStatus::overflow):(MultiplicationResultStatus::no_error) };
 		}
-		///	オーバーフロー時にその型で表現できる限界の値で飽和する加算を行います。
+
+		///	演算後の結果を値域内に丸める加算を行います。
+		///
+		///	加算を行い、その結果を値域内に丸めて返します。
+		///	@param	left	演算子の左辺に代入される値。
+		///	@param	right	演算子の右辺に代入される値。
+		///	@exception	InvalidOperationException	演算結果のステータスが未定義の状態になった場合にスローされます。
 		template<typename T>
 		static constexpr T add_saturate(const T& left, const T& right)
 		{
@@ -168,7 +243,13 @@ namespace zawa_ch::StationaryOrbit
 				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
 			}
 		}
-		///	オーバーフロー時にその型で表現できる限界の値で飽和する減算を行います。
+
+		///	演算後の結果を値域内に丸める減算を行います。
+		///
+		///	減算を行い、その結果を値域内に丸めて返します。
+		///	@param	left	演算子の左辺に代入される値。
+		///	@param	right	演算子の右辺に代入される値。
+		///	@exception	InvalidOperationException	演算結果のステータスが未定義の状態になった場合にスローされます。
 		template<typename T>
 		static constexpr T subtract_saturate(const T& left, const T& right)
 		{
@@ -183,7 +264,14 @@ namespace zawa_ch::StationaryOrbit
 				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
 			}
 		}
-		///	オーバーフロー時にその型で表現できる限界の値で飽和する乗算を行います。
+
+		///	演算後の結果を値域内に丸める乗算を行います。
+		///
+		///	乗算を行い、その結果を値域内に丸めて返します。
+		///	@param	left	演算子の左辺に代入される値。
+		///	@param	right	演算子の右辺に代入される値。
+		///	@exception	std::range_error	除数に0を指定した場合、NaNを丸めることはできないためにスローされます。
+		///	@exception	InvalidOperationException	演算結果のステータスが未定義の状態になった場合にスローされます。
 		template<typename T>
 		static constexpr T multiply_saturate(const T& left, const T& right)
 		{
@@ -206,7 +294,14 @@ namespace zawa_ch::StationaryOrbit
 				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
 			}
 		}
-		///	オーバーフロー時にその型で表現できる限界の値で飽和する除算を行います。
+
+		///	演算後の結果を値域内に丸める除算を行います。
+		///
+		///	除算を行い、その結果を値域内に丸めて返します。
+		///	@param	left	演算子の左辺に代入される値。
+		///	@param	right	演算子の右辺に代入される値。
+		///	@exception	std::range_error	除数に0を指定した場合、NaNを丸めることはできないためにスローされます。
+		///	@exception	InvalidOperationException	演算結果のステータスが未定義の状態になった場合にスローされます。
 		template<typename T>
 		static constexpr T divide_saturate(const T& left, const T& right)
 		{
@@ -229,6 +324,12 @@ namespace zawa_ch::StationaryOrbit
 				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
 			}
 		}
+
+		///	演算結果が値域に収まらない場合に例外をスローする加算を行います。
+		///	@param	left	演算子の左辺に代入される値。
+		///	@param	right	演算子の右辺に代入される値。
+		///	@exception	std::range_error	演算時に演算結果が値域に収まらないことを検出した場合にスローされます。
+		///	@exception	InvalidOperationException	演算結果のステータスが未定義の状態になった場合にスローされます。
 		template<typename T>
 		static constexpr T add_checked(const T& left, const T& right)
 		{
@@ -244,6 +345,12 @@ namespace zawa_ch::StationaryOrbit
 				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
 			}
 		}
+
+		///	演算結果が値域に収まらない場合に例外をスローする減算を行います。
+		///	@param	left	演算子の左辺に代入される値。
+		///	@param	right	演算子の右辺に代入される値。
+		///	@exception	std::range_error	演算時に演算結果が値域に収まらないことを検出した場合にスローされます。
+		///	@exception	InvalidOperationException	演算結果のステータスが未定義の状態になった場合にスローされます。
 		template<typename T>
 		static constexpr T subtract_checked(const T& left, const T& right)
 		{
@@ -259,6 +366,12 @@ namespace zawa_ch::StationaryOrbit
 				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
 			}
 		}
+
+		///	演算結果が値域に収まらない場合に例外をスローする乗算を行います。
+		///	@param	left	演算子の左辺に代入される値。
+		///	@param	right	演算子の右辺に代入される値。
+		///	@exception	std::range_error	演算時に演算結果が値域に収まらないことを検出した場合にスローされます。
+		///	@exception	InvalidOperationException	演算結果のステータスが未定義の状態になった場合にスローされます。
 		template<typename T>
 		static constexpr T multiply_checked(const T& left, const T& right)
 		{
@@ -274,6 +387,12 @@ namespace zawa_ch::StationaryOrbit
 				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
 			}
 		}
+
+		///	演算結果が値域に収まらない場合に例外をスローする除算を行います。
+		///	@param	left	演算子の左辺に代入される値。
+		///	@param	right	演算子の右辺に代入される値。
+		///	@exception	std::range_error	演算時に演算結果が値域に収まらないことを検出した場合にスローされます。
+		///	@exception	InvalidOperationException	演算結果のステータスが未定義の状態になった場合にスローされます。
 		template<typename T>
 		static constexpr T divide_checked(const T& left, const T& right)
 		{
@@ -289,6 +408,10 @@ namespace zawa_ch::StationaryOrbit
 				default: { throw InvalidOperationException("計算結果の状態が定義されていない状態になりました。"); }
 			}
 		}
+
+		///	加算の演算結果が値域外となるかを取得します。
+		///	@param	left	演算子の左辺に代入される値。
+		///	@param	right	演算子の右辺に代入される値。
 		template<class Tp>
 		static constexpr bool may_overflow_addition(const Tp& left, const Tp& right) noexcept
 		{
@@ -323,6 +446,10 @@ namespace zawa_ch::StationaryOrbit
 			}
 			return false;
 		}
+
+		///	減算の演算結果が値域外となるかを取得します。
+		///	@param	left	演算子の左辺に代入される値。
+		///	@param	right	演算子の右辺に代入される値。
 		template<class Tp>
 		static constexpr bool may_overflow_subtraction(const Tp& left, const Tp& right) noexcept
 		{
@@ -357,6 +484,10 @@ namespace zawa_ch::StationaryOrbit
 			}
 			return false;
 		}
+
+		///	乗算の演算結果が値域外となるかを取得します。
+		///	@param	left	演算子の左辺に代入される値。
+		///	@param	right	演算子の右辺に代入される値。
 		template<class Tp>
 		static constexpr bool may_overflow_multiplication(const Tp& left, const Tp& right) noexcept
 		{
@@ -396,6 +527,10 @@ namespace zawa_ch::StationaryOrbit
 			auto evalf = std::numeric_limits<Tp>::lowest() / right;
 			return (left < std::min(evalc, evalf))||(std::max(evalc, evalf) < left);
 		}
+
+		///	除算の演算結果が値域外となるかを取得します。
+		///	@param	left	演算子の左辺に代入される値。
+		///	@param	right	演算子の右辺に代入される値。
 		template<class Tp>
 		static constexpr bool may_overflow_division(const Tp& left, const Tp& right) noexcept
 		{
