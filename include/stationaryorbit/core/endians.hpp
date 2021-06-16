@@ -45,7 +45,7 @@ namespace zawa_ch::StationaryOrbit
 		#endif
 	};
 
-	///	エンディアンの変換を行います
+	///	@brief	エンディアンの変換を行います
 	///
 	///	値型に対して、リトルエンディアン、ビッグエンディアンの間の変換を行います。
 	///	このクラスは継承できません。
@@ -60,11 +60,10 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		///	指定された値のエンディアンを @a from から @a dest に変換します。
 		///	@param	T
-		///	エンディアン変換を行う値の型。型要件:ValueTypeを満たす必要があります。
+		///	エンディアン変換を行う値の型。型要件:ValueType を満たす必要があります。
 		///	@param	value
 		///	エンディアン変換を行う値。
-		///	@exception
-		///	InvalidOperationException: 指定されたエンディアンの組み合わせに対する適切な変換が定義されていない場合にスローされます。
+		///	@exception	InvalidOperationException	指定されたエンディアンの組み合わせに対する適切な変換が定義されていない場合にスローされます。
 		template<class T>
 		[[nodiscard]] static constexpr std::array<std::byte, sizeof(T)> encode(const T& value)
 		{
@@ -76,8 +75,7 @@ namespace zawa_ch::StationaryOrbit
 		///	エンディアン変換を行う値の型。型要件:ValueTypeを満たす必要があります。
 		///	@param	data
 		///	エンディアン変換を行うビット列。
-		///	@exception
-		///	InvalidOperationException: 指定されたエンディアンの組み合わせに対する適切な変換が定義されていない場合にスローされます。
+		///	@exception	InvalidOperationException	指定されたエンディアンの組み合わせに対する適切な変換が定義されていない場合にスローされます。
 		template<class T>
 		[[nodiscard]] static constexpr T decode(const std::array<std::byte, sizeof(T)>& data)
 		{
@@ -89,8 +87,7 @@ namespace zawa_ch::StationaryOrbit
 		///	@a std::array の大きさ。バイト単位で指定します。
 		///	@param	data
 		///	バイト順序変換を行うビット列。
-		///	@exception
-		///	InvalidOperationException: 指定されたエンディアンの組み合わせに対する適切な変換が定義されていない場合にスローされます。
+		///	@exception	InvalidOperationException	指定されたエンディアンの組み合わせに対する適切な変換が定義されていない場合にスローされます。
 		template<size_t N>
 		[[nodiscard]] static constexpr std::array<std::byte, N> convert(const std::array<std::byte, N>& data)
 		{
@@ -109,12 +106,12 @@ namespace zawa_ch::StationaryOrbit
 			{ throw InvalidOperationException("指定されたエンディアンの適切な変換が存在しません。"); }
 		}
 	};
-	///	現在のバイトオーダーからリトルエンディアンへの変換を表す @a EndianConverter 。
+	///	現在のバイトオーダーからリトルエンディアンへの変換を表す EndianConverter 。
 	typedef EndianConverter<Endians::native, Endians::little> LittleEndian;
-	///	現在のバイトオーダーからビッグエンディアンへの変換を表す @a EndianConverter 。
+	///	現在のバイトオーダーからビッグエンディアンへの変換を表す EndianConverter 。
 	typedef EndianConverter<Endians::native, Endians::big> BigEndian;
 
-	///	スカラー型を特定のバイトオーダーで格納します
+	///	@brief	スカラー型を特定のバイトオーダーで格納します
 	///
 	///	スカラー型を指定されたバイトオーダーでメモリ上に格納します。
 	///	このクラスは継承できません。
