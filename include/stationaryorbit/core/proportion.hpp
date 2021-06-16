@@ -29,11 +29,11 @@
 #include "zerovalue.hpp"
 namespace zawa_ch::StationaryOrbit
 {
-	///	0.0から1.0の値を符号なし整数を用いて保持します。
-	///	@param	Tp
-	///	値の格納に用いる型。
-	///	@note
+	///	@brief	0.0から1.0の値を符号なし整数を用いて保持します。
+	///
 	///	@a Proportion 型は0.0以上1.0以下の数値を型 @a Tp に格納できるようにします。
+	///
+	///	@param	Tp	値の格納に用いる型。
 	template <class Tp>
 	struct Proportion
 	{
