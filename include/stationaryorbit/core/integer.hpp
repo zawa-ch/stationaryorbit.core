@@ -28,6 +28,9 @@ namespace zawa_ch::StationaryOrbit
 	template<class T> struct Integer;
 	template<class T> struct SignedInteger;
 
+	///	@brief	ビット列を符号なし整数として扱います
+	///
+	///	@param	T	整数として扱うビット列型。 型要件:BitSequenceType を満たす必要があります。
 	template<class T>
 	struct Integer final
 	{
@@ -76,11 +79,11 @@ namespace zawa_ch::StationaryOrbit
 			for (auto i: Range<size_t>(0, std::min(bitwidth<fromT>, bitwidth<T>)).GetStdIterator()) { setbit(i, from.getbit(i)); }
 		}
 		///	@a SignedInteger から変換します。
-		constexpr explicit Integer(const SignedType& from) noexcept : _data(from.Data()) {}
+		constexpr explicit Integer(const SignedType& from) noexcept : _data(from.data()) {}
 		///	@a ZeroValue_t から変換します。
 		constexpr Integer(const ZeroValue_t&) noexcept : _data(value_construct<uint8_t>(0)) {}
 
-		[[nodiscard]] constexpr const ValueType& Data() const noexcept { return _data; }
+		[[nodiscard]] constexpr const ValueType& data() const noexcept { return _data; }
 		[[nodiscard]] constexpr explicit operator ValueType() const { return _data; }
 
 		[[nodiscard]] constexpr Integer<T> operator~() const { return Integer(T(~_data)); }
@@ -295,6 +298,9 @@ namespace zawa_ch::StationaryOrbit
 		}
 	};
 
+	///	@brief	ビット列を符号付き整数として扱います
+	///
+	///	@param	T	整数として扱うビット列型。 型要件:BitSequenceType を満たす必要があります。
 	template<class T>
 	struct SignedInteger final
 	{
@@ -332,10 +338,10 @@ namespace zawa_ch::StationaryOrbit
 		{
 			for (auto i: Range<size_t>(0, std::min(bitwidth<fromT>, bitwidth<T>)).GetStdIterator()) { setbit(i, from.getbit(i)); }
 		}
-		constexpr explicit SignedInteger(const UnsignedType& from) noexcept : _data(from.Data()) {}
+		constexpr explicit SignedInteger(const UnsignedType& from) noexcept : _data(from.data()) {}
 		constexpr SignedInteger(const ZeroValue_t&) noexcept : _data(value_construct<uint8_t>(0)) {}
 
-		[[nodiscard]] constexpr const ValueType& Data() const noexcept { return _data; }
+		[[nodiscard]] constexpr const ValueType& data() const noexcept { return _data; }
 		[[nodiscard]] constexpr explicit operator ValueType() const { return _data; }
 
 		[[nodiscard]] constexpr SignedInteger<T> operator~() const { return SignedInteger(T(~_data)); }
