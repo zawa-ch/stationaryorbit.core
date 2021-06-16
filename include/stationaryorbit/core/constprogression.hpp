@@ -22,26 +22,39 @@
 #include "constarray.hpp"
 namespace zawa_ch::StationaryOrbit
 {
-	///	constexpr な関数によるオブジェクトを列挙するためのイテレータを識別します。
+	///	@brief	constexpr な関数によるオブジェクトを列挙するためのイテレータを識別します。
+	///
+	///	constexpr な関数を実行するイテレータを識別します。
+	///	このクラスのインスタンスを作成することはできません。
+	///
+	///	@param	Iter	constexprな関数を実行するイテレータ。 型要件:Iterator を満たし、すべてのメンバ関数が constexpr である必要があります。
 	template<class Iter, typename Tp = typename Iter::ValueType>
 	class ConstexprIteratorTrait
 	{
 		ConstexprIteratorTrait() = delete;
 		~ConstexprIteratorTrait() = delete;
 	public:
+		///	イテレータの型。
 		typedef Iter Iterator;
+		///	イテレータが渡すオブジェクトの型。
 		typedef Tp ValueType;
 
-		static constexpr Iter init = Iter();
+		///	初期値を表すイテレータ。
+		static constexpr Iterator init = Iterator();
+		///	初期値を示すオブジェクト。
 		static constexpr ValueType init_value = init.current();
-		[[nodiscard]] static constexpr Iter next(const Iter& iter)
+		///	指定されたイテレータの次の値を持つイテレータを取得します。
+		[[nodiscard]] static constexpr Iterator next(const Iterator& iter)
 		{
-			Iter result = iter;
+			Iterator result = iter;
 			result.next();
 			return result;
 		}
-		[[nodiscard]] static constexpr ValueType current(const Iter& iter) { return iter.current(); }
+		///	指定されたイテレータの保持している値を取得します。
+		[[nodiscard]] static constexpr ValueType current(const Iterator& iter) { return iter.current(); }
 	};
+
+	///	constexpr なイテレータを指定回数実行します。
 	template<class Tp, size_t I>
 	class ConstProgression
 	{
@@ -56,6 +69,8 @@ namespace zawa_ch::StationaryOrbit
 		static constexpr typename ConstexprIteratorTrait<Tp>::Iterator iter = ConstexprIteratorTrait<Tp>::init;
 		static constexpr typename ConstexprIteratorTrait<Tp>::ValueType value = ConstexprIteratorTrait<Tp>::init_value;
 	};
+
+	///	constexpr なイテレータを列挙した @a ConstArray 。
 	template<class Tp, size_t N>
 	struct ConstProgressionArray : ConstProgressionArray<Tp, N - 1>::template Concat<ConstProgression<Tp, N - 1>>::Type {};
 	template<class Tp>
