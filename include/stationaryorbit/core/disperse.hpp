@@ -27,16 +27,22 @@ namespace zawa_ch::StationaryOrbit
 		Disperse() = delete;
 		~Disperse() = delete;
 	public:
+		///	指定されたオブジェクトをバイト列に分解します。
 		template<class Tp>
 		[[nodiscard]] static constexpr const std::array<std::byte, sizeof(Tp)>& to_binary(const Tp& object) { return reinterpret_cast<const std::array<std::byte, sizeof(Tp)>&>(object); }
+		///	指定されたオブジェクトをバイト列に分解します。
 		template<class Tp>
 		[[nodiscard]] static constexpr std::array<std::byte, sizeof(Tp)>& to_binary(Tp& object) { return reinterpret_cast<std::array<std::byte, sizeof(Tp)>&>(object); }
+		///	指定されたオブジェクトをバイト列に分解します。
 		template<class Tp>
 		[[nodiscard]] static constexpr std::array<std::byte, sizeof(Tp)> to_binary(Tp&& object) { return reinterpret_cast<std::array<std::byte, sizeof(Tp)>&&>(object); }
+		///	バイト列をオブジェクトに直接変換します。
 		template<class Tp>
 		[[nodiscard]] static constexpr const Tp& perse(const std::array<std::byte, sizeof(Tp)>& data){ return reinterpret_cast<const Tp&>(data); }
+		///	バイト列をオブジェクトに直接変換します。
 		template<class Tp>
 		[[nodiscard]] static constexpr Tp& perse(std::array<std::byte, sizeof(Tp)>& data){ return reinterpret_cast<Tp&>(data); }
+		///	バイト列をオブジェクトに直接変換します。
 		template<class Tp>
 		[[nodiscard]] static constexpr Tp perse(std::array<std::byte, sizeof(Tp)>&& data){ return reinterpret_cast<Tp&&>(data); }
 	};
