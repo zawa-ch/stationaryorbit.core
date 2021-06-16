@@ -20,12 +20,15 @@
 #define __stationaryorbit_core_constarray__
 namespace zawa_ch::StationaryOrbit
 {
-	///	コンパイル時に内容が決定する値の配列を表します。
-	///	@param	T
-	///	値の型。
+	///	@brief	コンパイル時に内容が決定する値の配列を表します
+	///
+	///	@a ConstArray はテンプレート引数に列挙された型の静的メンバ定数 @a value を収集し、配列にします。
+	///
+	///	@param	FirstValue
+	///	値の配列の最初の値。静的メンバ定数 @a value を持つ型である必要があります。
 	///	@param	Values
-	///	配列の内容。
-	template<class FirstValue, class ... Values>
+	///	値の配列の二番目以降の値。 @a FirstValue::value と同じ型の静的メンバ定数 @a value を持つ型である必要があります。
+	template<typename FirstValue, typename ... Values>
 	struct ConstArray
 	{
 	private:
@@ -34,6 +37,7 @@ namespace zawa_ch::StationaryOrbit
 		ConstArray(ConstArray&&) = delete;
 		~ConstArray() = delete;
 	public:
+		///	配列の値の型。
 		typedef decltype(FirstValue::value) ValueType;
 		///	この配列の表す型。
 		typedef ValueType Type[sizeof...(Values) + 1];
@@ -43,8 +47,10 @@ namespace zawa_ch::StationaryOrbit
 		///	この @a ConstArray の配列の大きさ。
 		static constexpr size_t size = sizeof...(Values) + 1;
 
-		///	この @a ConstArray の内容に値を追加します。
-		template<class ... ConcatValues>
+		///	@brief	この @a ConstArray の内容に値を追加します。
+		///	@param	ConcatValues
+		///	追加する値の列。 @a FirstValue::value と同じ型の静的メンバ定数 @a value を持つ型である必要があります。
+		template<typename ... ConcatValues>
 		struct Concat
 		{
 			typedef ConstArray<FirstValue, Values..., ConcatValues...> Type;
