@@ -31,7 +31,6 @@ add_library(stationaryorbit.core SHARED
     fixedpoint.cpp
     integer.cpp
     multiplelong.cpp
-    nullreference.cpp
     point2d.cpp
     proportion.cpp
     rect2dsize.cpp
