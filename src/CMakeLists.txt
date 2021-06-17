@@ -30,7 +30,6 @@ add_library(stationaryorbit.core SHARED
     endians.cpp
     fixedpoint.cpp
     integer.cpp
-    invalidoperation.cpp
     multiplelong.cpp
     nullreference.cpp
     point2d.cpp
