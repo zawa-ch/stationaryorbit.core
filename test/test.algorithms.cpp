@@ -23,7 +23,7 @@
 #include "stationaryorbit/core.utilities.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
-std::array<std::function<int(void)>, 40> tests =
+std::array<std::function<int(void)>, 42> tests =
 {
 	[]()
 	{
@@ -303,6 +303,38 @@ std::array<std::function<int(void)>, 40> tests =
 		std::cout << "40. Algorithms::halfangle_tan(0.86602540378443864676372317075294, 0.5) ? ";
 		std::cout.precision(15);
 		std::cout << Algorithms::halfangle_tan<double>(0.86602540378443864676372317075294, 0.5) << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "41. atan(1) ? ";
+		auto result = double(0);
+		auto iter = Algorithms::ArctanProgressionIterator<double>(1.0);
+		do
+		{
+			iter.next();
+			auto b = result + iter.current();
+			if (result == b) { break; }
+			result = b;
+		} while(true);
+		std::cout.precision(15);
+		std::cout << result << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "42. atan(0.70710678118654752440084436210485) ? ";
+		auto result = double(0);
+		auto iter = Algorithms::ArctanProgressionIterator<double>(0.70710678118654752440084436210485);
+		do
+		{
+			iter.next();
+			auto b = result + iter.current();
+			if (result == b) { break; }
+			result = b;
+		} while(true);
+		std::cout.precision(15);
+		std::cout << result << std::endl;
 		return 0;
 	},
 };

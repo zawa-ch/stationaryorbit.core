@@ -89,6 +89,8 @@ do_test_pattern(stationaryorbit.core.test.algorithms 37 "halfangle_cos.0\.5. . 0
 do_test_pattern(stationaryorbit.core.test.algorithms 38 "halfangle_cos.1. . 1")
 do_test_pattern(stationaryorbit.core.test.algorithms 39 "halfangle_tan.1, 0. . 1")
 do_test_pattern(stationaryorbit.core.test.algorithms 40 "halfangle_tan.0\.86602540378443864676372317075294, 0\.5. . 0\.577350269189626")
+do_test_pattern(stationaryorbit.core.test.algorithms 41 "atan.1. . 0\.785398163397448")
+do_test_pattern(stationaryorbit.core.test.algorithms 42 "atan.0\.70710678118654752440084436210485. . 0\.615479708670387")
 
 add_executable(stationaryorbit.core.test.arithmeticoperation test.arithmeticoperation.cpp)
 target_link_libraries(stationaryorbit.core.test.arithmeticoperation stationaryorbit.core)

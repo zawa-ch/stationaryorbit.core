@@ -203,6 +203,33 @@ namespace zawa_ch::StationaryOrbit
 		{
 			return sin / (1 + cos);
 		}
+
+		template<typename Tp>
+		class ArctanProgressionIterator
+		{
+			static_assert(Traits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+		private:
+			size_t _iteration;
+			const Tp _x;
+			const Tp _x2;
+			Tp _p;
+			Tp _current;
+		public:
+			constexpr ArctanProgressionIterator(const Tp& x) : _iteration(0), _x(x), _x2(x * x + 1), _p(1), _current(0) {}
+
+			[[nodiscard]] constexpr bool has_value() const noexcept { return true; }
+			[[nodiscard]] constexpr Tp current() const noexcept { return _current * _x / _x2; }
+			constexpr bool next()
+			{
+				_current = _p;
+				++_iteration;
+				Tp pn = Tp(_iteration) * Tp(2);
+				Tp pd = Tp(_iteration) * Tp(2) + Tp(1);
+				_p *= pn / pd;
+				_p *= _x * _x / _x2;
+				return true;
+			}
+		};
 	};
 
 	extern template DivisionResult<bool> Algorithms::integral_fraction<bool>(const bool& numerator, const bool& denominator, const bool& scale);
