@@ -23,7 +23,7 @@
 #include "stationaryorbit/core.utilities.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
-std::array<std::function<int(void)>, 42> tests =
+std::array<std::function<int(void)>, 46> tests =
 {
 	[]()
 	{
@@ -326,6 +326,70 @@ std::array<std::function<int(void)>, 42> tests =
 		std::cout << "42. atan(0.70710678118654752440084436210485) ? ";
 		auto result = double(0);
 		auto iter = Algorithms::ArctanProgressionIterator<double>(0.70710678118654752440084436210485);
+		do
+		{
+			iter.next();
+			auto b = result + iter.current();
+			if (result == b) { break; }
+			result = b;
+		} while(true);
+		std::cout.precision(15);
+		std::cout << result << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "43. asin(0) ? ";
+		auto result = double(0);
+		auto iter = Algorithms::ArcsinProgressionIterator<double>(0.0);
+		do
+		{
+			iter.next();
+			auto b = result + iter.current();
+			if (result == b) { break; }
+			result = b;
+		} while(true);
+		std::cout.precision(15);
+		std::cout << result << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "44. asin(0.29289321881345247559915563789515) ? ";
+		auto result = double(0);
+		auto iter = Algorithms::ArcsinProgressionIterator<double>(0.29289321881345247559915563789515);
+		do
+		{
+			iter.next();
+			auto b = result + iter.current();
+			if (result == b) { break; }
+			result = b;
+		} while(true);
+		std::cout.precision(15);
+		std::cout << result << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "45. asin(0.5) ? ";
+		auto result = double(0);
+		auto iter = Algorithms::ArcsinProgressionIterator<double>(0.5);
+		do
+		{
+			iter.next();
+			auto b = result + iter.current();
+			if (result == b) { break; }
+			result = b;
+		} while(true);
+		std::cout.precision(15);
+		std::cout << result << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "46. asin(0.70710678118654752440084436210485) ? ";
+		auto result = double(0);
+		auto iter = Algorithms::ArcsinProgressionIterator<double>(0.70710678118654752440084436210485);
 		do
 		{
 			iter.next();

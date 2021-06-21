@@ -230,6 +230,33 @@ namespace zawa_ch::StationaryOrbit
 				return true;
 			}
 		};
+
+		template<typename Tp>
+		class ArcsinProgressionIterator
+		{
+			static_assert(Traits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+		private:
+			size_t _iteration;
+			const Tp _x;
+			Tp _p1;
+			Tp _p2;
+			Tp _p3;
+			Tp _current;
+		public:
+			constexpr ArcsinProgressionIterator(const Tp& x) : _iteration(0), _x(x), _p1(1), _p2(x), _p3(1), _current(Tp(0)) {}
+
+			[[nodiscard]] constexpr bool has_value() const noexcept { return true; }
+			[[nodiscard]] constexpr Tp current() const noexcept { return _current; }
+			constexpr bool next()
+			{
+				_current = _p1 * _p2 / _p3;
+				++_iteration;
+				_p1 *= (Tp(_iteration) * Tp(2) - Tp(1)) / (Tp(_iteration) * Tp(2));
+				_p2 *= _x * _x;
+				_p3 += Tp(2);
+				return true;
+			}
+		};
 	};
 
 	extern template DivisionResult<bool> Algorithms::integral_fraction<bool>(const bool& numerator, const bool& denominator, const bool& scale);
