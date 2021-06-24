@@ -1,5 +1,5 @@
-//	stationaryorbit/core.utilities
-//	Copyright 2020-2021 zawa-ch.
+//	stationaryorbit.core:/machinprogression
+//	Copyright 2021 zawa-ch.
 //	GPLv3 (or later) license
 //
 //	This program is free software: you can redistribute it and/or modify
@@ -16,18 +16,4 @@
 //	along with this program.
 //	If not, see <http://www.gnu.org/licenses/>.
 //
-
-#include "core/algorithms.hpp"
-#include "core/arithmetic.hpp"
-#include "core/basicmath.hpp"
-#include "core/constarray.hpp"
-#include "core/constprogression.hpp"
-#include "core/delegate.hpp"
-#include "core/disperse.hpp"
-#include "core/event.hpp"
-#include "core/fundamental.hpp"
-#include "core/halfangleformula.hpp"
-#include "core/machinprogression.hpp"
-#include "core/objectholder.hpp"
-#include "core/property.hpp"
-#include "core/zerovalue.hpp"
+#include "stationaryorbit/core/machinprogression.hpp"

@@ -451,6 +451,11 @@ do_test_nofail(stationaryorbit.core.test.logic 42)
 do_test_nofail(stationaryorbit.core.test.logic 43)
 do_test_nofail(stationaryorbit.core.test.logic 44)
 
+add_executable(stationaryorbit.core.test.machinprogression test.machinprogression.cpp)
+target_link_libraries(stationaryorbit.core.test.machinprogression stationaryorbit.core)
+do_test_pattern(stationaryorbit.core.test.machinprogression 1 "float.pi. . 3\.14159[23]")
+do_test_pattern(stationaryorbit.core.test.machinprogression 2 "double.pi. . 3\.14159265358979")
+
 add_executable(stationaryorbit.core.test.objectholder test.objectholder.cpp)
 target_link_libraries(stationaryorbit.core.test.objectholder stationaryorbit.core)
 do_test_nofail(stationaryorbit.core.test.objectholder 1)

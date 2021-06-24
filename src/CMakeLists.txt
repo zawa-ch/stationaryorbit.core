@@ -30,6 +30,7 @@ add_library(stationaryorbit.core SHARED
     endians.cpp
     fixedpoint.cpp
     integer.cpp
+    machinprogression.cpp
     multiplelong.cpp
     point2d.cpp
     proportion.cpp
