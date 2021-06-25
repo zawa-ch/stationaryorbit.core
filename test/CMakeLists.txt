@@ -259,6 +259,11 @@ do_test_nofail(stationaryorbit.core.test.arithmeticoperation 158)
 do_test_nofail(stationaryorbit.core.test.arithmeticoperation 159)
 do_test_nofail(stationaryorbit.core.test.arithmeticoperation 160)
 
+add_executable(stationaryorbit.core.test.basicmath test.basicmath.cpp)
+target_link_libraries(stationaryorbit.core.test.basicmath stationaryorbit.core)
+do_test_pattern(stationaryorbit.core.test.basicmath 1 "pi.float. . 3\.14159[23]")
+do_test_pattern(stationaryorbit.core.test.basicmath 2 "pi.double. . 3\.14159265358979")
+
 add_executable(stationaryorbit.core.test.bitmask test.bitmask.cpp)
 target_link_libraries(stationaryorbit.core.test.bitmask stationaryorbit.core)
 do_test_pattern(stationaryorbit.core.test.bitmask 1 "mask . [Ff]0")

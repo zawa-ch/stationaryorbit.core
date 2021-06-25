@@ -33,6 +33,8 @@ namespace zawa_ch::StationaryOrbit
 	class MarchinProgression final
 	{
 		static_assert(Traits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+	public:
+		typedef Tp ValueType;
 	private:
 		static constexpr Tp _x1 = Tp(1) / Tp(5);
 		static constexpr Tp _x2 = Tp(1) / Tp(239);

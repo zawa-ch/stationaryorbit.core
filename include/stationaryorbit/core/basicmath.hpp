@@ -20,9 +20,11 @@
 #define __stationaryorbit_core_basicmath__
 #include <cmath>
 #include "notimplemented.hpp"
+#include "constprogression.hpp"
 #include "fundamental.hpp"
 #include "traits.hpp"
 #include "algorithms.hpp"
+#include "machinprogression.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	///	単純な数学の演算をサポートします
@@ -60,6 +62,12 @@ namespace zawa_ch::StationaryOrbit
 		template<class Tp> static constexpr bool is_std_round_callable = IsStdRoundCallableImpl<Tp>::value;
 		template<class Tp> static constexpr bool has_sqrt = HasSqrtImpl<Tp>::value;
 	public:
+		///	@brief	円周率を表します
+		///
+		///	数学定数π(=3.14159265358979...)に等しい定数を表します。
+		template<class Tp>
+		static constexpr Tp pi = ConstProgressionLastValue<MarchinProgression<Tp>>::value;
+
 		///	指定された値の絶対値を求めます
 		template<class Tp>
 		[[nodiscard]] static constexpr std::enable_if_t<Traits::IsNumericalType<Tp>, Tp> abstract(const Tp& value) noexcept

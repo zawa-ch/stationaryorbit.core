@@ -208,10 +208,12 @@ namespace zawa_ch::StationaryOrbit
 		class ArctanProgressionIterator
 		{
 			static_assert(Traits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+		public:
+			typedef Tp ValueType;
 		private:
 			size_t _iteration;
-			const Tp _x;
-			const Tp _x2;
+			Tp _x;
+			Tp _x2;
 			Tp _p;
 			Tp _current;
 		public:
@@ -235,9 +237,11 @@ namespace zawa_ch::StationaryOrbit
 		class ArcsinProgressionIterator
 		{
 			static_assert(Traits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+		public:
+			typedef Tp ValueType;
 		private:
 			size_t _iteration;
-			const Tp _x;
+			Tp _x;
 			Tp _p1;
 			Tp _p2;
 			Tp _p3;
