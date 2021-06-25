@@ -32,11 +32,24 @@ private:
 	int _value;
 public:
 	constexpr SuccessorIterator() : _value(Init) {}
-	constexpr void next() noexcept { _value += 1; }
+	constexpr bool has_value() const noexcept { return true; }
 	constexpr ValueType current() const noexcept { return _value; }
+	constexpr bool next() noexcept { _value += 1; return has_value(); }
+};
+class Stop10Iterator
+{
+public:
+	typedef size_t ValueType;
+private:
+	size_t _value;
+public:
+	constexpr Stop10Iterator() : _value(0) {}
+	constexpr bool has_value() const noexcept { return _value <= 10; }
+	constexpr ValueType current() const noexcept { return _value; }
+	constexpr bool next() noexcept { ++_value; return has_value(); }
 };
 
-std::array<std::function<int(void)>, 1> tests =
+std::array<std::function<int(void)>, 2> tests =
 {
 	[]()
 	{
@@ -46,6 +59,12 @@ std::array<std::function<int(void)>, 1> tests =
 			std::cout << ConstProgressionArray<SuccessorIterator<1>, 10>::values[i] << " ";
 		}
 		std::cout << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "2. ConstProgressionLastValue<Stop10Iterator>::value ? ";
+		std::cout << ConstProgressionLastValue<Stop10Iterator>::value << std::endl;
 		return 0;
 	},
 };

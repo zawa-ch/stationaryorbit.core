@@ -22,7 +22,7 @@
 #include "constarray.hpp"
 namespace zawa_ch::StationaryOrbit
 {
-	///	@brief	constexpr な関数によるオブジェクトを列挙するためのイテレータを識別します。
+	///	@brief	constexpr な関数によるオブジェクトを列挙するためのイテレータを識別します
 	///
 	///	constexpr な関数を実行するイテレータを識別します。
 	///	このクラスのインスタンスを作成することはできません。
@@ -43,6 +43,8 @@ namespace zawa_ch::StationaryOrbit
 		static constexpr Iterator init = Iterator();
 		///	初期値を示すオブジェクト。
 		static constexpr ValueType init_value = init.current();
+		///	指定されたイテレータが値を持つかを取得します。
+		[[nodiscard]] static constexpr bool has_value(const Iterator& iter) { return iter.has_value(); }
 		///	指定されたイテレータの次の値を持つイテレータを取得します。
 		[[nodiscard]] static constexpr Iterator next(const Iterator& iter)
 		{
@@ -54,7 +56,7 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] static constexpr ValueType current(const Iterator& iter) { return iter.current(); }
 	};
 
-	///	constexpr なイテレータを指定回数実行します。
+	///	constexpr なイテレータを指定回数実行します
 	template<class Tp, size_t I>
 	class ConstProgression
 	{
@@ -70,7 +72,33 @@ namespace zawa_ch::StationaryOrbit
 		static constexpr typename ConstexprIteratorTrait<Tp>::ValueType value = ConstexprIteratorTrait<Tp>::init_value;
 	};
 
-	///	constexpr なイテレータを列挙した @a ConstArray 。
+	///	@brief	constexpr なイテレータを最後まで実行します
+	///
+	///	constexpr なイテレータを @a has_value() が @a false になるまで実行します。
+	///	このクラスは継承できません。また、インスタンスを作成することもできません。
+	template<class Tp>
+	class ConstProgressionLastValue final
+	{
+		ConstProgressionLastValue() = delete;
+		~ConstProgressionLastValue() = delete;
+
+		static constexpr typename ConstexprIteratorTrait<Tp>::Iterator _i()
+		{
+			auto i = ConstexprIteratorTrait<Tp>::init;
+			do
+			{
+				auto j = ConstexprIteratorTrait<Tp>::next(i);
+				if (ConstexprIteratorTrait<Tp>::has_value(j)) { i = j; }
+				else { break; }
+			} while (true);
+			return i;
+		}
+	public:
+		static constexpr typename ConstexprIteratorTrait<Tp>::Iterator iter = _i();
+		static constexpr typename ConstexprIteratorTrait<Tp>::ValueType value = ConstexprIteratorTrait<Tp>::current(iter);
+	};
+
+	///	constexpr なイテレータを列挙した @a ConstArray
 	template<class Tp, size_t N>
 	struct ConstProgressionArray : ConstProgressionArray<Tp, N - 1>::template Concat<ConstProgression<Tp, N - 1>>::Type {};
 	template<class Tp>
