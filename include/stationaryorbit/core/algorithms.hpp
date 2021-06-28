@@ -232,6 +232,33 @@ namespace zawa_ch::StationaryOrbit
 		};
 
 		template<typename Tp>
+		class CosProgressionSequenceIterator
+		{
+			static_assert(Traits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+		public:
+			typedef Tp ValueType;
+		private:
+			size_t _iteration;
+			Tp _x;
+			Tp _p;
+			Tp _current;
+		public:
+			constexpr CosProgressionSequenceIterator(const Tp& x) : _iteration(0), _x(x), _p(1), _current() {}
+
+			[[nodiscard]] constexpr bool has_value() const noexcept { return true; }
+			[[nodiscard]] constexpr Tp current() const noexcept { return _current; }
+			constexpr bool next()
+			{
+				_current = _p;
+				++_iteration;
+				_p *= _x / Tp(_iteration * 2 - 1);
+				_p *= _x / Tp(_iteration * 2);
+				_p *= Tp(-1);
+				return has_value();
+			}
+		};
+
+		template<typename Tp>
 		class ArctanProgressionIterator
 		{
 			static_assert(Traits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");

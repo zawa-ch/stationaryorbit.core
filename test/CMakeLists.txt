@@ -98,6 +98,8 @@ do_test_pattern(stationaryorbit.core.test.algorithms 46 "asin.0\.707106781186547
 do_test_pattern(stationaryorbit.core.test.algorithms 47 "sin.0. . 0")
 do_test_pattern(stationaryorbit.core.test.algorithms 48 "sin.0\.78539816339744830961566084581988. . 0.70710678118654[78]")
 do_test_pattern(stationaryorbit.core.test.algorithms 49 "sin.1\.5707963267948966192313216916398. . 1")
+do_test_pattern(stationaryorbit.core.test.algorithms 50 "cos.0. . 1")
+do_test_pattern(stationaryorbit.core.test.algorithms 51 "cos.0\.78539816339744830961566084581988. . 0.70710678118654[78]")
 
 add_executable(stationaryorbit.core.test.arithmeticoperation test.arithmeticoperation.cpp)
 target_link_libraries(stationaryorbit.core.test.arithmeticoperation stationaryorbit.core)
