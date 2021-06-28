@@ -23,7 +23,7 @@
 #include "stationaryorbit/core.utilities.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
-std::array<std::function<int(void)>, 46> tests =
+std::array<std::function<int(void)>, 49> tests =
 {
 	[]()
 	{
@@ -390,6 +390,54 @@ std::array<std::function<int(void)>, 46> tests =
 		std::cout << "46. asin(0.70710678118654752440084436210485) ? ";
 		auto result = double(0);
 		auto iter = Algorithms::ArcsinProgressionIterator<double>(0.70710678118654752440084436210485);
+		do
+		{
+			iter.next();
+			auto b = result + iter.current();
+			if (result == b) { break; }
+			result = b;
+		} while(true);
+		std::cout.precision(15);
+		std::cout << result << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "47. sin(0) ? ";
+		auto result = double(0);
+		auto iter = Algorithms::SinProgressionSequenceIterator<double>(0.0);
+		do
+		{
+			iter.next();
+			auto b = result + iter.current();
+			if (result == b) { break; }
+			result = b;
+		} while(true);
+		std::cout.precision(15);
+		std::cout << result << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "48. sin(0.78539816339744830961566084581988) ? ";
+		auto result = double(0);
+		auto iter = Algorithms::SinProgressionSequenceIterator<double>(0.78539816339744830961566084581988);
+		do
+		{
+			iter.next();
+			auto b = result + iter.current();
+			if (result == b) { break; }
+			result = b;
+		} while(true);
+		std::cout.precision(15);
+		std::cout << result << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "49. sin(1.5707963267948966192313216916398) ? ";
+		auto result = double(0);
+		auto iter = Algorithms::SinProgressionSequenceIterator<double>(1.5707963267948966192313216916398);
 		do
 		{
 			iter.next();
