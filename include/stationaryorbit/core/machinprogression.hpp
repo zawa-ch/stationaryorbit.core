@@ -39,8 +39,8 @@ namespace zawa_ch::StationaryOrbit
 		static constexpr Tp _x1 = Tp(1) / Tp(5);
 		static constexpr Tp _x2 = Tp(1) / Tp(239);
 		size_t _iteration;
-		Algorithms::ArctanProgressionIterator<Tp> _f1;
-		Algorithms::ArctanProgressionIterator<Tp> _f2;
+		Algorithms::ArctanProgressionSequenceIterator<Tp> _f1;
+		Algorithms::ArctanProgressionSequenceIterator<Tp> _f2;
 		Tp _r1;
 		Tp _c1;
 		Tp _r2;

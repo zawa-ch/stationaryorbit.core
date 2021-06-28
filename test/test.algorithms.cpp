@@ -309,7 +309,7 @@ std::array<std::function<int(void)>, 52> tests =
 	{
 		std::cout << "41. atan(1) ? ";
 		auto result = double(0);
-		auto iter = Algorithms::ArctanProgressionIterator<double>(1.0);
+		auto iter = Algorithms::ArctanProgressionSequenceIterator<double>(1.0);
 		do
 		{
 			iter.next();
@@ -325,7 +325,7 @@ std::array<std::function<int(void)>, 52> tests =
 	{
 		std::cout << "42. atan(0.70710678118654752440084436210485) ? ";
 		auto result = double(0);
-		auto iter = Algorithms::ArctanProgressionIterator<double>(0.70710678118654752440084436210485);
+		auto iter = Algorithms::ArctanProgressionSequenceIterator<double>(0.70710678118654752440084436210485);
 		do
 		{
 			iter.next();

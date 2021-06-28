@@ -259,7 +259,7 @@ namespace zawa_ch::StationaryOrbit
 		};
 
 		template<typename Tp>
-		class ArctanProgressionIterator
+		class ArctanProgressionSequenceIterator
 		{
 			static_assert(Traits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
 		public:
@@ -271,7 +271,7 @@ namespace zawa_ch::StationaryOrbit
 			Tp _p;
 			Tp _current;
 		public:
-			constexpr ArctanProgressionIterator(const Tp& x) : _iteration(0), _x(x), _x2(x * x + 1), _p(1), _current(0) {}
+			constexpr ArctanProgressionSequenceIterator(const Tp& x) : _iteration(0), _x(x), _x2(x * x + 1), _p(1), _current() {}
 
 			[[nodiscard]] constexpr bool has_value() const noexcept { return true; }
 			[[nodiscard]] constexpr Tp current() const noexcept { return _current * _x / _x2; }
