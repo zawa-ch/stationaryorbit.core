@@ -341,7 +341,7 @@ std::array<std::function<int(void)>, 52> tests =
 	{
 		std::cout << "43. asin(0) ? ";
 		auto result = double(0);
-		auto iter = Algorithms::ArcsinProgressionIterator<double>(0.0);
+		auto iter = Algorithms::ArcsinProgressionSequenceIterator<double>(0.0);
 		do
 		{
 			iter.next();
@@ -357,7 +357,7 @@ std::array<std::function<int(void)>, 52> tests =
 	{
 		std::cout << "44. asin(0.29289321881345247559915563789515) ? ";
 		auto result = double(0);
-		auto iter = Algorithms::ArcsinProgressionIterator<double>(0.29289321881345247559915563789515);
+		auto iter = Algorithms::ArcsinProgressionSequenceIterator<double>(0.29289321881345247559915563789515);
 		do
 		{
 			iter.next();
@@ -373,7 +373,7 @@ std::array<std::function<int(void)>, 52> tests =
 	{
 		std::cout << "45. asin(0.5) ? ";
 		auto result = double(0);
-		auto iter = Algorithms::ArcsinProgressionIterator<double>(0.5);
+		auto iter = Algorithms::ArcsinProgressionSequenceIterator<double>(0.5);
 		do
 		{
 			iter.next();
@@ -389,7 +389,7 @@ std::array<std::function<int(void)>, 52> tests =
 	{
 		std::cout << "46. asin(0.70710678118654752440084436210485) ? ";
 		auto result = double(0);
-		auto iter = Algorithms::ArcsinProgressionIterator<double>(0.70710678118654752440084436210485);
+		auto iter = Algorithms::ArcsinProgressionSequenceIterator<double>(0.70710678118654752440084436210485);
 		do
 		{
 			iter.next();
