@@ -1243,9 +1243,9 @@ namespace zawa_ch::StationaryOrbit
 	template<> struct Traits::HasPostincrement_t<bool> : std::false_type {};
 	#endif
 
-	///	特定の型のビット幅を計測します
+	///	@brief	特定の型のビット幅を計測します
 	///
-	///	@a BitCounter は型のビット幅を計測するための機能を提供するクラスです。
+	///	BitCounter は型のビット幅を計測するための機能を提供するクラスです。
 	///	このクラスのインスタンスを作成することはできません。また、継承することもできません。
 	class BitCounter final
 	{
@@ -1254,9 +1254,10 @@ namespace zawa_ch::StationaryOrbit
 		BitCounter(BitCounter&&) = delete;
 		~BitCounter() = delete;
 	public:
-		///	指定された型のビット幅を計測します。
+		///	@brief	指定された型のビット幅を計測します。
+		///
 		///	@param	T
-		///	ビット幅を計測する型。型要件:BitSequenceTypeを満たす必要があります。
+		///	ビット幅を計測する型。型要件:BitSequenceType を満たす必要があります。
 		template<class T, std::enable_if_t<Traits::IsBitSequenceType<T>, int> = 0>
 		static constexpr size_t count() noexcept
 		{
