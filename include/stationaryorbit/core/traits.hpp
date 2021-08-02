@@ -1289,13 +1289,13 @@ namespace zawa_ch::StationaryOrbit
 			return result;
 		}
 	};
-	///	指定された型のビット幅を識別します
+	///	@brief	指定された型のビット幅を識別します
 	///
-	///	@a BitWidth_t は型のビット幅を識別するメタクラスです。
+	///	BitWidth_t は型のビット幅を識別するメタクラスです。
 	///	このクラスに対する特殊化の試みは未定義動作です。
 	///
 	///	@param	T
-	///	ビット幅を識別する型。型要件:BitSequenceTypeを満たす必要があります。
+	///	ビット幅を識別する型。型要件:BitSequenceType を満たす必要があります。
 	template<class T> struct BitWidth_t : std::integral_constant<size_t, BitCounter::count<T>()>
 	{
 		static_assert(Traits::IsBitSequenceType<T>, "ビット幅の計数は整数型、boolなどの固定幅のビットシーケンスでのみ有効です。");
