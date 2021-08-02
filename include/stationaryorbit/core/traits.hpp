@@ -1301,7 +1301,10 @@ namespace zawa_ch::StationaryOrbit
 		static_assert(Traits::IsBitSequenceType<T>, "ビット幅の計数は整数型、boolなどの固定幅のビットシーケンスでのみ有効です。");
 	};
 	template<std::size_t N> struct BitWidth_t<std::bitset<N>> : std::integral_constant<size_t, N> {};
-	///	指定された型のビット幅を識別します
+	///	@brief	指定された型のビット幅を識別します
+	///
+	///	@param	T
+	///	ビット幅を識別する型。型要件:BitSequenceType を満たす必要があります。
 	template<class T> inline constexpr size_t bitwidth = BitWidth_t<T>::value;
 }
 #endif // __stationaryorbit_core_traits__
