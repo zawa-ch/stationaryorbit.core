@@ -88,6 +88,33 @@ namespace zawa_ch::StationaryOrbit
 		template<class Tp, std::enable_if_t<(!is_std_sqrt_callable<Tp>) && (has_sqrt<Tp>), int> = 0>
 		[[nodiscard]] static constexpr decltype( std::declval<const Tp&>().Sqrt() ) square_root(const Tp& value) noexcept { return value.Sqrt(); }
 
+		///	@brief	指定された値の正弦を求めます
+		///
+		///	指定されたラジアン角の正弦を求めます。
+		///	@param	Tp
+		///	入力される値の型。型要件:NumericalType を満たす必要があります。
+		///	@param	Rresult
+		///	出力される値の型。型要件:NumericalType を満たし、Tpから変換できる必要があります。
+		///	@param	value
+		///	入力される角度。ラジアンで指定します。
+		template<typename Tp, typename Tresult = Tp, typename = std::enable_if_t<Traits::IsNumericalType<Tp> && Traits::IsNumericalType<Tresult> && std::is_convertible_v<Tp, Tresult>>>
+		[[nodiscard]] static constexpr Tresult sin(const Tp& value)
+		{
+			auto iter = Algorithms::SinProgressionSequenceIterator<Tresult>(Tresult(value));
+			Tresult result = Tresult(Zero);
+			Tresult c = Tresult(Zero);
+			while(iter.has_value())
+			{
+				iter.next();
+				Tresult b = result;
+				Tresult d = iter.current();
+				result += d - c;
+				c = (result - b) - d;
+				if ((result - c) == b) { break; }
+			}
+			return result;
+		}
+
 		///	指定された値を指定された値より大きい整数に丸めます
 		template<class Tp, std::enable_if_t<(Traits::IsIntegralType<Tp>), int> = 0>
 		[[nodiscard]] static constexpr Tp ceil(const Tp& value) { return value; }

@@ -23,7 +23,7 @@
 #include "stationaryorbit/core.utilities.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
-std::array<std::function<int(void)>, 2> tests =
+std::array<std::function<int(void)>, 5> tests =
 {
 	[]()
 	{
@@ -37,6 +37,27 @@ std::array<std::function<int(void)>, 2> tests =
 		std::cout << "2. pi<double> ? ";
 		std::cout.precision(15);
 		std::cout << BasicMathematics::pi<double> << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "3. sin(0) ? ";
+		std::cout.precision(15);
+		std::cout << BasicMathematics::sin(0.0) << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "4. sin(0.78539816339744830961566084581988) ? ";
+		std::cout.precision(15);
+		std::cout << BasicMathematics::sin(0.78539816339744830961566084581988) << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "5. sin(1.5707963267948966192313216916398) ? ";
+		std::cout.precision(15);
+		std::cout << BasicMathematics::sin(1.5707963267948966192313216916398) << std::endl;
 		return 0;
 	},
 };
