@@ -99,10 +99,10 @@ namespace zawa_ch::StationaryOrbit
 	};
 
 	///	constexpr なイテレータを列挙した @a ConstArray
-	template<class Tp, size_t N>
-	struct ConstProgressionArray : ConstProgressionArray<Tp, N - 1>::template Concat<ConstProgression<Tp, N - 1>>::Type {};
-	template<class Tp>
-	struct ConstProgressionArray<Tp, 1> : ConstArray<ConstProgression<Tp, 0>> {};
+	template<class Tp, size_t N, size_t I = 0>
+	struct ConstProgressionArray : ConstProgressionArray<Tp, N - 1, I>::template Concat<ConstProgression<Tp, N - 1 + I>>::Type {};
+	template<class Tp, size_t I>
+	struct ConstProgressionArray<Tp, 1, I> : ConstArray<ConstProgression<Tp, I>> {};
 	template<class Tp>
 	struct ConstProgressionArray<Tp, 0> {};
 }
