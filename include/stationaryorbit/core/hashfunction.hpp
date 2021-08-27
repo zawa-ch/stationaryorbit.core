@@ -31,48 +31,48 @@ namespace zawa_ch::StationaryOrbit
 		~HashFunctionTraits() = delete;
 	private:
 		template<typename Tp, class = std::void_t<>>
-		struct HasValueType_t : std::false_type {};
+		struct HasDigestType_t : std::false_type {};
 		template<typename Tp>
-		struct HasValueType_t<Tp, std::void_t<typename Tp::ValueType>> : std::true_type {};
+		struct HasDigestType_t<Tp, std::void_t<typename Tp::DigestType>> : std::true_type {};
 		template<typename Tp, class = std::void_t<>>
-		struct HasValueFunction_t : std::false_type {};
+		struct HasDigestFunction_t : std::false_type {};
 		template<typename Tp>
-		struct HasValueFunction_t<Tp, std::void_t< decltype(std::declval<const Tp&>().value()) >> : std::true_type {};
+		struct HasDigestFunction_t<Tp, std::void_t< decltype(std::declval<const Tp&>().digest()) >> : std::true_type {};
 		template<typename Tp, typename ValueT, class = std::void_t<>>
 		struct HasInsertFunction_t : std::false_type {};
 		template<typename Tp, typename ValueT>
-		struct HasInsertFunction_t<Tp, std::void_t< decltype(std::declval<Tp&>().insert(std::declval<ValueT&>())) >> : std::true_type {};
+		struct HasInsertFunction_t<Tp, ValueT, std::void_t< decltype(std::declval<Tp&>().insert(std::declval<ValueT&>())) >> : std::true_type {};
 	public:
-		///	指定された型 Tp がメンバ型 ValueType を保持するかを識別します。
+		///	指定された型 Tp がメンバ型 DigestType を保持するかを識別します。
 		template<typename Tp>
-		static constexpr bool has_valuetype = HasValueType_t<Tp>::value;
-		///	指定された型 Tp がメンバ関数 value() を保持するかを識別します。
+		static constexpr bool has_valuetype = HasDigestType_t<Tp>::value;
+		///	指定された型 Tp がメンバ関数 digest() を保持するかを識別します。
 		template<typename Tp>
-		static constexpr bool has_value_function = HasValueFunction_t<Tp>::value;
+		static constexpr bool has_digest_function = HasDigestFunction_t<Tp>::value;
 		///	指定された型 Tp がメンバ関数 insert(ValueT) を保持するかを識別します。
 		template<typename Tp, typename ValueT>
 		static constexpr bool has_insert_function = HasInsertFunction_t<Tp, ValueT>::value;
 	private:
 		template<typename Tp, class = std::void_t<>>
-		struct IsValueFunctionSameValueType_t : std::false_type {};
+		struct IsDigestFunctionSameDigestType_t : std::false_type {};
 		template<typename Tp>
-		struct IsValueFunctionSameValueType_t<Tp, std::void_t< typename Tp::ValueType, decltype(std::declval<const Tp&>().value()) >> : std::is_same<typename Tp::ValueType, decltype(std::declval<const Tp&>().value())> {};
+		struct IsDigestFunctionSameDigestType_t<Tp, std::void_t< typename Tp::DigestType, decltype(std::declval<const Tp&>().digest()) >> : std::is_same<typename Tp::DigestType, decltype(std::declval<const Tp&>().digest())> {};
 		template<typename Tp, typename ValueT>
-		struct IsHashfunction_t : std::conjunction<std::is_default_constructible<Tp>, HasValueType_t<Tp>, HasValueFunction_t<Tp>, HasInsertFunction_t<Tp, ValueT>, IsValueFunctionSameValueType_t<Tp>> {};
+		struct IsHashfunction_t : std::conjunction<std::is_default_constructible<Tp>, HasDigestType_t<Tp>, HasDigestFunction_t<Tp>, HasInsertFunction_t<Tp, ValueT>, IsDigestFunctionSameDigestType_t<Tp>> {};
 	public:
 		///	ハッシュ関数を扱うクラスであるかを識別します。
 		template<typename Tp, typename ValueT>
 		static constexpr bool is_hashfunction = IsHashfunction_t<Tp, ValueT>::value;
 
-		///	指定されたハッシュ関数クラス Tp のメンバ型 ValueType を取得します。
+		///	指定されたハッシュ関数クラス Tp のメンバ型 DigestType を取得します。
 		template<typename Tp>
-		using ValueType = typename Tp::ValueType;
+		using DigestType = typename Tp::DigestType;
 		///	指定されたハッシュ関数クラス Tp のオブジェクトのハッシュ値を取得します。
 		template<typename Tp>
-		static constexpr auto value(const Tp& object) { return object.value(); }
+		static constexpr DigestType<Tp> digest(const Tp& object) { return object.digest(); }
 		///	指定されたハッシュ関数クラス Tp のオブジェクトにビット列を追加し、ハッシュ値を更新します。
 		template<typename Tp, typename ValueT>
-		static constexpr auto insert(const Tp& insert, const ValueT& value) { return object.insert(value); }
+		static constexpr void insert(const Tp& object, const Tp& insert, const ValueT& value) { object.insert(value); }
 	};
 }
 #endif // __stationaryorbit_core_hashfunction__
