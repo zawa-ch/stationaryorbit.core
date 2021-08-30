@@ -100,7 +100,10 @@ namespace zawa_ch::StationaryOrbit
 		template<typename Tp, typename Tresult = Tp, typename = std::enable_if_t<Traits::IsNumericalType<Tp> && Traits::IsNumericalType<Tresult> && std::is_convertible_v<Tp, Tresult>>>
 		[[nodiscard]] static constexpr Tresult sin(const Tp& value)
 		{
-			auto iter = Algorithms::SinProgressionSequenceIterator<Tresult>(Tresult(value));
+			Tresult x = value;
+			auto modulation = Algorithms::ModuloIterator<Tresult>(x, pi<Tresult> * 2);
+			while(modulation.has_value()) { modulation.next(); }
+			auto iter = Algorithms::SinProgressionSequenceIterator<Tresult>(modulation.current());
 			Tresult result = Tresult(Zero);
 			Tresult c = Tresult(Zero);
 			while(iter.has_value())
