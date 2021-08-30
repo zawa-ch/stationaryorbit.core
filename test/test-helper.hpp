@@ -35,6 +35,31 @@ constexpr int check_if(bool condition)
 
 
 template<size_t N>
+std::ostream& dump(std::ostream& stream, const std::array<uint8_t, N>& data)
+{
+	auto flags = stream.flags();
+	auto width = stream.width();
+	auto fill = stream.fill();
+	size_t n = 0;
+	for(auto i: data)
+	{
+		if(16 <= n)
+		{
+			n = 0;
+			std::cout << std::endl;
+		}
+		stream.width(2);
+		stream.fill('0');
+		stream << std::hex << std::uppercase << uint16_t(i);
+		++n;
+	}
+	stream.flags(flags);
+	stream.width(width);
+	stream.fill(fill);
+	return stream;
+}
+
+template<size_t N>
 std::ostream& dump(std::ostream& stream, const std::array<std::byte, N>& data)
 {
 	auto flags = stream.flags();
