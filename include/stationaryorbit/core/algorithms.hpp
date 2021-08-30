@@ -204,6 +204,54 @@ namespace zawa_ch::StationaryOrbit
 			return sin / (1 + cos);
 		}
 
+		///	@brief	剰余の導出を行います。
+		///	@param	Tp
+		///	剰余を導出する値の型。型要件:NumericalType を満たす必要があります。
+		template<typename Tp>
+		class ModuloIterator
+		{
+			static_assert(Traits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+			static_assert(std::numeric_limits<Tp>::radix > 0, "テンプレート引数型 Tp の基数が正しい値ではありません。");
+		public:
+			typedef Tp ValueType;
+		private:
+			size_t _p;
+			Tp _cur;
+			Tp _div;
+			Tp _c;
+			bool _s;
+		public:
+			constexpr ModuloIterator(const Tp& x, const Tp& div) : _p(Zero), _cur(abstract(x)), _div(abstract(div)), _c(Zero), _s(is_signed(x)) {}
+
+			[[nodiscard]] constexpr bool has_value() const noexcept { return _div <= _cur; }
+			[[nodiscard]] constexpr Tp current() const noexcept { return _s?(_c - _cur):(_cur - _c); }
+			constexpr bool next()
+			{
+				if (_div <= _cur)
+				{
+					Tp d = _div;
+					while (power(_div, _p + 1) <= _cur)
+					{
+						++_p;
+						d = power(_div, _p);
+					}
+					auto b = _cur;
+					_cur -= d - _c;
+					_c = (_cur - b) + d;
+				}
+				return has_value();
+			}
+		private:
+			[[nodiscard]] constexpr static bool is_signed(const Tp& x) noexcept { return x < Tp(Zero); }
+			[[nodiscard]] constexpr static Tp abstract(const Tp& x) noexcept { return is_signed(x)?(-x):(x); }
+			[[nodiscard]] constexpr static Tp power(const Tp& x, size_t n) noexcept
+			{
+				auto result = x;
+				for(size_t i = 0; i < n; ++i) { result *= std::numeric_limits<Tp>::radix; }
+				return result;
+			}
+		};
+
 		template<typename Tp>
 		class SinProgressionSequenceIterator
 		{
