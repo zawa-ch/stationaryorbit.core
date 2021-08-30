@@ -61,11 +61,11 @@ namespace zawa_ch::StationaryOrbit
 
 	public: // menber
 		///	範囲の下限値を取得します。
-		ValueType GetFloor() const { return _bottom; }
+		[[nodiscard]] constexpr ValueType GetFloor() const { return _bottom; }
 		///	範囲の上限値を取得します。
-		ValueType GetCeiling() const { return _top; }
+		[[nodiscard]] constexpr ValueType GetCeiling() const { return _top; }
 		///	範囲の長さを求めます。
-		ValueType Length() const
+		[[nodiscard]] constexpr ValueType Length() const
 		{
 			if ((_bottom < 0)&&((std::numeric_limits<ValueType>::max() - _bottom) < _top)) { throw std::overflow_error("計算結果がテンプレートで指定されている型の最大値を超えています。"); }
 
@@ -80,38 +80,38 @@ namespace zawa_ch::StationaryOrbit
 		///	検査を行う値
 		///	@return
 		///	範囲に含まれれば @a true を返します。そうでなければ @a false を返します。
-		constexpr bool isIncluded(const T& value) const { return isOverBottom(value) && isUnderTop(value); }
+		[[nodiscard]] constexpr bool isIncluded(const T& value) const { return isOverBottom(value) && isUnderTop(value); }
 
 		///	指定された値が範囲より大きいかを検査します。
 		///	@param	value
 		///	検査を行う値
 		///	@return
 		///	範囲より大きければ @a true を返します。そうでなければ @a false を返します。
-		constexpr bool isAbove(const T& value) const { return isOverBottom(value) && !isUnderTop(value); }
-		bool operator<(const T& value) const { return isAbove(value); }
+		[[nodiscard]] constexpr bool isAbove(const T& value) const { return isOverBottom(value) && !isUnderTop(value); }
+		[[nodiscard]] constexpr bool operator<(const T& value) const { return isAbove(value); }
 
 		///	指定された値が範囲より小さいかを検査します。
 		///	@param	value
 		///	検査を行う値
 		///	@return
 		///	範囲より小さければ @a true を返します。そうでなければ @a false を返します。
-		constexpr bool isLess(const ValueType& value) const { return !isOverBottom(value) && isUnderTop(value); }
-		bool operator>(const ValueType& value) const { return isLess(value); }
+		[[nodiscard]] constexpr bool isLess(const ValueType& value) const { return !isOverBottom(value) && isUnderTop(value); }
+		[[nodiscard]] constexpr bool operator>(const ValueType& value) const { return isLess(value); }
 
-		constexpr bool isOverBottom(const ValueType& value) const noexcept { if constexpr (floor_included) { return _bottom <= value; } else { return _bottom < value; } }
-		constexpr bool isUnderTop(const ValueType& value) const noexcept { if constexpr (ceiling_included) { return value <= _top; } else { return value < _top; } }
+		[[nodiscard]] constexpr bool isOverBottom(const ValueType& value) const noexcept { if constexpr (floor_included) { return _bottom <= value; } else { return _bottom < value; } }
+		[[nodiscard]] constexpr bool isUnderTop(const ValueType& value) const noexcept { if constexpr (ceiling_included) { return value <= _top; } else { return value < _top; } }
 
-		constexpr IteratorType GetIteratorBegin() const noexcept { return IteratorType(*this, IteratorOrigin::Begin); }
-		constexpr IteratorType GetIteratorEnd() const noexcept { return IteratorType(*this, IteratorOrigin::End); }
-		IteratorAdaptContainer<IteratorType> GetStdIterator() const noexcept { return IteratorAdaptContainer<IteratorType>(GetIteratorBegin()); }
-		IteratorReverseAdaptContainer<IteratorType> GetStdReverseIterator() const noexcept { return IteratorReverseAdaptContainer<IteratorType>(GetIteratorBegin()); }
+		[[nodiscard]] constexpr IteratorType GetIteratorBegin() const noexcept { return IteratorType(*this, IteratorOrigin::Begin); }
+		[[nodiscard]] constexpr IteratorType GetIteratorEnd() const noexcept { return IteratorType(*this, IteratorOrigin::End); }
+		[[nodiscard]] constexpr IteratorAdaptContainer<IteratorType> GetStdIterator() const noexcept { return IteratorAdaptContainer<IteratorType>(GetIteratorBegin()); }
+		[[nodiscard]] constexpr IteratorReverseAdaptContainer<IteratorType> GetStdReverseIterator() const noexcept { return IteratorReverseAdaptContainer<IteratorType>(GetIteratorBegin()); }
 
 	public: // equatable
 
 		///	指定されたオブジェクトがこのオブジェクトと等価であることを判定します。
-		constexpr bool Equals(const Range<ValueType, floor_included, ceiling_included>& value) const { return (_bottom == value._bottom)&&(_top == value._top); }
-		bool operator==(const Range<ValueType, floor_included, ceiling_included>& value) const { return Equals(value); }
-		bool operator!=(const Range<ValueType, floor_included, ceiling_included>& value) const { return !Equals(value); }
+		[[nodiscard]] constexpr bool Equals(const Range<ValueType, floor_included, ceiling_included>& value) const { return (_bottom == value._bottom)&&(_top == value._top); }
+		[[nodiscard]] constexpr bool operator==(const Range<ValueType, floor_included, ceiling_included>& value) const { return Equals(value); }
+		[[nodiscard]] constexpr bool operator!=(const Range<ValueType, floor_included, ceiling_included>& value) const { return !Equals(value); }
 	};
 
 	///	@a Range の区間内を反復するためのイテレータを提供します。
@@ -132,7 +132,7 @@ namespace zawa_ch::StationaryOrbit
 
 	private: // contains
 
-		const RangeType _range;
+		RangeType _range;
 		ValueType _value;
 
 	public: // constructor
@@ -143,13 +143,13 @@ namespace zawa_ch::StationaryOrbit
 	public: // member
 
 		///	このイテレータの現在示している値を取得します。
-		constexpr const ValueType& Current() const noexcept { return _value; }
+		[[nodiscard]] constexpr const ValueType& Current() const noexcept { return _value; }
 		///	このイテレータが示している値を取得できるかを返します。
-		constexpr bool HasValue() const noexcept { return _range.isIncluded(_value); }
+		[[nodiscard]] constexpr bool HasValue() const noexcept { return _range.isIncluded(_value); }
 		///	このイテレータが最初の位置より前にあるかを取得します。
-		constexpr bool IsBeforeBegin() const noexcept { return !_range.isOverBottom(_value); }
+		[[nodiscard]] constexpr bool IsBeforeBegin() const noexcept { return !_range.isOverBottom(_value); }
 		///	このイテレータが最後の位置より後にあるかを取得します。
-		constexpr bool IsAfterEnd() const noexcept { return !_range.isUnderTop(_value); }
+		[[nodiscard]] constexpr bool IsAfterEnd() const noexcept { return !_range.isUnderTop(_value); }
 		///	このイテレータを次に進めます。
 		constexpr bool Next() noexcept { return _range.isUnderTop(_range.isUnderTop(_value)?(++_value):(_value)); }
 		///	このイテレータを前に進めます。
@@ -161,13 +161,13 @@ namespace zawa_ch::StationaryOrbit
 		///	進める初期位置の場所。
 		constexpr void Reset(const IteratorOrigin& origin) { _value = getOrigin(_range, origin); }
 		///	指定されたオブジェクトがこのオブジェクトと等価であることを判定します。
-		constexpr bool Equals(const IteratorType& other) const noexcept { return (_range.Equals(other._range))&&(_value == other._value); }
+		[[nodiscard]] constexpr bool Equals(const IteratorType& other) const noexcept { return (_range.Equals(other._range))&&(_value == other._value); }
 
-		constexpr bool operator==(const IteratorType& other) const noexcept { return Equals(other); }
-		constexpr bool operator!=(const IteratorType& other) const noexcept { return !Equals(other); }
+		[[nodiscard]] constexpr bool operator==(const IteratorType& other) const noexcept { return Equals(other); }
+		[[nodiscard]] constexpr bool operator!=(const IteratorType& other) const noexcept { return !Equals(other); }
 
 	private:
-		constexpr static ValueType getOrigin(const RangeType& range, const IteratorOrigin& origin)
+		[[nodiscard]] constexpr static ValueType getOrigin(const RangeType& range, const IteratorOrigin& origin)
 		{
 			switch(origin)
 			{
