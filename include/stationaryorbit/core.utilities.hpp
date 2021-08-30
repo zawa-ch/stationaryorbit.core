@@ -28,6 +28,7 @@
 #include "core/fundamental.hpp"
 #include "core/halfangleformula.hpp"
 #include "core/machinprogression.hpp"
+#include "core/md5.hpp"
 #include "core/objectholder.hpp"
 #include "core/property.hpp"
 #include "core/zerovalue.hpp"
