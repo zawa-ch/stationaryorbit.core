@@ -23,7 +23,7 @@
 #include "stationaryorbit/core.utilities.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
-std::array<std::function<int(void)>, 52> tests =
+std::array<std::function<int(void)>, 54> tests =
 {
 	[]()
 	{
@@ -496,6 +496,28 @@ std::array<std::function<int(void)>, 52> tests =
 		} while(true);
 		std::cout.precision(15);
 		std::cout << result << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "53. 12 mod 5 ? ";
+		auto mod = Algorithms::ModuloIterator<uint32_t>(12, 5);
+		while(mod.has_value())
+		{
+			mod.next();
+		}
+		std::cout << mod.current() << std::endl;
+		return 0;
+	},
+	[]()
+	{
+		std::cout << "54. 5.6 mod 0.3 ? ";
+		auto mod = Algorithms::ModuloIterator<double>(5.6, 0.3);
+		while(mod.has_value())
+		{
+			mod.next();
+		}
+		std::cout << mod.current() << std::endl;
 		return 0;
 	},
 };
