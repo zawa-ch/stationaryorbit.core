@@ -154,8 +154,9 @@ namespace zawa_ch::StationaryOrbit
 		template<class Tp>
 		[[nodiscard]] static constexpr std::enable_if_t<Traits::IsNumericalType<Tp>, Tp> mod(const Tp& left, const Tp& right)
 		{
-			// TODO: フォールバック実装の実装
-			throw NotImplementedException();
+			auto iter = Algorithms::ModuloIterator<Tp>(left, right);
+			while(iter.has_value()) { iter.next(); }
+			return iter.current();
 		}
 		///	剰余を求めます
 		template<class Tp, class = decltype( std::fmod( std::declval<Tp&>(), std::declval<Tp&>() ))>
