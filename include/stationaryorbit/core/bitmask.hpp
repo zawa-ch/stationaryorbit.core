@@ -20,6 +20,7 @@
 #define __stationaryorbit_core_bitmask__
 #include <limits>
 #include "traits.hpp"
+#include "bitwidth.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	///	@brief	ビット列をマスクする機能を提供します

@@ -20,6 +20,7 @@
 #include "core/algorithms.hpp"
 #include "core/arithmetic.hpp"
 #include "core/basicmath.hpp"
+#include "core/bitwidth.hpp"
 #include "core/constarray.hpp"
 #include "core/constprogression.hpp"
 #include "core/delegate.hpp"

@@ -23,6 +23,7 @@
 #include <type_traits>
 #include <stdexcept>
 #include "fundamental.hpp"
+#include "bitwidth.hpp"
 #include "arithmetic.hpp"
 #include "algorithms.hpp"
 #include "range.hpp"

@@ -23,6 +23,7 @@
 #include "divisionresult.hpp"
 #include "zerovalue.hpp"
 #include "traits.hpp"
+#include "bitwidth.hpp"
 #include "range.hpp"
 namespace zawa_ch::StationaryOrbit
 {

@@ -27,6 +27,7 @@ add_library(stationaryorbit.core SHARED
     algorithms.cpp
     arithmetic.cpp
     bitmask.cpp
+    bitwidth.cpp
     endians.cpp
     fixedpoint.cpp
     integer.cpp

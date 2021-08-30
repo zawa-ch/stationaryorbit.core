@@ -20,6 +20,7 @@
 #define __stationaryorbit_core_integer__
 #include <stdexcept>
 #include "traits.hpp"
+#include "bitwidth.hpp"
 #include "divisionresult.hpp"
 #include "algorithms.hpp"
 #include "range.hpp"

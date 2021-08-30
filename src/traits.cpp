@@ -168,10 +168,3 @@ static_assert(Traits::IsStdLegacyOutputIterator<std::list<int>::iterator, int>, 
 
 static_assert(Traits::SubscriptResultIsConvertible<std::array<uint8_t, 20>, size_t, uint8_t>, "std::array<uint8_t, 20> に operator[](size_t) -> uint8_t がありません");
 static_assert(Traits::DereferenceResultIsConvertible<int*, int>, "int* に operator*() -> int がありません");
-
-static_assert(bitwidth<bool> == 1UL, "bool のビット幅が 1 ではありません");
-static_assert(bitwidth<uint8_t> == 8UL, "uint8_t のビット幅が 8 ではありません");
-static_assert(bitwidth<uint16_t> == 16UL, "uint16_t のビット幅が 16 ではありません");
-static_assert(bitwidth<uint32_t> == 32UL, "uint32_t のビット幅が 32 ではありません");
-static_assert(bitwidth<uint64_t> == 64UL, "uint64_t のビット幅が 64 ではありません");
-static_assert(bitwidth<std::bitset<14>> == 14UL, "std::bitset<14> のビット幅が 14 ではありません");
