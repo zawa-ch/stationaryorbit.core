@@ -36,12 +36,15 @@ namespace zawa_ch::StationaryOrbit
 		BasicMathematics(BasicMathematics&&) = delete;
 		~BasicMathematics() = delete;
 
+		template<class Tp, class R = decltype( std::abs(std::declval<const Tp&>()) )> struct StdAbsResultImpl { typedef R type; };
 		template<class Tp, class R = decltype( std::sqrt(std::declval<const Tp&>()) )> struct StdSqrtResultImpl { typedef R type; };
 		template<class Tp, class R = decltype( std::ceil(std::declval<const Tp&>()) )> struct StdCeilResultImpl { typedef R type; };
 		template<class Tp, class R = decltype( std::floor(std::declval<const Tp&>()) )> struct StdFloorResultImpl { typedef R type; };
 		template<class Tp, class R = decltype( std::trunc(std::declval<const Tp&>()) )> struct StdTruncResultImpl { typedef R type; };
 		template<class Tp, class R = decltype( std::round(std::declval<const Tp&>()) )> struct StdRoundResultImpl { typedef R type; };
 		template<class Tp, class R = decltype( std::declval<const Tp&>().Sqrt() )> struct SqrtResultImpl { typedef R type; };
+		template<class Tp, class = void> struct IsStdAbsCallableImpl : std::false_type {};
+		template<class Tp> struct IsStdAbsCallableImpl<Tp, std::void_t< typename StdAbsResultImpl<Tp>::type >> : std::true_type {};
 		template<class Tp, class = void> struct IsStdSqrtCallableImpl : std::false_type {};
 		template<class Tp> struct IsStdSqrtCallableImpl<Tp, std::void_t< typename StdSqrtResultImpl<Tp>::type >> : std::true_type {};
 		template<class Tp, class = void> struct IsStdCeilCallableImpl : std::false_type {};
@@ -55,6 +58,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class Tp, class = void> struct HasSqrtImpl : std::false_type {};
 		template<class Tp> struct HasSqrtImpl<Tp, std::void_t< typename StdSqrtResultImpl<Tp>::type >> : std::true_type {};
 
+		template<class Tp> static constexpr bool is_std_abs_callable = IsStdAbsCallableImpl<Tp>::value;
 		template<class Tp> static constexpr bool is_std_sqrt_callable = IsStdSqrtCallableImpl<Tp>::value;
 		template<class Tp> static constexpr bool is_std_ceil_callable = IsStdCeilCallableImpl<Tp>::value;
 		template<class Tp> static constexpr bool is_std_floor_callable = IsStdFloorCallableImpl<Tp>::value;
@@ -70,7 +74,7 @@ namespace zawa_ch::StationaryOrbit
 
 		///	指定された値の絶対値を求めます
 		template<class Tp>
-		[[nodiscard]] static constexpr std::enable_if_t<Traits::IsNumericalType<Tp>, Tp> abstract(const Tp& value) noexcept
+		[[nodiscard]] static constexpr std::enable_if_t<!is_std_abs_callable<Tp> && Traits::IsNumericalType<Tp>, Tp> abstract(const Tp& value) noexcept
 		{
 			return ( value < Tp(0) )?(-value):(value);
 		}
