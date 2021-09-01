@@ -43,12 +43,12 @@ std::array<std::function<int(void)>, 8> tests =
 	[]()
 	{
 		std::cout << "4. Type Range<size_t>::IteratorType meets the traits SequencialOrderType?";
-		return check_if(Traits::IsSequencialOrderType<Range<size_t>::IteratorType>);
+		return check_if(OrderTypeTraits::IsSequencialOrderType<Range<size_t>::IteratorType>);
 	},
 	[]()
 	{
 		std::cout << "5. Type Range<size_t>::IteratorType meets the traits BidirectionalOrderType?";
-		return check_if(Traits::IsBidirectionalOrderType<Range<size_t>::IteratorType>);
+		return check_if(OrderTypeTraits::IsBidirectionalOrderType<Range<size_t>::IteratorType>);
 	},
 	[]()
 	{

@@ -18,5 +18,6 @@
 //
 
 #include "core/bitsequencetraits.hpp"
+#include "core/ordertypetraits.hpp"
 #include "core/stditeratortraits.hpp"
 #include "core/traits.hpp"

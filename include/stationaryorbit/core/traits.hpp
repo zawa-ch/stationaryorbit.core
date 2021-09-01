@@ -987,40 +987,6 @@ namespace zawa_ch::StationaryOrbit
 		template<class T> static constexpr bool IsNumericalType = IsNumericalType_t<T>::value;
 		///	型要件:IntegralTypeを満たす型を識別します
 		template<class T> static constexpr bool IsIntegralType = IsIntegralType_t<T>::value;
-	private:
-		template<class T> struct HasSequencialOrderTypeOperation_t : std::conjunction
-			<
-				PreincrementResultIsSame_t<T, T&>,
-				IsEquatable_t<T, T>
-			>
-		{};
-		template<class T> struct HasBidirectionalOrderTypeOperation_t : std::conjunction
-			<
-				HasSequencialOrderTypeOperation_t<T>,
-				PredecrementResultIsSame_t<T, T&>
-			>
-		{};
-		template<class, class, class = void> struct HasLinearOrderTypeOperation_t : std::false_type {};
-		template<class T, class N> struct HasLinearOrderTypeOperation_t<T, N, std::enable_if_t< IsIntegralType<N> >> : std::conjunction
-			<
-				HasBidirectionalOrderTypeOperation_t<T>,
-				AdditionResultIsSame_t<T, N, T>,
-				SubtractionResultIsSame_t<T, N, T>,
-				SubstitutionAddResultIsSame_t<T, N, T&>,
-				SubstitutionSubtractResultIsSame_t<T, N, T&>,
-				IsComparable_t<T, T>
-			>
-		{};
-		template<class T> struct IsSequencialOrderType_t : std::conjunction< HasSequencialOrderTypeOperation_t<T> > {};
-		template<class T> struct IsBidirectionalOrderType_t : std::conjunction< IsSequencialOrderType_t<T>, HasBidirectionalOrderTypeOperation_t<T> > {};
-		template<class T, class N> struct IsLinearOrderType_t : std::conjunction< IsBidirectionalOrderType_t<T>, HasLinearOrderTypeOperation_t<T, N> > {};
-	public:
-		///	型要件:SequencialOrderTypeを満たす型を識別します
-		template<class T> static constexpr bool IsSequencialOrderType = IsSequencialOrderType_t<T>::value;
-		///	型要件:BidirectionalOrderTypeを満たす型を識別します
-		template<class T> static constexpr bool IsBidirectionalOrderType = IsBidirectionalOrderType_t<T>::value;
-		///	型要件:LinearOrderTypeを満たす型を識別します
-		template<class T, class N = int> static constexpr bool IsLinearOrderType = IsLinearOrderType_t<T, N>::value;
 	};
 	#if 201703L <= __cplusplus
 	// Clang C++17でコンパイルするとbool::operator++()を実体化しようとしてエラーを吐くため

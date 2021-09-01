@@ -22,6 +22,7 @@
 #include <type_traits>
 #include <stdexcept>
 #include "traits.hpp"
+#include "ordertypetraits.hpp"
 #include "iterator.hpp"
 namespace zawa_ch::StationaryOrbit
 {
@@ -120,7 +121,7 @@ namespace zawa_ch::StationaryOrbit
 	{
 		static_assert(Traits::IsNumericalType<T>, "この型のテンプレート T は数値型のクラスである必要があります。");
 		static_assert(Traits::IsComparable<T>, "この型のテンプレート T は比較可能である必要があります。");
-		static_assert(Traits::IsBidirectionalOrderType<T>, "この型のテンプレート T は双方向の順序を持つ値型である必要があります。");
+		static_assert(OrderTypeTraits::IsBidirectionalOrderType<T>, "この型のテンプレート T は双方向の順序を持つ値型である必要があります。");
 
 	public: // type
 
