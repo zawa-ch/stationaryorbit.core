@@ -18,3 +18,4 @@
 //
 
 #include "core/traits.hpp"
+#include "core/stditeratortraits.hpp"
