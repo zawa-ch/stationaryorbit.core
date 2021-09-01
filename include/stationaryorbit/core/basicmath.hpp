@@ -22,7 +22,7 @@
 #include "notimplemented.hpp"
 #include "constprogression.hpp"
 #include "fundamental.hpp"
-#include "traits.hpp"
+#include "numericaltraits.hpp"
 #include "algorithms.hpp"
 #include "machinprogression.hpp"
 namespace zawa_ch::StationaryOrbit
@@ -74,7 +74,7 @@ namespace zawa_ch::StationaryOrbit
 
 		///	指定された値の絶対値を求めます
 		template<class Tp>
-		[[nodiscard]] static constexpr std::enable_if_t<!is_std_abs_callable<Tp> && Traits::IsNumericalType<Tp>, Tp> abstract(const Tp& value) noexcept
+		[[nodiscard]] static constexpr std::enable_if_t<!is_std_abs_callable<Tp> && NumericalTraits::IsNumericalType<Tp>, Tp> abstract(const Tp& value) noexcept
 		{
 			return ( value < Tp(0) )?(-value):(value);
 		}
@@ -101,7 +101,7 @@ namespace zawa_ch::StationaryOrbit
 		///	出力される値の型。型要件:NumericalType を満たし、Tpから変換できる必要があります。
 		///	@param	value
 		///	入力される角度。ラジアンで指定します。
-		template<typename Tp, typename Tresult = Tp, typename = std::enable_if_t<Traits::IsNumericalType<Tp> && Traits::IsNumericalType<Tresult> && std::is_convertible_v<Tp, Tresult>>>
+		template<typename Tp, typename Tresult = Tp, typename = std::enable_if_t<NumericalTraits::IsNumericalType<Tp> && NumericalTraits::IsNumericalType<Tresult> && std::is_convertible_v<Tp, Tresult>>>
 		[[nodiscard]] static constexpr Tresult sin(const Tp& value)
 		{
 			Tresult x = value;
@@ -123,36 +123,36 @@ namespace zawa_ch::StationaryOrbit
 		}
 
 		///	指定された値を指定された値より大きい整数に丸めます
-		template<class Tp, std::enable_if_t<(Traits::IsIntegralType<Tp>), int> = 0>
+		template<class Tp, std::enable_if_t<(NumericalTraits::IsIntegralType<Tp>), int> = 0>
 		[[nodiscard]] static constexpr Tp ceil(const Tp& value) { return value; }
 		///	指定された値を指定された値より大きい整数に丸めます
-		template<class Tp, std::enable_if_t<!(Traits::IsIntegralType<Tp>) && (is_std_ceil_callable<Tp>), int> = 0>
+		template<class Tp, std::enable_if_t<!(NumericalTraits::IsIntegralType<Tp>) && (is_std_ceil_callable<Tp>), int> = 0>
 		[[nodiscard]] static constexpr Tp ceil(const Tp& value) { return std::ceil(value); }
 
 		///	指定された値を指定された値より小さい整数に丸めます
-		template<class Tp, std::enable_if_t<(Traits::IsIntegralType<Tp>), int> = 0>
+		template<class Tp, std::enable_if_t<(NumericalTraits::IsIntegralType<Tp>), int> = 0>
 		[[nodiscard]] static constexpr Tp floor(const Tp& value) { return value; }
 		///	指定された値を指定された値より小さい整数に丸めます
-		template<class Tp, std::enable_if_t<!(Traits::IsIntegralType<Tp>) && (is_std_floor_callable<Tp>), int> = 0>
+		template<class Tp, std::enable_if_t<!(NumericalTraits::IsIntegralType<Tp>) && (is_std_floor_callable<Tp>), int> = 0>
 		[[nodiscard]] static constexpr Tp floor(const Tp& value) { return std::floor(value); }
 
 		///	指定された値を0に近い整数に丸めます
-		template<class Tp, std::enable_if_t<(Traits::IsIntegralType<Tp>), int> = 0>
+		template<class Tp, std::enable_if_t<(NumericalTraits::IsIntegralType<Tp>), int> = 0>
 		[[nodiscard]] static constexpr Tp truncate(const Tp& value) { return value; }
 		///	指定された値を0に近い整数に丸めます
-		template<class Tp, std::enable_if_t<!(Traits::IsIntegralType<Tp>) && (is_std_trunc_callable<Tp>), int> = 0>
+		template<class Tp, std::enable_if_t<!(NumericalTraits::IsIntegralType<Tp>) && (is_std_trunc_callable<Tp>), int> = 0>
 		[[nodiscard]] static constexpr Tp truncate(const Tp& value) { return std::trunc(value); }
 
 		///	指定された値を最も近い整数に丸めます
-		template<class Tp, std::enable_if_t<(Traits::IsIntegralType<Tp>), int> = 0>
+		template<class Tp, std::enable_if_t<(NumericalTraits::IsIntegralType<Tp>), int> = 0>
 		[[nodiscard]] static constexpr Tp round(const Tp& value) { return value; }
 		///	指定された値を最も近い整数に丸めます
-		template<class Tp, std::enable_if_t<!(Traits::IsIntegralType<Tp>) && (is_std_round_callable<Tp>), int> = 0>
+		template<class Tp, std::enable_if_t<!(NumericalTraits::IsIntegralType<Tp>) && (is_std_round_callable<Tp>), int> = 0>
 		[[nodiscard]] static constexpr Tp round(const Tp& value) { return std::round(value); }
 
 		///	剰余を求めます
 		template<class Tp>
-		[[nodiscard]] static constexpr std::enable_if_t<Traits::IsNumericalType<Tp>, Tp> mod(const Tp& left, const Tp& right)
+		[[nodiscard]] static constexpr std::enable_if_t<NumericalTraits::IsNumericalType<Tp>, Tp> mod(const Tp& left, const Tp& right)
 		{
 			auto iter = Algorithms::ModuloIterator<Tp>(left, right);
 			while(iter.has_value()) { iter.next(); }

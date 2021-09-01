@@ -28,37 +28,37 @@ std::array<std::function<int(void)>, 18> tests =
 	[]()
 	{
 		std::cout << "1. Type FixedPoint8q7_t meets the traits IsNumericalType?";
-		return check_if(Traits::IsNumericalType<FixedPoint8q7_t>);
+		return check_if(NumericalTraits::IsNumericalType<FixedPoint8q7_t>);
 	},
 	[]()
 	{
 		std::cout << "2. Type FixedPoint16q8_t meets the traits IsNumericalType?";
-		return check_if(Traits::IsNumericalType<FixedPoint16q8_t>);
+		return check_if(NumericalTraits::IsNumericalType<FixedPoint16q8_t>);
 	},
 	[]()
 	{
 		std::cout << "3. Type FixedPoint16q15_t meets the traits IsNumericalType?";
-		return check_if(Traits::IsNumericalType<FixedPoint16q15_t>);
+		return check_if(NumericalTraits::IsNumericalType<FixedPoint16q15_t>);
 	},
 	[]()
 	{
 		std::cout << "4. Type FixedPoint32q16_t meets the traits IsNumericalType?";
-		return check_if(Traits::IsNumericalType<FixedPoint32q16_t>);
+		return check_if(NumericalTraits::IsNumericalType<FixedPoint32q16_t>);
 	},
 	[]()
 	{
 		std::cout << "5. Type FixedPoint32q31_t meets the traits IsNumericalType?";
-		return check_if(Traits::IsNumericalType<FixedPoint32q31_t>);
+		return check_if(NumericalTraits::IsNumericalType<FixedPoint32q31_t>);
 	},
 	[]()
 	{
 		std::cout << "6. Type FixedPoint64q32_t meets the traits IsNumericalType?";
-		return check_if(Traits::IsNumericalType<FixedPoint64q32_t>);
+		return check_if(NumericalTraits::IsNumericalType<FixedPoint64q32_t>);
 	},
 	[]()
 	{
 		std::cout << "7. Type FixedPoint64q63_t meets the traits IsNumericalType?";
-		return check_if(Traits::IsNumericalType<FixedPoint64q63_t>);
+		return check_if(NumericalTraits::IsNumericalType<FixedPoint64q63_t>);
 	},
 	[]()
 	{

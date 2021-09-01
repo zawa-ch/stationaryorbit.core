@@ -19,6 +19,7 @@
 #ifndef __stationaryorbit_core_ordertypetraits__
 #define __stationaryorbit_core_ordertypetraits__
 #include "traits.hpp"
+#include "numericaltraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	class OrderTypeTraits
@@ -39,7 +40,7 @@ namespace zawa_ch::StationaryOrbit
 			>
 		{};
 		template<class, class, class = void> struct HasLinearOrderTypeOperation_t : std::false_type {};
-		template<class T, class N> struct HasLinearOrderTypeOperation_t<T, N, std::enable_if_t< Traits::IsIntegralType<N> >> : std::conjunction
+		template<class T, class N> struct HasLinearOrderTypeOperation_t<T, N, std::enable_if_t< NumericalTraits::IsIntegralType<N> >> : std::conjunction
 			<
 				HasBidirectionalOrderTypeOperation_t<T>,
 				std::bool_constant<Traits::AdditionResultIsSame<T, N, T>>,

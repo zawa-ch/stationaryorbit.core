@@ -20,13 +20,14 @@
 #define __stationaryorbit_core_bitsequencetraits__
 #include <limits>
 #include "traits.hpp"
+#include "numericaltraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	class BitSequenceTraits
 	{
 	private:
 		template<class, class, class = void> struct HasBitSequenceTypeOperation_t : std::false_type {};
-		template<class T, class N> struct HasBitSequenceTypeOperation_t<T, N, std::enable_if_t< Traits::IsIntegralType<N> >> : std::conjunction
+		template<class T, class N> struct HasBitSequenceTypeOperation_t<T, N, std::enable_if_t< NumericalTraits::IsIntegralType<N> >> : std::conjunction
 			<
 				std::bool_constant<Traits::ArithmeticNotResultIsConvertible<T, T>>,
 				std::bool_constant<Traits::ArithmeticAndResultIsConvertible<T, T, T>>,

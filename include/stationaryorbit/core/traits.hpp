@@ -942,51 +942,6 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		///	型要件:PointableTypeを満たす型を識別します
 		template<class T, class U> static constexpr bool IsPointableType = IsPointableType_t<T, U>::value;
-	private:
-		template<class, class = std::void_t<>> struct HasArithmeticTypeOperation_t : std::false_type {};
-		template<class T> struct HasArithmeticTypeOperation_t<T, std::void_t< PromotionResult<T> >> : std::conjunction
-			<
-				PromotionResultIsConvertible_t<T, T>,
-				InverseResultIsSame_t<T, PromotionResult<T>>,
-				AdditionResultIsSame_t<T, T, PromotionResult<T>>,
-				SubtractionResultIsSame_t<T, T, PromotionResult<T>>,
-				MultiplicationResultIsSame_t<T, T, PromotionResult<T>>,
-				DivisionResultIsSame_t<T, T, PromotionResult<T>>,
-				SubstitutionAddResultIsSame_t<T, T, T&>,
-				SubstitutionSubtractResultIsSame_t<T, T, T&>,
-				SubstitutionMultipleResultIsSame_t<T, T, T&>,
-				SubstitutionDivideResultIsSame_t<T, T, T&>,
-				IsEquatable_t<T, T>
-			>
-		{};
-		template<class T> struct HasNumericalTypeOperation_t : std::conjunction
-			<
-				HasArithmeticTypeOperation_t<T>,
-				IsComparable_t<T, T>
-			>
-		{};
-		template<class, class = std::void_t<>> struct HasIntegralTypeOperation_t : std::false_type {};
-		template<class T> struct HasIntegralTypeOperation_t<T, std::void_t< PromotionResult<T> >> : std::conjunction
-			<
-				PreincrementResultIsSame_t<T, T&>,
-				PredecrementResultIsSame_t<T, T&>,
-				HasNumericalTypeOperation_t<T>,
-				SubstitutionModulateResultIsSame_t<T, T, T&>,
-				ModulationResultIsSame_t<T, T, PromotionResult<T>>
-			>
-		{};
-		template<class T> struct IsArithmeticType_t : std::conjunction< IsValueType_t<T>, HasArithmeticTypeOperation_t<T> > {};
-		template<class T> struct IsNumericalType_t : std::conjunction< IsArithmeticType_t<T>, HasNumericalTypeOperation_t<T>, std::bool_constant<std::numeric_limits<T>::is_specialized> > {};
-		template<class T> struct IsIntegralType_t : std::conjunction< IsNumericalType_t<T>, HasIntegralTypeOperation_t<T> > {};
-	public:
-		///	基本的な算術演算子の実装を識別します
-		template<class T> static constexpr bool HasArithmeticOperation = HasArithmeticTypeOperation_t<T>::value;
-		///	型要件:ArithmeticTypeを満たす型を識別します
-		template<class T> static constexpr bool IsArithmeticType = IsArithmeticType_t<T>::value;
-		///	型要件:NumericalTypeを満たす型を識別します
-		template<class T> static constexpr bool IsNumericalType = IsNumericalType_t<T>::value;
-		///	型要件:IntegralTypeを満たす型を識別します
-		template<class T> static constexpr bool IsIntegralType = IsIntegralType_t<T>::value;
 	};
 	#if 201703L <= __cplusplus
 	// Clang C++17でコンパイルするとbool::operator++()を実体化しようとしてエラーを吐くため

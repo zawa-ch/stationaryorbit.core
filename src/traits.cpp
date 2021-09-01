@@ -81,43 +81,5 @@ static_assert(Traits::IsValueType<std::nullptr_t>, "std::nullptr_t が IsValueTy
 static_assert(Traits::IsValueType<std::byte>, "std::byte が IsValueType 型特性を満たしませんでした。");
 static_assert(!Traits::IsValueType<std::string>, "std::string が IsValueType 型特性を満たしました。");
 
-static_assert(Traits::IsNumericalType<bool>, "bool が IsNumericalType 型特性を満たしませんでした。");
-static_assert(Traits::IsNumericalType<uint8_t>, "uint8_t が IsNumericalType 型特性を満たしませんでした。");
-static_assert(Traits::IsNumericalType<uint16_t>, "uint16_t が IsNumericalType 型特性を満たしませんでした。");
-static_assert(Traits::IsNumericalType<uint32_t>, "uint32_t が IsNumericalType 型特性を満たしませんでした。");
-static_assert(Traits::IsNumericalType<uint64_t>, "uint64_t が IsNumericalType 型特性を満たしませんでした。");
-static_assert(Traits::IsNumericalType<uintmax_t>, "uintmax_t が IsNumericalType 型特性を満たしませんでした。");
-static_assert(Traits::IsNumericalType<uintptr_t>, "uintptr_t が IsNumericalType 型特性を満たしませんでした。");
-static_assert(Traits::IsNumericalType<int8_t>, "int8_t が IsNumericalType 型特性を満たしませんでした。");
-static_assert(Traits::IsNumericalType<int16_t>, "int16_t が IsNumericalType 型特性を満たしませんでした。");
-static_assert(Traits::IsNumericalType<int32_t>, "int32_t が IsNumericalType 型特性を満たしませんでした。");
-static_assert(Traits::IsNumericalType<int64_t>, "int64_t が IsNumericalType 型特性を満たしませんでした。");
-static_assert(Traits::IsNumericalType<intmax_t>, "intmax_t が IsNumericalType 型特性を満たしませんでした。");
-static_assert(Traits::IsNumericalType<intptr_t>, "intptr_t が IsNumericalType 型特性を満たしませんでした。");
-static_assert(Traits::IsNumericalType<float>, "float が IsNumericalType 型特性を満たしませんでした。");
-static_assert(Traits::IsNumericalType<double>, "double が IsNumericalType 型特性を満たしませんでした。");
-static_assert(Traits::IsNumericalType<size_t>, "size_t が IsNumericalType 型特性を満たしませんでした。");
-static_assert(!Traits::IsNumericalType<std::byte>, "std::byte が IsNumericalType 型特性を満たしました。");
-static_assert(!Traits::IsNumericalType<std::string>, "std::string が IsNumericalType 型特性を満たしました。");
-
-static_assert(!Traits::IsIntegralType<bool>, "bool が IsIntegralType 型特性を満たしました。");
-static_assert(Traits::IsIntegralType<uint8_t>, "uint8_t が IsIntegralType 型特性を満たしませんでした。");
-static_assert(Traits::IsIntegralType<uint16_t>, "uint16_t が IsIntegralType 型特性を満たしませんでした。");
-static_assert(Traits::IsIntegralType<uint32_t>, "uint32_t が IsIntegralType 型特性を満たしませんでした。");
-static_assert(Traits::IsIntegralType<uint64_t>, "uint64_t が IsIntegralType 型特性を満たしませんでした。");
-static_assert(Traits::IsIntegralType<uintmax_t>, "uintmax_t が IsIntegralType 型特性を満たしませんでした。");
-static_assert(Traits::IsIntegralType<uintptr_t>, "uintptr_t が IsIntegralType 型特性を満たしませんでした。");
-static_assert(Traits::IsIntegralType<int8_t>, "int8_t が IsIntegralType 型特性を満たしませんでした。");
-static_assert(Traits::IsIntegralType<int16_t>, "int16_t が IsIntegralType 型特性を満たしませんでした。");
-static_assert(Traits::IsIntegralType<int32_t>, "int32_t が IsIntegralType 型特性を満たしませんでした。");
-static_assert(Traits::IsIntegralType<int64_t>, "int64_t が IsIntegralType 型特性を満たしませんでした。");
-static_assert(Traits::IsIntegralType<intmax_t>, "intmax_t が IsIntegralType 型特性を満たしませんでした。");
-static_assert(Traits::IsIntegralType<intptr_t>, "intptr_t が IsIntegralType 型特性を満たしませんでした。");
-static_assert(!Traits::IsIntegralType<float>, "float が IsIntegralType 型特性を満たしました。");
-static_assert(!Traits::IsIntegralType<double>, "double が IsIntegralType 型特性を満たしました。");
-static_assert(Traits::IsIntegralType<size_t>, "size_t が IsIntegralType 型特性を満たしませんでした。");
-static_assert(!Traits::IsIntegralType<std::byte>, "std::byte が IsIntegralType 型特性を満たしました。");
-static_assert(!Traits::IsIntegralType<std::string>, "std::string が IsIntegralType 型特性を満たしました。");
-
 static_assert(Traits::SubscriptResultIsConvertible<std::array<uint8_t, 20>, size_t, uint8_t>, "std::array<uint8_t, 20> に operator[](size_t) -> uint8_t がありません");
 static_assert(Traits::DereferenceResultIsConvertible<int*, int>, "int* に operator*() -> int がありません");

@@ -22,7 +22,7 @@
 #include <array>
 #include "divisionresult.hpp"
 #include "zerovalue.hpp"
-#include "traits.hpp"
+#include "numericaltraits.hpp"
 #include "bitwidth.hpp"
 #include "range.hpp"
 namespace zawa_ch::StationaryOrbit
@@ -30,7 +30,7 @@ namespace zawa_ch::StationaryOrbit
 	template<class T, size_t N>
 	struct MultipleULong final
 	{
-		static_assert(Traits::IsIntegralType<T>, "テンプレート型 T は整数型である必要があります。");
+		static_assert(NumericalTraits::IsIntegralType<T>, "テンプレート型 T は整数型である必要があります。");
 		static_assert(!std::numeric_limits<T>::is_signed, "テンプレート型 T は符号なし型である必要があります。");
 		static_assert(0 < N, "テンプレート引数 N に 0 を指定することはできません。");
 	public:

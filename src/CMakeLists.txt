@@ -34,6 +34,7 @@ add_library(stationaryorbit.core SHARED
     integer.cpp
     machinprogression.cpp
     multiplelong.cpp
+    numericaltraits.cpp
     point2d.cpp
     proportion.cpp
     rect2dsize.cpp
