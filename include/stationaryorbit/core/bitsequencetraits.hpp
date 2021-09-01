@@ -20,6 +20,7 @@
 #define __stationaryorbit_core_bitsequencetraits__
 #include <limits>
 #include "traits.hpp"
+#include "valuetypetraits.hpp"
 #include "numericaltraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
@@ -43,7 +44,7 @@ namespace zawa_ch::StationaryOrbit
 				std::bool_constant<Traits::IsEquatable<T, T>>
 			>
 		{};
-		template<class T, class N> struct IsBitSequenceType_t : std::conjunction< std::bool_constant<Traits::IsValueType<T>>, HasBitSequenceTypeOperation_t<T, N>, std::disjunction< std::is_constructible<T, uint8_t>, std::bool_constant<Traits::IsAggregatable<T, uint8_t>> >, std::negation<std::is_signed<T>>, std::bool_constant<(!std::numeric_limits<T>::is_specialized) || (!std::numeric_limits<T>::is_signed)> > {};
+		template<class T, class N> struct IsBitSequenceType_t : std::conjunction< std::bool_constant<ValueTypeTraits::IsValueType<T>>, HasBitSequenceTypeOperation_t<T, N>, std::disjunction< std::is_constructible<T, uint8_t>, std::bool_constant<Traits::IsAggregatable<T, uint8_t>> >, std::negation<std::is_signed<T>>, std::bool_constant<(!std::numeric_limits<T>::is_specialized) || (!std::numeric_limits<T>::is_signed)> > {};
 	public:
 		///	基本的なビット演算子の実装を識別します
 		template<class T, class N = int> static constexpr bool HasBitSequenceOperation = HasBitSequenceTypeOperation_t<T, N>::value;

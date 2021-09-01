@@ -21,7 +21,7 @@
 #include <cstdint>
 #include <array>
 #include "invalidoperation.hpp"
-#include "traits.hpp"
+#include "valuetypetraits.hpp"
 #include "disperse.hpp"
 namespace zawa_ch::StationaryOrbit
 {
@@ -67,7 +67,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class T>
 		[[nodiscard]] static constexpr std::array<std::byte, sizeof(T)> encode(const T& value)
 		{
-			static_assert(Traits::IsValueType<T>, "テンプレート引数 T は値型である必要があります。");
+			static_assert(ValueTypeTraits::IsValueType<T>, "テンプレート引数 T は値型である必要があります。");
 			return convert(Disperse::to_binary(value));
 		}
 		///	指定された値のエンディアンを @a dest から @a from に変換します。
@@ -79,7 +79,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class T>
 		[[nodiscard]] static constexpr T decode(const std::array<std::byte, sizeof(T)>& data)
 		{
-			static_assert(Traits::IsValueType<T>, "テンプレート引数 T は値型である必要があります。");
+			static_assert(ValueTypeTraits::IsValueType<T>, "テンプレート引数 T は値型である必要があります。");
 			return Disperse::perse<T>(convert(data));
 		}
 		///	指定された @a std::array のバイト順序を @a from から @a dest に変換します。
@@ -123,7 +123,7 @@ namespace zawa_ch::StationaryOrbit
 	template<class Tp, Endians order = Endians::native>
 	struct EndianValueType final
 	{
-		static_assert(Traits::IsValueType<Tp>, "テンプレート引数 Tp は値型である必要があります。");
+		static_assert(ValueTypeTraits::IsValueType<Tp>, "テンプレート引数 Tp は値型である必要があります。");
 	public:
 		///	格納されている値の型。
 		typedef Tp ValueType;

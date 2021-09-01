@@ -20,6 +20,7 @@
 #define __stationaryorbit_core_numericaltraits__
 #include <type_traits>
 #include "traits.hpp"
+#include "valuetypetraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	class NumericalTraits
@@ -59,7 +60,7 @@ namespace zawa_ch::StationaryOrbit
 				std::bool_constant<Traits::ModulationResultIsSame<T, T, Traits::PromotionResult<T>>>
 			>
 		{};
-		template<class T> struct IsArithmeticType_t : std::conjunction< std::bool_constant<Traits::IsValueType<T>>, HasArithmeticTypeOperation_t<T> > {};
+		template<class T> struct IsArithmeticType_t : std::conjunction< std::bool_constant<ValueTypeTraits::IsValueType<T>>, HasArithmeticTypeOperation_t<T> > {};
 		template<class T> struct IsNumericalType_t : std::conjunction< IsArithmeticType_t<T>, HasNumericalTypeOperation_t<T>, std::bool_constant<std::numeric_limits<T>::is_specialized> > {};
 		template<class T> struct IsIntegralType_t : std::conjunction< IsNumericalType_t<T>, HasIntegralTypeOperation_t<T> > {};
 	public:

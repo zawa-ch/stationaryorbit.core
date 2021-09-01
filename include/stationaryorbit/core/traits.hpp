@@ -899,33 +899,6 @@ namespace zawa_ch::StationaryOrbit
 		template<class T, class U = T> inline constexpr static bool IsEquatable = IsEquatable_t<T, U>::value;
 		///	型要件:Comparableを満たす型を識別します
 		template<class T, class U = T> inline constexpr static bool IsComparable = IsComparable_t<T, U>::value;
-	private:
-		template<class T> struct IsValueType_t : std::conjunction
-			<
-				std::is_default_constructible<T>,
-				std::is_trivially_default_constructible<T>,
-				std::is_nothrow_default_constructible<T>,
-				std::is_destructible<T>,
-				std::is_nothrow_destructible<T>,
-				std::is_trivially_destructible<T>,
-				std::is_copy_constructible<T>,
-				std::is_nothrow_copy_constructible<T>,
-				std::is_trivially_copy_constructible<T>,
-				std::is_move_constructible<T>,
-				std::is_nothrow_move_constructible<T>,
-				std::is_trivially_move_constructible<T>,
-				std::is_copy_assignable<T>,
-				std::is_nothrow_copy_assignable<T>,
-				std::is_trivially_copy_assignable<T>,
-				std::is_move_assignable<T>,
-				std::is_nothrow_move_assignable<T>,
-				std::is_trivially_move_assignable<T>,
-				IsEquatable_t<T, T>
-			>
-		{};
-	public:
-		///	型要件:ValueTypeを満たす型を識別します
-		template<class T> static constexpr bool IsValueType = IsValueType_t<T>::value;
 	};
 	#if 201703L <= __cplusplus
 	// Clang C++17でコンパイルするとbool::operator++()を実体化しようとしてエラーを吐くため

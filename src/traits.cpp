@@ -61,25 +61,5 @@ static_assert(Traits::IsComparable<double>, "double が IsComparable 型特性�
 static_assert(Traits::IsComparable<size_t>, "size_t が IsComparable 型特性を満たしませんでした。");
 static_assert(Traits::IsComparable<std::string>, "std::string が IsComparable 型特性を満たしませんでした。");
 
-static_assert(Traits::IsValueType<bool>, "bool が IsValueType 型特性を満たしませんでした。");
-static_assert(Traits::IsValueType<uint8_t>, "uint8_t が IsValueType 型特性を満たしませんでした。");
-static_assert(Traits::IsValueType<uint16_t>, "uint16_t が IsValueType 型特性を満たしませんでした。");
-static_assert(Traits::IsValueType<uint32_t>, "uint32_t が IsValueType 型特性を満たしませんでした。");
-static_assert(Traits::IsValueType<uint64_t>, "uint64_t が IsValueType 型特性を満たしませんでした。");
-static_assert(Traits::IsValueType<uintmax_t>, "uintmax_t が IsValueType 型特性を満たしませんでした。");
-static_assert(Traits::IsValueType<uintptr_t>, "uintptr_t が IsValueType 型特性を満たしませんでした。");
-static_assert(Traits::IsValueType<int8_t>, "int8_t が IsValueType 型特性を満たしませんでした。");
-static_assert(Traits::IsValueType<int16_t>, "int16_t が IsValueType 型特性を満たしませんでした。");
-static_assert(Traits::IsValueType<int32_t>, "int32_t が IsValueType 型特性を満たしませんでした。");
-static_assert(Traits::IsValueType<int64_t>, "int64_t が IsValueType 型特性を満たしませんでした。");
-static_assert(Traits::IsValueType<intmax_t>, "intmax_t が IsValueType 型特性を満たしませんでした。");
-static_assert(Traits::IsValueType<intptr_t>, "intptr_t が IsValueType 型特性を満たしませんでした。");
-static_assert(Traits::IsValueType<float>, "float が IsValueType 型特性を満たしませんでした。");
-static_assert(Traits::IsValueType<double>, "double が IsValueType 型特性を満たしませんでした。");
-static_assert(Traits::IsValueType<size_t>, "size_t が IsValueType 型特性を満たしませんでした。");
-static_assert(Traits::IsValueType<std::nullptr_t>, "std::nullptr_t が IsValueType 型特性を満たしませんでした。");
-static_assert(Traits::IsValueType<std::byte>, "std::byte が IsValueType 型特性を満たしませんでした。");
-static_assert(!Traits::IsValueType<std::string>, "std::string が IsValueType 型特性を満たしました。");
-
 static_assert(Traits::SubscriptResultIsConvertible<std::array<uint8_t, 20>, size_t, uint8_t>, "std::array<uint8_t, 20> に operator[](size_t) -> uint8_t がありません");
 static_assert(Traits::DereferenceResultIsConvertible<int*, int>, "int* に operator*() -> int がありません");

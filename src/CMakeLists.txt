@@ -42,4 +42,5 @@ add_library(stationaryorbit.core SHARED
     rotation.cpp
     stditeratortraits.cpp
     traits.cpp
+    valuetypetraits.cpp
 )

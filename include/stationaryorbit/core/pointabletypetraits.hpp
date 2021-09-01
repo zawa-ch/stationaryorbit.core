@@ -20,6 +20,7 @@
 #define __stationaryorbit_core_pointabletypetraits__
 #include <type_traits>
 #include "traits.hpp"
+#include "valuetypetraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	class PointableTypeTraits
@@ -28,7 +29,7 @@ namespace zawa_ch::StationaryOrbit
 		~PointableTypeTraits() = delete;
 	private:
 		template<class, class, class = void> struct HasPointableTypeOperation_t : std::false_type {};
-		template<class T, class U> struct HasPointableTypeOperation_t<T, U, std::enable_if_t< Traits::IsValueType<U> >> : std::conjunction
+		template<class T, class U> struct HasPointableTypeOperation_t<T, U, std::enable_if_t< ValueTypeTraits::IsValueType<U> >> : std::conjunction
 			<
 				std::bool_constant<Traits::SubstitutionAddResultIsSame<T, U, T&>>,
 				std::bool_constant<Traits::SubstitutionSubtractResultIsSame<T, U, T&>>,
@@ -38,7 +39,7 @@ namespace zawa_ch::StationaryOrbit
 				std::bool_constant<Traits::IsEquatable<T, T>>
 			>
 		{};
-		template<class T, class U> struct IsPointableType_t : std::conjunction< std::bool_constant<Traits::IsValueType<T>>, HasPointableTypeOperation_t<T, U> > {};
+		template<class T, class U> struct IsPointableType_t : std::conjunction< std::bool_constant<ValueTypeTraits::IsValueType<T>>, HasPointableTypeOperation_t<T, U> > {};
 	public:
 		///	型要件:PointableTypeを満たす型を識別します
 		template<class T, class U> static constexpr bool IsPointableType = IsPointableType_t<T, U>::value;
