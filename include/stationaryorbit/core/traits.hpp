@@ -926,22 +926,6 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		///	型要件:ValueTypeを満たす型を識別します
 		template<class T> static constexpr bool IsValueType = IsValueType_t<T>::value;
-	private:
-		template<class, class, class = void> struct HasPointableTypeOperation_t : std::false_type {};
-		template<class T, class U> struct HasPointableTypeOperation_t<T, U, std::enable_if_t< IsValueType_t<U>::value >> : std::conjunction
-			<
-				SubstitutionAddResultIsSame_t<T, U, T&>,
-				SubstitutionSubtractResultIsSame_t<T, U, T&>,
-				AdditionResultIsSame_t<T, U, T>,
-				SubtractionResultIsSame_t<T, U, T>,
-				SubtractionResultIsSame_t<T, T, U>,
-				IsEquatable_t<T, T>
-			>
-		{};
-		template<class T, class U> struct IsPointableType_t : std::conjunction< IsValueType_t<T>, HasPointableTypeOperation_t<T, U> > {};
-	public:
-		///	型要件:PointableTypeを満たす型を識別します
-		template<class T, class U> static constexpr bool IsPointableType = IsPointableType_t<T, U>::value;
 	};
 	#if 201703L <= __cplusplus
 	// Clang C++17でコンパイルするとbool::operator++()を実体化しようとしてエラーを吐くため
