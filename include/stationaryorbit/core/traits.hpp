@@ -1,5 +1,5 @@
 //	stationaryorbit/core/traits
-//	Copyright 2020 zawa-ch.
+//	Copyright 2020-2021 zawa-ch.
 //	GPLv3 (or later) license
 //
 //	This program is free software: you can redistribute it and/or modify
@@ -19,7 +19,8 @@
 #ifndef __stationaryorbit_core_traits__
 #define __stationaryorbit_core_traits__
 #include <type_traits>
-#include <bitset>
+#include <limits>
+#include <cstdint>
 namespace zawa_ch::StationaryOrbit
 {
 	///	このライブラリで用いられる型特性の識別を行います
@@ -1020,30 +1021,6 @@ namespace zawa_ch::StationaryOrbit
 		template<class T> static constexpr bool IsBidirectionalOrderType = IsBidirectionalOrderType_t<T>::value;
 		///	型要件:LinearOrderTypeを満たす型を識別します
 		template<class T, class N = int> static constexpr bool IsLinearOrderType = IsLinearOrderType_t<T, N>::value;
-	private:
-		template<class, class, class = void> struct HasBitSequenceTypeOperation_t : std::false_type {};
-		template<class T, class N> struct HasBitSequenceTypeOperation_t<T, N, std::enable_if_t< IsIntegralType<N> >> : std::conjunction
-			<
-				ArithmeticNotResultIsConvertible_t<T, T>,
-				ArithmeticAndResultIsConvertible_t<T, T, T>,
-				ArithmeticOrResultIsConvertible_t<T, T, T>,
-				ArithmeticXorResultIsConvertible_t<T, T, T>,
-				LShiftResultIsConvertible_t<T, N, T>,
-				RShiftResultIsConvertible_t<T, N, T>,
-				SubstitutionArithmeticAndResultIsSame_t<T, T, T&>,
-				SubstitutionArithmeticOrResultIsSame_t<T, T, T&>,
-				SubstitutionArithmeticXorResultIsSame_t<T, T, T&>,
-				SubstitutionLShiftResultIsSame_t<T, N, T&>,
-				SubstitutionRShiftResultIsSame_t<T, N, T&>,
-				IsEquatable_t<T, T>
-			>
-		{};
-		template<class T, class N> struct IsBitSequenceType_t : std::conjunction< IsValueType_t<T>, HasBitSequenceTypeOperation_t<T, N>, std::disjunction< std::is_constructible<T, uint8_t>, IsAggregatable_t<T, uint8_t> >, std::negation<std::is_signed<T>>, std::bool_constant<(!std::numeric_limits<T>::is_specialized) || (!std::numeric_limits<T>::is_signed)> > {};
-	public:
-		///	基本的なビット演算子の実装を識別します
-		template<class T, class N = int> static constexpr bool HasBitSequenceOperation = HasBitSequenceTypeOperation_t<T, N>::value;
-		///	型要件:BitSequenceTypeを満たす型を識別します
-		template<class T, class N = int> static constexpr bool IsBitSequenceType = IsBitSequenceType_t<T, N>::value;
 	};
 	#if 201703L <= __cplusplus
 	// Clang C++17でコンパイルするとbool::operator++()を実体化しようとしてエラーを吐くため

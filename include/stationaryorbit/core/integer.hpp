@@ -19,7 +19,7 @@
 #ifndef __stationaryorbit_core_integer__
 #define __stationaryorbit_core_integer__
 #include <stdexcept>
-#include "traits.hpp"
+#include "bitsequencetraits.hpp"
 #include "bitwidth.hpp"
 #include "divisionresult.hpp"
 #include "algorithms.hpp"
@@ -35,7 +35,7 @@ namespace zawa_ch::StationaryOrbit
 	template<class T>
 	struct Integer final
 	{
-		static_assert(Traits::IsBitSequenceType<T>, "テンプレート引数型 T はビット列である必要があります。");
+		static_assert(BitSequenceTraits::IsBitSequenceType<T>, "テンプレート引数型 T はビット列である必要があります。");
 		template<class> friend class Integer;
 		template<class> friend class SignedInteger;
 	public:
@@ -305,7 +305,7 @@ namespace zawa_ch::StationaryOrbit
 	template<class T>
 	struct SignedInteger final
 	{
-		static_assert(Traits::IsBitSequenceType<T>, "テンプレート引数型 T はビット列である必要があります。");
+		static_assert(BitSequenceTraits::IsBitSequenceType<T>, "テンプレート引数型 T はビット列である必要があります。");
 		template<class> friend class Integer;
 		template<class> friend class SignedInteger;
 	public:

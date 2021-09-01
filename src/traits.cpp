@@ -1,5 +1,5 @@
 //	stationaryorbit.core:/traits
-//	Copyright 2020 zawa-ch.
+//	Copyright 2020-2021 zawa-ch.
 //	GPLv3 (or later) license
 //
 //	This program is free software: you can redistribute it and/or modify
@@ -118,22 +118,6 @@ static_assert(!Traits::IsIntegralType<double>, "double が IsIntegralType 型特
 static_assert(Traits::IsIntegralType<size_t>, "size_t が IsIntegralType 型特性を満たしませんでした。");
 static_assert(!Traits::IsIntegralType<std::byte>, "std::byte が IsIntegralType 型特性を満たしました。");
 static_assert(!Traits::IsIntegralType<std::string>, "std::string が IsIntegralType 型特性を満たしました。");
-
-static_assert(Traits::IsBitSequenceType<bool>, "bool が IsBitSequenceType 型特性を満たしませんでした。");
-static_assert(Traits::IsBitSequenceType<uint8_t>, "uint8_t が IsBitSequenceType 型特性を満たしませんでした。");
-static_assert(Traits::IsBitSequenceType<uint16_t>, "uint16_t が IsBitSequenceType 型特性を満たしませんでした。");
-static_assert(Traits::IsBitSequenceType<uint32_t>, "uint32_t が IsBitSequenceType 型特性を満たしませんでした。");
-static_assert(Traits::IsBitSequenceType<uint64_t>, "uint64_t が IsBitSequenceType 型特性を満たしませんでした。");
-static_assert(Traits::IsBitSequenceType<uintmax_t>, "uintmax_t が IsBitSequenceType 型特性を満たしませんでした。");
-static_assert(!Traits::IsBitSequenceType<int8_t>, "int8_t が IsBitSequenceType 型特性を満たしました。");
-static_assert(!Traits::IsBitSequenceType<int16_t>, "int16_t が IsBitSequenceType 型特性を満たしました。");
-static_assert(!Traits::IsBitSequenceType<int32_t>, "int32_t が IsBitSequenceType 型特性を満たしました。");
-static_assert(!Traits::IsBitSequenceType<int64_t>, "int64_t が IsBitSequenceType 型特性を満たしました。");
-static_assert(!Traits::IsBitSequenceType<intmax_t>, "intmax_t が IsBitSequenceType 型特性を満たしませんでした。");
-static_assert(!Traits::IsBitSequenceType<float>, "float が IsBitSequenceType 型特性を満たしました。");
-static_assert(!Traits::IsBitSequenceType<double>, "double が IsBitSequenceType 型特性を満たしました。");
-static_assert(Traits::IsBitSequenceType<std::byte>, "std::byte が IsBitSequenceType 型特性を満たしませんでした。");
-static_assert(!Traits::IsBitSequenceType<std::string>, "std::string が IsBitSequenceType 型特性を満たしました。");
 
 static_assert(Traits::SubscriptResultIsConvertible<std::array<uint8_t, 20>, size_t, uint8_t>, "std::array<uint8_t, 20> に operator[](size_t) -> uint8_t がありません");
 static_assert(Traits::DereferenceResultIsConvertible<int*, int>, "int* に operator*() -> int がありません");

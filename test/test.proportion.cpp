@@ -33,7 +33,7 @@ std::array<std::function<int(void)>, 37> tests =
 	[]()
 	{
 		std::cout << "2. Type Proportion1_t not meets the traits BitSequenceType?";
-		return check_if(!Traits::IsBitSequenceType<Proportion1_t>);
+		return check_if(!BitSequenceTraits::IsBitSequenceType<Proportion1_t>);
 	},
 	[]()
 	{
@@ -58,7 +58,7 @@ std::array<std::function<int(void)>, 37> tests =
 	[]()
 	{
 		std::cout << "7. Type Proportion8_t not meets the traits BitSequenceType?";
-		return check_if(!Traits::IsBitSequenceType<Proportion8_t>);
+		return check_if(!BitSequenceTraits::IsBitSequenceType<Proportion8_t>);
 	},
 	[]()
 	{
@@ -83,7 +83,7 @@ std::array<std::function<int(void)>, 37> tests =
 	[]()
 	{
 		std::cout << "12. Type Proportion16_t not meets the traits BitSequenceType?";
-		return check_if(!Traits::IsBitSequenceType<Proportion16_t>);
+		return check_if(!BitSequenceTraits::IsBitSequenceType<Proportion16_t>);
 	},
 	[]()
 	{
@@ -108,7 +108,7 @@ std::array<std::function<int(void)>, 37> tests =
 	[]()
 	{
 		std::cout << "17. Type Proportion32_t not meets the traits BitSequenceType?";
-		return check_if(!Traits::IsBitSequenceType<Proportion32_t>);
+		return check_if(!BitSequenceTraits::IsBitSequenceType<Proportion32_t>);
 	},
 	[]()
 	{
@@ -133,7 +133,7 @@ std::array<std::function<int(void)>, 37> tests =
 	[]()
 	{
 		std::cout << "22. Type Proportion64_t not meets the traits BitSequenceType?";
-		return check_if(!Traits::IsBitSequenceType<Proportion64_t>);
+		return check_if(!BitSequenceTraits::IsBitSequenceType<Proportion64_t>);
 	},
 	[]()
 	{

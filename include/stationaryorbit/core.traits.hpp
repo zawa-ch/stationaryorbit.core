@@ -17,5 +17,6 @@
 //	If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "core/traits.hpp"
+#include "core/bitsequencetraits.hpp"
 #include "core/stditeratortraits.hpp"
+#include "core/traits.hpp"
