@@ -1,4 +1,4 @@
-//	stationaryorbit.core:/traits
+//	stationaryorbit.core:/typetraitsbase
 //	Copyright 2020-2021 zawa-ch.
 //	GPLv3 (or later) license
 //
@@ -19,10 +19,10 @@
 #include <cstddef>
 #include <cstdint>
 #include <array>
-#include "stationaryorbit/core/traits.hpp"
+#include "stationaryorbit/core/typetraitsbase.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 //	コンパイル時型特性アサーション
 
-static_assert(Traits::SubscriptResultIsConvertible<std::array<uint8_t, 20>, size_t, uint8_t>, "std::array<uint8_t, 20> に operator[](size_t) -> uint8_t がありません");
-static_assert(Traits::DereferenceResultIsConvertible<int*, int>, "int* に operator*() -> int がありません");
+static_assert(TypeTraitsBase::SubscriptResultIsConvertible<std::array<uint8_t, 20>, size_t, uint8_t>, "std::array<uint8_t, 20> に operator[](size_t) -> uint8_t がありません");
+static_assert(TypeTraitsBase::DereferenceResultIsConvertible<int*, int>, "int* に operator*() -> int がありません");

@@ -61,10 +61,10 @@ namespace zawa_ch::StationaryOrbit
 		///	内部の型に変換可能な型から @a Integer を構築します。
 		///	@note
 		///	内部型が暗黙の変換をサポートし、整数型トレイトを満たす場合にこちらのコンストラクタが適用されます。
-		template<class fromT, std::enable_if_t< !(std::is_same_v<ValueType, fromT>) && (std::is_convertible_v<ValueType, fromT> || Traits::IsAggregatable<ValueType, fromT>) && NumericalTraits::IsIntegralType<fromT>, int> = 0>
+		template<class fromT, std::enable_if_t< !(std::is_same_v<ValueType, fromT>) && (std::is_convertible_v<ValueType, fromT> || TypeTraitsBase::IsAggregatable<ValueType, fromT>) && NumericalTraits::IsIntegralType<fromT>, int> = 0>
 		constexpr Integer(const fromT& value) : _data(value_construct<fromT>(value)) {}
 		///	整数型から @a Integer を構築します。
-		template<class fromT, std::enable_if_t< !(std::is_same_v<ValueType, fromT> || std::is_convertible_v<ValueType, fromT> || Traits::IsAggregatable<ValueType, fromT>) && NumericalTraits::IsIntegralType<fromT> && !std::numeric_limits<fromT>::is_signed, int> = 0>
+		template<class fromT, std::enable_if_t< !(std::is_same_v<ValueType, fromT> || std::is_convertible_v<ValueType, fromT> || TypeTraitsBase::IsAggregatable<ValueType, fromT>) && NumericalTraits::IsIntegralType<fromT> && !std::numeric_limits<fromT>::is_signed, int> = 0>
 		constexpr explicit Integer(const fromT& value) : Integer()
 		{
 			auto v = value;
@@ -109,17 +109,17 @@ namespace zawa_ch::StationaryOrbit
 
 		[[nodiscard]] constexpr Integer<T> operator+() const
 		{
-			if constexpr (Traits::HasPromotion<T>) { return Integer<T>(T(+_data)); }
+			if constexpr (TypeTraitsBase::HasPromotion<T>) { return Integer<T>(T(+_data)); }
 			else { return *this; }
 		}
 		[[nodiscard]] constexpr Integer<T> operator-() const
 		{
-			if constexpr (Traits::HasPromotion<T>) { return Integer<T>(T(-_data)); }
+			if constexpr (TypeTraitsBase::HasPromotion<T>) { return Integer<T>(T(-_data)); }
 			else { return Integer(~_data); }
 		}
 		[[nodiscard]] constexpr Integer<T> operator+(const Integer<T>& other) const
 		{
-			if constexpr (Traits::HasAddition<T, T>) { return Integer<T>(T(_data + other._data)); }
+			if constexpr (TypeTraitsBase::HasAddition<T, T>) { return Integer<T>(T(_data + other._data)); }
 			else
 			{
 				auto result = Integer<T>();
@@ -136,7 +136,7 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr Integer<T> operator-(const Integer<T>& other) const
 		{
-			if constexpr (Traits::HasAddition<T, T>) { return Integer<T>(T(_data - other._data)); }
+			if constexpr (TypeTraitsBase::HasAddition<T, T>) { return Integer<T>(T(_data - other._data)); }
 			else
 			{
 				auto result = Integer<T>();
@@ -153,7 +153,7 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr Integer<T> operator*(const Integer<T>& other) const
 		{
-			if constexpr (Traits::HasMultiplication<T, T>) { return Integer<T>(T(_data * other._data)); }
+			if constexpr (TypeTraitsBase::HasMultiplication<T, T>) { return Integer<T>(T(_data * other._data)); }
 			else
 			{
 				auto result = Integer<T>();
@@ -166,12 +166,12 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr Integer<T> operator/(const Integer<T>& other) const
 		{
-			if constexpr (Traits::HasDivision<T, T>) { return Integer<T>(T(_data / other._data)); }
+			if constexpr (TypeTraitsBase::HasDivision<T, T>) { return Integer<T>(T(_data / other._data)); }
 			else { return divide_impl(other).value; }
 		}
 		[[nodiscard]] constexpr Integer<T> operator%(const Integer<T>& other) const
 		{
-			if constexpr (Traits::HasModulation<T, T>) { return Integer<T>(T(_data % other._data)); }
+			if constexpr (TypeTraitsBase::HasModulation<T, T>) { return Integer<T>(T(_data % other._data)); }
 			else { return divide_impl(other).mod; }
 		}
 
@@ -183,7 +183,7 @@ namespace zawa_ch::StationaryOrbit
 
 		constexpr Integer<T>& operator++()
 		{
-			if constexpr (Traits::HasPreincrement<T>) { (void)++_data; return *this; }
+			if constexpr (TypeTraitsBase::HasPreincrement<T>) { (void)++_data; return *this; }
 			else
 			{
 				bool c = true;
@@ -199,7 +199,7 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr Integer<T> operator++(int) { auto result = *this; ++(*this); return result; }
 		constexpr Integer<T>& operator--()
 		{
-			if constexpr (Traits::HasPreincrement<T>) { (void)--_data; return *this; }
+			if constexpr (TypeTraitsBase::HasPreincrement<T>) { (void)--_data; return *this; }
 			else
 			{
 				bool c = true;
@@ -239,22 +239,22 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr bool operator<(const Integer<T>& other) const
 		{
-			if constexpr (Traits::HasSmallerCompare<T, T>) { return _data < other._data; }
+			if constexpr (TypeTraitsBase::HasSmallerCompare<T, T>) { return _data < other._data; }
 			else { return Compare(other) < 0; }
 		}
 		[[nodiscard]] constexpr bool operator<=(const Integer<T>& other) const
 		{
-			if constexpr (Traits::HasSmallerCompare<T, T>) { return _data <= other._data; }
+			if constexpr (TypeTraitsBase::HasSmallerCompare<T, T>) { return _data <= other._data; }
 			else { return Compare(other) <= 0; }
 		}
 		[[nodiscard]] constexpr bool operator>(const Integer<T>& other) const
 		{
-			if constexpr (Traits::HasSmallerCompare<T, T>) { return _data > other._data; }
+			if constexpr (TypeTraitsBase::HasSmallerCompare<T, T>) { return _data > other._data; }
 			else { return Compare(other) > 0; }
 		}
 		[[nodiscard]] constexpr bool operator>=(const Integer<T>& other) const
 		{
-			if constexpr (Traits::HasSmallerCompare<T, T>) { return _data >= other._data; }
+			if constexpr (TypeTraitsBase::HasSmallerCompare<T, T>) { return _data >= other._data; }
 			else { return Compare(other) >= 0; }
 		}
 
@@ -262,11 +262,11 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] static constexpr Integer<T> Min() { return Integer<T>(value_construct<uint8_t>(0)); }
 		[[nodiscard]] static constexpr Integer<T> Epsilon() { return Integer<T>(value_construct<uint8_t>(1)); }
 	private:
-		template<class fromT, std::enable_if_t< std::is_convertible_v<ValueType, fromT> || Traits::IsAggregatable<ValueType, fromT> || std::is_constructible_v<ValueType, fromT>, int> = 0>
+		template<class fromT, std::enable_if_t< std::is_convertible_v<ValueType, fromT> || TypeTraitsBase::IsAggregatable<ValueType, fromT> || std::is_constructible_v<ValueType, fromT>, int> = 0>
 		[[nodiscard]] static constexpr ValueType value_construct(const fromT& value)
 		{
 			if constexpr (std::is_convertible_v<ValueType, fromT>) { return value; }
-			if constexpr (Traits::IsAggregatable<ValueType, fromT>) { return ValueType{ value }; }
+			if constexpr (TypeTraitsBase::IsAggregatable<ValueType, fromT>) { return ValueType{ value }; }
 			if constexpr (std::is_constructible_v<ValueType, fromT>) { return ValueType(value); }
 		}
 		[[nodiscard]] constexpr bool getbit(const size_t& index) const
@@ -318,9 +318,9 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		SignedInteger() = default;
 		constexpr explicit SignedInteger(const ValueType& value) noexcept : _data(value) {}
-		template<class fromT, std::enable_if_t< std::is_convertible_v<ValueType, fromT> || Traits::IsAggregatable<ValueType, fromT>, int> = 0>
+		template<class fromT, std::enable_if_t< std::is_convertible_v<ValueType, fromT> || TypeTraitsBase::IsAggregatable<ValueType, fromT>, int> = 0>
 		constexpr explicit SignedInteger(const fromT& value) : _data(value_construct<fromT>(value)) {}
-		template<class fromT, std::enable_if_t< !(std::is_convertible_v<ValueType, fromT> || Traits::IsAggregatable<ValueType, fromT>) && NumericalTraits::IsIntegralType<fromT> && std::numeric_limits<fromT>::is_signed, int> = 0>
+		template<class fromT, std::enable_if_t< !(std::is_convertible_v<ValueType, fromT> || TypeTraitsBase::IsAggregatable<ValueType, fromT>) && NumericalTraits::IsIntegralType<fromT> && std::numeric_limits<fromT>::is_signed, int> = 0>
 		constexpr explicit SignedInteger(const fromT& value) : SignedInteger()
 		{
 			auto v = value;
@@ -426,7 +426,7 @@ namespace zawa_ch::StationaryOrbit
 
 		constexpr SignedInteger<T>& operator++()
 		{
-			if constexpr (Traits::HasPreincrement<T>) { (void)++_data; return *this; }
+			if constexpr (TypeTraitsBase::HasPreincrement<T>) { (void)++_data; return *this; }
 			else
 			{
 				bool c = true;
@@ -442,7 +442,7 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr SignedInteger<T> operator++(int) { auto result = *this; ++(*this); return result; }
 		constexpr SignedInteger<T>& operator--()
 		{
-			if constexpr (Traits::HasPreincrement<T>) { (void)--_data; return *this; }
+			if constexpr (TypeTraitsBase::HasPreincrement<T>) { (void)--_data; return *this; }
 			else
 			{
 				bool c = true;
@@ -499,11 +499,11 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] static constexpr SignedInteger<T> Min() { return Epsilon() << (bitwidth<T> - 1); }
 		[[nodiscard]] static constexpr SignedInteger<T> Epsilon() { return SignedInteger<T>(value_construct<uint8_t>(1)); }
 	private:
-		template<class fromT, std::enable_if_t< std::is_convertible_v<ValueType, fromT> || Traits::IsAggregatable<ValueType, fromT> || std::is_constructible_v<ValueType, fromT>, int> = 0>
+		template<class fromT, std::enable_if_t< std::is_convertible_v<ValueType, fromT> || TypeTraitsBase::IsAggregatable<ValueType, fromT> || std::is_constructible_v<ValueType, fromT>, int> = 0>
 		[[nodiscard]] static constexpr ValueType value_construct(const fromT& value)
 		{
 			if constexpr (std::is_convertible_v<ValueType, fromT>) { return value; }
-			if constexpr (Traits::IsAggregatable<ValueType, fromT>) { return ValueType{ value }; }
+			if constexpr (TypeTraitsBase::IsAggregatable<ValueType, fromT>) { return ValueType{ value }; }
 			if constexpr (std::is_constructible_v<ValueType, fromT>) { return ValueType(value); }
 		}
 		[[nodiscard]] constexpr bool getbit(const size_t& index) const

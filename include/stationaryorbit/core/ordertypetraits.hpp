@@ -18,7 +18,7 @@
 //
 #ifndef __stationaryorbit_core_ordertypetraits__
 #define __stationaryorbit_core_ordertypetraits__
-#include "traits.hpp"
+#include "typetraitsbase.hpp"
 #include "equatabletypetraits.hpp"
 #include "comparabletypetraits.hpp"
 #include "numericaltraits.hpp"
@@ -31,24 +31,24 @@ namespace zawa_ch::StationaryOrbit
 	private:
 		template<class T> struct HasSequencialOrderTypeOperation_t : std::conjunction
 			<
-				std::bool_constant<Traits::PreincrementResultIsSame<T, T&>>,
+				std::bool_constant<TypeTraitsBase::PreincrementResultIsSame<T, T&>>,
 				std::bool_constant<EquatableTypeTraits::IsEquatable<T, T>>
 			>
 		{};
 		template<class T> struct HasBidirectionalOrderTypeOperation_t : std::conjunction
 			<
 				HasSequencialOrderTypeOperation_t<T>,
-				std::bool_constant<Traits::PredecrementResultIsSame<T, T&>>
+				std::bool_constant<TypeTraitsBase::PredecrementResultIsSame<T, T&>>
 			>
 		{};
 		template<class, class, class = void> struct HasLinearOrderTypeOperation_t : std::false_type {};
 		template<class T, class N> struct HasLinearOrderTypeOperation_t<T, N, std::enable_if_t< NumericalTraits::IsIntegralType<N> >> : std::conjunction
 			<
 				HasBidirectionalOrderTypeOperation_t<T>,
-				std::bool_constant<Traits::AdditionResultIsSame<T, N, T>>,
-				std::bool_constant<Traits::SubtractionResultIsSame<T, N, T>>,
-				std::bool_constant<Traits::SubstitutionAddResultIsSame<T, N, T&>>,
-				std::bool_constant<Traits::SubstitutionSubtractResultIsSame<T, N, T&>>,
+				std::bool_constant<TypeTraitsBase::AdditionResultIsSame<T, N, T>>,
+				std::bool_constant<TypeTraitsBase::SubtractionResultIsSame<T, N, T>>,
+				std::bool_constant<TypeTraitsBase::SubstitutionAddResultIsSame<T, N, T&>>,
+				std::bool_constant<TypeTraitsBase::SubstitutionSubtractResultIsSame<T, N, T&>>,
 				std::bool_constant<ComparableTypeTraits::IsComparable<T, T>>
 			>
 		{};

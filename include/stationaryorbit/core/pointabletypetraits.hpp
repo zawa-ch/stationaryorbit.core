@@ -19,7 +19,7 @@
 #ifndef __stationaryorbit_core_pointabletypetraits__
 #define __stationaryorbit_core_pointabletypetraits__
 #include <type_traits>
-#include "traits.hpp"
+#include "typetraitsbase.hpp"
 #include "equatabletypetraits.hpp"
 #include "valuetypetraits.hpp"
 namespace zawa_ch::StationaryOrbit
@@ -32,11 +32,11 @@ namespace zawa_ch::StationaryOrbit
 		template<class, class, class = void> struct HasPointableTypeOperation_t : std::false_type {};
 		template<class T, class U> struct HasPointableTypeOperation_t<T, U, std::enable_if_t< ValueTypeTraits::IsValueType<U> >> : std::conjunction
 			<
-				std::bool_constant<Traits::SubstitutionAddResultIsSame<T, U, T&>>,
-				std::bool_constant<Traits::SubstitutionSubtractResultIsSame<T, U, T&>>,
-				std::bool_constant<Traits::AdditionResultIsSame<T, U, T>>,
-				std::bool_constant<Traits::SubtractionResultIsSame<T, U, T>>,
-				std::bool_constant<Traits::SubtractionResultIsSame<T, T, U>>,
+				std::bool_constant<TypeTraitsBase::SubstitutionAddResultIsSame<T, U, T&>>,
+				std::bool_constant<TypeTraitsBase::SubstitutionSubtractResultIsSame<T, U, T&>>,
+				std::bool_constant<TypeTraitsBase::AdditionResultIsSame<T, U, T>>,
+				std::bool_constant<TypeTraitsBase::SubtractionResultIsSame<T, U, T>>,
+				std::bool_constant<TypeTraitsBase::SubtractionResultIsSame<T, T, U>>,
 				std::bool_constant<EquatableTypeTraits::IsEquatable<T, T>>
 			>
 		{};

@@ -1,4 +1,4 @@
-//	stationaryorbit/core/traits
+//	stationaryorbit/core/typetraitsbase
 //	Copyright 2020-2021 zawa-ch.
 //	GPLv3 (or later) license
 //
@@ -27,15 +27,15 @@ namespace zawa_ch::StationaryOrbit
 	///
 	///	@a Traits は、このライブラリで定義されるオブジェクトの期待を実装するものです。
 	///	このクラスのインスタンスを作成することはできません。また、継承することもできません。
-	class Traits final
+	class TypeTraitsBase final
 	{
 	private:
-		Traits() = delete;
-		Traits(const Traits&) = delete;
-		Traits& operator=(const Traits&) = delete;
-		Traits&& operator=(Traits&&) = delete;
-		Traits(Traits&&) = delete;
-		~Traits() = delete;
+		TypeTraitsBase() = delete;
+		TypeTraitsBase(const TypeTraitsBase&) = delete;
+		TypeTraitsBase& operator=(const TypeTraitsBase&) = delete;
+		TypeTraitsBase&& operator=(TypeTraitsBase&&) = delete;
+		TypeTraitsBase(TypeTraitsBase&&) = delete;
+		~TypeTraitsBase() = delete;
 
 		template<class T, class U, class R = decltype( std::declval<T&>() = std::declval<U&>() )> struct SubstitutionResult_impl { typedef R type; };
 		template<class T, class U, class R = decltype( std::declval<T&>() += std::declval<U&>() )> struct SubstitutionAddResult_impl { typedef R type; };
@@ -893,10 +893,10 @@ namespace zawa_ch::StationaryOrbit
 	#if 201703L <= __cplusplus
 	// Clang C++17でコンパイルするとbool::operator++()を実体化しようとしてエラーを吐くため
 	// boolによるインクリメントトレイトは強制的にfalseで実体化する
-	template<> struct Traits::HasPreincrement_t<bool> : std::false_type {};
+	template<> struct TypeTraitsBase::HasPreincrement_t<bool> : std::false_type {};
 	// Clang C++17でコンパイルするとbool::operator++(int)を実体化しようとしてエラーを吐くため
 	// boolによるインクリメントトレイトは強制的にfalseで実体化する
-	template<> struct Traits::HasPostincrement_t<bool> : std::false_type {};
+	template<> struct TypeTraitsBase::HasPostincrement_t<bool> : std::false_type {};
 	#endif
 }
 #endif // __stationaryorbit_core_traits__

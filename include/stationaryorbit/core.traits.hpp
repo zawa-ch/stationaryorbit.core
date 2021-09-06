@@ -24,5 +24,5 @@
 #include "core/ordertypetraits.hpp"
 #include "core/pointabletypetraits.hpp"
 #include "core/stditeratortraits.hpp"
-#include "core/traits.hpp"
+#include "core/typetraitsbase.hpp"
 #include "core/valuetypetraits.hpp"

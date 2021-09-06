@@ -21,7 +21,6 @@
 #include <limits>
 #include <type_traits>
 #include <stdexcept>
-#include "traits.hpp"
 #include "comparabletypetraits.hpp"
 #include "numericaltraits.hpp"
 #include "ordertypetraits.hpp"

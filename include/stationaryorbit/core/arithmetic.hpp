@@ -51,7 +51,7 @@ namespace zawa_ch::StationaryOrbit
 		///	このクラスは継承できません。
 		///	@param	Tp
 		///	加減算を行う型。型要件:NumericalType を満たす必要があります。
-		template<typename Tp, typename R = typename Traits::PromotionResult<Tp>>
+		template<typename Tp, typename R = typename TypeTraitsBase::PromotionResult<Tp>>
 		struct AdditionResult final
 		{
 			///	演算結果の内容
@@ -79,7 +79,7 @@ namespace zawa_ch::StationaryOrbit
 		///	このクラスは継承できません。
 		///	@param	Tp
 		///	乗除算を行う型。型要件:NumericalType を満たす必要があります。
-		template<typename T, typename Tp = typename Traits::PromotionResult<T>>
+		template<typename T, typename Tp = typename TypeTraitsBase::PromotionResult<T>>
 		struct MultiplicationResult final
 		{
 			///	演算結果の内容

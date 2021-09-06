@@ -19,7 +19,7 @@
 #ifndef __stationaryorbit_core_rectsize__
 #define __stationaryorbit_core_rectsize__
 #include <cmath>
-#include "traits.hpp"
+#include "numericaltraits.hpp"
 #include "zerovalue.hpp"
 #include "range.hpp"
 namespace zawa_ch::StationaryOrbit

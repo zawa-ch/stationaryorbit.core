@@ -19,7 +19,7 @@
 #ifndef __stationaryorbit_core_bitsequencetraits__
 #define __stationaryorbit_core_bitsequencetraits__
 #include <limits>
-#include "traits.hpp"
+#include "typetraitsbase.hpp"
 #include "equatabletypetraits.hpp"
 #include "valuetypetraits.hpp"
 #include "numericaltraits.hpp"
@@ -31,21 +31,21 @@ namespace zawa_ch::StationaryOrbit
 		template<class, class, class = void> struct HasBitSequenceTypeOperation_t : std::false_type {};
 		template<class T, class N> struct HasBitSequenceTypeOperation_t<T, N, std::enable_if_t< NumericalTraits::IsIntegralType<N> >> : std::conjunction
 			<
-				std::bool_constant<Traits::ArithmeticNotResultIsConvertible<T, T>>,
-				std::bool_constant<Traits::ArithmeticAndResultIsConvertible<T, T, T>>,
-				std::bool_constant<Traits::ArithmeticOrResultIsConvertible<T, T, T>>,
-				std::bool_constant<Traits::ArithmeticXorResultIsConvertible<T, T, T>>,
-				std::bool_constant<Traits::LShiftResultIsConvertible<T, N, T>>,
-				std::bool_constant<Traits::RShiftResultIsConvertible<T, N, T>>,
-				std::bool_constant<Traits::SubstitutionArithmeticAndResultIsSame<T, T, T&>>,
-				std::bool_constant<Traits::SubstitutionArithmeticOrResultIsSame<T, T, T&>>,
-				std::bool_constant<Traits::SubstitutionArithmeticXorResultIsSame<T, T, T&>>,
-				std::bool_constant<Traits::SubstitutionLShiftResultIsSame<T, N, T&>>,
-				std::bool_constant<Traits::SubstitutionRShiftResultIsSame<T, N, T&>>,
+				std::bool_constant<TypeTraitsBase::ArithmeticNotResultIsConvertible<T, T>>,
+				std::bool_constant<TypeTraitsBase::ArithmeticAndResultIsConvertible<T, T, T>>,
+				std::bool_constant<TypeTraitsBase::ArithmeticOrResultIsConvertible<T, T, T>>,
+				std::bool_constant<TypeTraitsBase::ArithmeticXorResultIsConvertible<T, T, T>>,
+				std::bool_constant<TypeTraitsBase::LShiftResultIsConvertible<T, N, T>>,
+				std::bool_constant<TypeTraitsBase::RShiftResultIsConvertible<T, N, T>>,
+				std::bool_constant<TypeTraitsBase::SubstitutionArithmeticAndResultIsSame<T, T, T&>>,
+				std::bool_constant<TypeTraitsBase::SubstitutionArithmeticOrResultIsSame<T, T, T&>>,
+				std::bool_constant<TypeTraitsBase::SubstitutionArithmeticXorResultIsSame<T, T, T&>>,
+				std::bool_constant<TypeTraitsBase::SubstitutionLShiftResultIsSame<T, N, T&>>,
+				std::bool_constant<TypeTraitsBase::SubstitutionRShiftResultIsSame<T, N, T&>>,
 				std::bool_constant<EquatableTypeTraits::IsEquatable<T, T>>
 			>
 		{};
-		template<class T, class N> struct IsBitSequenceType_t : std::conjunction< std::bool_constant<ValueTypeTraits::IsValueType<T>>, HasBitSequenceTypeOperation_t<T, N>, std::disjunction< std::is_constructible<T, uint8_t>, std::bool_constant<Traits::IsAggregatable<T, uint8_t>> >, std::negation<std::is_signed<T>>, std::bool_constant<(!std::numeric_limits<T>::is_specialized) || (!std::numeric_limits<T>::is_signed)> > {};
+		template<class T, class N> struct IsBitSequenceType_t : std::conjunction< std::bool_constant<ValueTypeTraits::IsValueType<T>>, HasBitSequenceTypeOperation_t<T, N>, std::disjunction< std::is_constructible<T, uint8_t>, std::bool_constant<TypeTraitsBase::IsAggregatable<T, uint8_t>> >, std::negation<std::is_signed<T>>, std::bool_constant<(!std::numeric_limits<T>::is_specialized) || (!std::numeric_limits<T>::is_signed)> > {};
 	public:
 		///	基本的なビット演算子の実装を識別します
 		template<class T, class N = int> static constexpr bool HasBitSequenceOperation = HasBitSequenceTypeOperation_t<T, N>::value;

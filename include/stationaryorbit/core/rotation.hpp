@@ -18,7 +18,7 @@
 //
 #ifndef __StationaryOrbit_Rotation__
 #define __StationaryOrbit_Rotation__
-#include "traits.hpp"
+#include "numericaltraits.hpp"
 #include "bitsequencetraits.hpp"
 #include "range.hpp"
 #include "halfangleformula.hpp"

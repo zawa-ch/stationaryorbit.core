@@ -18,7 +18,7 @@
 //
 #ifndef __stationaryorbit_core_equatabletypetraits__
 #define __stationaryorbit_core_equatabletypetraits__
-#include "traits.hpp"
+#include "typetraitsbase.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	class EquatableTypeTraits
@@ -27,7 +27,7 @@ namespace zawa_ch::StationaryOrbit
 		~EquatableTypeTraits() = delete;
 	private:
 		template<class T, class U>
-		struct IsEquatable_t : std::conjunction< std::bool_constant<Traits::EqualResultIsConvertible<T, U, bool>>, std::bool_constant<Traits::NotEqualResultIsConvertible<T, U, bool>> > {};
+		struct IsEquatable_t : std::conjunction< std::bool_constant<TypeTraitsBase::EqualResultIsConvertible<T, U, bool>>, std::bool_constant<TypeTraitsBase::NotEqualResultIsConvertible<T, U, bool>> > {};
 	public:
 		///	型要件:Equatableを満たす型を識別します
 		template<class T, class U = T> inline constexpr static bool IsEquatable = IsEquatable_t<T, U>::value;

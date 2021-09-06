@@ -20,7 +20,7 @@
 #define __stationaryorbit_core_stditeratortraits__
 #include <type_traits>
 #include <iterator>
-#include "traits.hpp"
+#include "typetraitsbase.hpp"
 #include "equatabletypetraits.hpp"
 #include "comparabletypetraits.hpp"
 namespace zawa_ch::StationaryOrbit
@@ -144,16 +144,16 @@ namespace zawa_ch::StationaryOrbit
 				typename do_StdLegacyIterator_t<It>::has_reference,
 				typename do_StdLegacyIterator_t<It>::has_pointer,
 				typename do_StdLegacyIterator_t<It>::has_iterator_category,
-				std::bool_constant<Traits::PreincrementResultIsSame<It, It&>>,
-				std::bool_constant<Traits::HasDereference<It>>
+				std::bool_constant<TypeTraitsBase::PreincrementResultIsSame<It, It&>>,
+				std::bool_constant<TypeTraitsBase::HasDereference<It>>
 			>
 		{};
 		template<class It> struct IsStdLegacyInputIterator_t : std::conjunction
 			<
 				IsStdLegacyIterator_t<It>,
 				std::bool_constant<EquatableTypeTraits::IsEquatable<It, It>>,
-				std::bool_constant<Traits::PreincrementResultIsSame<It, It&>>,
-				std::bool_constant<Traits::HasPostincrement<It>>,
+				std::bool_constant<TypeTraitsBase::PreincrementResultIsSame<It, It&>>,
+				std::bool_constant<TypeTraitsBase::HasPostincrement<It>>,
 				typename do_StdLegacyInputIterator_t<It>::dereference_is_same_reference,
 				typename do_StdLegacyInputIterator_t<It>::dereference_is_convertible_value_type,
 				typename do_StdLegacyInputIterator_t<It>::incdereference_is_convertible_value_type
@@ -169,8 +169,8 @@ namespace zawa_ch::StationaryOrbit
 				>,
 				typename do_StdLegacyOutputIterator_t<It, O>::has_dereference_assign,
 				typename do_StdLegacyOutputIterator_t<It, O>::has_incdereference_assign,
-				std::bool_constant<Traits::PreincrementResultIsSame<It, It&>>,
-				std::bool_constant<Traits::PostincrementResultIsConvertible<It, const It&>>
+				std::bool_constant<TypeTraitsBase::PreincrementResultIsSame<It, It&>>,
+				std::bool_constant<TypeTraitsBase::PostincrementResultIsConvertible<It, const It&>>
 			>
 		{};
 		template<class It> struct IsStdLegacyForwardIterator_t : std::conjunction
@@ -182,15 +182,15 @@ namespace zawa_ch::StationaryOrbit
 					typename do_StdLegacyForwardIterator_t<It>::reference_is_same_value_type_lvalue,
 					typename do_StdLegacyForwardIterator_t<It>::reference_is_same_value_type_const_lvalue
 				>,
-				std::bool_constant<Traits::PostincrementResultIsSame<It, It>>,
+				std::bool_constant<TypeTraitsBase::PostincrementResultIsSame<It, It>>,
 				typename do_StdLegacyForwardIterator_t<It>::incdereference_is_same_reference
 			>
 		{};
 		template<class It> struct IsStdLegacyBidirectionalIterator_t : std::conjunction
 			<
 				IsStdLegacyForwardIterator_t<It>,
-				std::bool_constant<Traits::PredecrementResultIsSame<It, It&>>,
-				std::bool_constant<Traits::PostdecrementResultIsConvertible<It, const It&>>,
+				std::bool_constant<TypeTraitsBase::PredecrementResultIsSame<It, It&>>,
+				std::bool_constant<TypeTraitsBase::PostdecrementResultIsConvertible<It, const It&>>,
 				typename do_StdLegacyBidirectionalIterator_t<It>::decdereference_is_same_reference
 			>
 		{};

@@ -18,12 +18,12 @@
 //
 #ifndef __stationaryorbit_core_iterator__
 #define __stationaryorbit_core_iterator__
+#include <type_traits>
 #include <stdexcept>
 #include <utility>
 #include <functional>
 #include <optional>
 #include "invalidoperation.hpp"
-#include "traits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	///	イテレータの初期位置。

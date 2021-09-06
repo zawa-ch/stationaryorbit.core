@@ -18,7 +18,7 @@
 //
 #ifndef __stationaryorbit_core_hashfunction__
 #define __stationaryorbit_core_hashfunction__
-#include "traits.hpp"
+#include <type_traits>
 namespace zawa_ch::StationaryOrbit
 {
 	///	@brief	ハッシュ関数を識別します
