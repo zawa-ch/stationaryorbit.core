@@ -19,7 +19,7 @@
 #include <iostream>
 #include <array>
 
-constexpr int check_if(bool condition)
+int check_if(bool condition)
 {
 	if (condition)
 	{
