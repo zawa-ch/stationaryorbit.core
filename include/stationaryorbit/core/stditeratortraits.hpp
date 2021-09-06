@@ -21,6 +21,7 @@
 #include <type_traits>
 #include <iterator>
 #include "traits.hpp"
+#include "equatabletypetraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	///	C++標準のイテレータを識別します。
@@ -149,7 +150,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class It> struct IsStdLegacyInputIterator_t : std::conjunction
 			<
 				IsStdLegacyIterator_t<It>,
-				std::bool_constant<Traits::IsEquatable<It, It>>,
+				std::bool_constant<EquatableTypeTraits::IsEquatable<It, It>>,
 				std::bool_constant<Traits::PreincrementResultIsSame<It, It&>>,
 				std::bool_constant<Traits::HasPostincrement<It>>,
 				typename do_StdLegacyInputIterator_t<It>::dereference_is_same_reference,

@@ -891,12 +891,8 @@ namespace zawa_ch::StationaryOrbit
 		template<class T, class... Targs> inline constexpr static bool IsAggregatable = IsAggregatable_t<T, Targs...>::value;
 	private:
 		template<class T, class U>
-		struct IsEquatable_t : std::conjunction< EqualResultIsConvertible_t<T, U, bool>, NotEqualResultIsConvertible_t<T, U, bool> > {};
-		template<class T, class U>
 		struct IsComparable_t : std::conjunction< LargerCompareResultIsConvertible_t<T, U, bool>, SmallerCompareResultIsConvertible_t<T, U, bool>, LeastCompareResultIsConvertible_t<T, U, bool>, MostCompareResultIsConvertible_t<T, U, bool> > {};
 	public:
-		///	型要件:Equatableを満たす型を識別します
-		template<class T, class U = T> inline constexpr static bool IsEquatable = IsEquatable_t<T, U>::value;
 		///	型要件:Comparableを満たす型を識別します
 		template<class T, class U = T> inline constexpr static bool IsComparable = IsComparable_t<T, U>::value;
 	};

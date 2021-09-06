@@ -19,7 +19,7 @@
 #ifndef __stationaryorbit_core_valuetypetraits__
 #define __stationaryorbit_core_valuetypetraits__
 #include <type_traits>
-#include "traits.hpp"
+#include "equatabletypetraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	class ValueTypeTraits
@@ -47,7 +47,7 @@ namespace zawa_ch::StationaryOrbit
 				std::is_move_assignable<T>,
 				std::is_nothrow_move_assignable<T>,
 				std::is_trivially_move_assignable<T>,
-				std::bool_constant<Traits::IsEquatable<T, T>>
+				std::bool_constant<EquatableTypeTraits::IsEquatable<T, T>>
 			>
 		{};
 	public:

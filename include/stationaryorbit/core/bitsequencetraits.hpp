@@ -20,6 +20,7 @@
 #define __stationaryorbit_core_bitsequencetraits__
 #include <limits>
 #include "traits.hpp"
+#include "equatabletypetraits.hpp"
 #include "valuetypetraits.hpp"
 #include "numericaltraits.hpp"
 namespace zawa_ch::StationaryOrbit
@@ -41,7 +42,7 @@ namespace zawa_ch::StationaryOrbit
 				std::bool_constant<Traits::SubstitutionArithmeticXorResultIsSame<T, T, T&>>,
 				std::bool_constant<Traits::SubstitutionLShiftResultIsSame<T, N, T&>>,
 				std::bool_constant<Traits::SubstitutionRShiftResultIsSame<T, N, T&>>,
-				std::bool_constant<Traits::IsEquatable<T, T>>
+				std::bool_constant<EquatableTypeTraits::IsEquatable<T, T>>
 			>
 		{};
 		template<class T, class N> struct IsBitSequenceType_t : std::conjunction< std::bool_constant<ValueTypeTraits::IsValueType<T>>, HasBitSequenceTypeOperation_t<T, N>, std::disjunction< std::is_constructible<T, uint8_t>, std::bool_constant<Traits::IsAggregatable<T, uint8_t>> >, std::negation<std::is_signed<T>>, std::bool_constant<(!std::numeric_limits<T>::is_specialized) || (!std::numeric_limits<T>::is_signed)> > {};

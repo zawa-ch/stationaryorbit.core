@@ -20,6 +20,7 @@
 #define __stationaryorbit_core_pointabletypetraits__
 #include <type_traits>
 #include "traits.hpp"
+#include "equatabletypetraits.hpp"
 #include "valuetypetraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
@@ -36,7 +37,7 @@ namespace zawa_ch::StationaryOrbit
 				std::bool_constant<Traits::AdditionResultIsSame<T, U, T>>,
 				std::bool_constant<Traits::SubtractionResultIsSame<T, U, T>>,
 				std::bool_constant<Traits::SubtractionResultIsSame<T, T, U>>,
-				std::bool_constant<Traits::IsEquatable<T, T>>
+				std::bool_constant<EquatableTypeTraits::IsEquatable<T, T>>
 			>
 		{};
 		template<class T, class U> struct IsPointableType_t : std::conjunction< std::bool_constant<ValueTypeTraits::IsValueType<T>>, HasPointableTypeOperation_t<T, U> > {};

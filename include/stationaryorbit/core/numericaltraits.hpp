@@ -20,6 +20,7 @@
 #define __stationaryorbit_core_numericaltraits__
 #include <type_traits>
 #include "traits.hpp"
+#include "equatabletypetraits.hpp"
 #include "valuetypetraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
@@ -41,7 +42,7 @@ namespace zawa_ch::StationaryOrbit
 				std::bool_constant<Traits::SubstitutionSubtractResultIsSame<T, T, T&>>,
 				std::bool_constant<Traits::SubstitutionMultipleResultIsSame<T, T, T&>>,
 				std::bool_constant<Traits::SubstitutionDivideResultIsSame<T, T, T&>>,
-				std::bool_constant<Traits::IsEquatable<T, T>>
+				std::bool_constant<EquatableTypeTraits::IsEquatable<T, T>>
 			>
 		{};
 		template<class T> struct HasNumericalTypeOperation_t : std::conjunction

@@ -24,26 +24,6 @@
 using namespace zawa_ch::StationaryOrbit;
 
 //	コンパイル時型特性アサーション
-static_assert(Traits::IsEquatable<bool>, "bool が IsEquatable 型特性を満たしませんでした。");
-static_assert(Traits::IsEquatable<uint8_t>, "uint8_t が IsEquatable 型特性を満たしませんでした。");
-static_assert(Traits::IsEquatable<uint16_t>, "uint16_t が IsEquatable 型特性を満たしませんでした。");
-static_assert(Traits::IsEquatable<uint32_t>, "uint32_t が IsEquatable 型特性を満たしませんでした。");
-static_assert(Traits::IsEquatable<uint64_t>, "uint64_t が IsEquatable 型特性を満たしませんでした。");
-static_assert(Traits::IsEquatable<uintmax_t>, "uintmax_t が IsEquatable 型特性を満たしませんでした。");
-static_assert(Traits::IsEquatable<uintptr_t>, "uintptr_t が IsEquatable 型特性を満たしませんでした。");
-static_assert(Traits::IsEquatable<int8_t>, "int8_t が IsEquatable 型特性を満たしませんでした。");
-static_assert(Traits::IsEquatable<int16_t>, "int16_t が IsEquatable 型特性を満たしませんでした。");
-static_assert(Traits::IsEquatable<int32_t>, "int32_t が IsEquatable 型特性を満たしませんでした。");
-static_assert(Traits::IsEquatable<int64_t>, "int64_t が IsEquatable 型特性を満たしませんでした。");
-static_assert(Traits::IsEquatable<intmax_t>, "intmax_t が IsEquatable 型特性を満たしませんでした。");
-static_assert(Traits::IsEquatable<intptr_t>, "intptr_t が IsEquatable 型特性を満たしませんでした。");
-static_assert(Traits::IsEquatable<float>, "float が IsEquatable 型特性を満たしませんでした。");
-static_assert(Traits::IsEquatable<double>, "double が IsEquatable 型特性を満たしませんでした。");
-static_assert(Traits::IsEquatable<size_t>, "size_t が IsEquatable 型特性を満たしませんでした。");
-static_assert(Traits::IsEquatable<std::nullptr_t>, "std::nullptr_t が IsEquatable 型特性を満たしませんでした。");
-static_assert(Traits::IsEquatable<std::byte>, "std::byte が IsEquatable 型特性を満たしませんでした。");
-static_assert(Traits::IsEquatable<std::string>, "std::string が IsEquatable 型特性を満たしませんでした。");
-
 static_assert(Traits::IsComparable<uint8_t>, "uint8_t が IsComparable 型特性を満たしませんでした。");
 static_assert(Traits::IsComparable<uint16_t>, "uint16_t が IsComparable 型特性を満たしませんでした。");
 static_assert(Traits::IsComparable<uint32_t>, "uint32_t が IsComparable 型特性を満たしませんでした。");

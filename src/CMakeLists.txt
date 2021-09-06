@@ -30,6 +30,7 @@ add_library(stationaryorbit.core SHARED
     bitsequencetraits.cpp
     bitwidth.cpp
     endians.cpp
+    equatabletypetraits.cpp
     fixedpoint.cpp
     integer.cpp
     machinprogression.cpp

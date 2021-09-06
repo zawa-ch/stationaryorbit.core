@@ -19,6 +19,7 @@
 #ifndef __stationaryorbit_core_ordertypetraits__
 #define __stationaryorbit_core_ordertypetraits__
 #include "traits.hpp"
+#include "equatabletypetraits.hpp"
 #include "numericaltraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
@@ -30,7 +31,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class T> struct HasSequencialOrderTypeOperation_t : std::conjunction
 			<
 				std::bool_constant<Traits::PreincrementResultIsSame<T, T&>>,
-				std::bool_constant<Traits::IsEquatable<T, T>>
+				std::bool_constant<EquatableTypeTraits::IsEquatable<T, T>>
 			>
 		{};
 		template<class T> struct HasBidirectionalOrderTypeOperation_t : std::conjunction
