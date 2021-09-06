@@ -29,6 +29,7 @@ add_library(stationaryorbit.core SHARED
     bitmask.cpp
     bitsequencetraits.cpp
     bitwidth.cpp
+    comparabletypetraits.cpp
     endians.cpp
     equatabletypetraits.cpp
     fixedpoint.cpp

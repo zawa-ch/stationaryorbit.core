@@ -21,6 +21,7 @@
 #include <type_traits>
 #include "traits.hpp"
 #include "equatabletypetraits.hpp"
+#include "comparabletypetraits.hpp"
 #include "valuetypetraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
@@ -48,7 +49,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class T> struct HasNumericalTypeOperation_t : std::conjunction
 			<
 				HasArithmeticTypeOperation_t<T>,
-				std::bool_constant<Traits::IsComparable<T, T>>
+				std::bool_constant<ComparableTypeTraits::IsComparable<T, T>>
 			>
 		{};
 		template<class, class = std::void_t<>> struct HasIntegralTypeOperation_t : std::false_type {};

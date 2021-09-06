@@ -20,6 +20,7 @@
 #define __stationaryorbit_core_ordertypetraits__
 #include "traits.hpp"
 #include "equatabletypetraits.hpp"
+#include "comparabletypetraits.hpp"
 #include "numericaltraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
@@ -48,7 +49,7 @@ namespace zawa_ch::StationaryOrbit
 				std::bool_constant<Traits::SubtractionResultIsSame<T, N, T>>,
 				std::bool_constant<Traits::SubstitutionAddResultIsSame<T, N, T&>>,
 				std::bool_constant<Traits::SubstitutionSubtractResultIsSame<T, N, T&>>,
-				std::bool_constant<Traits::IsComparable<T, T>>
+				std::bool_constant<ComparableTypeTraits::IsComparable<T, T>>
 			>
 		{};
 		template<class T> struct IsSequencialOrderType_t : std::conjunction< HasSequencialOrderTypeOperation_t<T> > {};

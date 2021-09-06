@@ -22,6 +22,7 @@
 #include <iterator>
 #include "traits.hpp"
 #include "equatabletypetraits.hpp"
+#include "comparabletypetraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	///	C++標準のイテレータを識別します。
@@ -196,7 +197,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class It> struct IsStdLegacyRandomAccessIterator_t : std::conjunction
 			<
 				IsStdLegacyBidirectionalIterator_t<It>,
-				std::bool_constant<Traits::IsComparable<It, It>>,
+				std::bool_constant<ComparableTypeTraits::IsComparable<It, It>>,
 				typename do_StdLegacyRandomAccessIterator_t<It>::difference_type_addstitution_is_same_lvalue,
 				typename do_StdLegacyRandomAccessIterator_t<It>::difference_type_add_is_same_object,
 				typename do_StdLegacyRandomAccessIterator_t<It>::difference_type_subtractstitution_is_same_lvalue,
@@ -218,6 +219,15 @@ namespace zawa_ch::StationaryOrbit
 		template<class It> inline constexpr static bool IsStdLegacyRandomAccessIterator = IsStdLegacyRandomAccessIterator_t<It>::value;
 		///	名前付き要件:LegacyOutputIteratorを満たす型を識別します。
 		template<class It, class O> inline constexpr static bool IsStdLegacyOutputIterator = IsStdLegacyOutputIterator_t<It, O>::value;
+
+		template<typename It> using value_type = typename std::iterator_traits<It>::value_type;
+		template<typename It> using difference_type = typename std::iterator_traits<It>::difference_type;
+		template<typename It> using reference = typename std::iterator_traits<It>::reference;
+		template<typename It> using pointer = typename std::iterator_traits<It>::pointer;
+		template<typename It> using iterator_category = typename std::iterator_traits<It>::iterator_category;
+
+		template<typename It> [[nodiscard]] static constexpr reference<It> dereference(const It& it) { static_assert(IsStdLegacyInputIterator<It>, "名前付き要件:LegacyInputIterator を満たす必要があります。"); return *it; }
+		template<typename It> [[nodiscard]] static constexpr It& next(It& it) { static_assert(IsStdLegacyInputIterator<It>, "名前付き要件:LegacyInputIterator を満たす必要があります。"); return *it; }
 	};
 }
 #endif // __stationaryorbit_core_stditeratortraits__

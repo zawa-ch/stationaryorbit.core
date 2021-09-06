@@ -889,12 +889,6 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		///	指定された型の波括弧による初期化が可能な型を識別します
 		template<class T, class... Targs> inline constexpr static bool IsAggregatable = IsAggregatable_t<T, Targs...>::value;
-	private:
-		template<class T, class U>
-		struct IsComparable_t : std::conjunction< LargerCompareResultIsConvertible_t<T, U, bool>, SmallerCompareResultIsConvertible_t<T, U, bool>, LeastCompareResultIsConvertible_t<T, U, bool>, MostCompareResultIsConvertible_t<T, U, bool> > {};
-	public:
-		///	型要件:Comparableを満たす型を識別します
-		template<class T, class U = T> inline constexpr static bool IsComparable = IsComparable_t<T, U>::value;
 	};
 	#if 201703L <= __cplusplus
 	// Clang C++17でコンパイルするとbool::operator++()を実体化しようとしてエラーを吐くため

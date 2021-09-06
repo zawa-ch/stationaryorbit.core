@@ -43,7 +43,7 @@ std::array<std::function<int(void)>, 37> tests =
 	[]()
 	{
 		std::cout << "4. Type Proportion1_t meets the traits Comparable?";
-		return check_if(Traits::IsComparable<Proportion1_t>);
+		return check_if(ComparableTypeTraits::IsComparable<Proportion1_t>);
 	},
 	[]()
 	{
@@ -68,7 +68,7 @@ std::array<std::function<int(void)>, 37> tests =
 	[]()
 	{
 		std::cout << "9. Type Proportion8_t meets the traits Comparable?";
-		return check_if(Traits::IsComparable<Proportion8_t>);
+		return check_if(ComparableTypeTraits::IsComparable<Proportion8_t>);
 	},
 	[]()
 	{
@@ -93,7 +93,7 @@ std::array<std::function<int(void)>, 37> tests =
 	[]()
 	{
 		std::cout << "14. Type Proportion16_t meets the traits Comparable?";
-		return check_if(Traits::IsComparable<Proportion16_t>);
+		return check_if(ComparableTypeTraits::IsComparable<Proportion16_t>);
 	},
 	[]()
 	{
@@ -118,7 +118,7 @@ std::array<std::function<int(void)>, 37> tests =
 	[]()
 	{
 		std::cout << "19. Type Proportion32_t meets the traits Comparable?";
-		return check_if(Traits::IsComparable<Proportion32_t>);
+		return check_if(ComparableTypeTraits::IsComparable<Proportion32_t>);
 	},
 	[]()
 	{
@@ -143,7 +143,7 @@ std::array<std::function<int(void)>, 37> tests =
 	[]()
 	{
 		std::cout << "24. Type Proportion64_t meets the traits Comparable?";
-		return check_if(Traits::IsComparable<Proportion64_t>);
+		return check_if(ComparableTypeTraits::IsComparable<Proportion64_t>);
 	},
 	[]()
 	{
