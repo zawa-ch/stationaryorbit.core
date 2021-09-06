@@ -33,16 +33,16 @@ namespace zawa_ch::StationaryOrbit
 		template<class, class = std::void_t<>> struct HasArithmeticTypeOperation_t : std::false_type {};
 		template<class T> struct HasArithmeticTypeOperation_t<T, std::void_t< TypeTraitsBase::PromotionResult<T> >> : std::conjunction
 			<
-				std::bool_constant<TypeTraitsBase::PromotionResultIsConvertible<T, T>>,
-				std::bool_constant<TypeTraitsBase::InverseResultIsSame<T, TypeTraitsBase::PromotionResult<T>>>,
-				std::bool_constant<TypeTraitsBase::AdditionResultIsSame<T, T, TypeTraitsBase::PromotionResult<T>>>,
-				std::bool_constant<TypeTraitsBase::SubtractionResultIsSame<T, T, TypeTraitsBase::PromotionResult<T>>>,
-				std::bool_constant<TypeTraitsBase::MultiplicationResultIsSame<T, T, TypeTraitsBase::PromotionResult<T>>>,
-				std::bool_constant<TypeTraitsBase::DivisionResultIsSame<T, T, TypeTraitsBase::PromotionResult<T>>>,
-				std::bool_constant<TypeTraitsBase::SubstitutionAddResultIsSame<T, T, T&>>,
-				std::bool_constant<TypeTraitsBase::SubstitutionSubtractResultIsSame<T, T, T&>>,
-				std::bool_constant<TypeTraitsBase::SubstitutionMultipleResultIsSame<T, T, T&>>,
-				std::bool_constant<TypeTraitsBase::SubstitutionDivideResultIsSame<T, T, T&>>,
+				std::bool_constant<TypeTraitsBase::promotion_result_is_convertible<T, T>>,
+				std::bool_constant<TypeTraitsBase::inverse_result_is_same<T, TypeTraitsBase::PromotionResult<T>>>,
+				std::bool_constant<TypeTraitsBase::addition_result_is_same<T, T, TypeTraitsBase::PromotionResult<T>>>,
+				std::bool_constant<TypeTraitsBase::subtraction_result_is_same<T, T, TypeTraitsBase::PromotionResult<T>>>,
+				std::bool_constant<TypeTraitsBase::multiplication_result_is_same<T, T, TypeTraitsBase::PromotionResult<T>>>,
+				std::bool_constant<TypeTraitsBase::division_result_is_same<T, T, TypeTraitsBase::PromotionResult<T>>>,
+				std::bool_constant<TypeTraitsBase::substitution_add_result_is_same<T, T, T&>>,
+				std::bool_constant<TypeTraitsBase::substitution_subtract_result_is_same<T, T, T&>>,
+				std::bool_constant<TypeTraitsBase::substitution_multiply_result_is_same<T, T, T&>>,
+				std::bool_constant<TypeTraitsBase::substitution_divide_result_is_same<T, T, T&>>,
 				std::bool_constant<EquatableTypeTraits::IsEquatable<T, T>>
 			>
 		{};
@@ -55,11 +55,11 @@ namespace zawa_ch::StationaryOrbit
 		template<class, class = std::void_t<>> struct HasIntegralTypeOperation_t : std::false_type {};
 		template<class T> struct HasIntegralTypeOperation_t<T, std::void_t< TypeTraitsBase::PromotionResult<T> >> : std::conjunction
 			<
-				std::bool_constant<TypeTraitsBase::PreincrementResultIsSame<T, T&>>,
-				std::bool_constant<TypeTraitsBase::PredecrementResultIsSame<T, T&>>,
+				std::bool_constant<TypeTraitsBase::preincrement_result_is_same<T, T&>>,
+				std::bool_constant<TypeTraitsBase::predecrement_result_is_same<T, T&>>,
 				HasNumericalTypeOperation_t<T>,
-				std::bool_constant<TypeTraitsBase::SubstitutionModulateResultIsSame<T, T, T&>>,
-				std::bool_constant<TypeTraitsBase::ModulationResultIsSame<T, T, TypeTraitsBase::PromotionResult<T>>>
+				std::bool_constant<TypeTraitsBase::substitution_modulate_result_is_same<T, T, T&>>,
+				std::bool_constant<TypeTraitsBase::modulation_result_is_same<T, T, TypeTraitsBase::PromotionResult<T>>>
 			>
 		{};
 		template<class T> struct IsArithmeticType_t : std::conjunction< std::bool_constant<ValueTypeTraits::IsValueType<T>>, HasArithmeticTypeOperation_t<T> > {};

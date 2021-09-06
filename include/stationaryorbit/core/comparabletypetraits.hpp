@@ -27,7 +27,7 @@ namespace zawa_ch::StationaryOrbit
 		~ComparableTypeTraits() = delete;
 	private:
 		template<class T, class U>
-		struct IsComparable_t : std::conjunction< std::bool_constant<TypeTraitsBase::LargerCompareResultIsConvertible<T, U, bool>>, std::bool_constant<TypeTraitsBase::SmallerCompareResultIsConvertible<T, U, bool>>, std::bool_constant<TypeTraitsBase::LeastCompareResultIsConvertible<T, U, bool>>, std::bool_constant<TypeTraitsBase::MostCompareResultIsConvertible<T, U, bool>> > {};
+		struct IsComparable_t : std::conjunction< std::bool_constant<TypeTraitsBase::compare_larger_result_is_convertible<T, U, bool>>, std::bool_constant<TypeTraitsBase::compare_smaller_result_is_convertible<T, U, bool>>, std::bool_constant<TypeTraitsBase::compare_least_result_is_convertible<T, U, bool>>, std::bool_constant<TypeTraitsBase::compare_most_result_is_convertible<T, U, bool>> > {};
 	public:
 		///	型要件:Comparableを満たす型を識別します
 		template<class T, class U = T> inline constexpr static bool IsComparable = IsComparable_t<T, U>::value;

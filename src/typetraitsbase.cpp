@@ -24,5 +24,5 @@ using namespace zawa_ch::StationaryOrbit;
 
 //	コンパイル時型特性アサーション
 
-static_assert(TypeTraitsBase::SubscriptResultIsConvertible<std::array<uint8_t, 20>, size_t, uint8_t>, "std::array<uint8_t, 20> に operator[](size_t) -> uint8_t がありません");
-static_assert(TypeTraitsBase::DereferenceResultIsConvertible<int*, int>, "int* に operator*() -> int がありません");
+static_assert(TypeTraitsBase::subscript_result_is_convertible<std::array<uint8_t, 20>, size_t, uint8_t>, "std::array<uint8_t, 20> に operator[](size_t) -> uint8_t がありません");
+static_assert(TypeTraitsBase::dereference_result_is_convertible<int*, int>, "int* に operator*() -> int がありません");

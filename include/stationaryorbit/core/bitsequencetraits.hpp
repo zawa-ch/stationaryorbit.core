@@ -31,21 +31,21 @@ namespace zawa_ch::StationaryOrbit
 		template<class, class, class = void> struct HasBitSequenceTypeOperation_t : std::false_type {};
 		template<class T, class N> struct HasBitSequenceTypeOperation_t<T, N, std::enable_if_t< NumericalTraits::IsIntegralType<N> >> : std::conjunction
 			<
-				std::bool_constant<TypeTraitsBase::ArithmeticNotResultIsConvertible<T, T>>,
-				std::bool_constant<TypeTraitsBase::ArithmeticAndResultIsConvertible<T, T, T>>,
-				std::bool_constant<TypeTraitsBase::ArithmeticOrResultIsConvertible<T, T, T>>,
-				std::bool_constant<TypeTraitsBase::ArithmeticXorResultIsConvertible<T, T, T>>,
-				std::bool_constant<TypeTraitsBase::LShiftResultIsConvertible<T, N, T>>,
-				std::bool_constant<TypeTraitsBase::RShiftResultIsConvertible<T, N, T>>,
-				std::bool_constant<TypeTraitsBase::SubstitutionArithmeticAndResultIsSame<T, T, T&>>,
-				std::bool_constant<TypeTraitsBase::SubstitutionArithmeticOrResultIsSame<T, T, T&>>,
-				std::bool_constant<TypeTraitsBase::SubstitutionArithmeticXorResultIsSame<T, T, T&>>,
-				std::bool_constant<TypeTraitsBase::SubstitutionLShiftResultIsSame<T, N, T&>>,
-				std::bool_constant<TypeTraitsBase::SubstitutionRShiftResultIsSame<T, N, T&>>,
+				std::bool_constant<TypeTraitsBase::arithmetic_not_result_is_convertible<T, T>>,
+				std::bool_constant<TypeTraitsBase::arithmetic_and_result_is_convertible<T, T, T>>,
+				std::bool_constant<TypeTraitsBase::arithmetic_or_result_is_convertible<T, T, T>>,
+				std::bool_constant<TypeTraitsBase::arithmetic_xor_result_is_convertible<T, T, T>>,
+				std::bool_constant<TypeTraitsBase::lshift_result_is_convertible<T, N, T>>,
+				std::bool_constant<TypeTraitsBase::rshift_result_is_convertible<T, N, T>>,
+				std::bool_constant<TypeTraitsBase::substitution_arithmetic_and_result_is_same<T, T, T&>>,
+				std::bool_constant<TypeTraitsBase::substitution_arithmetic_or_result_is_same<T, T, T&>>,
+				std::bool_constant<TypeTraitsBase::substitution_arithmetic_xor_result_is_same<T, T, T&>>,
+				std::bool_constant<TypeTraitsBase::substitution_lshift_result_is_same<T, N, T&>>,
+				std::bool_constant<TypeTraitsBase::substitution_rshift_result_is_same<T, N, T&>>,
 				std::bool_constant<EquatableTypeTraits::IsEquatable<T, T>>
 			>
 		{};
-		template<class T, class N> struct IsBitSequenceType_t : std::conjunction< std::bool_constant<ValueTypeTraits::IsValueType<T>>, HasBitSequenceTypeOperation_t<T, N>, std::disjunction< std::is_constructible<T, uint8_t>, std::bool_constant<TypeTraitsBase::IsAggregatable<T, uint8_t>> >, std::negation<std::is_signed<T>>, std::bool_constant<(!std::numeric_limits<T>::is_specialized) || (!std::numeric_limits<T>::is_signed)> > {};
+		template<class T, class N> struct IsBitSequenceType_t : std::conjunction< std::bool_constant<ValueTypeTraits::IsValueType<T>>, HasBitSequenceTypeOperation_t<T, N>, std::disjunction< std::is_constructible<T, uint8_t>, std::bool_constant<TypeTraitsBase::is_aggregatable<T, uint8_t>> >, std::negation<std::is_signed<T>>, std::bool_constant<(!std::numeric_limits<T>::is_specialized) || (!std::numeric_limits<T>::is_signed)> > {};
 	public:
 		///	基本的なビット演算子の実装を識別します
 		template<class T, class N = int> static constexpr bool HasBitSequenceOperation = HasBitSequenceTypeOperation_t<T, N>::value;

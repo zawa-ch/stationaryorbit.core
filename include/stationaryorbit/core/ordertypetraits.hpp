@@ -31,24 +31,24 @@ namespace zawa_ch::StationaryOrbit
 	private:
 		template<class T> struct HasSequencialOrderTypeOperation_t : std::conjunction
 			<
-				std::bool_constant<TypeTraitsBase::PreincrementResultIsSame<T, T&>>,
+				std::bool_constant<TypeTraitsBase::preincrement_result_is_same<T, T&>>,
 				std::bool_constant<EquatableTypeTraits::IsEquatable<T, T>>
 			>
 		{};
 		template<class T> struct HasBidirectionalOrderTypeOperation_t : std::conjunction
 			<
 				HasSequencialOrderTypeOperation_t<T>,
-				std::bool_constant<TypeTraitsBase::PredecrementResultIsSame<T, T&>>
+				std::bool_constant<TypeTraitsBase::predecrement_result_is_same<T, T&>>
 			>
 		{};
 		template<class, class, class = void> struct HasLinearOrderTypeOperation_t : std::false_type {};
 		template<class T, class N> struct HasLinearOrderTypeOperation_t<T, N, std::enable_if_t< NumericalTraits::IsIntegralType<N> >> : std::conjunction
 			<
 				HasBidirectionalOrderTypeOperation_t<T>,
-				std::bool_constant<TypeTraitsBase::AdditionResultIsSame<T, N, T>>,
-				std::bool_constant<TypeTraitsBase::SubtractionResultIsSame<T, N, T>>,
-				std::bool_constant<TypeTraitsBase::SubstitutionAddResultIsSame<T, N, T&>>,
-				std::bool_constant<TypeTraitsBase::SubstitutionSubtractResultIsSame<T, N, T&>>,
+				std::bool_constant<TypeTraitsBase::addition_result_is_same<T, N, T>>,
+				std::bool_constant<TypeTraitsBase::subtraction_result_is_same<T, N, T>>,
+				std::bool_constant<TypeTraitsBase::substitution_add_result_is_same<T, N, T&>>,
+				std::bool_constant<TypeTraitsBase::substitution_subtract_result_is_same<T, N, T&>>,
 				std::bool_constant<ComparableTypeTraits::IsComparable<T, T>>
 			>
 		{};

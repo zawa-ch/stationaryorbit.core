@@ -32,11 +32,11 @@ namespace zawa_ch::StationaryOrbit
 		template<class, class, class = void> struct HasPointableTypeOperation_t : std::false_type {};
 		template<class T, class U> struct HasPointableTypeOperation_t<T, U, std::enable_if_t< ValueTypeTraits::IsValueType<U> >> : std::conjunction
 			<
-				std::bool_constant<TypeTraitsBase::SubstitutionAddResultIsSame<T, U, T&>>,
-				std::bool_constant<TypeTraitsBase::SubstitutionSubtractResultIsSame<T, U, T&>>,
-				std::bool_constant<TypeTraitsBase::AdditionResultIsSame<T, U, T>>,
-				std::bool_constant<TypeTraitsBase::SubtractionResultIsSame<T, U, T>>,
-				std::bool_constant<TypeTraitsBase::SubtractionResultIsSame<T, T, U>>,
+				std::bool_constant<TypeTraitsBase::substitution_add_result_is_same<T, U, T&>>,
+				std::bool_constant<TypeTraitsBase::substitution_subtract_result_is_same<T, U, T&>>,
+				std::bool_constant<TypeTraitsBase::addition_result_is_same<T, U, T>>,
+				std::bool_constant<TypeTraitsBase::subtraction_result_is_same<T, U, T>>,
+				std::bool_constant<TypeTraitsBase::subtraction_result_is_same<T, T, U>>,
 				std::bool_constant<EquatableTypeTraits::IsEquatable<T, T>>
 			>
 		{};
