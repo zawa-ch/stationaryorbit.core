@@ -137,9 +137,9 @@ namespace zawa_ch::StationaryOrbit
 		template<class T, class U> using RShiftResult = typename RShiftResult_impl<T, U>::type;
 		///	論理演算子 @a T::operator!() の結果を表す型
 		template<class T> using LogicalNotResult = typename LogicalNotResult_impl<T>::type;
-		///	論理演算子 @a T::operator&&(U) の結果を表す型
-		template<class T, class U> using LogicalOrResult = typename LogicalOrResult_impl<T, U>::type;
 		///	論理演算子 @a T::operator||(U) の結果を表す型
+		template<class T, class U> using LogicalOrResult = typename LogicalOrResult_impl<T, U>::type;
+		///	論理演算子 @a T::operator&&(U) の結果を表す型
 		template<class T, class U> using LogicalAndResult = typename LogicalAndResult_impl<T, U>::type;
 		///	比較演算子 @a T::operator==(U) の結果を表す型
 		template<class T, class U> using EqualResult = typename EqualResult_impl<T, U>::type;
@@ -303,9 +303,9 @@ namespace zawa_ch::StationaryOrbit
 		template<class T, class U> static constexpr bool has_rshift = HasRShift_impl<T, U>::value;
 		///	論理演算子 @a T::operator!() を実装しているかを識別します
 		template<class T> static constexpr bool has_logical_not = HasLogicalNot_impl<T>::value;
-		///	論理演算子 @a T::operator&&(U) を実装しているかを識別します
-		template<class T, class U> static constexpr bool has_logical_or = HasLogicalOr_impl<T, U>::value;
 		///	論理演算子 @a T::operator||(U) を実装しているかを識別します
+		template<class T, class U> static constexpr bool has_logical_or = HasLogicalOr_impl<T, U>::value;
+		///	論理演算子 @a T::operator&&(U) を実装しているかを識別します
 		template<class T, class U> static constexpr bool has_logical_and = HasLogicalAnd_impl<T, U>::value;
 		///	比較演算子 @a T::operator==(U) を実装しているかを識別します
 		template<class T, class U> static constexpr bool has_equal = HasEqual_impl<T, U>::value;
@@ -479,9 +479,9 @@ namespace zawa_ch::StationaryOrbit
 		template<class T, class U, class R> static constexpr bool rshift_result_is_same = RShiftResultIsSame_impl<T, U, R>::value;
 		///	論理演算子 @a T::operator!() の返却値型が @a R に一致するかを識別します
 		template<class T, class R> static constexpr bool logical_not_result_is_same = LogicalNotResultIsSame_impl<T, R>::value;
-		///	論理演算子 @a T::operator&&(U) の返却値型が @a R に一致するかを識別します
-		template<class T, class U, class R> static constexpr bool logical_or_result_is_same = LogicalOrResultIsSame_impl<T, U, R>::value;
 		///	論理演算子 @a T::operator||(U) の返却値型が @a R に一致するかを識別します
+		template<class T, class U, class R> static constexpr bool logical_or_result_is_same = LogicalOrResultIsSame_impl<T, U, R>::value;
+		///	論理演算子 @a T::operator&&(U) の返却値型が @a R に一致するかを識別します
 		template<class T, class U, class R> static constexpr bool logical_and_result_is_same = LogicalAndResultIsSame_impl<T, U, R>::value;
 		///	比較演算子 @a T::operator==(U) の返却値型が @a R に一致するかを識別します
 		template<class T, class U, class R> static constexpr bool equal_result_is_same = EqualResultIsSame_impl<T, U, R>::value;
@@ -655,9 +655,9 @@ namespace zawa_ch::StationaryOrbit
 		template<class T, class U, class R> static constexpr bool rshift_result_is_convertible = RShiftResultIsConvertible_impl<T, U, R>::value;
 		///	論理演算子 @a T::operator!() の返却値型が @a R に変換可能かを識別します
 		template<class T, class R> static constexpr bool logical_not_result_is_convertible = LogicalNotResultIsConvertible_impl<T, R>::value;
-		///	論理演算子 @a T::operator&&(U) の返却値型が @a R に変換可能かを識別します
-		template<class T, class U, class R> static constexpr bool logical_or_result_is_convertible = LogicalOrResultIsConvertible_impl<T, U, R>::value;
 		///	論理演算子 @a T::operator||(U) の返却値型が @a R に変換可能かを識別します
+		template<class T, class U, class R> static constexpr bool logical_or_result_is_convertible = LogicalOrResultIsConvertible_impl<T, U, R>::value;
+		///	論理演算子 @a T::operator&&(U) の返却値型が @a R に変換可能かを識別します
 		template<class T, class U, class R> static constexpr bool logical_and_result_is_convertible = LogicalAndResultIsConvertible_impl<T, U, R>::value;
 		///	比較演算子 @a T::operator==(U) の返却値型が @a R に変換可能かを識別します
 		template<class T, class U, class R> static constexpr bool equal_result_is_convertible = EqualResultIsConvertible_impl<T, U, R>::value;
@@ -831,9 +831,9 @@ namespace zawa_ch::StationaryOrbit
 		template<class T, class U, class R> static constexpr bool rshift_result_remove_cvref_is_same = RShiftResultRemoveCVRefIsSame_impl<T, U, R>::value;
 		///	論理演算子 @a T::operator!() の返却値(CVRef除去)型が @a R に一致するかを識別します
 		template<class T, class R> static constexpr bool logical_not_result_remove_cvref_is_same = LogicalNotResultRemoveCVRefIsSame_impl<T, R>::value;
-		///	論理演算子 @a T::operator&&(U) の返却値(CVRef除去)型が @a R に一致するかを識別します
-		template<class T, class U, class R> static constexpr bool logical_or_result_remove_cvref_is_same = LogicalOrResultRemoveCVRefIsSame_impl<T, U, R>::value;
 		///	論理演算子 @a T::operator||(U) の返却値(CVRef除去)型が @a R に一致するかを識別します
+		template<class T, class U, class R> static constexpr bool logical_or_result_remove_cvref_is_same = LogicalOrResultRemoveCVRefIsSame_impl<T, U, R>::value;
+		///	論理演算子 @a T::operator&&(U) の返却値(CVRef除去)型が @a R に一致するかを識別します
 		template<class T, class U, class R> static constexpr bool logical_and_result_remove_cvref_is_same = LogicalAndResultRemoveCVRefIsSame_impl<T, U, R>::value;
 		///	比較演算子 @a T::operator==(U) の返却値(CVRef除去)型が @a R に一致するかを識別します
 		template<class T, class U, class R> static constexpr bool equal_result_remove_cvref_is_same = EqualResultRemoveCVRefIsSame_impl<T, U, R>::value;
