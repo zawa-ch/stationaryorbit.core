@@ -109,17 +109,17 @@ namespace zawa_ch::StationaryOrbit
 
 		[[nodiscard]] constexpr Integer<T> operator+() const
 		{
-			if constexpr (TypeTraitsBase::has_promotion<T>) { return Integer<T>(T(+_data)); }
+			if constexpr (TypeTraitsBase::has_promotion<T>) { return Integer<T>(TypeTraitsBase::promotion(_data)); }
 			else { return *this; }
 		}
 		[[nodiscard]] constexpr Integer<T> operator-() const
 		{
-			if constexpr (TypeTraitsBase::has_promotion<T>) { return Integer<T>(T(-_data)); }
+			if constexpr (TypeTraitsBase::has_promotion<T>) { return Integer<T>(TypeTraitsBase::inverse(_data)); }
 			else { return Integer(~_data); }
 		}
 		[[nodiscard]] constexpr Integer<T> operator+(const Integer<T>& other) const
 		{
-			if constexpr (TypeTraitsBase::has_addition<T, T>) { return Integer<T>(T(_data + other._data)); }
+			if constexpr (TypeTraitsBase::has_addition<T, T>) { return Integer<T>(TypeTraitsBase::addition(_data, other._data)); }
 			else
 			{
 				auto result = Integer<T>();
@@ -136,7 +136,7 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr Integer<T> operator-(const Integer<T>& other) const
 		{
-			if constexpr (TypeTraitsBase::has_addition<T, T>) { return Integer<T>(T(_data - other._data)); }
+			if constexpr (TypeTraitsBase::has_subtraction<T, T>) { return Integer<T>(TypeTraitsBase::subtraction(_data, other._data)); }
 			else
 			{
 				auto result = Integer<T>();
@@ -153,7 +153,7 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr Integer<T> operator*(const Integer<T>& other) const
 		{
-			if constexpr (TypeTraitsBase::has_multiplication<T, T>) { return Integer<T>(T(_data * other._data)); }
+			if constexpr (TypeTraitsBase::has_multiplication<T, T>) { return Integer<T>(TypeTraitsBase::multiplication(_data, other._data)); }
 			else
 			{
 				auto result = Integer<T>();
@@ -166,12 +166,12 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr Integer<T> operator/(const Integer<T>& other) const
 		{
-			if constexpr (TypeTraitsBase::has_division<T, T>) { return Integer<T>(T(_data / other._data)); }
+			if constexpr (TypeTraitsBase::has_division<T, T>) { return Integer<T>(TypeTraitsBase::division(_data, other._data)); }
 			else { return divide_impl(other).value; }
 		}
 		[[nodiscard]] constexpr Integer<T> operator%(const Integer<T>& other) const
 		{
-			if constexpr (TypeTraitsBase::has_modulation<T, T>) { return Integer<T>(T(_data % other._data)); }
+			if constexpr (TypeTraitsBase::has_modulation<T, T>) { return Integer<T>(TypeTraitsBase::modulation(_data, other._data)); }
 			else { return divide_impl(other).mod; }
 		}
 
@@ -183,7 +183,7 @@ namespace zawa_ch::StationaryOrbit
 
 		constexpr Integer<T>& operator++()
 		{
-			if constexpr (TypeTraitsBase::has_preincrement<T>) { (void)++_data; return *this; }
+			if constexpr (TypeTraitsBase::has_preincrement<T>) { (void)TypeTraitsBase::preincrement(_data); return *this; }
 			else
 			{
 				bool c = true;
@@ -196,10 +196,14 @@ namespace zawa_ch::StationaryOrbit
 				return *this;
 			}
 		}
-		[[nodiscard]] constexpr Integer<T> operator++(int) { auto result = *this; ++(*this); return result; }
+		[[nodiscard]] constexpr Integer<T> operator++(int)
+		{
+			if constexpr (TypeTraitsBase::has_postincrement<T>) { return Integer<T>(TypeTraitsBase::postincrement(_data)); }
+			else { auto result = *this; ++(*this); return result; }
+		}
 		constexpr Integer<T>& operator--()
 		{
-			if constexpr (TypeTraitsBase::has_preincrement<T>) { (void)--_data; return *this; }
+			if constexpr (TypeTraitsBase::has_preincrement<T>) { (void)TypeTraitsBase::predecrement(_data); return *this; }
 			else
 			{
 				bool c = true;
@@ -212,7 +216,11 @@ namespace zawa_ch::StationaryOrbit
 				return *this;
 			}
 		}
-		[[nodiscard]] constexpr Integer<T> operator--(int) { auto result = *this; --(*this); return result; }
+		[[nodiscard]] constexpr Integer<T> operator--(int)
+		{
+			if constexpr (TypeTraitsBase::has_postdecrement<T>) { return Integer<T>(TypeTraitsBase::postdecrement(_data)); }
+			else { auto result = *this; --(*this); return result; }
+		}
 
 		[[nodiscard]] constexpr int Compare(const Integer<T>& other) const
 		{
@@ -239,22 +247,22 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr bool operator<(const Integer<T>& other) const
 		{
-			if constexpr (TypeTraitsBase::has_compare_smaller<T, T>) { return _data < other._data; }
+			if constexpr (TypeTraitsBase::has_compare_smaller<T, T>) { return TypeTraitsBase::compare_smaller(_data, other._data); }
 			else { return Compare(other) < 0; }
 		}
 		[[nodiscard]] constexpr bool operator<=(const Integer<T>& other) const
 		{
-			if constexpr (TypeTraitsBase::has_compare_smaller<T, T>) { return _data <= other._data; }
+			if constexpr (TypeTraitsBase::has_compare_smaller<T, T>) { return TypeTraitsBase::compare_most(_data, other._data); }
 			else { return Compare(other) <= 0; }
 		}
 		[[nodiscard]] constexpr bool operator>(const Integer<T>& other) const
 		{
-			if constexpr (TypeTraitsBase::has_compare_smaller<T, T>) { return _data > other._data; }
+			if constexpr (TypeTraitsBase::has_compare_smaller<T, T>) { return TypeTraitsBase::compare_larger(_data, other._data); }
 			else { return Compare(other) > 0; }
 		}
 		[[nodiscard]] constexpr bool operator>=(const Integer<T>& other) const
 		{
-			if constexpr (TypeTraitsBase::has_compare_smaller<T, T>) { return _data >= other._data; }
+			if constexpr (TypeTraitsBase::has_compare_smaller<T, T>) { return TypeTraitsBase::compare_least(_data, other._data); }
 			else { return Compare(other) >= 0; }
 		}
 
@@ -426,7 +434,7 @@ namespace zawa_ch::StationaryOrbit
 
 		constexpr SignedInteger<T>& operator++()
 		{
-			if constexpr (TypeTraitsBase::has_preincrement<T>) { (void)++_data; return *this; }
+			if constexpr (TypeTraitsBase::has_preincrement<T>) { (void)TypeTraitsBase::preincrement(_data); return *this; }
 			else
 			{
 				bool c = true;
@@ -439,10 +447,14 @@ namespace zawa_ch::StationaryOrbit
 				return *this;
 			}
 		}
-		[[nodiscard]] constexpr SignedInteger<T> operator++(int) { auto result = *this; ++(*this); return result; }
+		[[nodiscard]] constexpr SignedInteger<T> operator++(int)
+		{
+			if constexpr (TypeTraitsBase::has_postincrement<T>) { return SignedInteger<T>(TypeTraitsBase::postincrement(_data)); }
+			{ auto result = *this; ++(*this); return result; }
+		}
 		constexpr SignedInteger<T>& operator--()
 		{
-			if constexpr (TypeTraitsBase::has_preincrement<T>) { (void)--_data; return *this; }
+			if constexpr (TypeTraitsBase::has_preincrement<T>) { (void)TypeTraitsBase::predecrement(_data); return *this; }
 			else
 			{
 				bool c = true;
@@ -455,7 +467,11 @@ namespace zawa_ch::StationaryOrbit
 				return *this;
 			}
 		}
-		[[nodiscard]] constexpr SignedInteger<T> operator--(int) { auto result = *this; --(*this); return result; }
+		[[nodiscard]] constexpr SignedInteger<T> operator--(int)
+		{
+			if constexpr (TypeTraitsBase::has_postdecrement<T>) { return SignedInteger<T>(TypeTraitsBase::postdecrement(_data)); }
+			{ auto result = *this; --(*this); return result; }
+		}
 
 		[[nodiscard]] constexpr int Compare(const SignedInteger<T>& other) const
 		{
