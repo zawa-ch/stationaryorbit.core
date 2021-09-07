@@ -62,7 +62,7 @@ namespace zawa_ch::StationaryOrbit
 				std::bool_constant<TypeTraitsBase::modulation_result_is_same<T, T, TypeTraitsBase::PromotionResult<T>>>
 			>
 		{};
-		template<class T> struct IsArithmeticType_t : std::conjunction< std::bool_constant<ValueTypeTraits::IsValueType<T>>, HasArithmeticTypeOperation_t<T> > {};
+		template<class T> struct IsArithmeticType_t : std::conjunction< std::bool_constant<ValueTypeTraits::is_valuetype<T>>, HasArithmeticTypeOperation_t<T> > {};
 		template<class T> struct IsNumericalType_t : std::conjunction< IsArithmeticType_t<T>, HasNumericalTypeOperation_t<T>, std::bool_constant<std::numeric_limits<T>::is_specialized> > {};
 		template<class T> struct IsIntegralType_t : std::conjunction< IsNumericalType_t<T>, HasIntegralTypeOperation_t<T> > {};
 	public:

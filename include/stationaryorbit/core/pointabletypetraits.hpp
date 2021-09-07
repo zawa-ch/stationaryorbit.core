@@ -30,7 +30,7 @@ namespace zawa_ch::StationaryOrbit
 		~PointableTypeTraits() = delete;
 	private:
 		template<class, class, class = void> struct HasPointableTypeOperation_t : std::false_type {};
-		template<class T, class U> struct HasPointableTypeOperation_t<T, U, std::enable_if_t< ValueTypeTraits::IsValueType<U> >> : std::conjunction
+		template<class T, class U> struct HasPointableTypeOperation_t<T, U, std::enable_if_t< ValueTypeTraits::is_valuetype<U> >> : std::conjunction
 			<
 				std::bool_constant<TypeTraitsBase::substitution_add_result_is_same<T, U, T&>>,
 				std::bool_constant<TypeTraitsBase::substitution_subtract_result_is_same<T, U, T&>>,
@@ -40,7 +40,7 @@ namespace zawa_ch::StationaryOrbit
 				std::bool_constant<EquatableTypeTraits::is_equatable<T, T>>
 			>
 		{};
-		template<class T, class U> struct IsPointableType_t : std::conjunction< std::bool_constant<ValueTypeTraits::IsValueType<T>>, HasPointableTypeOperation_t<T, U> > {};
+		template<class T, class U> struct IsPointableType_t : std::conjunction< std::bool_constant<ValueTypeTraits::is_valuetype<T>>, HasPointableTypeOperation_t<T, U> > {};
 	public:
 		///	型要件:PointableTypeを満たす型を識別します
 		template<class T, class U> static constexpr bool IsPointableType = IsPointableType_t<T, U>::value;

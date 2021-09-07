@@ -45,7 +45,7 @@ namespace zawa_ch::StationaryOrbit
 				std::bool_constant<EquatableTypeTraits::is_equatable<T, T>>
 			>
 		{};
-		template<class T, class N> struct IsBitSequenceType_t : std::conjunction< std::bool_constant<ValueTypeTraits::IsValueType<T>>, HasBitSequenceTypeOperation_t<T, N>, std::disjunction< std::is_constructible<T, uint8_t>, std::bool_constant<TypeTraitsBase::is_aggregatable<T, uint8_t>> >, std::negation<std::is_signed<T>>, std::bool_constant<(!std::numeric_limits<T>::is_specialized) || (!std::numeric_limits<T>::is_signed)> > {};
+		template<class T, class N> struct IsBitSequenceType_t : std::conjunction< std::bool_constant<ValueTypeTraits::is_valuetype<T>>, HasBitSequenceTypeOperation_t<T, N>, std::disjunction< std::is_constructible<T, uint8_t>, std::bool_constant<TypeTraitsBase::is_aggregatable<T, uint8_t>> >, std::negation<std::is_signed<T>>, std::bool_constant<(!std::numeric_limits<T>::is_specialized) || (!std::numeric_limits<T>::is_signed)> > {};
 	public:
 		///	基本的なビット演算子の実装を識別します
 		template<class T, class N = int> static constexpr bool HasBitSequenceOperation = HasBitSequenceTypeOperation_t<T, N>::value;

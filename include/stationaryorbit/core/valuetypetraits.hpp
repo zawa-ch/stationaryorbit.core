@@ -22,12 +22,17 @@
 #include "equatabletypetraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
-	class ValueTypeTraits
+	///	型要件:ValueType を満たす型を識別します
+	class ValueTypeTraits : public EquatableTypeTraits
 	{
 		ValueTypeTraits() = delete;
+		ValueTypeTraits(const ValueTypeTraits&) = delete;
+		ValueTypeTraits(ValueTypeTraits&&) = delete;
+		ValueTypeTraits& operator=(const ValueTypeTraits&) = delete;
+		ValueTypeTraits& operator=(ValueTypeTraits&&) = delete;
 		~ValueTypeTraits() = delete;
 	private:
-		template<class T> struct IsValueType_t : std::conjunction
+		template<typename T> struct IsValueType_impl : std::conjunction
 			<
 				std::is_default_constructible<T>,
 				std::is_trivially_default_constructible<T>,
@@ -47,12 +52,12 @@ namespace zawa_ch::StationaryOrbit
 				std::is_move_assignable<T>,
 				std::is_nothrow_move_assignable<T>,
 				std::is_trivially_move_assignable<T>,
-				std::bool_constant<EquatableTypeTraits::is_equatable<T, T>>
+				std::bool_constant<is_equatable<T, T>>
 			>
 		{};
 	public:
-		///	型要件:ValueTypeを満たす型を識別します
-		template<class T> static constexpr bool IsValueType = IsValueType_t<T>::value;
+		///	指定された型が 型要件:ValueType を満たすかを識別します。
+		template<typename T> static constexpr bool is_valuetype = IsValueType_impl<T>::value;
 	};
 }
 #endif // __stationaryorbit_core_valuetypetraits__
