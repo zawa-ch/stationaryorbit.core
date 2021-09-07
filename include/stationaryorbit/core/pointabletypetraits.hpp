@@ -37,7 +37,7 @@ namespace zawa_ch::StationaryOrbit
 				std::bool_constant<TypeTraitsBase::addition_result_is_same<T, U, T>>,
 				std::bool_constant<TypeTraitsBase::subtraction_result_is_same<T, U, T>>,
 				std::bool_constant<TypeTraitsBase::subtraction_result_is_same<T, T, U>>,
-				std::bool_constant<EquatableTypeTraits::IsEquatable<T, T>>
+				std::bool_constant<EquatableTypeTraits::is_equatable<T, T>>
 			>
 		{};
 		template<class T, class U> struct IsPointableType_t : std::conjunction< std::bool_constant<ValueTypeTraits::IsValueType<T>>, HasPointableTypeOperation_t<T, U> > {};

@@ -42,7 +42,7 @@ namespace zawa_ch::StationaryOrbit
 				std::bool_constant<TypeTraitsBase::substitution_arithmetic_xor_result_is_same<T, T, T&>>,
 				std::bool_constant<TypeTraitsBase::substitution_lshift_result_is_same<T, N, T&>>,
 				std::bool_constant<TypeTraitsBase::substitution_rshift_result_is_same<T, N, T&>>,
-				std::bool_constant<EquatableTypeTraits::IsEquatable<T, T>>
+				std::bool_constant<EquatableTypeTraits::is_equatable<T, T>>
 			>
 		{};
 		template<class T, class N> struct IsBitSequenceType_t : std::conjunction< std::bool_constant<ValueTypeTraits::IsValueType<T>>, HasBitSequenceTypeOperation_t<T, N>, std::disjunction< std::is_constructible<T, uint8_t>, std::bool_constant<TypeTraitsBase::is_aggregatable<T, uint8_t>> >, std::negation<std::is_signed<T>>, std::bool_constant<(!std::numeric_limits<T>::is_specialized) || (!std::numeric_limits<T>::is_signed)> > {};

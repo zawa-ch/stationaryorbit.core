@@ -43,7 +43,7 @@ namespace zawa_ch::StationaryOrbit
 				std::bool_constant<TypeTraitsBase::substitution_subtract_result_is_same<T, T, T&>>,
 				std::bool_constant<TypeTraitsBase::substitution_multiply_result_is_same<T, T, T&>>,
 				std::bool_constant<TypeTraitsBase::substitution_divide_result_is_same<T, T, T&>>,
-				std::bool_constant<EquatableTypeTraits::IsEquatable<T, T>>
+				std::bool_constant<EquatableTypeTraits::is_equatable<T, T>>
 			>
 		{};
 		template<class T> struct HasNumericalTypeOperation_t : std::conjunction

@@ -32,7 +32,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class T> struct HasSequencialOrderTypeOperation_t : std::conjunction
 			<
 				std::bool_constant<TypeTraitsBase::preincrement_result_is_same<T, T&>>,
-				std::bool_constant<EquatableTypeTraits::IsEquatable<T, T>>
+				std::bool_constant<EquatableTypeTraits::is_equatable<T, T>>
 			>
 		{};
 		template<class T> struct HasBidirectionalOrderTypeOperation_t : std::conjunction

@@ -47,7 +47,7 @@ namespace zawa_ch::StationaryOrbit
 				std::is_move_assignable<T>,
 				std::is_nothrow_move_assignable<T>,
 				std::is_trivially_move_assignable<T>,
-				std::bool_constant<EquatableTypeTraits::IsEquatable<T, T>>
+				std::bool_constant<EquatableTypeTraits::is_equatable<T, T>>
 			>
 		{};
 	public:
