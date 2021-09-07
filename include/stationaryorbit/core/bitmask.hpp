@@ -33,7 +33,7 @@ namespace zawa_ch::StationaryOrbit
 	template<class Tp>
 	class BitMask final
 	{
-		static_assert(BitSequenceTypeTraits::IsBitSequenceType<Tp>, "テンプレート型 Tp はビット列型である必要があります。");
+		static_assert(BitSequenceTypeTraits::is_bitsequence_type<Tp>, "テンプレート型 Tp はビット列型である必要があります。");
 	public:
 		///	このオブジェクトのマスク値。
 		Tp mask;

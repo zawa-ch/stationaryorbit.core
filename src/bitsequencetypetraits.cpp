@@ -21,18 +21,18 @@
 #include "stationaryorbit/core/bitsequencetypetraits.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
-static_assert(BitSequenceTypeTraits::IsBitSequenceType<bool>, "bool が IsBitSequenceType 型特性を満たしませんでした。");
-static_assert(BitSequenceTypeTraits::IsBitSequenceType<uint8_t>, "uint8_t が IsBitSequenceType 型特性を満たしませんでした。");
-static_assert(BitSequenceTypeTraits::IsBitSequenceType<uint16_t>, "uint16_t が IsBitSequenceType 型特性を満たしませんでした。");
-static_assert(BitSequenceTypeTraits::IsBitSequenceType<uint32_t>, "uint32_t が IsBitSequenceType 型特性を満たしませんでした。");
-static_assert(BitSequenceTypeTraits::IsBitSequenceType<uint64_t>, "uint64_t が IsBitSequenceType 型特性を満たしませんでした。");
-static_assert(BitSequenceTypeTraits::IsBitSequenceType<uintmax_t>, "uintmax_t が IsBitSequenceType 型特性を満たしませんでした。");
-static_assert(!BitSequenceTypeTraits::IsBitSequenceType<int8_t>, "int8_t が IsBitSequenceType 型特性を満たしました。");
-static_assert(!BitSequenceTypeTraits::IsBitSequenceType<int16_t>, "int16_t が IsBitSequenceType 型特性を満たしました。");
-static_assert(!BitSequenceTypeTraits::IsBitSequenceType<int32_t>, "int32_t が IsBitSequenceType 型特性を満たしました。");
-static_assert(!BitSequenceTypeTraits::IsBitSequenceType<int64_t>, "int64_t が IsBitSequenceType 型特性を満たしました。");
-static_assert(!BitSequenceTypeTraits::IsBitSequenceType<intmax_t>, "intmax_t が IsBitSequenceType 型特性を満たしませんでした。");
-static_assert(!BitSequenceTypeTraits::IsBitSequenceType<float>, "float が IsBitSequenceType 型特性を満たしました。");
-static_assert(!BitSequenceTypeTraits::IsBitSequenceType<double>, "double が IsBitSequenceType 型特性を満たしました。");
-static_assert(BitSequenceTypeTraits::IsBitSequenceType<std::byte>, "std::byte が IsBitSequenceType 型特性を満たしませんでした。");
-static_assert(!BitSequenceTypeTraits::IsBitSequenceType<std::string>, "std::string が IsBitSequenceType 型特性を満たしました。");
+static_assert(BitSequenceTypeTraits::is_bitsequence_type<bool>, "bool が 型要件:BitSequenceType を満たしませんでした。");
+static_assert(BitSequenceTypeTraits::is_bitsequence_type<uint8_t>, "uint8_t が 型要件:BitSequenceType を満たしませんでした。");
+static_assert(BitSequenceTypeTraits::is_bitsequence_type<uint16_t>, "uint16_t が 型要件:BitSequenceType を満たしませんでした。");
+static_assert(BitSequenceTypeTraits::is_bitsequence_type<uint32_t>, "uint32_t が 型要件:BitSequenceType を満たしませんでした。");
+static_assert(BitSequenceTypeTraits::is_bitsequence_type<uint64_t>, "uint64_t が 型要件:BitSequenceType を満たしませんでした。");
+static_assert(BitSequenceTypeTraits::is_bitsequence_type<uintmax_t>, "uintmax_t が 型要件:BitSequenceType を満たしませんでした。");
+static_assert(!BitSequenceTypeTraits::is_bitsequence_type<int8_t>, "int8_t が 型要件:BitSequenceType を満たしました。");
+static_assert(!BitSequenceTypeTraits::is_bitsequence_type<int16_t>, "int16_t が 型要件:BitSequenceType を満たしました。");
+static_assert(!BitSequenceTypeTraits::is_bitsequence_type<int32_t>, "int32_t が 型要件:BitSequenceType を満たしました。");
+static_assert(!BitSequenceTypeTraits::is_bitsequence_type<int64_t>, "int64_t が 型要件:BitSequenceType を満たしました。");
+static_assert(!BitSequenceTypeTraits::is_bitsequence_type<intmax_t>, "intmax_t が 型要件:BitSequenceType を満たしませんでした。");
+static_assert(!BitSequenceTypeTraits::is_bitsequence_type<float>, "float が 型要件:BitSequenceType を満たしました。");
+static_assert(!BitSequenceTypeTraits::is_bitsequence_type<double>, "double が 型要件:BitSequenceType を満たしました。");
+static_assert(BitSequenceTypeTraits::is_bitsequence_type<std::byte>, "std::byte が 型要件:BitSequenceType を満たしませんでした。");
+static_assert(!BitSequenceTypeTraits::is_bitsequence_type<std::string>, "std::string が 型要件:BitSequenceType を満たしました。");

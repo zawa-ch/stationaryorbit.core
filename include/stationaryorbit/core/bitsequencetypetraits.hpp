@@ -20,16 +20,21 @@
 #define __stationaryorbit_core_bitsequencetypetraits__
 #include <limits>
 #include "typetraitsbase.hpp"
-#include "equatabletypetraits.hpp"
 #include "valuetypetraits.hpp"
-#include "numericaltraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
-	class BitSequenceTypeTraits
+	///	型要件:BitSequenceType を満たす型を識別します
+	class BitSequenceTypeTraits : public ValueTypeTraits
 	{
+		BitSequenceTypeTraits() = delete;
+		BitSequenceTypeTraits(const BitSequenceTypeTraits&) = delete;
+		BitSequenceTypeTraits(BitSequenceTypeTraits&&) = delete;
+		BitSequenceTypeTraits& operator=(const BitSequenceTypeTraits&) = delete;
+		BitSequenceTypeTraits& operator=(BitSequenceTypeTraits&&) = delete;
+		~BitSequenceTypeTraits() = delete;
 	private:
-		template<class, class, class = void> struct HasBitSequenceTypeOperation_t : std::false_type {};
-		template<class T, class N> struct HasBitSequenceTypeOperation_t<T, N, std::enable_if_t< NumericalTraits::IsIntegralType<N> >> : std::conjunction
+		template<typename T, typename N> struct HasBitSequenceTypeOperation_impl :
+			std::conjunction
 			<
 				std::bool_constant<TypeTraitsBase::arithmetic_not_result_is_convertible<T, T>>,
 				std::bool_constant<TypeTraitsBase::arithmetic_and_result_is_convertible<T, T, T>>,
@@ -41,16 +46,49 @@ namespace zawa_ch::StationaryOrbit
 				std::bool_constant<TypeTraitsBase::substitution_arithmetic_or_result_is_same<T, T, T&>>,
 				std::bool_constant<TypeTraitsBase::substitution_arithmetic_xor_result_is_same<T, T, T&>>,
 				std::bool_constant<TypeTraitsBase::substitution_lshift_result_is_same<T, N, T&>>,
-				std::bool_constant<TypeTraitsBase::substitution_rshift_result_is_same<T, N, T&>>,
-				std::bool_constant<EquatableTypeTraits::is_equatable<T, T>>
+				std::bool_constant<TypeTraitsBase::substitution_rshift_result_is_same<T, N, T&>>
 			>
 		{};
-		template<class T, class N> struct IsBitSequenceType_t : std::conjunction< std::bool_constant<ValueTypeTraits::is_valuetype<T>>, HasBitSequenceTypeOperation_t<T, N>, std::disjunction< std::is_constructible<T, uint8_t>, std::bool_constant<TypeTraitsBase::is_aggregatable<T, uint8_t>> >, std::negation<std::is_signed<T>>, std::bool_constant<(!std::numeric_limits<T>::is_specialized) || (!std::numeric_limits<T>::is_signed)> > {};
+		template<typename T, typename N> struct IsBitSequenceType_impl :
+			std::conjunction
+			<
+				std::bool_constant<ValueTypeTraits::is_valuetype<T>>,
+				HasBitSequenceTypeOperation_impl<T, N>,
+				std::disjunction
+				<
+					std::is_constructible<T, uint8_t>,
+					std::bool_constant<TypeTraitsBase::is_aggregatable<T, uint8_t>>
+				>,
+				std::negation<std::is_signed<T>>,
+				std::bool_constant<(!std::numeric_limits<T>::is_specialized) || (!std::numeric_limits<T>::is_signed)>
+			>
+		{};
 	public:
-		///	基本的なビット演算子の実装を識別します
-		template<class T, class N = int> static constexpr bool HasBitSequenceOperation = HasBitSequenceTypeOperation_t<T, N>::value;
-		///	型要件:BitSequenceTypeを満たす型を識別します
-		template<class T, class N = int> static constexpr bool IsBitSequenceType = IsBitSequenceType_t<T, N>::value;
+		///	指定された型が 型要件:BitSequenceType を満たすかを識別します。
+		template<typename T, typename N = int> static constexpr bool is_bitsequence_type = IsBitSequenceType_impl<T, N>::value;
+
+		///	ビット単位の論理否定演算を行います。
+		template<typename T, typename N = int> static constexpr T bitwise_not(const T& object) { static_assert(is_bitsequence_type<T, N>, "型 T, N の組み合わせは 型要件:BitSequenceType を満たしません。"); return TypeTraitsBase::arithmetic_not(object); }
+		///	ビット単位の論理積演算を行います。
+		template<typename T, typename N = int> static constexpr T bitwise_and(const T& object, const T& other) { static_assert(is_bitsequence_type<T, N>, "型 T, N の組み合わせは 型要件:BitSequenceType を満たしません。"); return TypeTraitsBase::arithmetic_and(object, other); }
+		///	ビット単位の論理和演算を行います。
+		template<typename T, typename N = int> static constexpr T bitwise_or(const T& object, const T& other) { static_assert(is_bitsequence_type<T, N>, "型 T, N の組み合わせは 型要件:BitSequenceType を満たしません。"); return TypeTraitsBase::arithmetic_or(object, other); }
+		///	ビット単位の排他的論理和演算を行います。
+		template<typename T, typename N = int> static constexpr T bitwise_xor(const T& object, const T& other) { static_assert(is_bitsequence_type<T, N>, "型 T, N の組み合わせは 型要件:BitSequenceType を満たしません。"); return TypeTraitsBase::arithmetic_xor(object, other); }
+		///	ビットの左シフトを行います。
+		template<typename T, typename N = int> static constexpr T lshift(const T& object, const N& bits) { static_assert(is_bitsequence_type<T, N>, "型 T, N の組み合わせは 型要件:BitSequenceType を満たしません。"); return TypeTraitsBase::lshift(object, bits); }
+		///	ビットの右シフトを行います。
+		template<typename T, typename N = int> static constexpr T rshift(const T& object, const N& bits) { static_assert(is_bitsequence_type<T, N>, "型 T, N の組み合わせは 型要件:BitSequenceType を満たしません。"); return TypeTraitsBase::rshift(object, bits); }
+		///	ビット単位の論理積演算を行い、代入します。
+		template<typename T, typename N = int> static constexpr T& substitution_bitwise_and(T& object, const T& other) { static_assert(is_bitsequence_type<T, N>, "型 T, N の組み合わせは 型要件:BitSequenceType を満たしません。"); return TypeTraitsBase::substitution_arithmetic_and(object, other); }
+		///	ビット単位の論理和演算を行い、代入します。
+		template<typename T, typename N = int> static constexpr T& substitution_bitwise_or(T& object, const T& other) { static_assert(is_bitsequence_type<T, N>, "型 T, N の組み合わせは 型要件:BitSequenceType を満たしません。"); return TypeTraitsBase::substitution_arithmetic_or(object, other); }
+		///	ビット単位の排他的論理和演算を行い、代入します。
+		template<typename T, typename N = int> static constexpr T& substitution_bitwise_xor(T& object, const T& other) { static_assert(is_bitsequence_type<T, N>, "型 T, N の組み合わせは 型要件:BitSequenceType を満たしません。"); return TypeTraitsBase::substitution_arithmetic_xor(object, other); }
+		///	ビットの左シフトを行い、代入します。
+		template<typename T, typename N = int> static constexpr T& substitution_lshift(T& object, const N& bits) { static_assert(is_bitsequence_type<T, N>, "型 T, N の組み合わせは 型要件:BitSequenceType を満たしません。"); return TypeTraitsBase::substitution_lshift(object, bits); }
+		///	ビットの右シフトを行い、代入します。
+		template<typename T, typename N = int> static constexpr T& substitution_rshift(T& object, const N& bits) { static_assert(is_bitsequence_type<T, N>, "型 T, N の組み合わせは 型要件:BitSequenceType を満たしません。"); return TypeTraitsBase::substitution_rshift(object, bits); }
 	};
 }
 #endif // __stationaryorbit_core_bitsequencetypetraits__
