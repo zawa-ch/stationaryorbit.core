@@ -891,128 +891,267 @@ namespace zawa_ch::StationaryOrbit
 		template<class T, class... Targs> inline constexpr static bool is_aggregatable = IsAggregatable_t<T, Targs...>::value;
 
 		///	代入演算 @a T::operator=(U) を行います。
-		template<typename T, typename U>
-		static constexpr SubstitutionResult<T, U> substitution(T left, U right) { static_assert(has_substitution<T, U>, "この型は代入演算をサポートしません"); return left = right; }
+		template<typename T, typename U> static constexpr SubstitutionResult<T, U> substitution(T& left, const U& right) { static_assert(has_substitution<T, U>, "この型は代入演算をサポートしません"); return left = right; }
+		///	代入演算 @a T::operator=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionResult<T, U> substitution(T& left, U& right) { static_assert(has_substitution<T, U>, "この型は代入演算をサポートしません"); return left = right; }
+		///	代入演算 @a T::operator=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionResult<T, U> substitution(T& left, U&& right) { static_assert(has_substitution<T, U>, "この型は代入演算をサポートしません"); return left = right; }
 		///	加算複合代入演算 @a T::operator+=(U) を行います。
-		template<typename T, typename U>
-		static constexpr SubstitutionAddResult<T, U> substitution_add(T left, U right) { static_assert(has_substitution_add<T, U>, "この型は加算複合代入演算をサポートしません"); return left += right; }
+		template<typename T, typename U> static constexpr SubstitutionAddResult<T, U> substitution_add(T& left, const U& right) { static_assert(has_substitution_add<T, U>, "この型は加算複合代入演算をサポートしません"); return left += right; }
+		///	加算複合代入演算 @a T::operator+=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionAddResult<T, U> substitution_add(T& left, U& right) { static_assert(has_substitution_add<T, U>, "この型は加算複合代入演算をサポートしません"); return left += right; }
+		///	加算複合代入演算 @a T::operator+=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionAddResult<T, U> substitution_add(T& left, U&& right) { static_assert(has_substitution_add<T, U>, "この型は加算複合代入演算をサポートしません"); return left += right; }
 		///	減算複合代入演算 @a T::operator-=(U) を行います。
-		template<typename T, typename U>
-		static constexpr SubstitutionSubtractResult<T, U> substitution_subtract(T left, U right) { static_assert(has_substitution_subtract<T, U>, "この型は減算複合代入演算をサポートしません"); return left -= right; }
+		template<typename T, typename U> static constexpr SubstitutionSubtractResult<T, U> substitution_subtract(T& left, const U& right) { static_assert(has_substitution_subtract<T, U>, "この型は減算複合代入演算をサポートしません"); return left -= right; }
+		///	減算複合代入演算 @a T::operator-=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionSubtractResult<T, U> substitution_subtract(T& left, U& right) { static_assert(has_substitution_subtract<T, U>, "この型は減算複合代入演算をサポートしません"); return left -= right; }
+		///	減算複合代入演算 @a T::operator-=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionSubtractResult<T, U> substitution_subtract(T& left, U&& right) { static_assert(has_substitution_subtract<T, U>, "この型は減算複合代入演算をサポートしません"); return left -= right; }
 		///	乗算複合代入演算 @a T::operator*=(U) を行います。
-		template<typename T, typename U>
-		static constexpr SubstitutionMultiplyResult<T, U> substitution_multiply(T left, U right) { static_assert(has_substitution_multiply<T, U>, "この型は乗算複合代入演算をサポートしません"); return left *= right; }
+		template<typename T, typename U> static constexpr SubstitutionMultiplyResult<T, U> substitution_multiply(T& left, const U& right) { static_assert(has_substitution_multiply<T, U>, "この型は乗算複合代入演算をサポートしません"); return left *= right; }
+		///	乗算複合代入演算 @a T::operator*=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionMultiplyResult<T, U> substitution_multiply(T& left, U& right) { static_assert(has_substitution_multiply<T, U>, "この型は乗算複合代入演算をサポートしません"); return left *= right; }
+		///	乗算複合代入演算 @a T::operator*=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionMultiplyResult<T, U> substitution_multiply(T& left, U&& right) { static_assert(has_substitution_multiply<T, U>, "この型は乗算複合代入演算をサポートしません"); return left *= right; }
 		///	除算複合代入演算 @a T::operator/=(U) を行います。
-		template<typename T, typename U>
-		static constexpr SubstitutionDivideResult<T, U> substitution_divide(T left, U right) { static_assert(has_substitution_divide<T, U>, "この型は除算複合代入演算をサポートしません"); return left /= right; }
+		template<typename T, typename U> static constexpr SubstitutionDivideResult<T, U> substitution_divide(T& left, const U& right) { static_assert(has_substitution_divide<T, U>, "この型は除算複合代入演算をサポートしません"); return left /= right; }
+		///	除算複合代入演算 @a T::operator/=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionDivideResult<T, U> substitution_divide(T& left, U& right) { static_assert(has_substitution_divide<T, U>, "この型は除算複合代入演算をサポートしません"); return left /= right; }
+		///	除算複合代入演算 @a T::operator/=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionDivideResult<T, U> substitution_divide(T& left, U&& right) { static_assert(has_substitution_divide<T, U>, "この型は除算複合代入演算をサポートしません"); return left /= right; }
 		///	剰余複合代入演算 @a T::operator%=(U) を行います。
-		template<typename T, typename U>
-		static constexpr SubstitutionModulateResult<T, U> substitution_modulate(T left, U right) { static_assert(has_substitution_modulate<T, U>, "この型は剰余複合代入演算をサポートしません"); return left %= right; }
+		template<typename T, typename U> static constexpr SubstitutionModulateResult<T, U> substitution_modulate(T& left, const U& right) { static_assert(has_substitution_modulate<T, U>, "この型は剰余複合代入演算をサポートしません"); return left %= right; }
+		///	剰余複合代入演算 @a T::operator%=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionModulateResult<T, U> substitution_modulate(T& left, U& right) { static_assert(has_substitution_modulate<T, U>, "この型は剰余複合代入演算をサポートしません"); return left %= right; }
+		///	剰余複合代入演算 @a T::operator%=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionModulateResult<T, U> substitution_modulate(T& left, U&& right) { static_assert(has_substitution_modulate<T, U>, "この型は剰余複合代入演算をサポートしません"); return left %= right; }
 		///	ビットAND複合代入演算 @a T::operator&=(U) を行います。
-		template<typename T, typename U>
-		static constexpr SubstitutionArithmeticAndResult<T, U> substitution_arithmetic_and(T left, U right) { static_assert(has_substitution_arithmetic_and<T, U>, "この型はビットAND複合代入演算をサポートしません"); return left &= right; }
+		template<typename T, typename U> static constexpr SubstitutionArithmeticAndResult<T, U> substitution_arithmetic_and(T& left, const U& right) { static_assert(has_substitution_arithmetic_and<T, U>, "この型はビットAND複合代入演算をサポートしません"); return left &= right; }
+		///	ビットAND複合代入演算 @a T::operator&=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionArithmeticAndResult<T, U> substitution_arithmetic_and(T& left, U& right) { static_assert(has_substitution_arithmetic_and<T, U>, "この型はビットAND複合代入演算をサポートしません"); return left &= right; }
+		///	ビットAND複合代入演算 @a T::operator&=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionArithmeticAndResult<T, U> substitution_arithmetic_and(T& left, U&& right) { static_assert(has_substitution_arithmetic_and<T, U>, "この型はビットAND複合代入演算をサポートしません"); return left &= right; }
 		///	ビットOR複合代入演算 @a T::operator|=(U) を行います。
-		template<typename T, typename U>
-		static constexpr SubstitutionArithmeticOrResult<T, U> substitution_arithmetic_or(T left, U right) { static_assert(has_substitution_arithmetic_or<T, U>, "この型はビットOR複合代入演算をサポートしません"); return left |= right; }
+		template<typename T, typename U> static constexpr SubstitutionArithmeticOrResult<T, U> substitution_arithmetic_or(T& left, const U& right) { static_assert(has_substitution_arithmetic_or<T, U>, "この型はビットOR複合代入演算をサポートしません"); return left |= right; }
+		///	ビットOR複合代入演算 @a T::operator|=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionArithmeticOrResult<T, U> substitution_arithmetic_or(T& left, U& right) { static_assert(has_substitution_arithmetic_or<T, U>, "この型はビットOR複合代入演算をサポートしません"); return left |= right; }
+		///	ビットOR複合代入演算 @a T::operator|=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionArithmeticOrResult<T, U> substitution_arithmetic_or(T& left, U&& right) { static_assert(has_substitution_arithmetic_or<T, U>, "この型はビットOR複合代入演算をサポートしません"); return left |= right; }
 		///	ビットXOR複合代入演算 @a T::operator^=(U) を行います。
-		template<typename T, typename U>
-		static constexpr SubstitutionArithmeticXorResult<T, U> substitution_arithmetic_xor(T left, U right) { static_assert(has_substitution_arithmetic_xor<T, U>, "この型はビットXOR複合代入演算をサポートしません"); return left ^= right; }
+		template<typename T, typename U> static constexpr SubstitutionArithmeticXorResult<T, U> substitution_arithmetic_xor(T& left, const U& right) { static_assert(has_substitution_arithmetic_xor<T, U>, "この型はビットXOR複合代入演算をサポートしません"); return left ^= right; }
+		///	ビットXOR複合代入演算 @a T::operator^=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionArithmeticXorResult<T, U> substitution_arithmetic_xor(T& left, U& right) { static_assert(has_substitution_arithmetic_xor<T, U>, "この型はビットXOR複合代入演算をサポートしません"); return left ^= right; }
+		///	ビットXOR複合代入演算 @a T::operator^=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionArithmeticXorResult<T, U> substitution_arithmetic_xor(T& left, U&& right) { static_assert(has_substitution_arithmetic_xor<T, U>, "この型はビットXOR複合代入演算をサポートしません"); return left ^= right; }
 		///	ビット左シフト複合代入演算 @a T::operator<<=(U) を行います。
-		template<typename T, typename U>
-		static constexpr SubstitutionLShiftResult<T, U> substitution_lshift(T left, U right) { static_assert(has_substitution_lshift<T, U>, "この型はビット左シフト複合代入演算をサポートしません"); return left <<= right; }
+		template<typename T, typename U> static constexpr SubstitutionLShiftResult<T, U> substitution_lshift(T& left, const U& right) { static_assert(has_substitution_lshift<T, U>, "この型はビット左シフト複合代入演算をサポートしません"); return left <<= right; }
+		///	ビット左シフト複合代入演算 @a T::operator<<=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionLShiftResult<T, U> substitution_lshift(T& left, U& right) { static_assert(has_substitution_lshift<T, U>, "この型はビット左シフト複合代入演算をサポートしません"); return left <<= right; }
+		///	ビット左シフト複合代入演算 @a T::operator<<=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionLShiftResult<T, U> substitution_lshift(T& left, U&& right) { static_assert(has_substitution_lshift<T, U>, "この型はビット左シフト複合代入演算をサポートしません"); return left <<= right; }
 		///	ビット右シフト複合代入演算 @a T::operator>>=(U) を行います。
-		template<typename T, typename U>
-		static constexpr SubstitutionRShiftResult<T, U> substitution_rshift(T left, U right) { static_assert(has_substitution_rshift<T, U>, "この型はビット右シフト複合代入演算をサポートしません"); return left >>= right; }
+		template<typename T, typename U> static constexpr SubstitutionRShiftResult<T, U> substitution_rshift(T& left, const U& right) { static_assert(has_substitution_rshift<T, U>, "この型はビット右シフト複合代入演算をサポートしません"); return left >>= right; }
+		///	ビット右シフト複合代入演算 @a T::operator>>=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionRShiftResult<T, U> substitution_rshift(T& left, U& right) { static_assert(has_substitution_rshift<T, U>, "この型はビット右シフト複合代入演算をサポートしません"); return left >>= right; }
+		///	ビット右シフト複合代入演算 @a T::operator>>=(U) を行います。
+		template<typename T, typename U> static constexpr SubstitutionRShiftResult<T, U> substitution_rshift(T& left, U&& right) { static_assert(has_substitution_rshift<T, U>, "この型はビット右シフト複合代入演算をサポートしません"); return left >>= right; }
 		///	前置インクリメント演算 @a T::operator++() を行います。
-		template<typename T>
-		static constexpr PreincrementResult<T> preincrement(T value) { static_assert(has_preincrement<T>, "この型は前置インクリメント演算をサポートしません"); return ++value; }
+		template<typename T> static constexpr PreincrementResult<T> preincrement(T& value) { static_assert(has_preincrement<T>, "この型は前置インクリメント演算をサポートしません"); return ++value; }
 		///	前置デクリメント演算 @a T::operator--() を行います。
-		template<typename T>
-		static constexpr PredecrementResult<T> predecrement(T value) { static_assert(has_predecrement<T>, "この型は前置デクリメント演算をサポートしません"); return --value; }
+		template<typename T> static constexpr PredecrementResult<T> predecrement(T& value) { static_assert(has_predecrement<T>, "この型は前置デクリメント演算をサポートしません"); return --value; }
 		///	後置インクリメント演算 @a T::operator++(int) を行います。
-		template<typename T>
-		static constexpr PostincrementResult<T> postincrement(T value) { static_assert(has_postincrement<T>, "この型は後置インクリメント演算をサポートしません"); return value++; }
+		template<typename T> static constexpr PostincrementResult<T> postincrement(T& value) { static_assert(has_postincrement<T>, "この型は後置インクリメント演算をサポートしません"); return value++; }
 		///	後置デクリメント演算 @a T::operator--(int) を行います。
-		template<typename T>
-		static constexpr PostdecrementResult<T> postdecrement(T value) { static_assert(has_postdecrement<T>, "この型は後置デクリメント演算をサポートしません"); return value--; }
+		template<typename T> static constexpr PostdecrementResult<T> postdecrement(T& value) { static_assert(has_postdecrement<T>, "この型は後置デクリメント演算をサポートしません"); return value--; }
 		///	昇格演算 @a T::operator+() を行います。
-		template<typename T>
-		static constexpr PromotionResult<T> promotion(T value) { static_assert(has_promotion<T>, "この型は昇格演算をサポートしません"); return +value; }
+		template<typename T> static constexpr PromotionResult<T> promotion(T& value) { static_assert(has_promotion<T>, "この型は昇格演算をサポートしません"); return +value; }
+		///	昇格演算 @a T::operator+() を行います。
+		template<typename T> static constexpr PromotionResult<T> promotion(const T& value) { static_assert(has_promotion<T>, "この型は昇格演算をサポートしません"); return +value; }
 		///	反数演算 @a T::operator-() を行います。
-		template<typename T>
-		static constexpr InverseResult<T> inverse(T value) { static_assert(has_inverse<T>, "この型は反数演算をサポートしません"); return -value; }
+		template<typename T> static constexpr InverseResult<T> inverse(T& value) { static_assert(has_inverse<T>, "この型は反数演算をサポートしません"); return -value; }
+		///	反数演算 @a T::operator-() を行います。
+		template<typename T> static constexpr InverseResult<T> inverse(const T& value) { static_assert(has_inverse<T>, "この型は反数演算をサポートしません"); return -value; }
 		///	算術加算 @a T::operator+(U) を行います。
-		template<typename T, typename U>
-		static constexpr AdditionResult<T, U> addition(T left, U right) { static_assert(has_addition<T, U>, "この型は算術加算をサポートしません"); return left + right; }
+		template<typename T, typename U> static constexpr AdditionResult<T, U> addition(const T& left, const U& right) { static_assert(has_addition<T, U>, "この型は算術加算をサポートしません"); return left + right; }
+		///	算術加算 @a T::operator+(U) を行います。
+		template<typename T, typename U> static constexpr AdditionResult<T, U> addition(const T& left, U& right) { static_assert(has_addition<T, U>, "この型は算術加算をサポートしません"); return left + right; }
+		///	算術加算 @a T::operator+(U) を行います。
+		template<typename T, typename U> static constexpr AdditionResult<T, U> addition(const T& left, U&& right) { static_assert(has_addition<T, U>, "この型は算術加算をサポートしません"); return left + right; }
+		///	算術加算 @a T::operator+(U) を行います。
+		template<typename T, typename U> static constexpr AdditionResult<T, U> addition(T& left, const U& right) { static_assert(has_addition<T, U>, "この型は算術加算をサポートしません"); return left + right; }
+		///	算術加算 @a T::operator+(U) を行います。
+		template<typename T, typename U> static constexpr AdditionResult<T, U> addition(T& left, U& right) { static_assert(has_addition<T, U>, "この型は算術加算をサポートしません"); return left + right; }
+		///	算術加算 @a T::operator+(U) を行います。
+		template<typename T, typename U> static constexpr AdditionResult<T, U> addition(T& left, U&& right) { static_assert(has_addition<T, U>, "この型は算術加算をサポートしません"); return left + right; }
 		///	算術減算 @a T::operator-(U) を行います。
-		template<typename T, typename U>
-		static constexpr SubtractionResult<T, U> subtraction(T left, U right) { static_assert(has_subtraction<T, U>, "この型は算術減算をサポートしません"); return left - right; }
+		template<typename T, typename U> static constexpr SubtractionResult<T, U> subtraction(const T& left, const U& right) { static_assert(has_subtraction<T, U>, "この型は算術減算をサポートしません"); return left - right; }
+		///	算術減算 @a T::operator-(U) を行います。
+		template<typename T, typename U> static constexpr SubtractionResult<T, U> subtraction(const T& left, U& right) { static_assert(has_subtraction<T, U>, "この型は算術減算をサポートしません"); return left - right; }
+		///	算術減算 @a T::operator-(U) を行います。
+		template<typename T, typename U> static constexpr SubtractionResult<T, U> subtraction(const T& left, U&& right) { static_assert(has_subtraction<T, U>, "この型は算術減算をサポートしません"); return left - right; }
+		///	算術減算 @a T::operator-(U) を行います。
+		template<typename T, typename U> static constexpr SubtractionResult<T, U> subtraction(T& left, const U& right) { static_assert(has_subtraction<T, U>, "この型は算術減算をサポートしません"); return left - right; }
+		///	算術減算 @a T::operator-(U) を行います。
+		template<typename T, typename U> static constexpr SubtractionResult<T, U> subtraction(T& left, U& right) { static_assert(has_subtraction<T, U>, "この型は算術減算をサポートしません"); return left - right; }
+		///	算術減算 @a T::operator-(U) を行います。
+		template<typename T, typename U> static constexpr SubtractionResult<T, U> subtraction(T& left, U&& right) { static_assert(has_subtraction<T, U>, "この型は算術減算をサポートしません"); return left - right; }
 		///	算術乗算 @a T::operator*(U) を行います。
-		template<typename T, typename U>
-		static constexpr MultiplicationResult<T, U> multiplication(T left, U right) { static_assert(has_multiplication<T, U>, "この型は算術乗算をサポートしません"); return left * right; }
+		template<typename T, typename U> static constexpr MultiplicationResult<T, U> multiplication(const T& left, const U& right) { static_assert(has_multiplication<T, U>, "この型は算術乗算をサポートしません"); return left * right; }
+		///	算術乗算 @a T::operator*(U) を行います。
+		template<typename T, typename U> static constexpr MultiplicationResult<T, U> multiplication(const T& left, U& right) { static_assert(has_multiplication<T, U>, "この型は算術乗算をサポートしません"); return left * right; }
+		///	算術乗算 @a T::operator*(U) を行います。
+		template<typename T, typename U> static constexpr MultiplicationResult<T, U> multiplication(const T& left, U&& right) { static_assert(has_multiplication<T, U>, "この型は算術乗算をサポートしません"); return left * right; }
+		///	算術乗算 @a T::operator*(U) を行います。
+		template<typename T, typename U> static constexpr MultiplicationResult<T, U> multiplication(T& left, const U& right) { static_assert(has_multiplication<T, U>, "この型は算術乗算をサポートしません"); return left * right; }
+		///	算術乗算 @a T::operator*(U) を行います。
+		template<typename T, typename U> static constexpr MultiplicationResult<T, U> multiplication(T& left, U& right) { static_assert(has_multiplication<T, U>, "この型は算術乗算をサポートしません"); return left * right; }
+		///	算術乗算 @a T::operator*(U) を行います。
+		template<typename T, typename U> static constexpr MultiplicationResult<T, U> multiplication(T& left, U&& right) { static_assert(has_multiplication<T, U>, "この型は算術乗算をサポートしません"); return left * right; }
 		///	算術除算 @a T::operator/(U) を行います。
-		template<typename T, typename U>
-		static constexpr DivisionResult<T, U> division(T left, U right) { static_assert(has_division<T, U>, "この型は算術除算をサポートしません"); return left / right; }
+		template<typename T, typename U> static constexpr DivisionResult<T, U> division(const T& left, const U& right) { static_assert(has_division<T, U>, "この型は算術除算をサポートしません"); return left / right; }
+		///	算術除算 @a T::operator/(U) を行います。
+		template<typename T, typename U> static constexpr DivisionResult<T, U> division(const T& left, U& right) { static_assert(has_division<T, U>, "この型は算術除算をサポートしません"); return left / right; }
+		///	算術除算 @a T::operator/(U) を行います。
+		template<typename T, typename U> static constexpr DivisionResult<T, U> division(const T& left, U&& right) { static_assert(has_division<T, U>, "この型は算術除算をサポートしません"); return left / right; }
+		///	算術除算 @a T::operator/(U) を行います。
+		template<typename T, typename U> static constexpr DivisionResult<T, U> division(T& left, const U& right) { static_assert(has_division<T, U>, "この型は算術除算をサポートしません"); return left / right; }
+		///	算術除算 @a T::operator/(U) を行います。
+		template<typename T, typename U> static constexpr DivisionResult<T, U> division(T& left, U& right) { static_assert(has_division<T, U>, "この型は算術除算をサポートしません"); return left / right; }
+		///	算術除算 @a T::operator/(U) を行います。
+		template<typename T, typename U> static constexpr DivisionResult<T, U> division(T& left, U&& right) { static_assert(has_division<T, U>, "この型は算術除算をサポートしません"); return left / right; }
 		///	剰余演算 @a T::operator%(U) を行います。
-		template<typename T, typename U>
-		static constexpr ModulationResult<T, U> modulation(T left, U right) { static_assert(has_modulation<T, U>, "この型は剰余演算をサポートしません"); return left % right; }
+		template<typename T, typename U> static constexpr ModulationResult<T, U> modulation(const T& left, const U& right) { static_assert(has_modulation<T, U>, "この型は剰余演算をサポートしません"); return left % right; }
+		///	剰余演算 @a T::operator%(U) を行います。
+		template<typename T, typename U> static constexpr ModulationResult<T, U> modulation(const T& left, U& right) { static_assert(has_modulation<T, U>, "この型は剰余演算をサポートしません"); return left % right; }
+		///	剰余演算 @a T::operator%(U) を行います。
+		template<typename T, typename U> static constexpr ModulationResult<T, U> modulation(const T& left, U&& right) { static_assert(has_modulation<T, U>, "この型は剰余演算をサポートしません"); return left % right; }
+		///	剰余演算 @a T::operator%(U) を行います。
+		template<typename T, typename U> static constexpr ModulationResult<T, U> modulation(T& left, const U& right) { static_assert(has_modulation<T, U>, "この型は剰余演算をサポートしません"); return left % right; }
+		///	剰余演算 @a T::operator%(U) を行います。
+		template<typename T, typename U> static constexpr ModulationResult<T, U> modulation(T& left, U& right) { static_assert(has_modulation<T, U>, "この型は剰余演算をサポートしません"); return left % right; }
+		///	剰余演算 @a T::operator%(U) を行います。
+		template<typename T, typename U> static constexpr ModulationResult<T, U> modulation(T& left, U&& right) { static_assert(has_modulation<T, U>, "この型は剰余演算をサポートしません"); return left % right; }
 		///	ビットNOT演算 @a T::operator~() を行います。
-		template<typename T>
-		static constexpr ArithmeticNotResult<T> arithmetic_not(T value) { static_assert(has_arithmetic_not<T>, "この型はビットNOT演算をサポートしません"); return ~value; }
+		template<typename T> static constexpr ArithmeticNotResult<T> arithmetic_not(const T& value) { static_assert(has_arithmetic_not<T>, "この型はビットNOT演算をサポートしません"); return ~value; }
+		///	ビットNOT演算 @a T::operator~() を行います。
+		template<typename T> static constexpr ArithmeticNotResult<T> arithmetic_not(T& value) { static_assert(has_arithmetic_not<T>, "この型はビットNOT演算をサポートしません"); return ~value; }
 		///	ビットAND演算 @a T::operator&(U) を行います。
-		template<typename T, typename U>
-		static constexpr ArithmeticAndResult<T, U> arithmetic_and(T left, U right) { static_assert(has_arithmetic_and<T, U>, "この型はビットAND演算をサポートしません"); return left & right; }
+		template<typename T, typename U> static constexpr ArithmeticAndResult<T, U> arithmetic_and(const T& left, const U& right) { static_assert(has_arithmetic_and<T, U>, "この型はビットAND演算をサポートしません"); return left & right; }
+		///	ビットAND演算 @a T::operator&(U) を行います。
+		template<typename T, typename U> static constexpr ArithmeticAndResult<T, U> arithmetic_and(const T& left, U& right) { static_assert(has_arithmetic_and<T, U>, "この型はビットAND演算をサポートしません"); return left & right; }
+		///	ビットAND演算 @a T::operator&(U) を行います。
+		template<typename T, typename U> static constexpr ArithmeticAndResult<T, U> arithmetic_and(const T& left, U&& right) { static_assert(has_arithmetic_and<T, U>, "この型はビットAND演算をサポートしません"); return left & right; }
+		///	ビットAND演算 @a T::operator&(U) を行います。
+		template<typename T, typename U> static constexpr ArithmeticAndResult<T, U> arithmetic_and(T& left, const U& right) { static_assert(has_arithmetic_and<T, U>, "この型はビットAND演算をサポートしません"); return left & right; }
+		///	ビットAND演算 @a T::operator&(U) を行います。
+		template<typename T, typename U> static constexpr ArithmeticAndResult<T, U> arithmetic_and(T& left, U& right) { static_assert(has_arithmetic_and<T, U>, "この型はビットAND演算をサポートしません"); return left & right; }
+		///	ビットAND演算 @a T::operator&(U) を行います。
+		template<typename T, typename U> static constexpr ArithmeticAndResult<T, U> arithmetic_and(T& left, U&& right) { static_assert(has_arithmetic_and<T, U>, "この型はビットAND演算をサポートしません"); return left & right; }
 		///	ビットOR演算 @a T::operator|(U) を行います。
-		template<typename T, typename U>
-		static constexpr ArithmeticOrResult<T, U> arithmetic_or(T left, U right) { static_assert(has_arithmetic_or<T, U>, "この型はビットOR演算をサポートしません"); return left | right; }
+		template<typename T, typename U> static constexpr ArithmeticOrResult<T, U> arithmetic_or(const T& left, const U& right) { static_assert(has_arithmetic_or<T, U>, "この型はビットOR演算をサポートしません"); return left | right; }
+		///	ビットOR演算 @a T::operator|(U) を行います。
+		template<typename T, typename U> static constexpr ArithmeticOrResult<T, U> arithmetic_or(const T& left, U& right) { static_assert(has_arithmetic_or<T, U>, "この型はビットOR演算をサポートしません"); return left | right; }
+		///	ビットOR演算 @a T::operator|(U) を行います。
+		template<typename T, typename U> static constexpr ArithmeticOrResult<T, U> arithmetic_or(const T& left, U&& right) { static_assert(has_arithmetic_or<T, U>, "この型はビットOR演算をサポートしません"); return left | right; }
+		///	ビットOR演算 @a T::operator|(U) を行います。
+		template<typename T, typename U> static constexpr ArithmeticOrResult<T, U> arithmetic_or(T& left, const U& right) { static_assert(has_arithmetic_or<T, U>, "この型はビットOR演算をサポートしません"); return left | right; }
+		///	ビットOR演算 @a T::operator|(U) を行います。
+		template<typename T, typename U> static constexpr ArithmeticOrResult<T, U> arithmetic_or(T& left, U& right) { static_assert(has_arithmetic_or<T, U>, "この型はビットOR演算をサポートしません"); return left | right; }
+		///	ビットOR演算 @a T::operator|(U) を行います。
+		template<typename T, typename U> static constexpr ArithmeticOrResult<T, U> arithmetic_or(T& left, U&& right) { static_assert(has_arithmetic_or<T, U>, "この型はビットOR演算をサポートしません"); return left | right; }
 		///	ビットXOR演算 @a T::operator^(U) を行います。
-		template<typename T, typename U>
-		static constexpr ArithmeticXorResult<T, U> arithmetic_xor(T left, U right) { static_assert(has_arithmetic_xor<T, U>, "この型はビットXOR演算をサポートしません"); return left ^ right; }
+		template<typename T, typename U> static constexpr ArithmeticXorResult<T, U> arithmetic_xor(const T& left, const U& right) { static_assert(has_arithmetic_xor<T, U>, "この型はビットXOR演算をサポートしません"); return left ^ right; }
+		///	ビットXOR演算 @a T::operator^(U) を行います。
+		template<typename T, typename U> static constexpr ArithmeticXorResult<T, U> arithmetic_xor(const T& left, U& right) { static_assert(has_arithmetic_xor<T, U>, "この型はビットXOR演算をサポートしません"); return left ^ right; }
+		///	ビットXOR演算 @a T::operator^(U) を行います。
+		template<typename T, typename U> static constexpr ArithmeticXorResult<T, U> arithmetic_xor(const T& left, U&& right) { static_assert(has_arithmetic_xor<T, U>, "この型はビットXOR演算をサポートしません"); return left ^ right; }
+		///	ビットXOR演算 @a T::operator^(U) を行います。
+		template<typename T, typename U> static constexpr ArithmeticXorResult<T, U> arithmetic_xor(T& left, const U& right) { static_assert(has_arithmetic_xor<T, U>, "この型はビットXOR演算をサポートしません"); return left ^ right; }
+		///	ビットXOR演算 @a T::operator^(U) を行います。
+		template<typename T, typename U> static constexpr ArithmeticXorResult<T, U> arithmetic_xor(T& left, U& right) { static_assert(has_arithmetic_xor<T, U>, "この型はビットXOR演算をサポートしません"); return left ^ right; }
+		///	ビットXOR演算 @a T::operator^(U) を行います。
+		template<typename T, typename U> static constexpr ArithmeticXorResult<T, U> arithmetic_xor(T& left, U&& right) { static_assert(has_arithmetic_xor<T, U>, "この型はビットXOR演算をサポートしません"); return left ^ right; }
 		///	ビット左シフト演算 @a T::operator<<(U) を行います。
-		template<typename T, typename U>
-		static constexpr LShiftResult<T, U> lshift(T left, U right) { static_assert(has_lshift<T, U>, "この型はビット左シフト演算をサポートしません"); return left << right; }
+		template<typename T, typename U> static constexpr LShiftResult<T, U> lshift(const T& left, const U& right) { static_assert(has_lshift<T, U>, "この型はビット左シフト演算をサポートしません"); return left << right; }
+		///	ビット左シフト演算 @a T::operator<<(U) を行います。
+		template<typename T, typename U> static constexpr LShiftResult<T, U> lshift(const T& left, U& right) { static_assert(has_lshift<T, U>, "この型はビット左シフト演算をサポートしません"); return left << right; }
+		///	ビット左シフト演算 @a T::operator<<(U) を行います。
+		template<typename T, typename U> static constexpr LShiftResult<T, U> lshift(const T& left, U&& right) { static_assert(has_lshift<T, U>, "この型はビット左シフト演算をサポートしません"); return left << right; }
+		///	ビット左シフト演算 @a T::operator<<(U) を行います。
+		template<typename T, typename U> static constexpr LShiftResult<T, U> lshift(T& left, const U& right) { static_assert(has_lshift<T, U>, "この型はビット左シフト演算をサポートしません"); return left << right; }
+		///	ビット左シフト演算 @a T::operator<<(U) を行います。
+		template<typename T, typename U> static constexpr LShiftResult<T, U> lshift(T& left, U& right) { static_assert(has_lshift<T, U>, "この型はビット左シフト演算をサポートしません"); return left << right; }
+		///	ビット左シフト演算 @a T::operator<<(U) を行います。
+		template<typename T, typename U> static constexpr LShiftResult<T, U> lshift(T& left, U&& right) { static_assert(has_lshift<T, U>, "この型はビット左シフト演算をサポートしません"); return left << right; }
 		///	ビット右シフト演算 @a T::operator>>(U) を行います。
-		template<typename T, typename U>
-		static constexpr RShiftResult<T, U> rshift(T left, U right) { static_assert(has_rshift<T, U>, "この型はビット右シフト演算をサポートしません"); return left >> right; }
+		template<typename T, typename U> static constexpr RShiftResult<T, U> rshift(const T& left, const U& right) { static_assert(has_rshift<T, U>, "この型はビット右シフト演算をサポートしません"); return left >> right; }
+		///	ビット右シフト演算 @a T::operator>>(U) を行います。
+		template<typename T, typename U> static constexpr RShiftResult<T, U> rshift(const T& left, U& right) { static_assert(has_rshift<T, U>, "この型はビット右シフト演算をサポートしません"); return left >> right; }
+		///	ビット右シフト演算 @a T::operator>>(U) を行います。
+		template<typename T, typename U> static constexpr RShiftResult<T, U> rshift(const T& left, U&& right) { static_assert(has_rshift<T, U>, "この型はビット右シフト演算をサポートしません"); return left >> right; }
+		///	ビット右シフト演算 @a T::operator>>(U) を行います。
+		template<typename T, typename U> static constexpr RShiftResult<T, U> rshift(T& left, const U& right) { static_assert(has_rshift<T, U>, "この型はビット右シフト演算をサポートしません"); return left >> right; }
+		///	ビット右シフト演算 @a T::operator>>(U) を行います。
+		template<typename T, typename U> static constexpr RShiftResult<T, U> rshift(T& left, U& right) { static_assert(has_rshift<T, U>, "この型はビット右シフト演算をサポートしません"); return left >> right; }
+		///	ビット右シフト演算 @a T::operator>>(U) を行います。
+		template<typename T, typename U> static constexpr RShiftResult<T, U> rshift(T& left, U&& right) { static_assert(has_rshift<T, U>, "この型はビット右シフト演算をサポートしません"); return left >> right; }
 		///	論理NOT演算 @a T::operator!() を行います。
-		template<typename T>
-		static constexpr LogicalNotResult<T> logical_not(T value) { static_assert(has_logical_not<T>, "この型は論理NOT演算をサポートしません"); return !value; }
+		template<typename T> static constexpr LogicalNotResult<T> logical_not(const T& value) { static_assert(has_logical_not<T>, "この型は論理NOT演算をサポートしません"); return !value; }
+		///	論理NOT演算 @a T::operator!() を行います。
+		template<typename T> static constexpr LogicalNotResult<T> logical_not(T& value) { static_assert(has_logical_not<T>, "この型は論理NOT演算をサポートしません"); return !value; }
 		///	論理OR演算 @a T::operator||(U) を行います。
-		template<typename T, typename U>
-		static constexpr LogicalOrResult<T, U> logical_or(T left, U right) { static_assert(has_logical_or<T, U>, "この型は論理OR演算をサポートしません"); return left || right; }
+		template<typename T, typename U> static constexpr LogicalOrResult<T, U> logical_or(const T& left, const U& right) { static_assert(has_logical_or<T, U>, "この型は論理OR演算をサポートしません"); return left || right; }
+		///	論理OR演算 @a T::operator||(U) を行います。
+		template<typename T, typename U> static constexpr LogicalOrResult<T, U> logical_or(const T& left, U& right) { static_assert(has_logical_or<T, U>, "この型は論理OR演算をサポートしません"); return left || right; }
+		///	論理OR演算 @a T::operator||(U) を行います。
+		template<typename T, typename U> static constexpr LogicalOrResult<T, U> logical_or(const T& left, U&& right) { static_assert(has_logical_or<T, U>, "この型は論理OR演算をサポートしません"); return left || right; }
+		///	論理OR演算 @a T::operator||(U) を行います。
+		template<typename T, typename U> static constexpr LogicalOrResult<T, U> logical_or(T& left, const U& right) { static_assert(has_logical_or<T, U>, "この型は論理OR演算をサポートしません"); return left || right; }
+		///	論理OR演算 @a T::operator||(U) を行います。
+		template<typename T, typename U> static constexpr LogicalOrResult<T, U> logical_or(T& left, U& right) { static_assert(has_logical_or<T, U>, "この型は論理OR演算をサポートしません"); return left || right; }
+		///	論理OR演算 @a T::operator||(U) を行います。
+		template<typename T, typename U> static constexpr LogicalOrResult<T, U> logical_or(T& left, U&& right) { static_assert(has_logical_or<T, U>, "この型は論理OR演算をサポートしません"); return left || right; }
 		///	論理AND演算 @a T::operator&&(U) を行います。
-		template<typename T, typename U>
-		static constexpr LogicalAndResult<T, U> logical_and(T left, U right) { static_assert(has_logical_and<T, U>, "この型は論理演算ANDをサポートしません"); return left && right; }
+		template<typename T, typename U> static constexpr LogicalAndResult<T, U> logical_and(const T& left, const U& right) { static_assert(has_logical_and<T, U>, "この型は論理演算ANDをサポートしません"); return left && right; }
+		///	論理AND演算 @a T::operator&&(U) を行います。
+		template<typename T, typename U> static constexpr LogicalAndResult<T, U> logical_and(const T& left, U& right) { static_assert(has_logical_and<T, U>, "この型は論理演算ANDをサポートしません"); return left && right; }
+		///	論理AND演算 @a T::operator&&(U) を行います。
+		template<typename T, typename U> static constexpr LogicalAndResult<T, U> logical_and(const T& left, U&& right) { static_assert(has_logical_and<T, U>, "この型は論理演算ANDをサポートしません"); return left && right; }
+		///	論理AND演算 @a T::operator&&(U) を行います。
+		template<typename T, typename U> static constexpr LogicalAndResult<T, U> logical_and(T& left, const U& right) { static_assert(has_logical_and<T, U>, "この型は論理演算ANDをサポートしません"); return left && right; }
+		///	論理AND演算 @a T::operator&&(U) を行います。
+		template<typename T, typename U> static constexpr LogicalAndResult<T, U> logical_and(T& left, U& right) { static_assert(has_logical_and<T, U>, "この型は論理演算ANDをサポートしません"); return left && right; }
+		///	論理AND演算 @a T::operator&&(U) を行います。
+		template<typename T, typename U> static constexpr LogicalAndResult<T, U> logical_and(T& left, U&& right) { static_assert(has_logical_and<T, U>, "この型は論理演算ANDをサポートしません"); return left && right; }
 		///	等価比較演算 @a T::operator==(U) を行います。
-		template<typename T, typename U>
-		static constexpr EqualResult<T, U> equal(T left, U right) { static_assert(has_equal<T, U>, "この型は等価比較演算をサポートしません"); return left == right; }
+		template<typename T, typename U> static constexpr EqualResult<T, U> equal(const T& left, const U& right) { static_assert(has_equal<T, U>, "この型は等価比較演算をサポートしません"); return left == right; }
 		///	相違比較演算 @a T::operator!=(U) を行います。
-		template<typename T, typename U>
-		static constexpr NotEqualResult<T, U> not_equal(T left, U right) { static_assert(has_not_equal<T, U>, "この型は相違比較演算をサポートしません"); return left != right; }
+		template<typename T, typename U> static constexpr NotEqualResult<T, U> not_equal(const T& left, const U& right) { static_assert(has_not_equal<T, U>, "この型は相違比較演算をサポートしません"); return left != right; }
 		///	大なり比較演算 @a T::operator>(U) を行います。
-		template<typename T, typename U>
-		static constexpr CompareLargerResult<T, U> compare_larger(T left, U right) { static_assert(has_compare_larger<T, U>, "この型は大なり比較演算をサポートしません"); return left > right; }
+		template<typename T, typename U> static constexpr CompareLargerResult<T, U> compare_larger(const T& left, const U& right) { static_assert(has_compare_larger<T, U>, "この型は大なり比較演算をサポートしません"); return left > right; }
 		///	小なり比較演算 @a T::operator<(U) を行います。
-		template<typename T, typename U>
-		static constexpr CompareSmallerResult<T, U> compare_smaller(T left, U right) { static_assert(has_compare_smaller<T, U>, "この型は小なり比較演算をサポートしません"); return left < right; }
+		template<typename T, typename U> static constexpr CompareSmallerResult<T, U> compare_smaller(const T& left, const U& right) { static_assert(has_compare_smaller<T, U>, "この型は小なり比較演算をサポートしません"); return left < right; }
 		///	大なりイコール比較演算 @a T::operator>=(U) を行います。
-		template<typename T, typename U>
-		static constexpr CompareLeastResult<T, U> compare_least(T left, U right) { static_assert(has_compare_least<T, U>, "この型は大なりイコール比較演算をサポートしません"); return left >= right; }
+		template<typename T, typename U> static constexpr CompareLeastResult<T, U> compare_least(const T& left, const U& right) { static_assert(has_compare_least<T, U>, "この型は大なりイコール比較演算をサポートしません"); return left >= right; }
 		///	小なりイコール比較演算 @a T::operator<=(U) を行います。
-		template<typename T, typename U>
-		static constexpr CompareMostResult<T, U> compare_most(T left, U right) { static_assert(has_compare_most<T, U>, "この型は小なりイコール比較演算をサポートしません"); return left <= right; }
+		template<typename T, typename U> static constexpr CompareMostResult<T, U> compare_most(const T& left, const U& right) { static_assert(has_compare_most<T, U>, "この型は小なりイコール比較演算をサポートしません"); return left <= right; }
 		///	添字演算 @a T::operator[](U) を行います。
-		template<typename T, typename U>
-		static constexpr SubscriptResult<T, U> subscript(T left, U right) { static_assert(has_subscript<T, U>, "この型は添字演算をサポートしません"); return left[right]; }
+		template<typename T, typename U> static constexpr SubscriptResult<T, U> subscript(T& left, const U& right) { static_assert(has_subscript<T, U>, "この型は添字演算をサポートしません"); return left[right]; }
+		///	添字演算 @a T::operator[](U) を行います。
+		template<typename T, typename U> static constexpr SubscriptResult<T, U> subscript(const T& left, const U& right) { static_assert(has_subscript<T, U>, "この型は添字演算をサポートしません"); return left[right]; }
 		///	間接参照演算 @a T::operator*() を行います。
-		template<typename T>
-		static constexpr DereferenceResult<T> dereference(T value) { static_assert(has_dereference<T>, "この型は間接参照演算をサポートしません"); return *value; }
+		template<typename T> static constexpr DereferenceResult<T> dereference(T& value) { static_assert(has_dereference<T>, "この型は間接参照演算をサポートしません"); return *value; }
+		///	間接参照演算 @a T::operator*() を行います。
+		template<typename T> static constexpr DereferenceResult<T> dereference(const T& value) { static_assert(has_dereference<T>, "この型は間接参照演算をサポートしません"); return *value; }
 		///	アドレス取得演算 @a T::operator&() を行います。
-		template<typename T>
-		static constexpr ReferenceResult<T> reference(T value) { static_assert(has_reference<T>, "この型はアドレス取得演算をサポートしません"); return &value; }
+		template<typename T> static constexpr ReferenceResult<T> reference(T& value) { static_assert(has_reference<T>, "この型はアドレス取得演算をサポートしません"); return &value; }
+		///	アドレス取得演算 @a T::operator&() を行います。
+		template<typename T> static constexpr ReferenceResult<T> reference(const T& value) { static_assert(has_reference<T>, "この型はアドレス取得演算をサポートしません"); return &value; }
 		///	カンマ演算 @a T::operator,(U) を行います。
-		template<typename T, typename U>
-		static constexpr CommaResult<T, U> comma(T left, U right) { static_assert(has_comma<T, U>, "この型はカンマ演算をサポートしません"); return left , right; }
+		template<typename T, typename U> static constexpr CommaResult<T, U> comma(const T& left, const U& right) { static_assert(has_comma<T, U>, "この型はカンマ演算をサポートしません"); return left , right; }
+		///	カンマ演算 @a T::operator,(U) を行います。
+		template<typename T, typename U> static constexpr CommaResult<T, U> comma(T& left, U& right) { static_assert(has_comma<T, U>, "この型はカンマ演算をサポートしません"); return left , right; }
 	};
 	#if 201703L <= __cplusplus
 	// Clang C++17でコンパイルするとbool::operator++()を実体化しようとしてエラーを吐くため
