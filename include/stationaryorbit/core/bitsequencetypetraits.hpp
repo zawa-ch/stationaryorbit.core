@@ -1,4 +1,4 @@
-//	stationaryorbit/core/bitsequencetraits
+//	stationaryorbit/core/bitsequencetypetraits
 //	Copyright 2021 zawa-ch.
 //	GPLv3 (or later) license
 //
@@ -16,8 +16,8 @@
 //	along with this program.
 //	If not, see <http://www.gnu.org/licenses/>.
 //
-#ifndef __stationaryorbit_core_bitsequencetraits__
-#define __stationaryorbit_core_bitsequencetraits__
+#ifndef __stationaryorbit_core_bitsequencetypetraits__
+#define __stationaryorbit_core_bitsequencetypetraits__
 #include <limits>
 #include "typetraitsbase.hpp"
 #include "equatabletypetraits.hpp"
@@ -25,7 +25,7 @@
 #include "numericaltraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
-	class BitSequenceTraits
+	class BitSequenceTypeTraits
 	{
 	private:
 		template<class, class, class = void> struct HasBitSequenceTypeOperation_t : std::false_type {};
@@ -53,4 +53,4 @@ namespace zawa_ch::StationaryOrbit
 		template<class T, class N = int> static constexpr bool IsBitSequenceType = IsBitSequenceType_t<T, N>::value;
 	};
 }
-#endif // __stationaryorbit_core_bitsequencetraits__
+#endif // __stationaryorbit_core_bitsequencetypetraits__

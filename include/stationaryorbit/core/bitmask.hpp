@@ -19,7 +19,7 @@
 #ifndef __stationaryorbit_core_bitmask__
 #define __stationaryorbit_core_bitmask__
 #include <limits>
-#include "bitsequencetraits.hpp"
+#include "bitsequencetypetraits.hpp"
 #include "bitwidth.hpp"
 namespace zawa_ch::StationaryOrbit
 {
@@ -33,7 +33,7 @@ namespace zawa_ch::StationaryOrbit
 	template<class Tp>
 	class BitMask final
 	{
-		static_assert(BitSequenceTraits::IsBitSequenceType<Tp>, "テンプレート型 Tp はビット列型である必要があります。");
+		static_assert(BitSequenceTypeTraits::IsBitSequenceType<Tp>, "テンプレート型 Tp はビット列型である必要があります。");
 	public:
 		///	このオブジェクトのマスク値。
 		Tp mask;

@@ -17,7 +17,7 @@
 //	If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "core/bitsequencetraits.hpp"
+#include "core/bitsequencetypetraits.hpp"
 #include "core/comparabletypetraits.hpp"
 #include "core/equatabletypetraits.hpp"
 #include "core/numericaltraits.hpp"

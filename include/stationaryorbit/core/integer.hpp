@@ -21,7 +21,7 @@
 #include <stdexcept>
 #include "comparabletypetraits.hpp"
 #include "numericaltraits.hpp"
-#include "bitsequencetraits.hpp"
+#include "bitsequencetypetraits.hpp"
 #include "bitwidth.hpp"
 #include "divisionresult.hpp"
 #include "algorithms.hpp"
@@ -37,7 +37,7 @@ namespace zawa_ch::StationaryOrbit
 	template<class T>
 	struct Integer final
 	{
-		static_assert(BitSequenceTraits::IsBitSequenceType<T>, "テンプレート引数型 T はビット列である必要があります。");
+		static_assert(BitSequenceTypeTraits::IsBitSequenceType<T>, "テンプレート引数型 T はビット列である必要があります。");
 		template<class> friend class Integer;
 		template<class> friend class SignedInteger;
 	public:
@@ -315,7 +315,7 @@ namespace zawa_ch::StationaryOrbit
 	template<class T>
 	struct SignedInteger final
 	{
-		static_assert(BitSequenceTraits::IsBitSequenceType<T>, "テンプレート引数型 T はビット列である必要があります。");
+		static_assert(BitSequenceTypeTraits::IsBitSequenceType<T>, "テンプレート引数型 T はビット列である必要があります。");
 		template<class> friend class Integer;
 		template<class> friend class SignedInteger;
 	public:

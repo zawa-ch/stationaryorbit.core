@@ -19,7 +19,7 @@
 #ifndef __stationaryorbit_core_bitwidth__
 #define __stationaryorbit_core_bitwidth__
 #include <bitset>
-#include "bitsequencetraits.hpp"
+#include "bitsequencetypetraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	///	@brief	特定の型のビット幅を計測します
@@ -37,7 +37,7 @@ namespace zawa_ch::StationaryOrbit
 		///
 		///	@param	T
 		///	ビット幅を計測する型。型要件:BitSequenceType を満たす必要があります。
-		template<class T, std::enable_if_t<BitSequenceTraits::IsBitSequenceType<T>, int> = 0>
+		template<class T, std::enable_if_t<BitSequenceTypeTraits::IsBitSequenceType<T>, int> = 0>
 		static constexpr size_t count() noexcept
 		{
 			static_assert(std::is_convertible_v<T, uint8_t> || TypeTraitsBase::is_aggregatable<T, uint8_t> || std::is_constructible_v<T, uint8_t>, "テンプレート型 T は (uint8_t) を引数に持つコンストラクタ,集成体初期化またはuint8_tからの暗黙の変換をサポートする必要があります。");
@@ -77,7 +77,7 @@ namespace zawa_ch::StationaryOrbit
 	///	ビット幅を識別する型。型要件:BitSequenceType を満たす必要があります。
 	template<class T> struct BitWidth_t : std::integral_constant<size_t, BitCounter::count<T>()>
 	{
-		static_assert(BitSequenceTraits::IsBitSequenceType<T>, "ビット幅の計数は整数型、boolなどの固定幅のビットシーケンスでのみ有効です。");
+		static_assert(BitSequenceTypeTraits::IsBitSequenceType<T>, "ビット幅の計数は整数型、boolなどの固定幅のビットシーケンスでのみ有効です。");
 	};
 	template<std::size_t N> struct BitWidth_t<std::bitset<N>> : std::integral_constant<size_t, N> {};
 	///	@brief	指定された型のビット幅を識別します

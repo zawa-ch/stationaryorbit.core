@@ -19,7 +19,7 @@
 #ifndef __StationaryOrbit_Rotation__
 #define __StationaryOrbit_Rotation__
 #include "numericaltraits.hpp"
-#include "bitsequencetraits.hpp"
+#include "bitsequencetypetraits.hpp"
 #include "range.hpp"
 #include "halfangleformula.hpp"
 namespace zawa_ch::StationaryOrbit
@@ -28,7 +28,7 @@ namespace zawa_ch::StationaryOrbit
 	template<typename Tp>
 	struct Rotation
 	{
-		static_assert(NumericalTraits::IsIntegralType<Tp> && BitSequenceTraits::IsBitSequenceType<Tp>, "テンプレート引数 Tp は、型要件:IntegralType と型要件:BitSequenceType をともに満たす必要があります。");
+		static_assert(NumericalTraits::IsIntegralType<Tp> && BitSequenceTypeTraits::IsBitSequenceType<Tp>, "テンプレート引数 Tp は、型要件:IntegralType と型要件:BitSequenceType をともに満たす必要があります。");
 	private:
 		Tp _value;
 
