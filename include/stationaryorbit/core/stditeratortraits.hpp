@@ -197,7 +197,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class It> struct IsStdLegacyRandomAccessIterator_t : std::conjunction
 			<
 				IsStdLegacyBidirectionalIterator_t<It>,
-				std::bool_constant<ComparableTypeTraits::IsComparable<It, It>>,
+				std::bool_constant<ComparableTypeTraits::is_comparable<It, It>>,
 				typename do_StdLegacyRandomAccessIterator_t<It>::difference_type_addstitution_is_same_lvalue,
 				typename do_StdLegacyRandomAccessIterator_t<It>::difference_type_add_is_same_object,
 				typename do_StdLegacyRandomAccessIterator_t<It>::difference_type_subtractstitution_is_same_lvalue,

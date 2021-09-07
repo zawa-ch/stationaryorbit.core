@@ -49,7 +49,7 @@ namespace zawa_ch::StationaryOrbit
 				std::bool_constant<TypeTraitsBase::subtraction_result_is_same<T, N, T>>,
 				std::bool_constant<TypeTraitsBase::substitution_add_result_is_same<T, N, T&>>,
 				std::bool_constant<TypeTraitsBase::substitution_subtract_result_is_same<T, N, T&>>,
-				std::bool_constant<ComparableTypeTraits::IsComparable<T, T>>
+				std::bool_constant<ComparableTypeTraits::is_comparable<T, T>>
 			>
 		{};
 		template<class T> struct IsSequencialOrderType_t : std::conjunction< HasSequencialOrderTypeOperation_t<T> > {};

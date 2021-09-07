@@ -224,7 +224,7 @@ namespace zawa_ch::StationaryOrbit
 
 		[[nodiscard]] constexpr int Compare(const Integer<T>& other) const
 		{
-			if constexpr (ComparableTypeTraits::IsComparable<T>)
+			if constexpr (ComparableTypeTraits::is_comparable<T>)
 			{
 				if (_data < other._data) { return -1; }
 				else if (other._data < _data) { return 1; }

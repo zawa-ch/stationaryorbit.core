@@ -49,7 +49,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class T> struct HasNumericalTypeOperation_t : std::conjunction
 			<
 				HasArithmeticTypeOperation_t<T>,
-				std::bool_constant<ComparableTypeTraits::IsComparable<T, T>>
+				std::bool_constant<ComparableTypeTraits::is_comparable<T, T>>
 			>
 		{};
 		template<class, class = std::void_t<>> struct HasIntegralTypeOperation_t : std::false_type {};
