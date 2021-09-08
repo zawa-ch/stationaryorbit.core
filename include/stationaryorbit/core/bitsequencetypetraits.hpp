@@ -21,6 +21,7 @@
 #include <limits>
 #include "typetraitsbase.hpp"
 #include "valuetypetraits.hpp"
+#include "numericaltypetraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	///	型要件:BitSequenceType を満たす型を識別します
@@ -33,7 +34,8 @@ namespace zawa_ch::StationaryOrbit
 		BitSequenceTypeTraits& operator=(BitSequenceTypeTraits&&) = delete;
 		~BitSequenceTypeTraits() = delete;
 	private:
-		template<typename T, typename N> struct HasBitSequenceTypeOperation_impl :
+		template<typename, typename, typename = std::void_t<>> struct HasBitSequenceTypeOperation_impl : std::false_type {};
+		template<typename T, typename N> struct HasBitSequenceTypeOperation_impl<T, N, std::enable_if_t<IntegralTypeTraits::IsIntegralType<N>>> :
 			std::conjunction
 			<
 				std::bool_constant<TypeTraitsBase::arithmetic_not_result_is_convertible<T, T>>,
