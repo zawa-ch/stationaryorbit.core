@@ -59,17 +59,17 @@ namespace zawa_ch::StationaryOrbit
 		template<typename T, typename U = T> constexpr static bool is_comparable = IsComparable_impl<T, U>::value;
 
 		///	指定したオブジェクトが他方のオブジェクトより大きいかを取得します。
-		template<typename T, typename U = T> static constexpr bool compare_larger(const T& object, const U& other) { static_assert(is_comparable<T, U>, "型 T, U の組み合わせは 型要件:Comparable を満たしません。"); return TypeTraitsBase::compare_larger(object, other); }
+		template<typename T, typename U = T> [[nodiscard]] static constexpr bool compare_larger(const T& object, const U& other) noexcept { static_assert(is_comparable<T, U>, "型 T, U の組み合わせは 型要件:Comparable を満たしません。"); return TypeTraitsBase::compare_larger(object, other); }
 		///	指定したオブジェクトが他方のオブジェクトより小さいかを取得します。
-		template<typename T, typename U = T> static constexpr bool compare_smaller(const T& object, const U& other) { static_assert(is_comparable<T, U>, "型 T, U の組み合わせは 型要件:Comparable を満たしません。"); return TypeTraitsBase::compare_smaller(object, other); }
+		template<typename T, typename U = T> [[nodiscard]] static constexpr bool compare_smaller(const T& object, const U& other) noexcept { static_assert(is_comparable<T, U>, "型 T, U の組み合わせは 型要件:Comparable を満たしません。"); return TypeTraitsBase::compare_smaller(object, other); }
 		///	指定したオブジェクトが他方のオブジェクト以上かを取得します。
-		template<typename T, typename U = T> static constexpr bool compare_larger_or_equal(const T& object, const U& other) { static_assert(is_comparable<T, U>, "型 T, U の組み合わせは 型要件:Comparable を満たしません。"); return TypeTraitsBase::compare_least(object, other); }
+		template<typename T, typename U = T> [[nodiscard]] static constexpr bool compare_larger_or_equal(const T& object, const U& other) noexcept { static_assert(is_comparable<T, U>, "型 T, U の組み合わせは 型要件:Comparable を満たしません。"); return TypeTraitsBase::compare_least(object, other); }
 		///	指定したオブジェクトが他方のオブジェクト以下かを取得します。
-		template<typename T, typename U = T> static constexpr bool compare_smaller_or_equal(const T& object, const U& other) { static_assert(is_comparable<T, U>, "型 T, U の組み合わせは 型要件:Comparable を満たしません。"); return TypeTraitsBase::compare_most(object, other); }
+		template<typename T, typename U = T> [[nodiscard]] static constexpr bool compare_smaller_or_equal(const T& object, const U& other) noexcept { static_assert(is_comparable<T, U>, "型 T, U の組み合わせは 型要件:Comparable を満たしません。"); return TypeTraitsBase::compare_most(object, other); }
 
 		///	指定したオブジェクトの大小比較を行います。
 		template<typename T, typename U = T>
-		static constexpr ComparisonResult compare(const T& object, const U& other)
+		[[nodiscard]] static constexpr ComparisonResult compare(const T& object, const U& other) noexcept
 		{
 			static_assert(is_comparable<T, U>, "型 T, U の組み合わせは 型要件:Comparable を満たしません。");
 			if (compare_larger(object, other))
