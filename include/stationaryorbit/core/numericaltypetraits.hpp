@@ -105,6 +105,7 @@ namespace zawa_ch::StationaryOrbit
 		///	指定された型が 型要件:NumericalType を満たすかを識別します。
 		template<typename T> static constexpr bool is_numericaltype = IsNumericalType_impl<T>::value;
 	};
+
 	///	型要件:IntegralType を満たす型を識別します
 	class IntegralTypeTraits : public NumericalTypeTraits
 	{
@@ -115,20 +116,41 @@ namespace zawa_ch::StationaryOrbit
 		IntegralTypeTraits& operator=(IntegralTypeTraits&&) = delete;
 		~IntegralTypeTraits() = delete;
 	protected:
-		template<class, class = std::void_t<>> struct HasIntegralTypeOperation_impl : std::false_type {};
-		template<class T> struct HasIntegralTypeOperation_impl<T, std::void_t< TypeTraitsBase::PromotionResult<T> >> : std::conjunction
+		template<typename, typename = std::void_t<>> struct HasIntegralTypeOperation_impl : std::false_type {};
+		template<typename T> struct HasIntegralTypeOperation_impl<T, std::void_t< TypeTraitsBase::PromotionResult<T> >> : std::conjunction
 			<
+				HasNumericalTypeOperation_impl<T>,
+				std::bool_constant<TypeTraitsBase::postincrement_result_is_same<T, T>>,
+				std::bool_constant<TypeTraitsBase::postdecrement_result_is_same<T, T>>,
 				std::bool_constant<TypeTraitsBase::preincrement_result_is_same<T, T&>>,
 				std::bool_constant<TypeTraitsBase::predecrement_result_is_same<T, T&>>,
-				HasNumericalTypeOperation_impl<T>,
 				std::bool_constant<TypeTraitsBase::substitution_modulate_result_is_same<T, T, T&>>,
 				std::bool_constant<TypeTraitsBase::modulation_result_is_same<T, T, TypeTraitsBase::PromotionResult<T>>>
 			>
 		{};
-		template<class T> struct IsIntegralType_impl : std::conjunction< IsNumericalType_impl<T>, HasIntegralTypeOperation_impl<T> > {};
+		template<typename T> struct IsIntegralType_impl :
+			std::conjunction
+			<
+				IsNumericalType_impl<T>,
+				HasIntegralTypeOperation_impl<T>
+			>
+		{};
 	public:
 		///	指定された型が 型要件:IntegralType を満たすかを識別します。
-		template<class T> static constexpr bool IsIntegralType = IsIntegralType_impl<T>::value;
+		template<typename T> static constexpr bool is_integraltype = IsIntegralType_impl<T>::value;
+
+		///	値をインクリメントします。
+		template<typename T> [[nodiscard]] static constexpr T post_increment(T& value) { static_assert(is_integraltype<T>, "型 T は 型要件:IntegralType を満たしません。"); return TypeTraitsBase::postincrement(value); }
+		///	値をデクリメントします。
+		template<typename T> [[nodiscard]] static constexpr T post_decrement(T& value) { static_assert(is_integraltype<T>, "型 T は 型要件:IntegralType を満たしません。"); return TypeTraitsBase::postdecrement(value); }
+		///	値をインクリメントします。
+		template<typename T> static constexpr T& pre_increment(T& value) { static_assert(is_integraltype<T>, "型 T は 型要件:IntegralType を満たしません。"); return TypeTraitsBase::preincrement(value); }
+		///	値をデクリメントします。
+		template<typename T> static constexpr T& pre_decrement(T& value) { static_assert(is_integraltype<T>, "型 T は 型要件:IntegralType を満たしません。"); return TypeTraitsBase::predecrement(value); }
+		///	剰余演算を行います。
+		template<typename T> [[nodiscard]] static constexpr TypeTraitsBase::PromotionResult<T> modulo(const T& value, const T& other) { static_assert(is_integraltype<T>, "型 T は 型要件:IntegralType を満たしません。"); return TypeTraitsBase::modulation(value, other); }
+		///	剰余演算を行い、代入します。
+		template<typename T> static constexpr T& substitute_modulo(T& value, const T& other) { static_assert(is_integraltype<T>, "型 T は 型要件:IntegralType を満たしません。"); return TypeTraitsBase::substitution_modulate(value, other); }
 	};
 }
 #endif // __stationaryorbit_core_numericaltraits__

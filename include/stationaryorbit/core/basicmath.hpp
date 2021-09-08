@@ -123,31 +123,31 @@ namespace zawa_ch::StationaryOrbit
 		}
 
 		///	指定された値を指定された値より大きい整数に丸めます
-		template<class Tp, std::enable_if_t<(IntegralTypeTraits::IsIntegralType<Tp>), int> = 0>
+		template<class Tp, std::enable_if_t<(IntegralTypeTraits::is_integraltype<Tp>), int> = 0>
 		[[nodiscard]] static constexpr Tp ceil(const Tp& value) { return value; }
 		///	指定された値を指定された値より大きい整数に丸めます
-		template<class Tp, std::enable_if_t<!(IntegralTypeTraits::IsIntegralType<Tp>) && (is_std_ceil_callable<Tp>), int> = 0>
+		template<class Tp, std::enable_if_t<!(IntegralTypeTraits::is_integraltype<Tp>) && (is_std_ceil_callable<Tp>), int> = 0>
 		[[nodiscard]] static constexpr Tp ceil(const Tp& value) { return std::ceil(value); }
 
 		///	指定された値を指定された値より小さい整数に丸めます
-		template<class Tp, std::enable_if_t<(IntegralTypeTraits::IsIntegralType<Tp>), int> = 0>
+		template<class Tp, std::enable_if_t<(IntegralTypeTraits::is_integraltype<Tp>), int> = 0>
 		[[nodiscard]] static constexpr Tp floor(const Tp& value) { return value; }
 		///	指定された値を指定された値より小さい整数に丸めます
-		template<class Tp, std::enable_if_t<!(IntegralTypeTraits::IsIntegralType<Tp>) && (is_std_floor_callable<Tp>), int> = 0>
+		template<class Tp, std::enable_if_t<!(IntegralTypeTraits::is_integraltype<Tp>) && (is_std_floor_callable<Tp>), int> = 0>
 		[[nodiscard]] static constexpr Tp floor(const Tp& value) { return std::floor(value); }
 
 		///	指定された値を0に近い整数に丸めます
-		template<class Tp, std::enable_if_t<(IntegralTypeTraits::IsIntegralType<Tp>), int> = 0>
+		template<class Tp, std::enable_if_t<(IntegralTypeTraits::is_integraltype<Tp>), int> = 0>
 		[[nodiscard]] static constexpr Tp truncate(const Tp& value) { return value; }
 		///	指定された値を0に近い整数に丸めます
-		template<class Tp, std::enable_if_t<!(IntegralTypeTraits::IsIntegralType<Tp>) && (is_std_trunc_callable<Tp>), int> = 0>
+		template<class Tp, std::enable_if_t<!(IntegralTypeTraits::is_integraltype<Tp>) && (is_std_trunc_callable<Tp>), int> = 0>
 		[[nodiscard]] static constexpr Tp truncate(const Tp& value) { return std::trunc(value); }
 
 		///	指定された値を最も近い整数に丸めます
-		template<class Tp, std::enable_if_t<(IntegralTypeTraits::IsIntegralType<Tp>), int> = 0>
+		template<class Tp, std::enable_if_t<(IntegralTypeTraits::is_integraltype<Tp>), int> = 0>
 		[[nodiscard]] static constexpr Tp round(const Tp& value) { return value; }
 		///	指定された値を最も近い整数に丸めます
-		template<class Tp, std::enable_if_t<!(IntegralTypeTraits::IsIntegralType<Tp>) && (is_std_round_callable<Tp>), int> = 0>
+		template<class Tp, std::enable_if_t<!(IntegralTypeTraits::is_integraltype<Tp>) && (is_std_round_callable<Tp>), int> = 0>
 		[[nodiscard]] static constexpr Tp round(const Tp& value) { return std::round(value); }
 
 		///	剰余を求めます

@@ -38,7 +38,7 @@ std::array<std::function<int(void)>, 37> tests =
 	[]()
 	{
 		std::cout << "3. Type Proportion1_t not meets the traits IntegralType?";
-		return check_if(!IntegralTypeTraits::IsIntegralType<Proportion1_t>);
+		return check_if(!IntegralTypeTraits::is_integraltype<Proportion1_t>);
 	},
 	[]()
 	{
@@ -63,7 +63,7 @@ std::array<std::function<int(void)>, 37> tests =
 	[]()
 	{
 		std::cout << "8. Type Proportion8_t not meets the traits IntegralType?";
-		return check_if(!IntegralTypeTraits::IsIntegralType<Proportion8_t>);
+		return check_if(!IntegralTypeTraits::is_integraltype<Proportion8_t>);
 	},
 	[]()
 	{
@@ -88,7 +88,7 @@ std::array<std::function<int(void)>, 37> tests =
 	[]()
 	{
 		std::cout << "13. Type Proportion16_t not meets the traits IntegralType?";
-		return check_if(!IntegralTypeTraits::IsIntegralType<Proportion16_t>);
+		return check_if(!IntegralTypeTraits::is_integraltype<Proportion16_t>);
 	},
 	[]()
 	{
@@ -113,7 +113,7 @@ std::array<std::function<int(void)>, 37> tests =
 	[]()
 	{
 		std::cout << "18. Type Proportion32_t not meets the traits IntegralType?";
-		return check_if(!IntegralTypeTraits::IsIntegralType<Proportion32_t>);
+		return check_if(!IntegralTypeTraits::is_integraltype<Proportion32_t>);
 	},
 	[]()
 	{
@@ -138,7 +138,7 @@ std::array<std::function<int(void)>, 37> tests =
 	[]()
 	{
 		std::cout << "23. Type Proportion64_t not meets the traits IntegralType?";
-		return check_if(!IntegralTypeTraits::IsIntegralType<Proportion64_t>);
+		return check_if(!IntegralTypeTraits::is_integraltype<Proportion64_t>);
 	},
 	[]()
 	{

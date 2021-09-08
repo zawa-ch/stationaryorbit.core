@@ -35,7 +35,7 @@ namespace zawa_ch::StationaryOrbit
 		~BitSequenceTypeTraits() = delete;
 	private:
 		template<typename, typename, typename = std::void_t<>> struct HasBitSequenceTypeOperation_impl : std::false_type {};
-		template<typename T, typename N> struct HasBitSequenceTypeOperation_impl<T, N, std::enable_if_t<IntegralTypeTraits::IsIntegralType<N>>> :
+		template<typename T, typename N> struct HasBitSequenceTypeOperation_impl<T, N, std::enable_if_t<IntegralTypeTraits::is_integraltype<N>>> :
 			std::conjunction
 			<
 				std::bool_constant<TypeTraitsBase::arithmetic_not_result_is_convertible<T, T>>,

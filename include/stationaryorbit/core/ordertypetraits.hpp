@@ -96,7 +96,7 @@ namespace zawa_ch::StationaryOrbit
 		~LinearOrderTypeTraits() = delete;
 	protected:
 		template<typename, typename, typename = void> struct HasLinearOrderTypeOperation_impl : std::false_type {};
-		template<typename T, typename N> struct HasLinearOrderTypeOperation_impl<T, N, std::enable_if_t< IntegralTypeTraits::IsIntegralType<N> >> : std::conjunction
+		template<typename T, typename N> struct HasLinearOrderTypeOperation_impl<T, N, std::enable_if_t< IntegralTypeTraits::is_integraltype<N> >> : std::conjunction
 			<
 				HasBidirectionalOrderTypeOperation_impl<T>,
 				std::bool_constant<TypeTraitsBase::substitution_add_result_is_same<T, N, T&>>,
