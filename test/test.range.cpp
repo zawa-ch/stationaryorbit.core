@@ -48,7 +48,7 @@ std::array<std::function<int(void)>, 8> tests =
 	[]()
 	{
 		std::cout << "5. Type Range<size_t>::IteratorType meets the traits BidirectionalOrderType?";
-		return check_if(BidirectionalOrderTypeTraits::IsBidirectionalOrderType<Range<size_t>::IteratorType>);
+		return check_if(BidirectionalOrderTypeTraits::is_bidirectionalordertype<Range<size_t>::IteratorType>);
 	},
 	[]()
 	{

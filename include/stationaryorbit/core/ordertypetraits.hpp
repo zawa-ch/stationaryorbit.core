@@ -64,13 +64,13 @@ namespace zawa_ch::StationaryOrbit
 		BidirectionalOrderTypeTraits& operator=(BidirectionalOrderTypeTraits&&) = delete;
 		~BidirectionalOrderTypeTraits() = delete;
 	protected:
-		template<class T> struct HasBidirectionalOrderTypeOperation_impl : std::conjunction
+		template<typename T> struct HasBidirectionalOrderTypeOperation_impl : std::conjunction
 			<
 				HasSequencialOrderTypeOperation_impl<T>,
 				std::bool_constant<TypeTraitsBase::predecrement_result_is_same<T, T&>>
 			>
 		{};
-		template<class T> struct IsBidirectionalOrderType_impl :
+		template<typename T> struct IsBidirectionalOrderType_impl :
 			std::conjunction
 			<
 				IsSequencialOrderType_impl<T>,
@@ -78,7 +78,11 @@ namespace zawa_ch::StationaryOrbit
 			>
 		{};
 	public:
-		template<class T> static constexpr bool IsBidirectionalOrderType = IsBidirectionalOrderType_impl<T>::value;
+		///	指定された型が 型要件:BidirectionalOrderType を満たすかを識別します。
+		template<typename T> static constexpr bool is_bidirectionalordertype = IsBidirectionalOrderType_impl<T>::value;
+
+		///	指定したオブジェクトの値を前の値にします。
+		template<typename T> static constexpr T& previous(T& object) { static_assert(is_bidirectionalordertype<T>, "型 T は 型要件:BidirectionalOrderType を満たしません。"); return TypeTraitsBase::predecrement(object); }
 	};
 
 	///	型要件:LinearOrderType を満たす型を識別します
