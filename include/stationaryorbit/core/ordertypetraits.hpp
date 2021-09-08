@@ -24,27 +24,73 @@
 #include "numericaltypetraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
-	class OrderTypeTraits
+	///	型要件:SequencialOrderType を満たす型を識別します
+	class SequencialOrderTypeTraits : public EquatableTypeTraits
 	{
-		OrderTypeTraits() = delete;
-		~OrderTypeTraits() = delete;
-	private:
-		template<class T> struct HasSequencialOrderTypeOperation_t : std::conjunction
+		SequencialOrderTypeTraits() = delete;
+		SequencialOrderTypeTraits(const SequencialOrderTypeTraits&) = delete;
+		SequencialOrderTypeTraits(SequencialOrderTypeTraits&&) = delete;
+		SequencialOrderTypeTraits& operator=(const SequencialOrderTypeTraits&) = delete;
+		SequencialOrderTypeTraits& operator=(SequencialOrderTypeTraits&&) = delete;
+		~SequencialOrderTypeTraits() = delete;
+	protected:
+		template<class T> struct HasSequencialOrderTypeOperation_impl : std::conjunction
 			<
-				std::bool_constant<TypeTraitsBase::preincrement_result_is_same<T, T&>>,
-				std::bool_constant<EquatableTypeTraits::is_equatable<T, T>>
+				std::bool_constant<TypeTraitsBase::preincrement_result_is_same<T, T&>>
 			>
 		{};
-		template<class T> struct HasBidirectionalOrderTypeOperation_t : std::conjunction
+		template<class T> struct IsSequencialOrderType_impl :
+			std::conjunction
 			<
-				HasSequencialOrderTypeOperation_t<T>,
+				HasSequencialOrderTypeOperation_impl<T>,
+				std::bool_constant<is_equatable<T, T>>
+			>
+		{};
+	public:
+		template<class T> static constexpr bool IsSequencialOrderType = IsSequencialOrderType_impl<T>::value;
+	};
+
+	///	型要件:BidirectionalOrderType を満たす型を識別します
+	class BidirectionalOrderTypeTraits : public SequencialOrderTypeTraits
+	{
+		BidirectionalOrderTypeTraits() = delete;
+		BidirectionalOrderTypeTraits(const BidirectionalOrderTypeTraits&) = delete;
+		BidirectionalOrderTypeTraits(BidirectionalOrderTypeTraits&&) = delete;
+		BidirectionalOrderTypeTraits& operator=(const BidirectionalOrderTypeTraits&) = delete;
+		BidirectionalOrderTypeTraits& operator=(BidirectionalOrderTypeTraits&&) = delete;
+		~BidirectionalOrderTypeTraits() = delete;
+	protected:
+		template<class T> struct HasBidirectionalOrderTypeOperation_impl : std::conjunction
+			<
+				HasSequencialOrderTypeOperation_impl<T>,
 				std::bool_constant<TypeTraitsBase::predecrement_result_is_same<T, T&>>
 			>
 		{};
+		template<class T> struct IsBidirectionalOrderType_impl :
+			std::conjunction
+			<
+				IsSequencialOrderType_impl<T>,
+				HasBidirectionalOrderTypeOperation_impl<T>
+			>
+		{};
+	public:
+		template<class T> static constexpr bool IsBidirectionalOrderType = IsBidirectionalOrderType_impl<T>::value;
+	};
+
+	///	型要件:LinearOrderType を満たす型を識別します
+	class LinearOrderTypeTraits : public BidirectionalOrderTypeTraits
+	{
+		LinearOrderTypeTraits() = delete;
+		LinearOrderTypeTraits(const LinearOrderTypeTraits&) = delete;
+		LinearOrderTypeTraits(LinearOrderTypeTraits&&) = delete;
+		LinearOrderTypeTraits& operator=(const LinearOrderTypeTraits&) = delete;
+		LinearOrderTypeTraits& operator=(LinearOrderTypeTraits&&) = delete;
+		~LinearOrderTypeTraits() = delete;
+	protected:
 		template<class, class, class = void> struct HasLinearOrderTypeOperation_t : std::false_type {};
 		template<class T, class N> struct HasLinearOrderTypeOperation_t<T, N, std::enable_if_t< IntegralTypeTraits::IsIntegralType<N> >> : std::conjunction
 			<
-				HasBidirectionalOrderTypeOperation_t<T>,
+				HasBidirectionalOrderTypeOperation_impl<T>,
 				std::bool_constant<TypeTraitsBase::addition_result_is_same<T, N, T>>,
 				std::bool_constant<TypeTraitsBase::subtraction_result_is_same<T, N, T>>,
 				std::bool_constant<TypeTraitsBase::substitution_add_result_is_same<T, N, T&>>,
@@ -52,15 +98,14 @@ namespace zawa_ch::StationaryOrbit
 				std::bool_constant<ComparableTypeTraits::is_comparable<T, T>>
 			>
 		{};
-		template<class T> struct IsSequencialOrderType_t : std::conjunction< HasSequencialOrderTypeOperation_t<T> > {};
-		template<class T> struct IsBidirectionalOrderType_t : std::conjunction< IsSequencialOrderType_t<T>, HasBidirectionalOrderTypeOperation_t<T> > {};
-		template<class T, class N> struct IsLinearOrderType_t : std::conjunction< IsBidirectionalOrderType_t<T>, HasLinearOrderTypeOperation_t<T, N> > {};
+		template<class T, class N> struct IsLinearOrderType_t :
+			std::conjunction
+			<
+				IsBidirectionalOrderType_impl<T>,
+				HasLinearOrderTypeOperation_t<T, N>
+			>
+		{};
 	public:
-		///	型要件:SequencialOrderTypeを満たす型を識別します
-		template<class T> static constexpr bool IsSequencialOrderType = IsSequencialOrderType_t<T>::value;
-		///	型要件:BidirectionalOrderTypeを満たす型を識別します
-		template<class T> static constexpr bool IsBidirectionalOrderType = IsBidirectionalOrderType_t<T>::value;
-		///	型要件:LinearOrderTypeを満たす型を識別します
 		template<class T, class N = int> static constexpr bool IsLinearOrderType = IsLinearOrderType_t<T, N>::value;
 	};
 }

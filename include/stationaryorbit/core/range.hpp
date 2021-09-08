@@ -122,7 +122,7 @@ namespace zawa_ch::StationaryOrbit
 	{
 		static_assert(NumericalTypeTraits::is_numericaltype<T>, "この型のテンプレート T は数値型のクラスである必要があります。");
 		static_assert(ComparableTypeTraits::is_comparable<T>, "この型のテンプレート T は比較可能である必要があります。");
-		static_assert(OrderTypeTraits::IsBidirectionalOrderType<T>, "この型のテンプレート T は双方向の順序を持つ値型である必要があります。");
+		static_assert(BidirectionalOrderTypeTraits::IsBidirectionalOrderType<T>, "この型のテンプレート T は双方向の順序を持つ値型である必要があります。");
 
 	public: // type
 
