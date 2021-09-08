@@ -20,7 +20,6 @@
 #define __stationaryorbit_core_numericaltraits__
 #include <type_traits>
 #include "typetraitsbase.hpp"
-#include "equatabletypetraits.hpp"
 #include "comparabletypetraits.hpp"
 #include "valuetypetraits.hpp"
 namespace zawa_ch::StationaryOrbit
