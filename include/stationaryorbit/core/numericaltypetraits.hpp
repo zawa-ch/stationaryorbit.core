@@ -68,13 +68,13 @@ namespace zawa_ch::StationaryOrbit
 		///	除算を行います。
 		template<typename T> [[nodiscard]] static constexpr TypeTraitsBase::PromotionResult<T> divide(const T& value, const T& other) { static_assert(is_arithmetictype<T>, "型 T は 型要件:ArithmeticType を満たしません。"); return TypeTraitsBase::division(value, other); }
 		///	加算を行い、代入します。
-		template<typename T> [[nodiscard]] static constexpr T& substitute_add(T& value, const T& other) { static_assert(is_arithmetictype<T>, "型 T は 型要件:ArithmeticType を満たしません。"); return TypeTraitsBase::substitution_add(value, other); }
+		template<typename T> static constexpr T& substitute_add(T& value, const T& other) { static_assert(is_arithmetictype<T>, "型 T は 型要件:ArithmeticType を満たしません。"); return TypeTraitsBase::substitution_add(value, other); }
 		///	減算を行い、代入します。
-		template<typename T> [[nodiscard]] static constexpr T& substitute_subtract(T& value, const T& other) { static_assert(is_arithmetictype<T>, "型 T は 型要件:ArithmeticType を満たしません。"); return TypeTraitsBase::substitution_subtract(value, other); }
+		template<typename T> static constexpr T& substitute_subtract(T& value, const T& other) { static_assert(is_arithmetictype<T>, "型 T は 型要件:ArithmeticType を満たしません。"); return TypeTraitsBase::substitution_subtract(value, other); }
 		///	乗算を行い、代入します。
-		template<typename T> [[nodiscard]] static constexpr T& substitute_multiply(T& value, const T& other) { static_assert(is_arithmetictype<T>, "型 T は 型要件:ArithmeticType を満たしません。"); return TypeTraitsBase::substitution_multiply(value, other); }
+		template<typename T> static constexpr T& substitute_multiply(T& value, const T& other) { static_assert(is_arithmetictype<T>, "型 T は 型要件:ArithmeticType を満たしません。"); return TypeTraitsBase::substitution_multiply(value, other); }
 		///	除算を行い、代入します。
-		template<typename T> [[nodiscard]] static constexpr T& substitute_divide(T& value, const T& other) { static_assert(is_arithmetictype<T>, "型 T は 型要件:ArithmeticType を満たしません。"); return TypeTraitsBase::substitution_divide(value, other); }
+		template<typename T> static constexpr T& substitute_divide(T& value, const T& other) { static_assert(is_arithmetictype<T>, "型 T は 型要件:ArithmeticType を満たしません。"); return TypeTraitsBase::substitution_divide(value, other); }
 	};
 
 	///	型要件:NumericalType を満たす型を識別します
