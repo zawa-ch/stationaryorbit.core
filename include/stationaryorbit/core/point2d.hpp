@@ -34,16 +34,16 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		static constexpr bool invert_x = (((from==Quadrants2D::UpRight)||(from==Quadrants2D::DownRight))&&((to==Quadrants2D::UpLeft)||(to==Quadrants2D::DownLeft))) || (((from==Quadrants2D::UpLeft)||(from==Quadrants2D::DownLeft))&&((to==Quadrants2D::UpRight)||(to==Quadrants2D::DownRight)));
 		static constexpr bool invert_y = (((from==Quadrants2D::UpRight)||(from==Quadrants2D::UpLeft))&&((to==Quadrants2D::DownRight)||(to==Quadrants2D::DownLeft))) || (((from==Quadrants2D::DownRight)||(from==Quadrants2D::DownLeft))&&((to==Quadrants2D::UpRight)||(to==Quadrants2D::UpLeft)));
-		template<class T, std::enable_if_t< NumericalTypeTraits::IsNumericalType<T>, int> = 0>
+		template<class T, std::enable_if_t< NumericalTypeTraits::is_numericaltype<T>, int> = 0>
 		static constexpr T convert_x(const T& value) { if constexpr (invert_x) { return -value; } else { return value; } }
-		template<class T, std::enable_if_t< NumericalTypeTraits::IsNumericalType<T>, int> = 0>
+		template<class T, std::enable_if_t< NumericalTypeTraits::is_numericaltype<T>, int> = 0>
 		static constexpr T convert_y(const T& value) { if constexpr (invert_y) { return -value; } else { return value; } }
 	};
 	///	二次元平面上におけるある一点を表します。
 	template<class T, Quadrants2D quad, class = std::void_t<>>
 	struct Point2D final
 	{
-		static_assert(NumericalTypeTraits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
+		static_assert(NumericalTypeTraits::is_numericaltype<T>, "テンプレート引数型 T は数値型である必要があります。");
 		typedef T ValueType;
 	private:
 		ValueType _x;
@@ -89,7 +89,7 @@ namespace zawa_ch::StationaryOrbit
 	template<class T, Quadrants2D quad>
 	struct Point2D<T, quad, std::void_t<std::enable_if_t<std::is_floating_point_v<T>>>> final
 	{
-		static_assert(NumericalTypeTraits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
+		static_assert(NumericalTypeTraits::is_numericaltype<T>, "テンプレート引数型 T は数値型である必要があります。");
 		typedef T ValueType;
 	private:
 		ValueType _x;

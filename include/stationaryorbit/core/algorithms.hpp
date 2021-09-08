@@ -141,7 +141,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class Tp>
 		[[nodiscard]] static constexpr Tp square_root(const Tp& value) noexcept
 		{
-			static_assert(NumericalTypeTraits::IsNumericalType<Tp>, "テンプレート型 Tp は数値型である必要があります。");
+			static_assert(NumericalTypeTraits::is_numericaltype<Tp>, "テンプレート型 Tp は数値型である必要があります。");
 			auto result = value;
 			auto b = value;
 			auto c = Tp(0);
@@ -210,7 +210,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename Tp>
 		class ModuloIterator
 		{
-			static_assert(NumericalTypeTraits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+			static_assert(NumericalTypeTraits::is_numericaltype<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
 			static_assert(std::numeric_limits<Tp>::radix > 0, "テンプレート引数型 Tp の基数が正しい値ではありません。");
 		public:
 			typedef Tp ValueType;
@@ -255,7 +255,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename Tp>
 		class SinProgressionSequenceIterator
 		{
-			static_assert(NumericalTypeTraits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+			static_assert(NumericalTypeTraits::is_numericaltype<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
 		public:
 			typedef Tp ValueType;
 		private:
@@ -282,7 +282,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename Tp>
 		class CosProgressionSequenceIterator
 		{
-			static_assert(NumericalTypeTraits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+			static_assert(NumericalTypeTraits::is_numericaltype<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
 		public:
 			typedef Tp ValueType;
 		private:
@@ -309,7 +309,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename Tp>
 		class ArctanProgressionSequenceIterator
 		{
-			static_assert(NumericalTypeTraits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+			static_assert(NumericalTypeTraits::is_numericaltype<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
 		public:
 			typedef Tp ValueType;
 		private:
@@ -338,7 +338,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename Tp>
 		class ArcsinProgressionSequenceIterator
 		{
-			static_assert(NumericalTypeTraits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+			static_assert(NumericalTypeTraits::is_numericaltype<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
 		public:
 			typedef Tp ValueType;
 		private:

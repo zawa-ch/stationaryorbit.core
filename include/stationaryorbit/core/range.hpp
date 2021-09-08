@@ -40,7 +40,7 @@ namespace zawa_ch::StationaryOrbit
 	template<typename T, bool floor_included = true, bool ceiling_included = false>
 	struct Range final
 	{
-		static_assert(NumericalTypeTraits::IsNumericalType<T>, "この型のテンプレート T は数値型のクラスである必要があります。");
+		static_assert(NumericalTypeTraits::is_numericaltype<T>, "この型のテンプレート T は数値型のクラスである必要があります。");
 		static_assert(ComparableTypeTraits::is_comparable<T>, "この型のテンプレート T は比較可能である必要があります。");
 
 	public: // type
@@ -120,7 +120,7 @@ namespace zawa_ch::StationaryOrbit
 	template<class T, bool floor_included = true, bool ceiling_included = false>
 	class RangeIterator
 	{
-		static_assert(NumericalTypeTraits::IsNumericalType<T>, "この型のテンプレート T は数値型のクラスである必要があります。");
+		static_assert(NumericalTypeTraits::is_numericaltype<T>, "この型のテンプレート T は数値型のクラスである必要があります。");
 		static_assert(ComparableTypeTraits::is_comparable<T>, "この型のテンプレート T は比較可能である必要があります。");
 		static_assert(OrderTypeTraits::IsBidirectionalOrderType<T>, "この型のテンプレート T は双方向の順序を持つ値型である必要があります。");
 

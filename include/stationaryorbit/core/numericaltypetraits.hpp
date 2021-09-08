@@ -78,7 +78,7 @@ namespace zawa_ch::StationaryOrbit
 	};
 
 	///	型要件:NumericalType を満たす型を識別します
-	class NumericalTypeTraits : public ArithmeticTypeTraits
+	class NumericalTypeTraits : public ArithmeticTypeTraits, public ComparableTypeTraits
 	{
 		NumericalTypeTraits() = delete;
 		NumericalTypeTraits(const NumericalTypeTraits&) = delete;
@@ -89,14 +89,21 @@ namespace zawa_ch::StationaryOrbit
 	protected:
 		template<class T> struct HasNumericalTypeOperation_impl : std::conjunction
 			<
-				HasArithmeticTypeOperation_impl<T>,
-				std::bool_constant<ComparableTypeTraits::is_comparable<T, T>>
+				HasArithmeticTypeOperation_impl<T>
 			>
 		{};
-		template<class T> struct IsNumericalType_impl : std::conjunction< IsArithmeticType_impl<T>, HasNumericalTypeOperation_impl<T>, std::bool_constant<std::numeric_limits<T>::is_specialized> > {};
+		template<class T> struct IsNumericalType_impl :
+			std::conjunction
+			<
+				IsArithmeticType_impl<T>,
+				HasNumericalTypeOperation_impl<T>,
+				std::bool_constant<is_comparable<T, T>>,
+				std::bool_constant<std::numeric_limits<T>::is_specialized>
+			>
+		{};
 	public:
 		///	指定された型が 型要件:NumericalType を満たすかを識別します。
-		template<class T> static constexpr bool IsNumericalType = IsNumericalType_impl<T>::value;
+		template<class T> static constexpr bool is_numericaltype = IsNumericalType_impl<T>::value;
 	};
 	///	型要件:IntegralType を満たす型を識別します
 	class IntegralTypeTraits : public NumericalTypeTraits

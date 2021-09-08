@@ -28,7 +28,7 @@ namespace zawa_ch::StationaryOrbit
 	template<class T, class = void>
 	struct Rect2DSize final
 	{
-		static_assert(NumericalTypeTraits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
+		static_assert(NumericalTypeTraits::is_numericaltype<T>, "テンプレート引数型 T は数値型である必要があります。");
 	public:
 		typedef T ValueType;
 	private:
@@ -76,7 +76,7 @@ namespace zawa_ch::StationaryOrbit
 	template<class T>
 	struct Rect2DSize<T, std::enable_if_t<std::is_floating_point_v<T> > > final
 	{
-		static_assert(NumericalTypeTraits::IsNumericalType<T>, "テンプレート引数型 T は数値型である必要があります。");
+		static_assert(NumericalTypeTraits::is_numericaltype<T>, "テンプレート引数型 T は数値型である必要があります。");
 	public:
 		typedef T ValueType;
 	private:

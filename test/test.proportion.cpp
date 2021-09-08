@@ -28,7 +28,7 @@ std::array<std::function<int(void)>, 37> tests =
 	[]()
 	{
 		std::cout << "1. Type Proportion1_t meets the traits NumericalType?";
-		return check_if(NumericalTypeTraits::IsNumericalType<Proportion1_t>);
+		return check_if(NumericalTypeTraits::is_numericaltype<Proportion1_t>);
 	},
 	[]()
 	{
@@ -53,7 +53,7 @@ std::array<std::function<int(void)>, 37> tests =
 	[]()
 	{
 		std::cout << "6. Type Proportion8_t meets the traits NumericalType?";
-		return check_if(NumericalTypeTraits::IsNumericalType<Proportion8_t>);
+		return check_if(NumericalTypeTraits::is_numericaltype<Proportion8_t>);
 	},
 	[]()
 	{
@@ -78,7 +78,7 @@ std::array<std::function<int(void)>, 37> tests =
 	[]()
 	{
 		std::cout << "11. Type Proportion16_t meets the traits NumericalType?";
-		return check_if(NumericalTypeTraits::IsNumericalType<Proportion16_t>);
+		return check_if(NumericalTypeTraits::is_numericaltype<Proportion16_t>);
 	},
 	[]()
 	{
@@ -103,7 +103,7 @@ std::array<std::function<int(void)>, 37> tests =
 	[]()
 	{
 		std::cout << "16. Type Proportion32_t meets the traits NumericalType?";
-		return check_if(NumericalTypeTraits::IsNumericalType<Proportion32_t>);
+		return check_if(NumericalTypeTraits::is_numericaltype<Proportion32_t>);
 	},
 	[]()
 	{
@@ -128,7 +128,7 @@ std::array<std::function<int(void)>, 37> tests =
 	[]()
 	{
 		std::cout << "21. Type Proportion64_t meets the traits NumericalType?";
-		return check_if(NumericalTypeTraits::IsNumericalType<Proportion64_t>);
+		return check_if(NumericalTypeTraits::is_numericaltype<Proportion64_t>);
 	},
 	[]()
 	{

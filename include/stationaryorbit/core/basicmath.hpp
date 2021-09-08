@@ -74,7 +74,7 @@ namespace zawa_ch::StationaryOrbit
 
 		///	指定された値の絶対値を求めます
 		template<class Tp>
-		[[nodiscard]] static constexpr std::enable_if_t<!is_std_abs_callable<Tp> && NumericalTypeTraits::IsNumericalType<Tp>, Tp> abstract(const Tp& value) noexcept
+		[[nodiscard]] static constexpr std::enable_if_t<!is_std_abs_callable<Tp> && NumericalTypeTraits::is_numericaltype<Tp>, Tp> abstract(const Tp& value) noexcept
 		{
 			return ( value < Tp(0) )?(-value):(value);
 		}
@@ -101,7 +101,7 @@ namespace zawa_ch::StationaryOrbit
 		///	出力される値の型。型要件:NumericalType を満たし、Tpから変換できる必要があります。
 		///	@param	value
 		///	入力される角度。ラジアンで指定します。
-		template<typename Tp, typename Tresult = Tp, typename = std::enable_if_t<NumericalTypeTraits::IsNumericalType<Tp> && NumericalTypeTraits::IsNumericalType<Tresult> && std::is_convertible_v<Tp, Tresult>>>
+		template<typename Tp, typename Tresult = Tp, typename = std::enable_if_t<NumericalTypeTraits::is_numericaltype<Tp> && NumericalTypeTraits::is_numericaltype<Tresult> && std::is_convertible_v<Tp, Tresult>>>
 		[[nodiscard]] static constexpr Tresult sin(const Tp& value)
 		{
 			Tresult x = value;
@@ -152,7 +152,7 @@ namespace zawa_ch::StationaryOrbit
 
 		///	剰余を求めます
 		template<class Tp>
-		[[nodiscard]] static constexpr std::enable_if_t<NumericalTypeTraits::IsNumericalType<Tp>, Tp> mod(const Tp& left, const Tp& right)
+		[[nodiscard]] static constexpr std::enable_if_t<NumericalTypeTraits::is_numericaltype<Tp>, Tp> mod(const Tp& left, const Tp& right)
 		{
 			auto iter = Algorithms::ModuloIterator<Tp>(left, right);
 			while(iter.has_value()) { iter.next(); }
