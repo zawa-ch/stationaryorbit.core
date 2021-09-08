@@ -42,7 +42,7 @@ namespace zawa_ch::StationaryOrbit
 			>
 		{};
 		template<class, class, class = void> struct HasLinearOrderTypeOperation_t : std::false_type {};
-		template<class T, class N> struct HasLinearOrderTypeOperation_t<T, N, std::enable_if_t< NumericalTypeTraits::IsIntegralType<N> >> : std::conjunction
+		template<class T, class N> struct HasLinearOrderTypeOperation_t<T, N, std::enable_if_t< IntegralTypeTraits::IsIntegralType<N> >> : std::conjunction
 			<
 				HasBidirectionalOrderTypeOperation_t<T>,
 				std::bool_constant<TypeTraitsBase::addition_result_is_same<T, N, T>>,

@@ -28,7 +28,7 @@ namespace zawa_ch::StationaryOrbit
 	template<typename Tp>
 	struct Rotation
 	{
-		static_assert(NumericalTypeTraits::IsIntegralType<Tp> && BitSequenceTypeTraits::is_bitsequence_type<Tp>, "テンプレート引数 Tp は、型要件:IntegralType と型要件:BitSequenceType をともに満たす必要があります。");
+		static_assert(IntegralTypeTraits::IsIntegralType<Tp> && BitSequenceTypeTraits::is_bitsequence_type<Tp>, "テンプレート引数 Tp は、型要件:IntegralType と型要件:BitSequenceType をともに満たす必要があります。");
 	private:
 		Tp _value;
 

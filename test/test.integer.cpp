@@ -28,52 +28,52 @@ std::array<std::function<int(void)>, 23> tests =
 	[]()
 	{
 		std::cout << "1. Type Integer<std::byte> meets the traits IntegralType?";
-		return check_if(NumericalTypeTraits::IsIntegralType<Integer<std::byte>>);
+		return check_if(IntegralTypeTraits::IsIntegralType<Integer<std::byte>>);
 	},
 	[]()
 	{
 		std::cout << "2. Type Integer<uint8_t> meets the traits IntegralType?";
-		return check_if(NumericalTypeTraits::IsIntegralType<Integer<uint8_t>>);
+		return check_if(IntegralTypeTraits::IsIntegralType<Integer<uint8_t>>);
 	},
 	[]()
 	{
 		std::cout << "3. Type Integer<uint16_t> meets the traits IntegralType?";
-		return check_if(NumericalTypeTraits::IsIntegralType<Integer<uint16_t>>);
+		return check_if(IntegralTypeTraits::IsIntegralType<Integer<uint16_t>>);
 	},
 	[]()
 	{
 		std::cout << "4. Type Integer<uint32_t> meets the traits IntegralType?";
-		return check_if(NumericalTypeTraits::IsIntegralType<Integer<uint32_t>>);
+		return check_if(IntegralTypeTraits::IsIntegralType<Integer<uint32_t>>);
 	},
 	[]()
 	{
 		std::cout << "5. Type Integer<uint64_t> meets the traits IntegralType?";
-		return check_if(NumericalTypeTraits::IsIntegralType<Integer<uint64_t>>);
+		return check_if(IntegralTypeTraits::IsIntegralType<Integer<uint64_t>>);
 	},
 	[]()
 	{
 		std::cout << "6. Type SignedInteger<std::byte> meets the traits IntegralType?";
-		return check_if(NumericalTypeTraits::IsIntegralType<SignedInteger<std::byte>>);
+		return check_if(IntegralTypeTraits::IsIntegralType<SignedInteger<std::byte>>);
 	},
 	[]()
 	{
 		std::cout << "7. Type SignedInteger<uint8_t> meets the traits IntegralType?";
-		return check_if(NumericalTypeTraits::IsIntegralType<SignedInteger<uint8_t>>);
+		return check_if(IntegralTypeTraits::IsIntegralType<SignedInteger<uint8_t>>);
 	},
 	[]()
 	{
 		std::cout << "8. Type SignedInteger<uint16_t> meets the traits IntegralType?";
-		return check_if(NumericalTypeTraits::IsIntegralType<SignedInteger<uint16_t>>);
+		return check_if(IntegralTypeTraits::IsIntegralType<SignedInteger<uint16_t>>);
 	},
 	[]()
 	{
 		std::cout << "9. Type SignedInteger<uint32_t> meets the traits IntegralType?";
-		return check_if(NumericalTypeTraits::IsIntegralType<SignedInteger<uint32_t>>);
+		return check_if(IntegralTypeTraits::IsIntegralType<SignedInteger<uint32_t>>);
 	},
 	[]()
 	{
 		std::cout << "10. Type SignedInteger<uint64_t> meets the traits IntegralType?";
-		return check_if(NumericalTypeTraits::IsIntegralType<SignedInteger<uint64_t>>);
+		return check_if(IntegralTypeTraits::IsIntegralType<SignedInteger<uint64_t>>);
 	},
 	[]()
 	{
