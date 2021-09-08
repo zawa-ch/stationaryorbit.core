@@ -20,7 +20,7 @@
 #define __stationaryorbit_core_integer__
 #include <stdexcept>
 #include "comparabletypetraits.hpp"
-#include "numericaltraits.hpp"
+#include "numericaltypetraits.hpp"
 #include "bitsequencetypetraits.hpp"
 #include "bitwidth.hpp"
 #include "divisionresult.hpp"
@@ -51,20 +51,20 @@ namespace zawa_ch::StationaryOrbit
 		///	内部の型と同じビット列型から @a Integer を構築します。
 		///	@note
 		///	内部型が整数型トレイトを満たす場合にこちらのコンストラクタが適用されます。
-		template<class fromT, std::enable_if_t< std::is_same_v<ValueType, fromT> && NumericalTraits::IsIntegralType<fromT>, int> = 0>
+		template<class fromT, std::enable_if_t< std::is_same_v<ValueType, fromT> && NumericalTypeTraits::IsIntegralType<fromT>, int> = 0>
 		constexpr Integer(const fromT& value) noexcept : _data(value) {}
 		///	内部の型と同じビット列型から @a Integer を構築します。
 		///	@note
 		///	内部型が整数型トレイトを満たさない場合にこちらのコンストラクタが適用されます。
-		template<class fromT, std::enable_if_t< std::is_same_v<ValueType, fromT> && !NumericalTraits::IsIntegralType<fromT>, int> = 0>
+		template<class fromT, std::enable_if_t< std::is_same_v<ValueType, fromT> && !NumericalTypeTraits::IsIntegralType<fromT>, int> = 0>
 		constexpr explicit Integer(const fromT& value) noexcept : _data(value) {}
 		///	内部の型に変換可能な型から @a Integer を構築します。
 		///	@note
 		///	内部型が暗黙の変換をサポートし、整数型トレイトを満たす場合にこちらのコンストラクタが適用されます。
-		template<class fromT, std::enable_if_t< !(std::is_same_v<ValueType, fromT>) && (std::is_convertible_v<ValueType, fromT> || TypeTraitsBase::is_aggregatable<ValueType, fromT>) && NumericalTraits::IsIntegralType<fromT>, int> = 0>
+		template<class fromT, std::enable_if_t< !(std::is_same_v<ValueType, fromT>) && (std::is_convertible_v<ValueType, fromT> || TypeTraitsBase::is_aggregatable<ValueType, fromT>) && NumericalTypeTraits::IsIntegralType<fromT>, int> = 0>
 		constexpr Integer(const fromT& value) : _data(value_construct<fromT>(value)) {}
 		///	整数型から @a Integer を構築します。
-		template<class fromT, std::enable_if_t< !(std::is_same_v<ValueType, fromT> || std::is_convertible_v<ValueType, fromT> || TypeTraitsBase::is_aggregatable<ValueType, fromT>) && NumericalTraits::IsIntegralType<fromT> && !std::numeric_limits<fromT>::is_signed, int> = 0>
+		template<class fromT, std::enable_if_t< !(std::is_same_v<ValueType, fromT> || std::is_convertible_v<ValueType, fromT> || TypeTraitsBase::is_aggregatable<ValueType, fromT>) && NumericalTypeTraits::IsIntegralType<fromT> && !std::numeric_limits<fromT>::is_signed, int> = 0>
 		constexpr explicit Integer(const fromT& value) : Integer()
 		{
 			auto v = value;
@@ -328,7 +328,7 @@ namespace zawa_ch::StationaryOrbit
 		constexpr explicit SignedInteger(const ValueType& value) noexcept : _data(value) {}
 		template<class fromT, std::enable_if_t< std::is_convertible_v<ValueType, fromT> || TypeTraitsBase::is_aggregatable<ValueType, fromT>, int> = 0>
 		constexpr explicit SignedInteger(const fromT& value) : _data(value_construct<fromT>(value)) {}
-		template<class fromT, std::enable_if_t< !(std::is_convertible_v<ValueType, fromT> || TypeTraitsBase::is_aggregatable<ValueType, fromT>) && NumericalTraits::IsIntegralType<fromT> && std::numeric_limits<fromT>::is_signed, int> = 0>
+		template<class fromT, std::enable_if_t< !(std::is_convertible_v<ValueType, fromT> || TypeTraitsBase::is_aggregatable<ValueType, fromT>) && NumericalTypeTraits::IsIntegralType<fromT> && std::numeric_limits<fromT>::is_signed, int> = 0>
 		constexpr explicit SignedInteger(const fromT& value) : SignedInteger()
 		{
 			auto v = value;

@@ -18,7 +18,7 @@
 //
 #ifndef __stationaryorbit_core_marchinprogression__
 #define __stationaryorbit_core_marchinprogression__
-#include "numericaltraits.hpp"
+#include "numericaltypetraits.hpp"
 #include "algorithms.hpp"
 namespace zawa_ch::StationaryOrbit
 {
@@ -33,7 +33,7 @@ namespace zawa_ch::StationaryOrbit
 	template<typename Tp>
 	class MarchinProgression final
 	{
-		static_assert(NumericalTraits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+		static_assert(NumericalTypeTraits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
 	public:
 		typedef Tp ValueType;
 	private:

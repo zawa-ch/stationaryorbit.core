@@ -73,14 +73,14 @@ template zawa_ch::StationaryOrbit::SignedInteger<uint64_t>::SignedInteger(const 
 template zawa_ch::StationaryOrbit::SignedInteger<uint64_t>::SignedInteger(const int32_t&);
 template zawa_ch::StationaryOrbit::SignedInteger<uint64_t>::SignedInteger(const int64_t&);
 
-static_assert(NumericalTraits::IsIntegralType<Integer<std::byte>>, "Integer<std::byte> は整数型ですが、型特性検査結果は false でした。");
-static_assert(NumericalTraits::IsIntegralType<Integer<uint8_t>>, "Integer<uint8_t> は整数型ですが、型特性検査結果は false でした。");
-static_assert(NumericalTraits::IsIntegralType<Integer<uint16_t>>, "Integer<uint16_t> は整数型ですが、型特性検査結果は false でした。");
-static_assert(NumericalTraits::IsIntegralType<Integer<uint32_t>>, "Integer<uint32_t> は整数型ですが、型特性検査結果は false でした。");
-static_assert(NumericalTraits::IsIntegralType<Integer<uint64_t>>, "Integer<uint64_t> は整数型ですが、型特性検査結果は false でした。");
+static_assert(NumericalTypeTraits::IsIntegralType<Integer<std::byte>>, "Integer<std::byte> は整数型ですが、型特性検査結果は false でした。");
+static_assert(NumericalTypeTraits::IsIntegralType<Integer<uint8_t>>, "Integer<uint8_t> は整数型ですが、型特性検査結果は false でした。");
+static_assert(NumericalTypeTraits::IsIntegralType<Integer<uint16_t>>, "Integer<uint16_t> は整数型ですが、型特性検査結果は false でした。");
+static_assert(NumericalTypeTraits::IsIntegralType<Integer<uint32_t>>, "Integer<uint32_t> は整数型ですが、型特性検査結果は false でした。");
+static_assert(NumericalTypeTraits::IsIntegralType<Integer<uint64_t>>, "Integer<uint64_t> は整数型ですが、型特性検査結果は false でした。");
 
-static_assert(NumericalTraits::IsIntegralType<SignedInteger<std::byte>>, "SignedInteger<std::byte> は整数型ですが、型特性検査結果は false でした。");
-static_assert(NumericalTraits::IsIntegralType<SignedInteger<uint8_t>>, "SignedInteger<uint8_t> は整数型ですが、型特性検査結果は false でした。");
-static_assert(NumericalTraits::IsIntegralType<SignedInteger<uint16_t>>, "SignedInteger<uint16_t> は整数型ですが、型特性検査結果は false でした。");
-static_assert(NumericalTraits::IsIntegralType<SignedInteger<uint32_t>>, "SignedInteger<uint32_t> は整数型ですが、型特性検査結果は false でした。");
-static_assert(NumericalTraits::IsIntegralType<SignedInteger<uint64_t>>, "SignedInteger<uint64_t> は整数型ですが、型特性検査結果は false でした。");
+static_assert(NumericalTypeTraits::IsIntegralType<SignedInteger<std::byte>>, "SignedInteger<std::byte> は整数型ですが、型特性検査結果は false でした。");
+static_assert(NumericalTypeTraits::IsIntegralType<SignedInteger<uint8_t>>, "SignedInteger<uint8_t> は整数型ですが、型特性検査結果は false でした。");
+static_assert(NumericalTypeTraits::IsIntegralType<SignedInteger<uint16_t>>, "SignedInteger<uint16_t> は整数型ですが、型特性検査結果は false でした。");
+static_assert(NumericalTypeTraits::IsIntegralType<SignedInteger<uint32_t>>, "SignedInteger<uint32_t> は整数型ですが、型特性検査結果は false でした。");
+static_assert(NumericalTypeTraits::IsIntegralType<SignedInteger<uint64_t>>, "SignedInteger<uint64_t> は整数型ですが、型特性検査結果は false でした。");

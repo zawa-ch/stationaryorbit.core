@@ -19,7 +19,7 @@
 #ifndef __stationaryorbit__core_algorithms__
 #define __stationaryorbit__core_algorithms__
 #include <stdexcept>
-#include "numericaltraits.hpp"
+#include "numericaltypetraits.hpp"
 #include "divisionresult.hpp"
 #include "range.hpp"
 #include "multiplelong.hpp"
@@ -47,14 +47,14 @@ namespace zawa_ch::StationaryOrbit
 		template<class Tp>
 		[[nodiscard]] static constexpr DivisionResult<Tp> integral_fraction(const Tp& numerator, const Tp& denominator, const Tp& scale)
 		{
-			static_assert(std::is_same_v<Tp, bool> || NumericalTraits::IsIntegralType<Tp>, "テンプレート型 Tp は整数型またはboolである必要があります。");
+			static_assert(std::is_same_v<Tp, bool> || NumericalTypeTraits::IsIntegralType<Tp>, "テンプレート型 Tp は整数型またはboolである必要があります。");
 
 			if constexpr (std::is_same_v<Tp, bool>)
 			{
 				if (denominator == false) { throw std::invalid_argument("分母に0を指定することはできません。"); }
 				return { numerator&&scale, false };
 			}
-			if constexpr (NumericalTraits::IsIntegralType<Tp>)
+			if constexpr (NumericalTypeTraits::IsIntegralType<Tp>)
 			{
 				if (denominator == Tp(0)) { throw std::invalid_argument("分母に0を指定することはできません。"); }
 				if constexpr (!std::numeric_limits<Tp>::is_signed)
@@ -141,7 +141,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class Tp>
 		[[nodiscard]] static constexpr Tp square_root(const Tp& value) noexcept
 		{
-			static_assert(NumericalTraits::IsNumericalType<Tp>, "テンプレート型 Tp は数値型である必要があります。");
+			static_assert(NumericalTypeTraits::IsNumericalType<Tp>, "テンプレート型 Tp は数値型である必要があります。");
 			auto result = value;
 			auto b = value;
 			auto c = Tp(0);
@@ -153,7 +153,7 @@ namespace zawa_ch::StationaryOrbit
 				b = result;
 				// a / X[N] の導出
 				auto delta = value / b;
-				if constexpr (NumericalTraits::IsIntegralType<Tp>)
+				if constexpr (NumericalTypeTraits::IsIntegralType<Tp>)
 				{
 					// X[N] / 2
 					result /= Tp(2);
@@ -210,7 +210,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename Tp>
 		class ModuloIterator
 		{
-			static_assert(NumericalTraits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+			static_assert(NumericalTypeTraits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
 			static_assert(std::numeric_limits<Tp>::radix > 0, "テンプレート引数型 Tp の基数が正しい値ではありません。");
 		public:
 			typedef Tp ValueType;
@@ -255,7 +255,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename Tp>
 		class SinProgressionSequenceIterator
 		{
-			static_assert(NumericalTraits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+			static_assert(NumericalTypeTraits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
 		public:
 			typedef Tp ValueType;
 		private:
@@ -282,7 +282,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename Tp>
 		class CosProgressionSequenceIterator
 		{
-			static_assert(NumericalTraits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+			static_assert(NumericalTypeTraits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
 		public:
 			typedef Tp ValueType;
 		private:
@@ -309,7 +309,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename Tp>
 		class ArctanProgressionSequenceIterator
 		{
-			static_assert(NumericalTraits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+			static_assert(NumericalTypeTraits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
 		public:
 			typedef Tp ValueType;
 		private:
@@ -338,7 +338,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename Tp>
 		class ArcsinProgressionSequenceIterator
 		{
-			static_assert(NumericalTraits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+			static_assert(NumericalTypeTraits::IsNumericalType<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
 		public:
 			typedef Tp ValueType;
 		private:

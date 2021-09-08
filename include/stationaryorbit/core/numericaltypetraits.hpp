@@ -25,10 +25,10 @@
 #include "valuetypetraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
-	class NumericalTraits
+	class NumericalTypeTraits
 	{
-		NumericalTraits() = delete;
-		~NumericalTraits() = delete;
+		NumericalTypeTraits() = delete;
+		~NumericalTypeTraits() = delete;
 	private:
 		template<class, class = std::void_t<>> struct HasArithmeticTypeOperation_t : std::false_type {};
 		template<class T> struct HasArithmeticTypeOperation_t<T, std::void_t< TypeTraitsBase::PromotionResult<T> >> : std::conjunction

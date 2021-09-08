@@ -18,7 +18,7 @@
 //
 #ifndef __StationaryOrbit_Rotation__
 #define __StationaryOrbit_Rotation__
-#include "numericaltraits.hpp"
+#include "numericaltypetraits.hpp"
 #include "bitsequencetypetraits.hpp"
 #include "range.hpp"
 #include "halfangleformula.hpp"
@@ -28,7 +28,7 @@ namespace zawa_ch::StationaryOrbit
 	template<typename Tp>
 	struct Rotation
 	{
-		static_assert(NumericalTraits::IsIntegralType<Tp> && BitSequenceTypeTraits::is_bitsequence_type<Tp>, "テンプレート引数 Tp は、型要件:IntegralType と型要件:BitSequenceType をともに満たす必要があります。");
+		static_assert(NumericalTypeTraits::IsIntegralType<Tp> && BitSequenceTypeTraits::is_bitsequence_type<Tp>, "テンプレート引数 Tp は、型要件:IntegralType と型要件:BitSequenceType をともに満たす必要があります。");
 	private:
 		Tp _value;
 
@@ -38,13 +38,13 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		Rotation() = default;
 
-		template<typename valueT, std::enable_if_t<NumericalTraits::IsNumericalType<valueT>, int> = 0>
+		template<typename valueT, std::enable_if_t<NumericalTypeTraits::IsNumericalType<valueT>, int> = 0>
 		[[nodiscard]] static constexpr Rotation<Tp> from_degree(const valueT& value)
 		{
 			const long double den = 360.0l / (double(std::numeric_limits<Tp>::max()) + 1);
 			return Rotation( Tp( value / den ) );
 		}
-		template<typename valueT, std::enable_if_t<NumericalTraits::IsNumericalType<valueT>, int> = 0>
+		template<typename valueT, std::enable_if_t<NumericalTypeTraits::IsNumericalType<valueT>, int> = 0>
 		[[nodiscard]] static constexpr Rotation<Tp> from_radian(const valueT& value)
 		{
 			const long double den = pi2 / (double(std::numeric_limits<Tp>::max()) + 1);
@@ -53,33 +53,33 @@ namespace zawa_ch::StationaryOrbit
 
 		[[nodiscard]] constexpr int quadrant() const noexcept { return (_value >> (bitwidth<Tp> - 2)) + 1; }
 
-		template<typename valueT = long double, std::enable_if_t<NumericalTraits::IsNumericalType<valueT>, int> = 0>
+		template<typename valueT = long double, std::enable_if_t<NumericalTypeTraits::IsNumericalType<valueT>, int> = 0>
 		[[nodiscard]] constexpr valueT degree() const noexcept
 		{
 			const long double scale = 360.0l / (double(std::numeric_limits<Tp>::max()) + 1);
 			return valueT(scale * _value);
 		}
-		template<typename valueT = long double, std::enable_if_t<NumericalTraits::IsNumericalType<valueT>, int> = 0>
+		template<typename valueT = long double, std::enable_if_t<NumericalTypeTraits::IsNumericalType<valueT>, int> = 0>
 		[[nodiscard]] constexpr valueT radian() const noexcept
 		{
 			const long double scale = pi2 / (double(std::numeric_limits<Tp>::max()) + 1);
 			return valueT(scale * _value);
 		}
 
-		template<typename valueT = long double, std::enable_if_t<NumericalTraits::IsNumericalType<valueT>, int> = 0>
+		template<typename valueT = long double, std::enable_if_t<NumericalTypeTraits::IsNumericalType<valueT>, int> = 0>
 		[[nodiscard]] constexpr valueT sin() const { return trigonometric_inner<valueT>().sin; }
-		template<typename valueT = long double, std::enable_if_t<NumericalTraits::IsNumericalType<valueT>, int> = 0>
+		template<typename valueT = long double, std::enable_if_t<NumericalTypeTraits::IsNumericalType<valueT>, int> = 0>
 		[[nodiscard]] constexpr valueT cos() const { return trigonometric_inner<valueT>().cos; }
-		template<typename valueT = long double, std::enable_if_t<NumericalTraits::IsNumericalType<valueT>, int> = 0>
+		template<typename valueT = long double, std::enable_if_t<NumericalTypeTraits::IsNumericalType<valueT>, int> = 0>
 		[[nodiscard]] constexpr valueT tan() const { return sin() / cos(); }
 
 		[[nodiscard]] constexpr Rotation<Tp> operator+() const noexcept { return *this; }
 		[[nodiscard]] constexpr Rotation<Tp> operator-() const noexcept { return Rotation(-_value); }
 		[[nodiscard]] constexpr Rotation<Tp> operator+(const Rotation<Tp>& other) const noexcept { return Rotation(_value + other._value); }
 		[[nodiscard]] constexpr Rotation<Tp> operator-(const Rotation<Tp>& other) const noexcept { return Rotation(_value - other._value); }
-		template<typename valueT = long double, std::enable_if_t<NumericalTraits::IsNumericalType<valueT>, int> = 0>
+		template<typename valueT = long double, std::enable_if_t<NumericalTypeTraits::IsNumericalType<valueT>, int> = 0>
 		[[nodiscard]] constexpr Rotation<Tp> operator*(const valueT& other) const noexcept { return Rotation(Tp(_value * other)); }
-		template<typename valueT = long double, std::enable_if_t<NumericalTraits::IsNumericalType<valueT>, int> = 0>
+		template<typename valueT = long double, std::enable_if_t<NumericalTypeTraits::IsNumericalType<valueT>, int> = 0>
 		[[nodiscard]] constexpr Rotation<Tp> operator/(const valueT& other) const noexcept { return Rotation(Tp(_value / other)); }
 
 		[[nodiscard]] constexpr bool equals(const Rotation<Tp>& other) const noexcept { return _value == other._value; }
@@ -91,7 +91,7 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr bool operator<=(const Rotation<Tp>& other) const noexcept { return _value <= other._value; }
 
 	private:
-		template<typename valueT = long double, std::enable_if_t<NumericalTraits::IsNumericalType<valueT>, int> = 0>
+		template<typename valueT = long double, std::enable_if_t<NumericalTypeTraits::IsNumericalType<valueT>, int> = 0>
 		[[nodiscard]] constexpr TrigonometricResult<valueT> trigonometric_inner() const
 		{
 			auto result = TrigonometricResult<valueT>{ valueT(0), valueT(1) };
