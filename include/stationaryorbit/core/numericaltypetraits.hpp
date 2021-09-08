@@ -1,4 +1,4 @@
-//	stationaryorbit/core/numericaltraits
+//	stationaryorbit/core/numericaltypetraits
 //	Copyright 2021 zawa-ch.
 //	GPLv3 (or later) license
 //
