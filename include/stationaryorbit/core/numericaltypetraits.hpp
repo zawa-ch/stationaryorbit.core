@@ -35,8 +35,8 @@ namespace zawa_ch::StationaryOrbit
 		ArithmeticTypeTraits& operator=(ArithmeticTypeTraits&&) = delete;
 		~ArithmeticTypeTraits() = delete;
 	protected:
-		template<class, class = std::void_t<>> struct HasArithmeticTypeOperation_impl : std::false_type {};
-		template<class T> struct HasArithmeticTypeOperation_impl<T, std::void_t< TypeTraitsBase::PromotionResult<T> >> : std::conjunction
+		template<typename, typename = std::void_t<>> struct HasArithmeticTypeOperation_impl : std::false_type {};
+		template<typename T> struct HasArithmeticTypeOperation_impl<T, std::void_t< TypeTraitsBase::PromotionResult<T> >> : std::conjunction
 			<
 				std::bool_constant<TypeTraitsBase::promotion_result_is_convertible<T, T>>,
 				std::bool_constant<TypeTraitsBase::inverse_result_is_same<T, TypeTraitsBase::PromotionResult<T>>>,
@@ -47,14 +47,36 @@ namespace zawa_ch::StationaryOrbit
 				std::bool_constant<TypeTraitsBase::substitution_add_result_is_same<T, T, T&>>,
 				std::bool_constant<TypeTraitsBase::substitution_subtract_result_is_same<T, T, T&>>,
 				std::bool_constant<TypeTraitsBase::substitution_multiply_result_is_same<T, T, T&>>,
-				std::bool_constant<TypeTraitsBase::substitution_divide_result_is_same<T, T, T&>>,
-				std::bool_constant<EquatableTypeTraits::is_equatable<T, T>>
+				std::bool_constant<TypeTraitsBase::substitution_divide_result_is_same<T, T, T&>>
 			>
 		{};
-		template<class T> struct IsArithmeticType_impl : std::conjunction< std::bool_constant<ValueTypeTraits::is_valuetype<T>>, HasArithmeticTypeOperation_impl<T> > {};
+		template<typename T> struct IsArithmeticType_impl : std::conjunction< std::bool_constant<ValueTypeTraits::is_valuetype<T>>, HasArithmeticTypeOperation_impl<T> > {};
 	public:
-		template<class T> static constexpr bool IsArithmeticType = IsArithmeticType_impl<T>::value;
+		///	指定された型が 型要件:ArithmeticType を満たすかを識別します。
+		template<typename T> static constexpr bool is_arithmetictype = IsArithmeticType_impl<T>::value;
+
+		///	値の型を昇格します。
+		template<typename T> [[nodiscard]] static constexpr TypeTraitsBase::PromotionResult<T> promote(const T& value) { static_assert(is_arithmetictype<T>, "型 T は 型要件:ArithmeticType を満たしません。"); return TypeTraitsBase::promotion(value); }
+		///	負の値を取得します。
+		template<typename T> [[nodiscard]] static constexpr TypeTraitsBase::PromotionResult<T> invert(const T& value) { static_assert(is_arithmetictype<T>, "型 T は 型要件:ArithmeticType を満たしません。"); return TypeTraitsBase::inverse(value); }
+		///	加算を行います。
+		template<typename T> [[nodiscard]] static constexpr TypeTraitsBase::PromotionResult<T> add(const T& value, const T& other) { static_assert(is_arithmetictype<T>, "型 T は 型要件:ArithmeticType を満たしません。"); return TypeTraitsBase::addition(value, other); }
+		///	減算を行います。
+		template<typename T> [[nodiscard]] static constexpr TypeTraitsBase::PromotionResult<T> subtract(const T& value, const T& other) { static_assert(is_arithmetictype<T>, "型 T は 型要件:ArithmeticType を満たしません。"); return TypeTraitsBase::subtraction(value, other); }
+		///	乗算を行います。
+		template<typename T> [[nodiscard]] static constexpr TypeTraitsBase::PromotionResult<T> multiply(const T& value, const T& other) { static_assert(is_arithmetictype<T>, "型 T は 型要件:ArithmeticType を満たしません。"); return TypeTraitsBase::multiplication(value, other); }
+		///	除算を行います。
+		template<typename T> [[nodiscard]] static constexpr TypeTraitsBase::PromotionResult<T> divide(const T& value, const T& other) { static_assert(is_arithmetictype<T>, "型 T は 型要件:ArithmeticType を満たしません。"); return TypeTraitsBase::division(value, other); }
+		///	加算を行い、代入します。
+		template<typename T> [[nodiscard]] static constexpr T& substitute_add(T& value, const T& other) { static_assert(is_arithmetictype<T>, "型 T は 型要件:ArithmeticType を満たしません。"); return TypeTraitsBase::substitution_add(value, other); }
+		///	減算を行い、代入します。
+		template<typename T> [[nodiscard]] static constexpr T& substitute_subtract(T& value, const T& other) { static_assert(is_arithmetictype<T>, "型 T は 型要件:ArithmeticType を満たしません。"); return TypeTraitsBase::substitution_subtract(value, other); }
+		///	乗算を行い、代入します。
+		template<typename T> [[nodiscard]] static constexpr T& substitute_multiply(T& value, const T& other) { static_assert(is_arithmetictype<T>, "型 T は 型要件:ArithmeticType を満たしません。"); return TypeTraitsBase::substitution_multiply(value, other); }
+		///	除算を行い、代入します。
+		template<typename T> [[nodiscard]] static constexpr T& substitute_divide(T& value, const T& other) { static_assert(is_arithmetictype<T>, "型 T は 型要件:ArithmeticType を満たしません。"); return TypeTraitsBase::substitution_divide(value, other); }
 	};
+
 	///	型要件:NumericalType を満たす型を識別します
 	class NumericalTypeTraits : public ArithmeticTypeTraits
 	{
@@ -73,6 +95,7 @@ namespace zawa_ch::StationaryOrbit
 		{};
 		template<class T> struct IsNumericalType_impl : std::conjunction< IsArithmeticType_impl<T>, HasNumericalTypeOperation_impl<T>, std::bool_constant<std::numeric_limits<T>::is_specialized> > {};
 	public:
+		///	指定された型が 型要件:NumericalType を満たすかを識別します。
 		template<class T> static constexpr bool IsNumericalType = IsNumericalType_impl<T>::value;
 	};
 	///	型要件:IntegralType を満たす型を識別します
@@ -97,6 +120,7 @@ namespace zawa_ch::StationaryOrbit
 		{};
 		template<class T> struct IsIntegralType_impl : std::conjunction< IsNumericalType_impl<T>, HasIntegralTypeOperation_impl<T> > {};
 	public:
+		///	指定された型が 型要件:IntegralType を満たすかを識別します。
 		template<class T> static constexpr bool IsIntegralType = IsIntegralType_impl<T>::value;
 	};
 }
