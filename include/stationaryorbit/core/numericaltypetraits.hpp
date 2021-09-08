@@ -87,12 +87,12 @@ namespace zawa_ch::StationaryOrbit
 		NumericalTypeTraits& operator=(NumericalTypeTraits&&) = delete;
 		~NumericalTypeTraits() = delete;
 	protected:
-		template<class T> struct HasNumericalTypeOperation_impl : std::conjunction
+		template<typename T> struct HasNumericalTypeOperation_impl : std::conjunction
 			<
 				HasArithmeticTypeOperation_impl<T>
 			>
 		{};
-		template<class T> struct IsNumericalType_impl :
+		template<typename T> struct IsNumericalType_impl :
 			std::conjunction
 			<
 				IsArithmeticType_impl<T>,
@@ -103,7 +103,7 @@ namespace zawa_ch::StationaryOrbit
 		{};
 	public:
 		///	指定された型が 型要件:NumericalType を満たすかを識別します。
-		template<class T> static constexpr bool is_numericaltype = IsNumericalType_impl<T>::value;
+		template<typename T> static constexpr bool is_numericaltype = IsNumericalType_impl<T>::value;
 	};
 	///	型要件:IntegralType を満たす型を識別します
 	class IntegralTypeTraits : public NumericalTypeTraits
