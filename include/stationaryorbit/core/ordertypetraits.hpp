@@ -34,12 +34,12 @@ namespace zawa_ch::StationaryOrbit
 		SequencialOrderTypeTraits& operator=(SequencialOrderTypeTraits&&) = delete;
 		~SequencialOrderTypeTraits() = delete;
 	protected:
-		template<class T> struct HasSequencialOrderTypeOperation_impl : std::conjunction
+		template<typename T> struct HasSequencialOrderTypeOperation_impl : std::conjunction
 			<
 				std::bool_constant<TypeTraitsBase::preincrement_result_is_same<T, T&>>
 			>
 		{};
-		template<class T> struct IsSequencialOrderType_impl :
+		template<typename T> struct IsSequencialOrderType_impl :
 			std::conjunction
 			<
 				HasSequencialOrderTypeOperation_impl<T>,
@@ -47,7 +47,11 @@ namespace zawa_ch::StationaryOrbit
 			>
 		{};
 	public:
-		template<class T> static constexpr bool IsSequencialOrderType = IsSequencialOrderType_impl<T>::value;
+		///	指定された型が 型要件:SequencialOrderType を満たすかを識別します。
+		template<typename T> static constexpr bool is_sequencialordertype = IsSequencialOrderType_impl<T>::value;
+
+		///	指定したオブジェクトの値を次の値にします。
+		template<typename T> static constexpr T& next(T& object) { static_assert(is_sequencialordertype<T>, "型 T は 型要件:SequencialOrderType を満たしません。"); return TypeTraitsBase::preincrement(object); }
 	};
 
 	///	型要件:BidirectionalOrderType を満たす型を識別します

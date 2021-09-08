@@ -43,7 +43,7 @@ std::array<std::function<int(void)>, 8> tests =
 	[]()
 	{
 		std::cout << "4. Type Range<size_t>::IteratorType meets the traits SequencialOrderType?";
-		return check_if(SequencialOrderTypeTraits::IsSequencialOrderType<Range<size_t>::IteratorType>);
+		return check_if(SequencialOrderTypeTraits::is_sequencialordertype<Range<size_t>::IteratorType>);
 	},
 	[]()
 	{
