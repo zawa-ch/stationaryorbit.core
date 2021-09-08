@@ -86,7 +86,7 @@ namespace zawa_ch::StationaryOrbit
 	};
 
 	///	型要件:LinearOrderType を満たす型を識別します
-	class LinearOrderTypeTraits : public BidirectionalOrderTypeTraits
+	class LinearOrderTypeTraits : public BidirectionalOrderTypeTraits, public ComparableTypeTraits
 	{
 		LinearOrderTypeTraits() = delete;
 		LinearOrderTypeTraits(const LinearOrderTypeTraits&) = delete;
@@ -95,26 +95,30 @@ namespace zawa_ch::StationaryOrbit
 		LinearOrderTypeTraits& operator=(LinearOrderTypeTraits&&) = delete;
 		~LinearOrderTypeTraits() = delete;
 	protected:
-		template<class, class, class = void> struct HasLinearOrderTypeOperation_t : std::false_type {};
-		template<class T, class N> struct HasLinearOrderTypeOperation_t<T, N, std::enable_if_t< IntegralTypeTraits::IsIntegralType<N> >> : std::conjunction
+		template<typename, typename, typename = void> struct HasLinearOrderTypeOperation_impl : std::false_type {};
+		template<typename T, typename N> struct HasLinearOrderTypeOperation_impl<T, N, std::enable_if_t< IntegralTypeTraits::IsIntegralType<N> >> : std::conjunction
 			<
 				HasBidirectionalOrderTypeOperation_impl<T>,
-				std::bool_constant<TypeTraitsBase::addition_result_is_same<T, N, T>>,
-				std::bool_constant<TypeTraitsBase::subtraction_result_is_same<T, N, T>>,
 				std::bool_constant<TypeTraitsBase::substitution_add_result_is_same<T, N, T&>>,
-				std::bool_constant<TypeTraitsBase::substitution_subtract_result_is_same<T, N, T&>>,
-				std::bool_constant<ComparableTypeTraits::is_comparable<T, T>>
+				std::bool_constant<TypeTraitsBase::substitution_subtract_result_is_same<T, N, T&>>
 			>
 		{};
-		template<class T, class N> struct IsLinearOrderType_t :
+		template<typename T, typename N> struct IsLinearOrderType_impl :
 			std::conjunction
 			<
 				IsBidirectionalOrderType_impl<T>,
-				HasLinearOrderTypeOperation_t<T, N>
+				HasLinearOrderTypeOperation_impl<T, N>,
+				std::bool_constant<is_comparable<T, T>>
 			>
 		{};
 	public:
-		template<class T, class N = int> static constexpr bool IsLinearOrderType = IsLinearOrderType_t<T, N>::value;
+		///	指定された型が 型要件:LinearOrderType を満たすかを識別します。
+		template<typename T, typename N = int> static constexpr bool is_linearordertype = IsLinearOrderType_impl<T, N>::value;
+
+		///	指定したオブジェクトの値を指定された数だけ進めます。
+		template<typename T, typename N = int> static constexpr T& forward(T& object, const N& count) { static_assert(is_linearordertype<T, N>, "型 T は 型要件:LinearOrderType を満たしません。"); return TypeTraitsBase::substitution_add(object, count); }
+		///	指定したオブジェクトの値を指定された数だけ戻します。
+		template<typename T, typename N = int> static constexpr T& backward(T& object, const N& count) { static_assert(is_linearordertype<T, N>, "型 T は 型要件:LinearOrderType を満たしません。"); return TypeTraitsBase::substitution_subtract(object, count); }
 	};
 }
 #endif // __stationaryorbit_core_ordertypetraits__
