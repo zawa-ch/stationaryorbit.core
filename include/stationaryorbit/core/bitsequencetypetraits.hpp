@@ -58,6 +58,7 @@ namespace zawa_ch::StationaryOrbit
 				HasBitSequenceTypeOperation_impl<T, N>,
 				std::disjunction
 				<
+					std::is_convertible<uint8_t, T>,
 					std::is_constructible<T, uint8_t>,
 					std::bool_constant<TypeTraitsBase::is_aggregatable<T, uint8_t>>
 				>,
