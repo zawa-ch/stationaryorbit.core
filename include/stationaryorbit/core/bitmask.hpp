@@ -54,36 +54,36 @@ namespace zawa_ch::StationaryOrbit
 		///	入力をマスク値に従ってマスクします。
 		///	@param	source
 		///	値を取得するソース。
-		constexpr Tp get_from(const Tp& source) const noexcept { return source & mask; }
+		constexpr Tp get_from(const Tp& source) const noexcept { return BitSequenceTypeTraits::bitwise_and(source, mask); }
 		///	入力をマスク値に従って書き込みます。
 		///	@param	destination
 		///	値の設定先。
 		///	@param	value
 		///	書き込みを行う値。
-		constexpr Tp set_to(const Tp& destination, const Tp& value) const noexcept { return (destination & ~mask) | (value & mask); }
+		constexpr Tp set_to(const Tp& destination, const Tp& value) const noexcept { return BitSequenceTypeTraits::bitwise_or(BitSequenceTypeTraits::bitwise_and(destination, BitSequenceTypeTraits::bitwise_not(mask)), BitSequenceTypeTraits::bitwise_and(value, mask)); }
 		///	入力をマスク値に従ってマスクし、LSBに詰めます。
 		///	@param	source
 		///	値を取得するソース。
-		constexpr Tp get_aligned_from(const Tp& source) const noexcept { return get_from(source) >> get_begin_index(mask); }
+		constexpr Tp get_aligned_from(const Tp& source) const noexcept { return BitSequenceTypeTraits::rshift(get_from(source), get_begin_index(mask)); }
 		///	LSBに詰められた入力をマスク値に従って書き込みます。
 		///	@param	destination
 		///	値の設定先。
 		///	@param	value
 		///	書き込みを行う値。
-		constexpr Tp set_aligned_to(const Tp& destination, const Tp& value) const noexcept { return set_to(destination, value << get_begin_index(mask)); }
+		constexpr Tp set_aligned_to(const Tp& destination, const Tp& value) const noexcept { return set_to(destination, BitSequenceTypeTraits::lshift(value, get_begin_index(mask))); }
 
-		constexpr BitMask<Tp> operator~() const noexcept { return BitMask<Tp>(~mask); }
-		constexpr BitMask<Tp> operator|(const BitMask<Tp>& other) const noexcept { return BitMask<Tp>(mask | other.mask); }
-		constexpr BitMask<Tp> operator&(const BitMask<Tp>& other) const noexcept { return BitMask<Tp>(mask & other.mask); }
-		constexpr BitMask<Tp> operator^(const BitMask<Tp>& other) const noexcept { return BitMask<Tp>(mask ^ other.mask); }
-		constexpr BitMask<Tp>& operator|=(const BitMask<Tp>& other) noexcept { return *this = BitMask<Tp>(mask | other.mask); }
-		constexpr BitMask<Tp>& operator&=(const BitMask<Tp>& other) noexcept { return *this = BitMask<Tp>(mask & other.mask); }
-		constexpr BitMask<Tp>& operator^=(const BitMask<Tp>& other) noexcept { return *this = BitMask<Tp>(mask ^ other.mask); }
+		constexpr BitMask<Tp> operator~() const noexcept { return BitMask<Tp>(BitSequenceTypeTraits::bitwise_not(mask)); }
+		constexpr BitMask<Tp> operator|(const BitMask<Tp>& other) const noexcept { return BitMask<Tp>(BitSequenceTypeTraits::bitwise_or(mask, other.mask)); }
+		constexpr BitMask<Tp> operator&(const BitMask<Tp>& other) const noexcept { return BitMask<Tp>(BitSequenceTypeTraits::bitwise_and(mask, other.mask)); }
+		constexpr BitMask<Tp> operator^(const BitMask<Tp>& other) const noexcept { return BitMask<Tp>(BitSequenceTypeTraits::bitwise_xor(mask, other.mask)); }
+		constexpr BitMask<Tp>& operator|=(const BitMask<Tp>& other) noexcept { BitSequenceTypeTraits::substitution_bitwise_or(mask, other.mask); return *this; }
+		constexpr BitMask<Tp>& operator&=(const BitMask<Tp>& other) noexcept { BitSequenceTypeTraits::substitution_bitwise_and(mask, other.mask); return *this; }
+		constexpr BitMask<Tp>& operator^=(const BitMask<Tp>& other) noexcept { BitSequenceTypeTraits::substitution_bitwise_xor(mask, other.mask); return *this; }
 
 		///	他の @a BitMask との等価比較を行います。
 		///	@param	other
 		///	比較対象となるオブジェクト。
-		constexpr bool equals(const BitMask<Tp>& other) const noexcept { return mask == other.mask; }
+		constexpr bool equals(const BitMask<Tp>& other) const noexcept { return BitSequenceTypeTraits::equals(mask, other.mask); }
 		constexpr bool operator==(const BitMask<Tp>& other) const noexcept { return equals(other); }
 		constexpr bool operator!=(const BitMask<Tp>& other) const noexcept { return !equals(other); }
 	private:
@@ -91,14 +91,14 @@ namespace zawa_ch::StationaryOrbit
 		static constexpr size_t get_begin_index(const Tp& value, const size_t& start = 0) noexcept
 		{
 			const size_t length = bitwidth<Tp>;
-			for (size_t i = start; i < length; i++) { if ((value & (1 << i)) != 0) { return i; } }
+			for (size_t i = start; i < length; i++) { if (BitSequenceTypeTraits::not_equals(BitSequenceTypeTraits::bitwise_and(value, BitSequenceTypeTraits::lshift(BitSequenceTypeTraits::construct_from_uint8<Tp>(1), i)), BitSequenceTypeTraits::construct_from_uint8<Tp>(0))) { return i; } }
 			return length;
 		}
 		///	指定された値の終端ビットのインデックスを取得します。
 		static constexpr size_t get_end_index(const Tp& value, const size_t& start = std::numeric_limits<size_t>::max()) noexcept
 		{
 			const size_t length = bitwidth<Tp>;
-			for (size_t i = ((start < length)?start:length); 0 < i; i--) { if ((value & (1 << (i - 1))) != 0) { return i; } }
+			for (size_t i = ((start < length)?start:length); 0 < i; i--) { if (BitSequenceTypeTraits::not_equals(BitSequenceTypeTraits::bitwise_and(value, BitSequenceTypeTraits::lshift(BitSequenceTypeTraits::construct_from_uint8<Tp>(1), i - 1)), BitSequenceTypeTraits::construct_from_uint8<Tp>(0))) { return i; } }
 			return length;
 		}
 	};
