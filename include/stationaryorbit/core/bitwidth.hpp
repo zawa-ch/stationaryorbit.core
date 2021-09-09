@@ -41,29 +41,14 @@ namespace zawa_ch::StationaryOrbit
 		static constexpr size_t count() noexcept
 		{
 			static_assert(std::is_convertible_v<T, uint8_t> || TypeTraitsBase::is_aggregatable<T, uint8_t> || std::is_constructible_v<T, uint8_t>, "テンプレート型 T は (uint8_t) を引数に持つコンストラクタ,集成体初期化またはuint8_tからの暗黙の変換をサポートする必要があります。");
-			T v = T();
-			T z = T();
-			if constexpr (std::is_convertible_v<T, uint8_t>)
-			{
-				v = 1;
-				z = 0;
-			}
-			if constexpr ((!std::is_convertible_v<T, uint8_t>) && TypeTraitsBase::is_aggregatable<T, uint8_t>)
-			{
-				v = T{ 1 };
-				z = T{ 0 };
-			}
-			if constexpr ((!std::is_convertible_v<T, uint8_t>) && !(TypeTraitsBase::is_aggregatable<T, uint8_t>) && std::is_constructible_v<T, uint8_t>)
-			{
-				v = T(1);
-				z = T(0);
-			}
+			T v = BitSequenceTypeTraits::construct_from_uint8<T>(1);
+			T z = BitSequenceTypeTraits::construct_from_uint8<T>(0);
 			size_t result = 0;
-			while(v != z)
+			while(BitSequenceTypeTraits::not_equals(v, z))
 			{
 				++result;
-				if (v == T(v << 1)) { break; }
-				v = v << 1;
+				if (BitSequenceTypeTraits::equals(v, BitSequenceTypeTraits::lshift(v, 1))) { break; }
+				BitSequenceTypeTraits::substitution_lshift(v, 1);
 			}
 			return result;
 		}
