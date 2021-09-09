@@ -70,6 +70,13 @@ namespace zawa_ch::StationaryOrbit
 		///	指定された型が 型要件:BitSequenceType を満たすかを識別します。
 		template<typename T, typename N = int> static constexpr bool is_bitsequence_type = IsBitSequenceType_impl<T, N>::value;
 
+		template<typename T, typename N = int> [[nodiscard]] static constexpr T construct_from_uint8(uint8_t value)
+		{
+			static_assert(is_bitsequence_type<T, N>, "型 T, N の組み合わせは 型要件:BitSequenceType を満たしません。");
+			if constexpr (std::is_convertible_v<uint8_t, T>) { return value; }
+			if constexpr ((!std::is_convertible_v<uint8_t, T>) && std::is_constructible_v<T, uint8_t>) { return T(value); }
+			if constexpr ((!std::is_convertible_v<uint8_t, T>) && (!std::is_constructible_v<T, uint8_t>) && TypeTraitsBase::is_aggregatable<T, uint8_t>) { return T{ value }; }
+		}
 		///	ビット単位の論理否定演算を行います。
 		template<typename T, typename N = int> [[nodiscard]] static constexpr T bitwise_not(const T& object)
 		{
