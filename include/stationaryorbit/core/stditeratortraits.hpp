@@ -25,11 +25,15 @@
 #include "comparabletypetraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
-	///	C++標準のイテレータを識別します。
-	class StdIteratorTraits
+	///	名前付き要件:LegacyIterator を満たす型を識別します
+	class StdLegacyIteratorTraits
 	{
-		StdIteratorTraits() = delete;
-		~StdIteratorTraits() = delete;
+		StdLegacyIteratorTraits() = delete;
+		StdLegacyIteratorTraits(const StdLegacyIteratorTraits&) = delete;
+		StdLegacyIteratorTraits(StdLegacyIteratorTraits&&) = delete;
+		StdLegacyIteratorTraits& operator=(const StdLegacyIteratorTraits&) = delete;
+		StdLegacyIteratorTraits& operator=(StdLegacyIteratorTraits&&) = delete;
+		~StdLegacyIteratorTraits() = delete;
 	private:
 		struct do_StdLegacyIterator_impl
 		{
@@ -53,6 +57,42 @@ namespace zawa_ch::StationaryOrbit
 			typedef decltype(test_has_pointer<It>(0)) has_pointer;
 			typedef decltype(test_has_iterator_category<It>(0)) has_iterator_category;
 		};
+	protected:
+		template<class It> struct IsStdLegacyIterator_t : std::conjunction
+			<
+				std::is_copy_constructible<It>,
+				std::is_copy_assignable<It>,
+				std::is_destructible<It>,
+				std::is_swappable<It&>,
+				typename do_StdLegacyIterator_t<It>::has_value_type,
+				typename do_StdLegacyIterator_t<It>::has_difference_type,
+				typename do_StdLegacyIterator_t<It>::has_reference,
+				typename do_StdLegacyIterator_t<It>::has_pointer,
+				typename do_StdLegacyIterator_t<It>::has_iterator_category,
+				std::bool_constant<TypeTraitsBase::preincrement_result_is_same<It, It&>>,
+				std::bool_constant<TypeTraitsBase::has_dereference<It>>
+			>
+		{};
+	public:
+		template<class It> inline constexpr static bool IsStdLegacyIterator = IsStdLegacyIterator_t<It>::value;
+
+		template<typename It> using value_type = typename std::iterator_traits<It>::value_type;
+		template<typename It> using difference_type = typename std::iterator_traits<It>::difference_type;
+		template<typename It> using reference = typename std::iterator_traits<It>::reference;
+		template<typename It> using pointer = typename std::iterator_traits<It>::pointer;
+		template<typename It> using iterator_category = typename std::iterator_traits<It>::iterator_category;
+	};
+
+	///	名前付き要件:LegacyInputIterator を満たす型を識別します
+	class StdLegacyInputIteratorTraits : public StdLegacyIteratorTraits
+	{
+		StdLegacyInputIteratorTraits() = delete;
+		StdLegacyInputIteratorTraits(const StdLegacyInputIteratorTraits&) = delete;
+		StdLegacyInputIteratorTraits(StdLegacyInputIteratorTraits&&) = delete;
+		StdLegacyInputIteratorTraits& operator=(const StdLegacyInputIteratorTraits&) = delete;
+		StdLegacyInputIteratorTraits& operator=(StdLegacyInputIteratorTraits&&) = delete;
+		~StdLegacyInputIteratorTraits() = delete;
+	private:
 		struct do_StdLegacyInputIterator_impl
 		{
 			template<class It, typename R = decltype( *std::declval<It&>() ), typename C = typename std::iterator_traits<It>::reference> static std::is_same<R, C> test_dereference_is_same_reference(int);
@@ -69,6 +109,35 @@ namespace zawa_ch::StationaryOrbit
 			typedef decltype(test_dereference_is_convertible_value_type<It>(0)) dereference_is_convertible_value_type;
 			typedef decltype(test_incdereference_is_convertible_value_type<It>(0)) incdereference_is_convertible_value_type;
 		};
+	protected:
+		template<class It> struct IsStdLegacyInputIterator_t : std::conjunction
+			<
+				IsStdLegacyIterator_t<It>,
+				std::bool_constant<EquatableTypeTraits::is_equatable<It, It>>,
+				std::bool_constant<TypeTraitsBase::preincrement_result_is_same<It, It&>>,
+				std::bool_constant<TypeTraitsBase::has_postincrement<It>>,
+				typename do_StdLegacyInputIterator_t<It>::dereference_is_same_reference,
+				typename do_StdLegacyInputIterator_t<It>::dereference_is_convertible_value_type,
+				typename do_StdLegacyInputIterator_t<It>::incdereference_is_convertible_value_type
+			>
+		{};
+	public:
+		template<class It> inline constexpr static bool IsStdLegacyInputIterator = IsStdLegacyInputIterator_t<It>::value;
+
+		template<typename It> [[nodiscard]] static constexpr reference<It> dereference(const It& it) { static_assert(IsStdLegacyInputIterator<It>, "名前付き要件:LegacyInputIterator を満たす必要があります。"); return *it; }
+		template<typename It> [[nodiscard]] static constexpr It& next(It& it) { static_assert(IsStdLegacyInputIterator<It>, "名前付き要件:LegacyInputIterator を満たす必要があります。"); return *it; }
+	};
+
+	///	名前付き要件:LegacyOutputIterator を満たす型を識別します
+	class StdLegacyOutputIteratorTraits : public StdLegacyIteratorTraits
+	{
+		StdLegacyOutputIteratorTraits() = delete;
+		StdLegacyOutputIteratorTraits(const StdLegacyOutputIteratorTraits&) = delete;
+		StdLegacyOutputIteratorTraits(StdLegacyOutputIteratorTraits&&) = delete;
+		StdLegacyOutputIteratorTraits& operator=(const StdLegacyOutputIteratorTraits&) = delete;
+		StdLegacyOutputIteratorTraits& operator=(StdLegacyOutputIteratorTraits&&) = delete;
+		~StdLegacyOutputIteratorTraits() = delete;
+	private:
 		struct do_StdLegacyOutputIterator_impl
 		{
 			template<class It, class O, typename = decltype( *std::declval<It&>() = std::declval<O&>() )> static std::true_type test_has_dereference_assign(int);
@@ -82,6 +151,35 @@ namespace zawa_ch::StationaryOrbit
 			typedef decltype(test_has_dereference_assign<It, O>(0)) has_dereference_assign;
 			typedef decltype(test_has_incdereference_assign<It, O>(0)) has_incdereference_assign;
 		};
+	protected:
+		template<class It, class O> struct IsStdLegacyOutputIterator_t : std::conjunction
+			<
+				IsStdLegacyIterator_t<It>,
+				std::disjunction
+				<
+					std::is_class<It>,
+					std::is_pointer<It>
+				>,
+				typename do_StdLegacyOutputIterator_t<It, O>::has_dereference_assign,
+				typename do_StdLegacyOutputIterator_t<It, O>::has_incdereference_assign,
+				std::bool_constant<TypeTraitsBase::preincrement_result_is_same<It, It&>>,
+				std::bool_constant<TypeTraitsBase::postdecrement_result_is_convertible<It, const It&>>
+			>
+		{};
+	public:
+		template<class It, class O> inline constexpr static bool IsStdLegacyOutputIterator = IsStdLegacyOutputIterator_t<It, O>::value;
+	};
+
+	///	名前付き要件:LegacyForwardIterator を満たす型を識別します
+	class StdLegacyForwardIteratorTraits : public StdLegacyInputIteratorTraits
+	{
+		StdLegacyForwardIteratorTraits() = delete;
+		StdLegacyForwardIteratorTraits(const StdLegacyForwardIteratorTraits&) = delete;
+		StdLegacyForwardIteratorTraits(StdLegacyForwardIteratorTraits&&) = delete;
+		StdLegacyForwardIteratorTraits& operator=(const StdLegacyForwardIteratorTraits&) = delete;
+		StdLegacyForwardIteratorTraits& operator=(StdLegacyForwardIteratorTraits&&) = delete;
+		~StdLegacyForwardIteratorTraits() = delete;
+	private:
 		struct do_StdLegacyForwardIterator_impl
 		{
 			template<class It, typename R = typename std::iterator_traits<It>::reference, typename C = typename std::iterator_traits<It>::value_type&> static std::is_same<R, C> test_reference_is_same_value_type_lvalue(int);
@@ -98,6 +196,34 @@ namespace zawa_ch::StationaryOrbit
 			typedef decltype(test_reference_is_same_value_type_const_lvalue<It>(0)) reference_is_same_value_type_const_lvalue;
 			typedef decltype(test_incdereference_is_same_reference<It>(0)) incdereference_is_same_reference;
 		};
+	protected:
+		template<class It> struct IsStdLegacyForwardIterator_t : std::conjunction
+			<
+				IsStdLegacyInputIterator_t<It>,
+				std::is_default_constructible<It>,
+				std::disjunction
+				<
+					typename do_StdLegacyForwardIterator_t<It>::reference_is_same_value_type_lvalue,
+					typename do_StdLegacyForwardIterator_t<It>::reference_is_same_value_type_const_lvalue
+				>,
+				std::bool_constant<TypeTraitsBase::postincrement_result_is_same<It, It>>,
+				typename do_StdLegacyForwardIterator_t<It>::incdereference_is_same_reference
+			>
+		{};
+	public:
+		template<class It> inline constexpr static bool IsStdLegacyForwardIterator = IsStdLegacyForwardIterator_t<It>::value;
+	};
+
+	///	名前付き要件:LegacyBidirectionalIterator を満たす型を識別します
+	class StdLegacyBidirectionalIteratorTraits : public StdLegacyForwardIteratorTraits
+	{
+		StdLegacyBidirectionalIteratorTraits() = delete;
+		StdLegacyBidirectionalIteratorTraits(const StdLegacyBidirectionalIteratorTraits&) = delete;
+		StdLegacyBidirectionalIteratorTraits(StdLegacyBidirectionalIteratorTraits&&) = delete;
+		StdLegacyBidirectionalIteratorTraits& operator=(const StdLegacyBidirectionalIteratorTraits&) = delete;
+		StdLegacyBidirectionalIteratorTraits& operator=(StdLegacyBidirectionalIteratorTraits&&) = delete;
+		~StdLegacyBidirectionalIteratorTraits() = delete;
+	private:
 		struct do_StdLegacyBidirectionalIterator_impl
 		{
 			template<class It, typename R = decltype( *std::declval<It&>()-- ), typename C = typename std::iterator_traits<It>::reference> static std::is_same<R, C> test_decdereference_is_same_reference(int);
@@ -108,6 +234,29 @@ namespace zawa_ch::StationaryOrbit
 		{
 			typedef decltype(test_decdereference_is_same_reference<It>(0)) decdereference_is_same_reference;
 		};
+	protected:
+		template<class It> struct IsStdLegacyBidirectionalIterator_t : std::conjunction
+			<
+				IsStdLegacyForwardIterator_t<It>,
+				std::bool_constant<TypeTraitsBase::predecrement_result_is_same<It, It&>>,
+				std::bool_constant<TypeTraitsBase::postdecrement_result_is_convertible<It, const It&>>,
+				typename do_StdLegacyBidirectionalIterator_t<It>::decdereference_is_same_reference
+			>
+		{};
+	public:
+		template<class It> inline constexpr static bool IsStdLegacyBidirectionalIterator = IsStdLegacyBidirectionalIterator_t<It>::value;
+	};
+
+	///	名前付き要件:LegacyRandomAccessIterator を満たす型を識別します
+	class StdLegacyRandomAccessIteratorTraits : public StdLegacyBidirectionalIteratorTraits
+	{
+		StdLegacyRandomAccessIteratorTraits() = delete;
+		StdLegacyRandomAccessIteratorTraits(const StdLegacyRandomAccessIteratorTraits&) = delete;
+		StdLegacyRandomAccessIteratorTraits(StdLegacyRandomAccessIteratorTraits&&) = delete;
+		StdLegacyRandomAccessIteratorTraits& operator=(const StdLegacyRandomAccessIteratorTraits&) = delete;
+		StdLegacyRandomAccessIteratorTraits& operator=(StdLegacyRandomAccessIteratorTraits&&) = delete;
+		~StdLegacyRandomAccessIteratorTraits() = delete;
+	private:
 		struct do_StdLegacyRandomAccessIterator_impl
 		{
 			template<class It, typename D = typename std::iterator_traits<It>::difference_type, typename R = decltype( std::declval<It&>() += std::declval<D&>() ), typename C = It&> static std::is_same<R, C> test_difference_type_addstitution_is_same_lvalue(int);
@@ -133,67 +282,7 @@ namespace zawa_ch::StationaryOrbit
 			typedef decltype(test_type_subtract_is_same_difference_type<It>(0)) type_subtract_is_same_difference_type;
 			typedef decltype(test_difference_type_subscript_is_convertible_reference<It>(0)) difference_type_subscript_is_convertible_reference;
 		};
-		template<class It> struct IsStdLegacyIterator_t : std::conjunction
-			<
-				std::is_copy_constructible<It>,
-				std::is_copy_assignable<It>,
-				std::is_destructible<It>,
-				std::is_swappable<It&>,
-				typename do_StdLegacyIterator_t<It>::has_value_type,
-				typename do_StdLegacyIterator_t<It>::has_difference_type,
-				typename do_StdLegacyIterator_t<It>::has_reference,
-				typename do_StdLegacyIterator_t<It>::has_pointer,
-				typename do_StdLegacyIterator_t<It>::has_iterator_category,
-				std::bool_constant<TypeTraitsBase::preincrement_result_is_same<It, It&>>,
-				std::bool_constant<TypeTraitsBase::has_dereference<It>>
-			>
-		{};
-		template<class It> struct IsStdLegacyInputIterator_t : std::conjunction
-			<
-				IsStdLegacyIterator_t<It>,
-				std::bool_constant<EquatableTypeTraits::is_equatable<It, It>>,
-				std::bool_constant<TypeTraitsBase::preincrement_result_is_same<It, It&>>,
-				std::bool_constant<TypeTraitsBase::has_postincrement<It>>,
-				typename do_StdLegacyInputIterator_t<It>::dereference_is_same_reference,
-				typename do_StdLegacyInputIterator_t<It>::dereference_is_convertible_value_type,
-				typename do_StdLegacyInputIterator_t<It>::incdereference_is_convertible_value_type
-			>
-		{};
-		template<class It, class O> struct IsStdLegacyOutputIterator_t : std::conjunction
-			<
-				IsStdLegacyIterator_t<It>,
-				std::disjunction
-				<
-					std::is_class<It>,
-					std::is_pointer<It>
-				>,
-				typename do_StdLegacyOutputIterator_t<It, O>::has_dereference_assign,
-				typename do_StdLegacyOutputIterator_t<It, O>::has_incdereference_assign,
-				std::bool_constant<TypeTraitsBase::preincrement_result_is_same<It, It&>>,
-				std::bool_constant<TypeTraitsBase::postdecrement_result_is_convertible<It, const It&>>
-			>
-		{};
-		template<class It> struct IsStdLegacyForwardIterator_t : std::conjunction
-			<
-				IsStdLegacyInputIterator_t<It>,
-				std::is_default_constructible<It>,
-				std::disjunction
-				<
-					typename do_StdLegacyForwardIterator_t<It>::reference_is_same_value_type_lvalue,
-					typename do_StdLegacyForwardIterator_t<It>::reference_is_same_value_type_const_lvalue
-				>,
-				std::bool_constant<TypeTraitsBase::postincrement_result_is_same<It, It>>,
-				typename do_StdLegacyForwardIterator_t<It>::incdereference_is_same_reference
-			>
-		{};
-		template<class It> struct IsStdLegacyBidirectionalIterator_t : std::conjunction
-			<
-				IsStdLegacyForwardIterator_t<It>,
-				std::bool_constant<TypeTraitsBase::predecrement_result_is_same<It, It&>>,
-				std::bool_constant<TypeTraitsBase::postdecrement_result_is_convertible<It, const It&>>,
-				typename do_StdLegacyBidirectionalIterator_t<It>::decdereference_is_same_reference
-			>
-		{};
+	protected:
 		template<class It> struct IsStdLegacyRandomAccessIterator_t : std::conjunction
 			<
 				IsStdLegacyBidirectionalIterator_t<It>,
@@ -207,27 +296,7 @@ namespace zawa_ch::StationaryOrbit
 			>
 		{};
 	public:
-		///	名前付き要件:LegacyIteratorを満たす型を識別します。
-		template<class It> inline constexpr static bool IsStdLegacyIterator = IsStdLegacyIterator_t<It>::value;
-		///	名前付き要件:LegacyInputIteratorを満たす型を識別します。
-		template<class It> inline constexpr static bool IsStdLegacyInputIterator = IsStdLegacyInputIterator_t<It>::value;
-		///	名前付き要件:LegacyForwardIteratorを満たす型を識別します。
-		template<class It> inline constexpr static bool IsStdLegacyForwardIterator = IsStdLegacyForwardIterator_t<It>::value;
-		///	名前付き要件:LegacyBidirectionalIteratorを満たす型を識別します。
-		template<class It> inline constexpr static bool IsStdLegacyBidirectionalIterator = IsStdLegacyBidirectionalIterator_t<It>::value;
-		///	名前付き要件:LegacyRandomAccessIteratorを満たす型を識別します。
 		template<class It> inline constexpr static bool IsStdLegacyRandomAccessIterator = IsStdLegacyRandomAccessIterator_t<It>::value;
-		///	名前付き要件:LegacyOutputIteratorを満たす型を識別します。
-		template<class It, class O> inline constexpr static bool IsStdLegacyOutputIterator = IsStdLegacyOutputIterator_t<It, O>::value;
-
-		template<typename It> using value_type = typename std::iterator_traits<It>::value_type;
-		template<typename It> using difference_type = typename std::iterator_traits<It>::difference_type;
-		template<typename It> using reference = typename std::iterator_traits<It>::reference;
-		template<typename It> using pointer = typename std::iterator_traits<It>::pointer;
-		template<typename It> using iterator_category = typename std::iterator_traits<It>::iterator_category;
-
-		template<typename It> [[nodiscard]] static constexpr reference<It> dereference(const It& it) { static_assert(IsStdLegacyInputIterator<It>, "名前付き要件:LegacyInputIterator を満たす必要があります。"); return *it; }
-		template<typename It> [[nodiscard]] static constexpr It& next(It& it) { static_assert(IsStdLegacyInputIterator<It>, "名前付き要件:LegacyInputIterator を満たす必要があります。"); return *it; }
 	};
 }
 #endif // __stationaryorbit_core_stditeratortraits__
