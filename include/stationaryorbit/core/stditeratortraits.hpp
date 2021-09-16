@@ -167,7 +167,7 @@ namespace zawa_ch::StationaryOrbit
 			>
 		{};
 	public:
-		template<class It, class O> inline constexpr static bool IsStdLegacyOutputIterator = IsStdLegacyOutputIterator_t<It, O>::value;
+		template<class It, class O> inline constexpr static bool is_std_legacy_output_iterator = IsStdLegacyOutputIterator_t<It, O>::value;
 	};
 
 	///	名前付き要件:LegacyForwardIterator を満たす型を識別します
