@@ -26,27 +26,27 @@ using namespace zawa_ch::StationaryOrbit;
 static_assert(StdLegacyIteratorTraits::is_std_legacy_iterator<std::array<int, 16>::iterator>, "std::array のイテレータは LegacyIterator を満たしますが、識別結果は false  を返しました。");
 static_assert(StdLegacyInputIteratorTraits::is_std_legacy_input_iterator<std::array<int, 16>::iterator>, "std::array のイテレータは LegacyInputIterator を満たしますが、識別結果は false を返しました。");
 static_assert(StdLegacyOutputIteratorTraits::is_std_legacy_output_iterator<std::array<int, 16>::iterator, int>, "std::array のイテレータは LegacyOutputIterator を満たしますが、識別結果は false を返しました。");
-static_assert(StdLegacyForwardIteratorTraits::IsStdLegacyForwardIterator<std::array<int, 16>::iterator>, "std::array のイテレータは LegacyForwardIterator を満たしますが、識別結果は false を返しました。");
+static_assert(StdLegacyForwardIteratorTraits::is_std_legacy_forward_iterator<std::array<int, 16>::iterator>, "std::array のイテレータは LegacyForwardIterator を満たしますが、識別結果は false を返しました。");
 static_assert(StdLegacyBidirectionalIteratorTraits::IsStdLegacyBidirectionalIterator<std::array<int, 16>::iterator>, "std::array のイテレータは LegacyBidirectionalIterator を満たしますが、識別結果は false を返しました。");
 static_assert(StdLegacyRandomAccessIteratorTraits::IsStdLegacyRandomAccessIterator<std::array<int, 16>::iterator>, "std::array のイテレータは LegacyRandomAccessIterator を満たしますが、識別結果は false を返しました。");
 
 static_assert(StdLegacyIteratorTraits::is_std_legacy_iterator<std::vector<int>::iterator>, "std::vector のイテレータは LegacyIterator を満たしますが、識別結果は false を返しました。");
 static_assert(StdLegacyInputIteratorTraits::is_std_legacy_input_iterator<std::vector<int>::iterator>, "std::vector のイテレータは LegacyInputIterator を満たしますが、識別結果は false を返しました。");
 static_assert(StdLegacyOutputIteratorTraits::is_std_legacy_output_iterator<std::vector<int>::iterator, int>, "std::vector のイテレータは LegacyOutputIterator を満たしますが、識別結果は false を返しました。");
-static_assert(StdLegacyForwardIteratorTraits::IsStdLegacyForwardIterator<std::vector<int>::iterator>, "std::vector のイテレータは LegacyForwardIterator を満たしますが、識別結果は false を返しました。");
+static_assert(StdLegacyForwardIteratorTraits::is_std_legacy_forward_iterator<std::vector<int>::iterator>, "std::vector のイテレータは LegacyForwardIterator を満たしますが、識別結果は false を返しました。");
 static_assert(StdLegacyBidirectionalIteratorTraits::IsStdLegacyBidirectionalIterator<std::vector<int>::iterator>, "std::vector のイテレータは LegacyBidirectionalIterator を満たしますが、識別結果は false を返しました。");
 static_assert(StdLegacyRandomAccessIteratorTraits::IsStdLegacyRandomAccessIterator<std::vector<int>::iterator>, "std::vector のイテレータは LegacyRandomAccessIterator を満たしますが、識別結果は false を返しました。");
 
 static_assert(StdLegacyIteratorTraits::is_std_legacy_iterator<std::deque<int>::iterator>, "std::deque のイテレータは LegacyIterator を満たしますが、識別結果は false を返しました。");
 static_assert(StdLegacyInputIteratorTraits::is_std_legacy_input_iterator<std::deque<int>::iterator>, "std::deque のイテレータは LegacyInputIterator を満たしますが、識別結果は false を返しました。");
 static_assert(StdLegacyOutputIteratorTraits::is_std_legacy_output_iterator<std::deque<int>::iterator, int>, "std::deque のイテレータは LegacyOutputIterator を満たしますが、識別結果は false を返しました。");
-static_assert(StdLegacyForwardIteratorTraits::IsStdLegacyForwardIterator<std::deque<int>::iterator>, "std::deque のイテレータは LegacyForwardIterator を満たしますが、識別結果は false を返しました。");
+static_assert(StdLegacyForwardIteratorTraits::is_std_legacy_forward_iterator<std::deque<int>::iterator>, "std::deque のイテレータは LegacyForwardIterator を満たしますが、識別結果は false を返しました。");
 static_assert(StdLegacyBidirectionalIteratorTraits::IsStdLegacyBidirectionalIterator<std::deque<int>::iterator>, "std::deque のイテレータは LegacyBidirectionalIterator を満たしますが、識別結果は false を返しました。");
 static_assert(StdLegacyRandomAccessIteratorTraits::IsStdLegacyRandomAccessIterator<std::deque<int>::iterator>, "std::deque のイテレータは LegacyRandomAccessIterator を満たしますが、識別結果は false を返しました。");
 
 static_assert(StdLegacyIteratorTraits::is_std_legacy_iterator<std::list<int>::iterator>, "std::list のイテレータは LegacyIterator を満たしますが、識別結果は false を返しました。");
 static_assert(StdLegacyInputIteratorTraits::is_std_legacy_input_iterator<std::list<int>::iterator>, "std::list のイテレータは LegacyInputIterator を満たしますが、識別結果は false を返しました。");
 static_assert(StdLegacyOutputIteratorTraits::is_std_legacy_output_iterator<std::list<int>::iterator, int>, "std::list のイテレータは LegacyOutputIterator を満たしますが、識別結果は false を返しました。");
-static_assert(StdLegacyForwardIteratorTraits::IsStdLegacyForwardIterator<std::list<int>::iterator>, "std::list のイテレータは LegacyForwardIterator を満たしますが、識別結果は false を返しました。");
+static_assert(StdLegacyForwardIteratorTraits::is_std_legacy_forward_iterator<std::list<int>::iterator>, "std::list のイテレータは LegacyForwardIterator を満たしますが、識別結果は false を返しました。");
 static_assert(StdLegacyBidirectionalIteratorTraits::IsStdLegacyBidirectionalIterator<std::list<int>::iterator>, "std::list のイテレータは LegacyBidirectionalIterator を満たしますが、識別結果は false を返しました。");
 static_assert(!StdLegacyRandomAccessIteratorTraits::IsStdLegacyRandomAccessIterator<std::list<int>::iterator>, "std::list のイテレータは LegacyRandomAccessIterator を満たしませんが、識別結果は true を返しました。");
