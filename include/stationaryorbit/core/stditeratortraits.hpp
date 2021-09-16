@@ -74,7 +74,7 @@ namespace zawa_ch::StationaryOrbit
 			>
 		{};
 	public:
-		template<class It> inline constexpr static bool IsStdLegacyIterator = IsStdLegacyIterator_t<It>::value;
+		template<class It> constexpr static bool is_std_legacy_iterator = IsStdLegacyIterator_t<It>::value;
 
 		template<typename It> using value_type = typename std::iterator_traits<It>::value_type;
 		template<typename It> using difference_type = typename std::iterator_traits<It>::difference_type;
