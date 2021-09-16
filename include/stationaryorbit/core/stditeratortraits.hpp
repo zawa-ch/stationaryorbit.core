@@ -124,8 +124,18 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		template<class It> inline constexpr static bool is_std_legacy_input_iterator = IsStdLegacyInputIterator_t<It>::value;
 
-		template<typename It> [[nodiscard]] static constexpr reference<It> dereference(const It& it) { static_assert(is_std_legacy_input_iterator<It>, "名前付き要件:LegacyInputIterator を満たす必要があります。"); return *it; }
-		template<typename It> [[nodiscard]] static constexpr It& next(It& it) { static_assert(is_std_legacy_input_iterator<It>, "名前付き要件:LegacyInputIterator を満たす必要があります。"); return *it; }
+		template<typename It>
+		[[nodiscard]] static constexpr reference<It> dereference(const It& it)
+		{
+			static_assert(is_std_legacy_input_iterator<It>, "名前付き要件:LegacyInputIterator を満たす必要があります。");
+			return *it;
+		}
+		template<typename It>
+		[[nodiscard]] static constexpr It& next(It& it)
+		{
+			static_assert(is_std_legacy_input_iterator<It>, "名前付き要件:LegacyInputIterator を満たす必要があります。");
+			return ++it;
+		}
 	};
 
 	///	名前付き要件:LegacyOutputIterator を満たす型を識別します
