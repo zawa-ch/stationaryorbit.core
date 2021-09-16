@@ -244,7 +244,7 @@ namespace zawa_ch::StationaryOrbit
 			>
 		{};
 	public:
-		template<class It> inline constexpr static bool IsStdLegacyBidirectionalIterator = IsStdLegacyBidirectionalIterator_t<It>::value;
+		template<class It> inline constexpr static bool is_std_legacy_bidirectional_iterator = IsStdLegacyBidirectionalIterator_t<It>::value;
 	};
 
 	///	名前付き要件:LegacyRandomAccessIterator を満たす型を識別します
