@@ -296,7 +296,7 @@ namespace zawa_ch::StationaryOrbit
 			>
 		{};
 	public:
-		template<class It> inline constexpr static bool IsStdLegacyRandomAccessIterator = IsStdLegacyRandomAccessIterator_t<It>::value;
+		template<class It> inline constexpr static bool is_std_legacy_random_access_iterator = IsStdLegacyRandomAccessIterator_t<It>::value;
 	};
 }
 #endif // __stationaryorbit_core_stditeratortraits__
