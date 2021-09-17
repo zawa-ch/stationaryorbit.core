@@ -163,19 +163,19 @@ namespace zawa_ch::StationaryOrbit
 	private:
 		struct do_StdLegacyOutputIterator_impl
 		{
-			template<class It, class O, typename = decltype( *std::declval<It&>() = std::declval<O&>() )> static std::true_type test_has_dereference_assign(int);
-			template<class It> static std::false_type test_has_dereference_assign(...);
-			template<class It, class O, typename = decltype( *std::declval<It&>()++ = std::declval<O&>() )> static std::true_type test_has_incdereference_assign(int);
-			template<class It> static std::false_type test_has_incdereference_assign(...);
+			template<typename It, typename O, typename = decltype( *std::declval<It&>() = std::declval<O&>() )> static std::true_type test_has_dereference_assign(int);
+			template<typename It> static std::false_type test_has_dereference_assign(...);
+			template<typename It, typename O, typename = decltype( *std::declval<It&>()++ = std::declval<O&>() )> static std::true_type test_has_incdereference_assign(int);
+			template<typename It> static std::false_type test_has_incdereference_assign(...);
 		};
-		template<class It, class O>
+		template<typename It, typename O>
 		struct do_StdLegacyOutputIterator_t : do_StdLegacyOutputIterator_impl
 		{
 			typedef decltype(test_has_dereference_assign<It, O>(0)) has_dereference_assign;
 			typedef decltype(test_has_incdereference_assign<It, O>(0)) has_incdereference_assign;
 		};
 	protected:
-		template<class It, class O> struct IsStdLegacyOutputIterator_t : std::conjunction
+		template<typename It, typename O> struct IsStdLegacyOutputIterator_t : std::conjunction
 			<
 				IsStdLegacyIterator_t<It>,
 				std::disjunction
@@ -190,7 +190,18 @@ namespace zawa_ch::StationaryOrbit
 			>
 		{};
 	public:
-		template<class It, class O> inline constexpr static bool is_std_legacy_output_iterator = IsStdLegacyOutputIterator_t<It, O>::value;
+		template<typename It, typename O> static constexpr bool is_std_legacy_output_iterator = IsStdLegacyOutputIterator_t<It, O>::value;
+
+		template<typename It, typename O> [[nodiscard]] static constexpr auto assign_into_reference(It& it, const O& object)
+		{
+			static_assert(is_std_legacy_output_iterator<It, O>, "名前付き要件:LegacyOutputIterator を満たす必要があります。");
+			return *it = object;
+		}
+		template<typename It, typename O> [[nodiscard]] static constexpr auto assign_into_reference_and_next(It& it, const O& object)
+		{
+			static_assert(is_std_legacy_output_iterator<It, O>, "名前付き要件:LegacyOutputIterator を満たす必要があります。");
+			return *it++ = object;
+		}
 	};
 
 	///	名前付き要件:LegacyForwardIterator を満たす型を識別します
