@@ -144,7 +144,7 @@ namespace zawa_ch::StationaryOrbit
 			return *it;
 		}
 		template<typename It>
-		[[nodiscard]] static constexpr reference<It> dereference_and_next(It& it)
+		[[nodiscard]] static constexpr auto dereference_and_next(It& it)
 		{
 			static_assert(is_std_legacy_input_iterator<It>, "名前付き要件:LegacyInputIterator を満たす必要があります。");
 			return *it++;
