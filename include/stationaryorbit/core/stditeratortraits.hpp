@@ -216,14 +216,14 @@ namespace zawa_ch::StationaryOrbit
 	private:
 		struct do_StdLegacyForwardIterator_impl
 		{
-			template<class It, typename R = typename std::iterator_traits<It>::reference, typename C = typename std::iterator_traits<It>::value_type&> static std::is_same<R, C> test_reference_is_same_value_type_lvalue(int);
-			template<class It> static std::false_type test_reference_is_same_value_type_lvalue(...);
-			template<class It, typename R = typename std::iterator_traits<It>::reference, typename C = const typename std::iterator_traits<It>::value_type&> static std::is_same<R, C> test_reference_is_same_value_type_const_lvalue(int);
-			template<class It> static std::false_type test_reference_is_same_value_type_const_lvalue(...);
-			template<class It, typename R = decltype( *std::declval<It&>()++ ), typename C = typename std::iterator_traits<It>::reference> static std::is_same<R, C> test_incdereference_is_same_reference(int);
-			template<class It> static std::false_type test_incdereference_is_same_reference(...);
+			template<typename It, typename R = typename std::iterator_traits<It>::reference, typename C = typename std::iterator_traits<It>::value_type&> static std::is_same<R, C> test_reference_is_same_value_type_lvalue(int);
+			template<typename It> static std::false_type test_reference_is_same_value_type_lvalue(...);
+			template<typename It, typename R = typename std::iterator_traits<It>::reference, typename C = const typename std::iterator_traits<It>::value_type&> static std::is_same<R, C> test_reference_is_same_value_type_const_lvalue(int);
+			template<typename It> static std::false_type test_reference_is_same_value_type_const_lvalue(...);
+			template<typename It, typename R = decltype( *std::declval<It&>()++ ), typename C = typename std::iterator_traits<It>::reference> static std::is_same<R, C> test_incdereference_is_same_reference(int);
+			template<typename It> static std::false_type test_incdereference_is_same_reference(...);
 		};
-		template<class It>
+		template<typename It>
 		struct do_StdLegacyForwardIterator_t : do_StdLegacyForwardIterator_impl
 		{
 			typedef decltype(test_reference_is_same_value_type_lvalue<It>(0)) reference_is_same_value_type_lvalue;
@@ -231,7 +231,7 @@ namespace zawa_ch::StationaryOrbit
 			typedef decltype(test_incdereference_is_same_reference<It>(0)) incdereference_is_same_reference;
 		};
 	protected:
-		template<class It> struct IsStdLegacyForwardIterator_t : std::conjunction
+		template<typename It> struct IsStdLegacyForwardIterator_t : std::conjunction
 			<
 				IsStdLegacyInputIterator_t<It>,
 				std::is_default_constructible<It>,
@@ -245,7 +245,14 @@ namespace zawa_ch::StationaryOrbit
 			>
 		{};
 	public:
-		template<class It> inline constexpr static bool is_std_legacy_forward_iterator = IsStdLegacyForwardIterator_t<It>::value;
+		template<typename It> constexpr static bool is_std_legacy_forward_iterator = IsStdLegacyForwardIterator_t<It>::value;
+
+		template<typename It>
+		[[nodiscard]] static constexpr reference<It> dereference_and_next(It& it)
+		{
+			static_assert(is_std_legacy_forward_iterator<It>, "名前付き要件:LegacyForwardIterator を満たす必要があります。");
+			return *it++;
+		}
 	};
 
 	///	名前付き要件:LegacyBidirectionalIterator を満たす型を識別します
