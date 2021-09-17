@@ -37,18 +37,18 @@ namespace zawa_ch::StationaryOrbit
 	private:
 		struct do_StdLegacyIterator_impl
 		{
-			template<class It, typename = typename std::iterator_traits<It>::value_type> static std::true_type test_has_value_type(int);
-			template<class It> static std::false_type test_has_value_type(...);
-			template<class It, typename = typename std::iterator_traits<It>::difference_type> static std::true_type test_has_difference_type(int);
-			template<class It> static std::false_type test_has_difference_type(...);
-			template<class It, typename = typename std::iterator_traits<It>::reference> static std::true_type test_has_reference(int);
-			template<class It> static std::false_type test_has_reference(...);
-			template<class It, typename = typename std::iterator_traits<It>::pointer> static std::true_type test_has_pointer(int);
-			template<class It> static std::false_type test_has_pointer(...);
-			template<class It, typename = typename std::iterator_traits<It>::iterator_category> static std::true_type test_has_iterator_category(int);
-			template<class It> static std::false_type test_has_iterator_category(...);
+			template<typename It, typename = typename std::iterator_traits<It>::value_type> static std::true_type test_has_value_type(int);
+			template<typename It> static std::false_type test_has_value_type(...);
+			template<typename It, typename = typename std::iterator_traits<It>::difference_type> static std::true_type test_has_difference_type(int);
+			template<typename It> static std::false_type test_has_difference_type(...);
+			template<typename It, typename = typename std::iterator_traits<It>::reference> static std::true_type test_has_reference(int);
+			template<typename It> static std::false_type test_has_reference(...);
+			template<typename It, typename = typename std::iterator_traits<It>::pointer> static std::true_type test_has_pointer(int);
+			template<typename It> static std::false_type test_has_pointer(...);
+			template<typename It, typename = typename std::iterator_traits<It>::iterator_category> static std::true_type test_has_iterator_category(int);
+			template<typename It> static std::false_type test_has_iterator_category(...);
 		};
-		template<class It>
+		template<typename It>
 		struct do_StdLegacyIterator_t : do_StdLegacyIterator_impl
 		{
 			typedef decltype(test_has_value_type<It>(0)) has_value_type;
@@ -58,7 +58,7 @@ namespace zawa_ch::StationaryOrbit
 			typedef decltype(test_has_iterator_category<It>(0)) has_iterator_category;
 		};
 	protected:
-		template<class It> struct IsStdLegacyIterator_t : std::conjunction
+		template<typename It> struct IsStdLegacyIterator_t : std::conjunction
 			<
 				std::is_copy_constructible<It>,
 				std::is_copy_assignable<It>,
@@ -74,7 +74,7 @@ namespace zawa_ch::StationaryOrbit
 			>
 		{};
 	public:
-		template<class It> static constexpr bool is_std_legacy_iterator = IsStdLegacyIterator_t<It>::value;
+		template<typename It> static constexpr bool is_std_legacy_iterator = IsStdLegacyIterator_t<It>::value;
 
 		template<typename It> using value_type = typename std::iterator_traits<It>::value_type;
 		template<typename It> using difference_type = typename std::iterator_traits<It>::difference_type;
