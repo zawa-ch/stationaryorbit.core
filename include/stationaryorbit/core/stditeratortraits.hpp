@@ -267,16 +267,16 @@ namespace zawa_ch::StationaryOrbit
 	private:
 		struct do_StdLegacyBidirectionalIterator_impl
 		{
-			template<class It, typename R = decltype( *std::declval<It&>()-- ), typename C = typename std::iterator_traits<It>::reference> static std::is_same<R, C> test_decdereference_is_same_reference(int);
-			template<class It> static std::false_type test_decdereference_is_same_reference(...);
+			template<typename It, typename R = decltype( *std::declval<It&>()-- ), typename C = typename std::iterator_traits<It>::reference> static std::is_same<R, C> test_decdereference_is_same_reference(int);
+			template<typename It> static std::false_type test_decdereference_is_same_reference(...);
 		};
-		template<class It>
+		template<typename It>
 		struct do_StdLegacyBidirectionalIterator_t : do_StdLegacyBidirectionalIterator_impl
 		{
 			typedef decltype(test_decdereference_is_same_reference<It>(0)) decdereference_is_same_reference;
 		};
 	protected:
-		template<class It> struct IsStdLegacyBidirectionalIterator_t : std::conjunction
+		template<typename It> struct IsStdLegacyBidirectionalIterator_t : std::conjunction
 			<
 				IsStdLegacyForwardIterator_t<It>,
 				std::bool_constant<TypeTraitsBase::predecrement_result_is_same<It, It&>>,
@@ -285,7 +285,20 @@ namespace zawa_ch::StationaryOrbit
 			>
 		{};
 	public:
-		template<class It> inline constexpr static bool is_std_legacy_bidirectional_iterator = IsStdLegacyBidirectionalIterator_t<It>::value;
+		template<typename It> constexpr static bool is_std_legacy_bidirectional_iterator = IsStdLegacyBidirectionalIterator_t<It>::value;
+
+		template<typename It>
+		[[nodiscard]] static constexpr It& previous(It& it)
+		{
+			static_assert(is_std_legacy_bidirectional_iterator<It>, "名前付き要件:LegacyBidirectionalIterator を満たす必要があります。");
+			return --it;
+		}
+		template<typename It>
+		[[nodiscard]] static constexpr reference<It> dereference_and_previous(It& it)
+		{
+			static_assert(is_std_legacy_bidirectional_iterator<It>, "名前付き要件:LegacyBidirectionalIterator を満たす必要があります。");
+			return *it--;
+		}
 	};
 
 	///	名前付き要件:LegacyRandomAccessIterator を満たす型を識別します
