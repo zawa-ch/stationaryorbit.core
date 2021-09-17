@@ -302,7 +302,7 @@ namespace zawa_ch::StationaryOrbit
 	};
 
 	///	名前付き要件:LegacyRandomAccessIterator を満たす型を識別します
-	class StdLegacyRandomAccessIteratorTraits : public StdLegacyBidirectionalIteratorTraits
+	class StdLegacyRandomAccessIteratorTraits : public StdLegacyBidirectionalIteratorTraits, public ComparableTypeTraits
 	{
 		StdLegacyRandomAccessIteratorTraits() = delete;
 		StdLegacyRandomAccessIteratorTraits(const StdLegacyRandomAccessIteratorTraits&) = delete;
@@ -313,20 +313,20 @@ namespace zawa_ch::StationaryOrbit
 	private:
 		struct do_StdLegacyRandomAccessIterator_impl
 		{
-			template<class It, typename D = typename std::iterator_traits<It>::difference_type, typename R = decltype( std::declval<It&>() += std::declval<D&>() ), typename C = It&> static std::is_same<R, C> test_difference_type_addstitution_is_same_lvalue(int);
-			template<class It> static std::false_type test_difference_type_addstitution_is_same_lvalue(...);
-			template<class It, typename D = typename std::iterator_traits<It>::difference_type, typename R = decltype( std::declval<It&>() + std::declval<D&>() ), typename C = It> static std::is_same<R, C> test_difference_type_add_is_same_object(int);
-			template<class It> static std::false_type test_difference_type_add_is_same_object(...);
-			template<class It, typename D = typename std::iterator_traits<It>::difference_type, typename R = decltype( std::declval<It&>() -= std::declval<D&>() ), typename C = It&> static std::is_same<R, C> test_difference_type_subtractstitution_is_same_lvalue(int);
-			template<class It> static std::false_type test_difference_type_subtractstitution_is_same_lvalue(...);
-			template<class It, typename D = typename std::iterator_traits<It>::difference_type, typename R = decltype( std::declval<It&>() - std::declval<D&>() ), typename C = It> static std::is_same<R, C> test_difference_type_subtract_is_same_object(int);
-			template<class It> static std::false_type test_difference_type_subtract_is_same_object(...);
-			template<class It, typename R = decltype( std::declval<It&>() - std::declval<It&>() ), typename C = typename std::iterator_traits<It>::difference_type> static std::is_same<R, C> test_type_subtract_is_same_difference_type(int);
-			template<class It> static std::false_type test_type_subtract_is_same_difference_type(...);
-			template<class It, typename D = typename std::iterator_traits<It>::difference_type, typename R = decltype( std::declval<It&>() [ std::declval<D&>() ] ), typename C = typename std::iterator_traits<It>::reference> static std::is_convertible<R, C> test_difference_type_subscript_is_convertible_reference(int);
-			template<class It> static std::false_type test_difference_type_subscript_is_convertible_reference(...);
+			template<typename It, typename D = typename std::iterator_traits<It>::difference_type, typename R = decltype( std::declval<It&>() += std::declval<D&>() ), typename C = It&> static std::is_same<R, C> test_difference_type_addstitution_is_same_lvalue(int);
+			template<typename It> static std::false_type test_difference_type_addstitution_is_same_lvalue(...);
+			template<typename It, typename D = typename std::iterator_traits<It>::difference_type, typename R = decltype( std::declval<It&>() + std::declval<D&>() ), typename C = It> static std::is_same<R, C> test_difference_type_add_is_same_object(int);
+			template<typename It> static std::false_type test_difference_type_add_is_same_object(...);
+			template<typename It, typename D = typename std::iterator_traits<It>::difference_type, typename R = decltype( std::declval<It&>() -= std::declval<D&>() ), typename C = It&> static std::is_same<R, C> test_difference_type_subtractstitution_is_same_lvalue(int);
+			template<typename It> static std::false_type test_difference_type_subtractstitution_is_same_lvalue(...);
+			template<typename It, typename D = typename std::iterator_traits<It>::difference_type, typename R = decltype( std::declval<It&>() - std::declval<D&>() ), typename C = It> static std::is_same<R, C> test_difference_type_subtract_is_same_object(int);
+			template<typename It> static std::false_type test_difference_type_subtract_is_same_object(...);
+			template<typename It, typename R = decltype( std::declval<It&>() - std::declval<It&>() ), typename C = typename std::iterator_traits<It>::difference_type> static std::is_same<R, C> test_type_subtract_is_same_difference_type(int);
+			template<typename It> static std::false_type test_type_subtract_is_same_difference_type(...);
+			template<typename It, typename D = typename std::iterator_traits<It>::difference_type, typename R = decltype( std::declval<It&>() [ std::declval<D&>() ] ), typename C = typename std::iterator_traits<It>::reference> static std::is_convertible<R, C> test_difference_type_subscript_is_convertible_reference(int);
+			template<typename It> static std::false_type test_difference_type_subscript_is_convertible_reference(...);
 		};
-		template<class It>
+		template<typename It>
 		struct do_StdLegacyRandomAccessIterator_t : do_StdLegacyRandomAccessIterator_impl
 		{
 			typedef decltype(test_difference_type_addstitution_is_same_lvalue<It>(0)) difference_type_addstitution_is_same_lvalue;
@@ -337,10 +337,10 @@ namespace zawa_ch::StationaryOrbit
 			typedef decltype(test_difference_type_subscript_is_convertible_reference<It>(0)) difference_type_subscript_is_convertible_reference;
 		};
 	protected:
-		template<class It> struct IsStdLegacyRandomAccessIterator_t : std::conjunction
+		template<typename It> struct IsStdLegacyRandomAccessIterator_t : std::conjunction
 			<
 				IsStdLegacyBidirectionalIterator_t<It>,
-				std::bool_constant<ComparableTypeTraits::is_comparable<It, It>>,
+				std::bool_constant<is_comparable<It, It>>,
 				typename do_StdLegacyRandomAccessIterator_t<It>::difference_type_addstitution_is_same_lvalue,
 				typename do_StdLegacyRandomAccessIterator_t<It>::difference_type_add_is_same_object,
 				typename do_StdLegacyRandomAccessIterator_t<It>::difference_type_subtractstitution_is_same_lvalue,
@@ -350,7 +350,32 @@ namespace zawa_ch::StationaryOrbit
 			>
 		{};
 	public:
-		template<class It> inline constexpr static bool is_std_legacy_random_access_iterator = IsStdLegacyRandomAccessIterator_t<It>::value;
+		template<typename It> constexpr static bool is_std_legacy_random_access_iterator = IsStdLegacyRandomAccessIterator_t<It>::value;
+
+		template<typename It>
+		[[nodiscard]] static constexpr It& forward(It& it, const difference_type<It>& count)
+		{
+			static_assert(is_std_legacy_random_access_iterator<It>, "名前付き要件:LegacyRandomAccessIterator を満たす必要があります。");
+			return it += count;
+		}
+		template<typename It>
+		[[nodiscard]] static constexpr It& backward(It& it, const difference_type<It>& count)
+		{
+			static_assert(is_std_legacy_random_access_iterator<It>, "名前付き要件:LegacyRandomAccessIterator を満たす必要があります。");
+			return it -= count;
+		}
+		template<typename It>
+		[[nodiscard]] static constexpr difference_type<It> difference(const It& it, const It& base)
+		{
+			static_assert(is_std_legacy_random_access_iterator<It>, "名前付き要件:LegacyRandomAccessIterator を満たす必要があります。");
+			return it - base;
+		}
+		template<typename It>
+		[[nodiscard]] static constexpr It& at(It& it, const difference_type<It>& count)
+		{
+			static_assert(is_std_legacy_random_access_iterator<It>, "名前付き要件:LegacyRandomAccessIterator を満たす必要があります。");
+			return it[count];
+		}
 	};
 }
 #endif // __stationaryorbit_core_stditeratortraits__
