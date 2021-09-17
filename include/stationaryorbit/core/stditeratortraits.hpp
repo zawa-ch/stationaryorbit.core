@@ -97,7 +97,7 @@ namespace zawa_ch::StationaryOrbit
 	};
 
 	///	名前付き要件:LegacyInputIterator を満たす型を識別します
-	class StdLegacyInputIteratorTraits : public StdLegacyIteratorTraits
+	class StdLegacyInputIteratorTraits : public StdLegacyIteratorTraits, public EquatableTypeTraits
 	{
 		StdLegacyInputIteratorTraits() = delete;
 		StdLegacyInputIteratorTraits(const StdLegacyInputIteratorTraits&) = delete;
@@ -108,14 +108,14 @@ namespace zawa_ch::StationaryOrbit
 	private:
 		struct do_StdLegacyInputIterator_impl
 		{
-			template<class It, typename R = decltype( *std::declval<It&>() ), typename C = typename std::iterator_traits<It>::reference> static std::is_same<R, C> test_dereference_is_same_reference(int);
-			template<class It> static std::false_type test_dereference_is_same_reference(...);
-			template<class It, typename R = decltype( *std::declval<It&>() ), typename C = typename std::iterator_traits<It>::value_type> static std::is_convertible<R, C> test_dereference_is_convertible_value_type(int);
-			template<class It> static std::false_type test_dereference_is_convertible_value_type(...);
-			template<class It, typename R = decltype( *std::declval<It&>()++ ), typename C = typename std::iterator_traits<It>::value_type> static std::is_convertible<R, C> test_incdereference_is_convertible_value_type(int);
-			template<class It> static std::false_type test_incdereference_is_convertible_value_type(...);
+			template<typename It, typename R = decltype( *std::declval<It&>() ), typename C = typename std::iterator_traits<It>::reference> static std::is_same<R, C> test_dereference_is_same_reference(int);
+			template<typename It> static std::false_type test_dereference_is_same_reference(...);
+			template<typename It, typename R = decltype( *std::declval<It&>() ), typename C = typename std::iterator_traits<It>::value_type> static std::is_convertible<R, C> test_dereference_is_convertible_value_type(int);
+			template<typename It> static std::false_type test_dereference_is_convertible_value_type(...);
+			template<typename It, typename R = decltype( *std::declval<It&>()++ ), typename C = typename std::iterator_traits<It>::value_type> static std::is_convertible<R, C> test_incdereference_is_convertible_value_type(int);
+			template<typename It> static std::false_type test_incdereference_is_convertible_value_type(...);
 		};
-		template<class It>
+		template<typename It>
 		struct do_StdLegacyInputIterator_t : do_StdLegacyInputIterator_impl
 		{
 			typedef decltype(test_dereference_is_same_reference<It>(0)) dereference_is_same_reference;
@@ -123,10 +123,10 @@ namespace zawa_ch::StationaryOrbit
 			typedef decltype(test_incdereference_is_convertible_value_type<It>(0)) incdereference_is_convertible_value_type;
 		};
 	protected:
-		template<class It> struct IsStdLegacyInputIterator_t : std::conjunction
+		template<typename It> struct IsStdLegacyInputIterator_t : std::conjunction
 			<
 				IsStdLegacyIterator_t<It>,
-				std::bool_constant<EquatableTypeTraits::is_equatable<It, It>>,
+				std::bool_constant<is_equatable<It, It>>,
 				std::bool_constant<TypeTraitsBase::preincrement_result_is_same<It, It&>>,
 				std::bool_constant<TypeTraitsBase::has_postincrement<It>>,
 				typename do_StdLegacyInputIterator_t<It>::dereference_is_same_reference,
@@ -135,7 +135,7 @@ namespace zawa_ch::StationaryOrbit
 			>
 		{};
 	public:
-		template<class It> inline constexpr static bool is_std_legacy_input_iterator = IsStdLegacyInputIterator_t<It>::value;
+		template<typename It> static constexpr bool is_std_legacy_input_iterator = IsStdLegacyInputIterator_t<It>::value;
 
 		template<typename It>
 		[[nodiscard]] static constexpr reference<It> dereference(const It& it)
@@ -144,10 +144,10 @@ namespace zawa_ch::StationaryOrbit
 			return *it;
 		}
 		template<typename It>
-		[[nodiscard]] static constexpr It& next(It& it)
+		[[nodiscard]] static constexpr reference<It> dereference_and_next(It& it)
 		{
 			static_assert(is_std_legacy_input_iterator<It>, "名前付き要件:LegacyInputIterator を満たす必要があります。");
-			return ++it;
+			return *it++;
 		}
 	};
 
