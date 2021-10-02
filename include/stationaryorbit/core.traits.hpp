@@ -20,6 +20,7 @@
 #include "core/bitsequencetypetraits.hpp"
 #include "core/comparabletypetraits.hpp"
 #include "core/equatabletypetraits.hpp"
+#include "core/iteratortraits.hpp"
 #include "core/numericaltypetraits.hpp"
 #include "core/ordertypetraits.hpp"
 #include "core/pointabletypetraits.hpp"
