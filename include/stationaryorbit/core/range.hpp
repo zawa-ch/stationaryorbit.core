@@ -145,28 +145,28 @@ namespace zawa_ch::StationaryOrbit
 	public: // member
 
 		///	このイテレータの現在示している値を取得します。
-		[[nodiscard]] constexpr const ValueType& Current() const noexcept { return _value; }
+		[[nodiscard]] constexpr const ValueType& current() const noexcept { return _value; }
 		///	このイテレータが示している値を取得できるかを返します。
-		[[nodiscard]] constexpr bool HasValue() const noexcept { return _range.isIncluded(_value); }
+		[[nodiscard]] constexpr bool has_value() const noexcept { return _range.isIncluded(_value); }
 		///	このイテレータが最初の位置より前にあるかを取得します。
-		[[nodiscard]] constexpr bool IsBeforeBegin() const noexcept { return !_range.isOverBottom(_value); }
+		[[nodiscard]] constexpr bool is_before_begin() const noexcept { return !_range.isOverBottom(_value); }
 		///	このイテレータが最後の位置より後にあるかを取得します。
-		[[nodiscard]] constexpr bool IsAfterEnd() const noexcept { return !_range.isUnderTop(_value); }
+		[[nodiscard]] constexpr bool is_after_end() const noexcept { return !_range.isUnderTop(_value); }
 		///	このイテレータを次に進めます。
-		constexpr bool Next() noexcept { return _range.isUnderTop(_range.isUnderTop(_value)?(++_value):(_value)); }
+		constexpr bool next() noexcept { return _range.isUnderTop(_range.isUnderTop(_value)?(++_value):(_value)); }
 		///	このイテレータを前に進めます。
-		constexpr bool Previous() noexcept { return _range.isOverBottom(_range.isOverBottom(_value)?(--_value):(_value)); }
+		constexpr bool previous() noexcept { return _range.isOverBottom(_range.isOverBottom(_value)?(--_value):(_value)); }
 		///	このイテレータを初期位置に進めます。
-		constexpr void Reset() { Reset(IteratorOrigin::Begin); }
+		constexpr void reset() { reset(IteratorOrigin::Begin); }
 		///	このイテレータを初期位置に進めます。
 		///	@param	origin
 		///	進める初期位置の場所。
-		constexpr void Reset(const IteratorOrigin& origin) { _value = getOrigin(_range, origin); }
+		constexpr void reset(const IteratorOrigin& origin) { _value = getOrigin(_range, origin); }
 		///	指定されたオブジェクトがこのオブジェクトと等価であることを判定します。
-		[[nodiscard]] constexpr bool Equals(const IteratorType& other) const noexcept { return (_range.Equals(other._range))&&(_value == other._value); }
+		[[nodiscard]] constexpr bool equals(const IteratorType& other) const noexcept { return (_range.Equals(other._range))&&(_value == other._value); }
 
-		[[nodiscard]] constexpr bool operator==(const IteratorType& other) const noexcept { return Equals(other); }
-		[[nodiscard]] constexpr bool operator!=(const IteratorType& other) const noexcept { return !Equals(other); }
+		[[nodiscard]] constexpr bool operator==(const IteratorType& other) const noexcept { return equals(other); }
+		[[nodiscard]] constexpr bool operator!=(const IteratorType& other) const noexcept { return !equals(other); }
 
 	private:
 		[[nodiscard]] constexpr static ValueType getOrigin(const RangeType& range, const IteratorOrigin& origin)

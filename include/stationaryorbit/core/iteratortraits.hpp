@@ -31,124 +31,179 @@ namespace zawa_ch::StationaryOrbit
 		End = -1,
 	};
 
-	///	このライブラリで用いられるイテレータの型特性を識別します。
+	///	型要件:Iterator を満たす型を識別します。
 	class IteratorTraits
 	{
-	private:
 		IteratorTraits() = delete;
 		IteratorTraits(const IteratorTraits&) = delete;
+		IteratorTraits(IteratorTraits&&) = delete;
 		IteratorTraits& operator=(const IteratorTraits&) = delete;
 		IteratorTraits&& operator=(IteratorTraits&&) = delete;
-		IteratorTraits(IteratorTraits&&) = delete;
 		~IteratorTraits() = delete;
-
 	public:
 		///	イテレータの間隔を表すために用いる型。
-		typedef std::make_signed_t<size_t> IteratorDiff_t;
-
-	private:
-
-		///	イテレータを識別します。
-		template<class, class = std::void_t<>>
-		struct IsIterator_t : std::false_type {};
-		template<class T>
+		using IteratorDiff = std::make_signed_t<size_t>;
+	public:
+		struct DoIsIterator_impl
+		{
+			template<typename T, typename = typename T::ValueType> static std::true_type test_type_value_type(int);
+			template<typename T> static std::false_type test_type_value_type(...);
+			template<typename T, typename R = decltype( std::declval<const T&>().equals(std::declval<const T&>()) )> static std::is_convertible<R, bool> test_func_equals(int);
+			template<typename T> static std::false_type test_func_equals(...);
+			template<typename T, typename R = decltype( std::declval<T&>().next() )> static std::is_convertible<R, bool> test_func_next(int);
+			template<typename T> static std::false_type test_func_next(...);
+			template<typename T, typename R = decltype( std::declval<const T&>().has_value() )> static std::is_convertible<R, bool> test_func_has_value(int);
+			template<typename T> static std::false_type test_func_has_value(...);
+			template<typename T, typename R = decltype( std::declval<const T&>().current() ), typename V = typename T::ValueType> static std::is_convertible<R, V> test_func_current(int);
+			template<typename T> static std::false_type test_func_current(...);
+		};
+		template<typename T>
+		struct DoIsIterator_t : DoIsIterator_impl
+		{
+			typedef decltype(test_type_value_type<T>(0)) passed_type_value_type;
+			typedef decltype(test_func_equals<T>(0)) passed_func_equals;
+			typedef decltype(test_func_next<T>(0)) passed_func_next;
+			typedef decltype(test_func_has_value<T>(0)) passed_func_has_value;
+			typedef decltype(test_func_current<T>(0)) passed_func_current;
+		};
+	protected:
+		template<typename T>
 		struct IsIterator_t
-		<
-			T,
-			std::void_t
-			<
-				typename T::ValueType,
-				decltype( std::declval<T&>().Equals(std::declval<const T&>()) ),
-				decltype( std::declval<T&>().Next() ),
-				decltype( std::declval<T&>().Current() ),
-				decltype( std::declval<T&>().HasValue() )
-			>
-		>
 			: std::conjunction
 			<
-				std::is_convertible<decltype( std::declval<T&>().Equals(std::declval<const T&>()) ), bool>,
-				std::is_convertible<decltype( std::declval<T&>().Next() ), bool>,
-				std::is_convertible<decltype( std::declval<T&>().HasValue() ), bool>,
-				std::is_convertible<decltype( std::declval<T&>().Current() ), typename T::ValueType>,
-				std::is_copy_constructible<T>
+				std::is_copy_constructible<T>,
+				typename DoIsIterator_t<T>::passed_type_value_type,
+				typename DoIsIterator_t<T>::passed_func_equals,
+				typename DoIsIterator_t<T>::passed_func_next,
+				typename DoIsIterator_t<T>::passed_func_has_value,
+				typename DoIsIterator_t<T>::passed_func_current
 			>
 		{};
+	public:
+		template<typename T> constexpr static bool is_iterator = IsIterator_t<T>::value;
+	};
 
-		///	始点および単方向の順序を持つイテレータを識別します。
-		template<class, class = std::void_t<>>
-		struct IsSequencialOrderIterator_t : std::false_type {};
+	///	型要件:SequencialOrderIterator を満たす型を識別します。
+	class SequencialOrderIteratorTraits : public IteratorTraits
+	{
+		SequencialOrderIteratorTraits() = delete;
+		SequencialOrderIteratorTraits(const SequencialOrderIteratorTraits&) = delete;
+		SequencialOrderIteratorTraits(SequencialOrderIteratorTraits&&) = delete;
+		SequencialOrderIteratorTraits& operator=(const SequencialOrderIteratorTraits&) = delete;
+		SequencialOrderIteratorTraits& operator=(SequencialOrderIteratorTraits&&) = delete;
+		~SequencialOrderIteratorTraits() = delete;
+	private:
+		struct DoIsSequencialOrderIterator_impl
+		{
+			template<typename T, typename = decltype( std::declval<T&>().reset() )> static std::true_type test_func_reset(int);
+			template<typename T> static std::false_type test_func_reset(...);
+		};
+		template<typename T>
+		struct DoIsSequencialOrderIterator_t : DoIsSequencialOrderIterator_impl
+		{
+			typedef decltype(test_func_reset<T>(0)) passed_func_reset;
+		};
+	protected:
 		template<class T>
 		struct IsSequencialOrderIterator_t
-		<
-			T,
-			std::void_t
-			<
-				decltype( std::declval<T&>().Reset() )
-			>
-		>
 			: std::conjunction
 			<
-				IsIterator_t<T>
+				IsIterator_t<T>,
+				typename DoIsSequencialOrderIterator_t<T>::passed_func_reset
 			>
 		{};
+	public:
+		template<class T> constexpr static bool is_sequencial_order_iterator = IsSequencialOrderIterator_t<T>::value;
+	};
 
-		///	始点・終点および双方向の順序を持つイテレータを識別します。
-		template<class, class = std::void_t<>>
-		struct IsBidirectionalOrderIterator_t : std::false_type {};
+	///	型要件:BidirectionalOrderIterator を満たす型を識別します。
+	class BidirectionalOrderIteratorTraits : public SequencialOrderIteratorTraits
+	{
+		BidirectionalOrderIteratorTraits() = delete;
+		BidirectionalOrderIteratorTraits(const BidirectionalOrderIteratorTraits&) = delete;
+		BidirectionalOrderIteratorTraits(BidirectionalOrderIteratorTraits&&) = delete;
+		BidirectionalOrderIteratorTraits& operator=(const BidirectionalOrderIteratorTraits&) = delete;
+		BidirectionalOrderIteratorTraits& operator=(BidirectionalOrderIteratorTraits&&) = delete;
+		~BidirectionalOrderIteratorTraits() = delete;
+	private:
+		struct DoIsBidirectionalOrderIterator_impl
+		{
+			template<typename T, typename R = decltype( std::declval<T&>().previous() )> static std::is_convertible<R, bool> test_func_previous(int);
+			template<typename T> static std::false_type test_func_previous(...);
+			template<typename T, typename = decltype( std::declval<T&>().reset(std::declval<const IteratorOrigin&>()) )> static std::true_type test_func_reset(int);
+			template<typename T> static std::false_type test_func_reset(...);
+			template<typename T, typename R = decltype( std::declval<const T&>().is_before_begin() )> static std::is_convertible<R, bool> test_func_is_before_begin(int);
+			template<typename T> static std::false_type test_func_is_before_begin(...);
+			template<typename T, typename R = decltype( std::declval<const T&>().is_after_end() )> static std::is_convertible<R, bool> test_func_is_after_end(int);
+			template<typename T> static std::false_type test_func_is_after_end(...);
+		};
+		template<typename T>
+		struct DoIsBidirectionalOrderIterator_t : DoIsBidirectionalOrderIterator_impl
+		{
+			typedef decltype(test_func_previous<T>(0)) passed_func_previous;
+			typedef decltype(test_func_reset<T>(0)) passed_func_reset;
+			typedef decltype(test_func_is_before_begin<T>(0)) passed_func_is_before_begin;
+			typedef decltype(test_func_is_after_end<T>(0)) passed_func_is_after_end;
+		};
+	protected:
 		template<class T>
 		struct IsBidirectionalOrderIterator_t
-		<
-			T,
-			std::void_t
-			<
-				decltype( std::declval<T&>().Previous() ),
-				decltype( std::declval<T&>().Reset(std::declval<const IteratorOrigin&>()) ),
-				decltype( std::declval<T&>().IsBeforeBegin() ),
-				decltype( std::declval<T&>().IsAfterEnd() )
-			>
-		>
 			: std::conjunction
 			<
 				IsSequencialOrderIterator_t<T>,
-				std::is_convertible<decltype( std::declval<T&>().IsBeforeBegin() ), bool>,
-				std::is_convertible<decltype( std::declval<T&>().IsAfterEnd() ), bool>,
-				std::is_convertible<decltype( std::declval<T&>().Previous() ), bool>
-			>
-		{};
-
-		///	要素が線形に配置されているイテレータを識別します。
-		template<class, class = std::void_t<>>
-		struct IsLinearOrderIterator_t : std::false_type {};
-		template<class T>
-		struct IsLinearOrderIterator_t
-		<
-			T,
-			std::void_t
-			<
-				decltype( std::declval<T&>().Compare(std::declval<const T&>()) ),
-				decltype( std::declval<T&>().Next(std::declval<const IteratorDiff_t&>()) ),
-				decltype( std::declval<T&>().Previous(std::declval<const IteratorDiff_t&>()) ),
-				decltype( std::declval<T&>().Distance(std::declval<const T&>()) )
-			>
-		>
-			: std::conjunction
-			<
-				IsBidirectionalOrderIterator_t<T>,
-				std::is_convertible<decltype( std::declval<T&>().Compare(std::declval<const T&>()) ), int>,
-				std::is_convertible<decltype( std::declval<T&>().Next(std::declval<const IteratorDiff_t&>()) ), bool>,
-				std::is_convertible<decltype( std::declval<T&>().Previous(std::declval<const IteratorDiff_t&>()) ), bool>,
-				std::is_convertible<decltype( std::declval<T&>().Distance(std::declval<const T&>()) ), IteratorDiff_t>
+				typename DoIsBidirectionalOrderIterator_t<T>::passed_func_previous,
+				typename DoIsBidirectionalOrderIterator_t<T>::passed_func_reset,
+				typename DoIsBidirectionalOrderIterator_t<T>::passed_func_is_before_begin,
+				typename DoIsBidirectionalOrderIterator_t<T>::passed_func_is_after_end
 			>
 		{};
 	public:
-		///	イテレータを識別します。
-		template<class T> inline constexpr static bool IsIterator = IsIterator_t<T>::value;
-		///	始点および単方向の順序を持つイテレータを識別します。
-		template<class T> inline constexpr static bool IsSequencialOrderIterator = IsSequencialOrderIterator_t<T>::value;
-		///	始点・終点および双方向の順序を持つイテレータを識別します。
-		template<class T> inline constexpr static bool IsBidirectionalOrderIterator = IsBidirectionalOrderIterator_t<T>::value;
-		///	要素が線形に配置されているイテレータを識別します。
-		template<class T> inline constexpr static bool IsLinearOrderIterator = IsLinearOrderIterator_t<T>::value;
+		template<class T> inline constexpr static bool is_bidirectional_order_iterator = IsBidirectionalOrderIterator_t<T>::value;
+	};
+
+	///	型要件:LinearOrderIterator を満たす型を識別します。
+	class LinearOrderIteratorTraits : public BidirectionalOrderIteratorTraits
+	{
+		LinearOrderIteratorTraits() = delete;
+		LinearOrderIteratorTraits(const LinearOrderIteratorTraits&) = delete;
+		LinearOrderIteratorTraits(LinearOrderIteratorTraits&&) = delete;
+		LinearOrderIteratorTraits& operator=(const LinearOrderIteratorTraits&) = delete;
+		LinearOrderIteratorTraits& operator=(LinearOrderIteratorTraits&&) = delete;
+		~LinearOrderIteratorTraits() = delete;
+	private:
+		struct DoIsLinearOrderIterator_impl
+		{
+			template<typename T, typename R = decltype( std::declval<T&>().next(std::declval<const IteratorDiff&>()) )> static std::is_convertible<R, bool> test_func_next(int);
+			template<typename T> static std::false_type test_func_next(...);
+			template<typename T, typename R = decltype( std::declval<T&>().previous(std::declval<const IteratorDiff&>()) )> static std::is_convertible<R, bool> test_func_previous(int);
+			template<typename T> static std::false_type test_func_previous(...);
+			template<typename T, typename R = decltype( std::declval<const T&>().distance(std::declval<const T&>()) )> static std::is_convertible<R, IteratorDiff> test_func_distance(int);
+			template<typename T> static std::false_type test_func_distance(...);
+			template<typename T, typename R = decltype( std::declval<const T&>().compare(std::declval<const T&>()) )> static std::is_convertible<R, int> test_func_compare(int);
+			template<typename T> static std::false_type test_func_compare(...);
+		};
+		template<typename T>
+		struct DoIsLinearOrderIterator_t : DoIsLinearOrderIterator_impl
+		{
+			typedef decltype(test_func_next<T>(0)) passed_func_next;
+			typedef decltype(test_func_previous<T>(0)) passed_func_previous;
+			typedef decltype(test_func_distance<T>(0)) passed_func_distance;
+			typedef decltype(test_func_compare<T>(0)) passed_func_compare;
+		};
+	protected:
+		template<class T>
+		struct IsLinearOrderIterator_t
+			: std::conjunction
+			<
+				IsBidirectionalOrderIterator_t<T>,
+				typename DoIsLinearOrderIterator_t<T>::passed_func_next,
+				typename DoIsLinearOrderIterator_t<T>::passed_func_previous,
+				typename DoIsLinearOrderIterator_t<T>::passed_func_distance,
+				typename DoIsLinearOrderIterator_t<T>::passed_func_compare
+			>
+		{};
+	public:
+		template<class T> inline constexpr static bool is_linear_order_iterator = IsLinearOrderIterator_t<T>::value;
 	};
 }
 #endif // __stationaryorbit_core_iteratortraits__

@@ -32,13 +32,13 @@ private:
 	const ValueType tgt;
 public:
 	IncrementIterator(ValueType target) :  _i(0), tgt(target) {}
-	[[nodiscard]] bool Equals(const IncrementIterator& other) const { return (_i == other._i) && (tgt == other.tgt); }
-	bool Next() { if (HasValue()) { ++_i; } return HasValue(); }
-	[[nodiscard]] const ValueType& Current() const { return _i; }
-	[[nodiscard]] bool HasValue() const { return _i < tgt; }
-	void Reset() { _i = 0; }
+	[[nodiscard]] bool equals(const IncrementIterator& other) const { return (_i == other._i) && (tgt == other.tgt); }
+	bool next() { if (has_value()) { ++_i; } return has_value(); }
+	[[nodiscard]] const ValueType& current() const { return _i; }
+	[[nodiscard]] bool has_value() const { return _i < tgt; }
+	void reset() { _i = 0; }
 };
-static_assert(IteratorTraits::IsSequencialOrderIterator<IncrementIterator>, "テストに使用される IncrementIterator が IsSequencialOrderIterator の要件を満たしませんでした。");
+static_assert(SequencialOrderIteratorTraits::is_sequencial_order_iterator<IncrementIterator>, "テストに使用される IncrementIterator が is_sequencial_order_iterator の要件を満たしませんでした。");
 
 std::array<std::function<int(void)>, 3> tests =
 {
