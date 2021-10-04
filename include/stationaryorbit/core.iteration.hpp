@@ -17,7 +17,7 @@
 //	If not, see <http://www.gnu.org/licenses/>.
 //
 
-#include "core/iterator.hpp"
 #include "core/iteratoradaptcontainer.hpp"
 #include "core/iteratoradapter.hpp"
 #include "core/iteratorprocesser.hpp"
+#include "core/legacyiterator.hpp"
