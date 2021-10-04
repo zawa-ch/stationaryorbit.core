@@ -18,4 +18,5 @@
 //
 
 #include "core/iterator.hpp"
+#include "core/iteratoradapter.hpp"
 #include "core/iteratorprocesser.hpp"
