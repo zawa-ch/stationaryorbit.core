@@ -136,6 +136,12 @@ namespace zawa_ch::StationaryOrbit
 		{};
 	public:
 		template<class T> constexpr static bool is_sequencial_order_iterator = IsSequencialOrderIterator_t<T>::value;
+
+		template<typename T> static constexpr void reset(T& obj)
+		{
+			static_assert(is_sequencial_order_iterator<T>, "テンプレート引数型 T は 型要件:SequencialOrderIterator を満たしません。");
+			obj.reset();
+		}
 	};
 
 	///	型要件:BidirectionalOrderIterator を満たす型を識別します。
