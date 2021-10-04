@@ -75,8 +75,8 @@ namespace zawa_ch::StationaryOrbit
 				typename DoIsIterator_t<T>::passed_type_value_type,
 				typename DoIsIterator_t<T>::passed_func_equals,
 				typename DoIsIterator_t<T>::passed_func_has_value,
-				typename DoIsIterator_t<T>::passed_func_current
-				typename DoIsIterator_t<T>::passed_func_next,
+				typename DoIsIterator_t<T>::passed_func_current,
+				typename DoIsIterator_t<T>::passed_func_next
 			>
 		{};
 	public:
