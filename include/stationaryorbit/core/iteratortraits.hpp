@@ -156,22 +156,22 @@ namespace zawa_ch::StationaryOrbit
 	private:
 		struct DoIsBidirectionalOrderIterator_impl
 		{
-			template<typename T, typename R = decltype( std::declval<T&>().previous() )> static std::is_convertible<R, bool> test_func_previous(int);
-			template<typename T> static std::false_type test_func_previous(...);
-			template<typename T, typename = decltype( std::declval<T&>().reset(std::declval<const IteratorOrigin&>()) )> static std::true_type test_func_reset(int);
-			template<typename T> static std::false_type test_func_reset(...);
 			template<typename T, typename R = decltype( std::declval<const T&>().is_before_begin() )> static std::is_convertible<R, bool> test_func_is_before_begin(int);
 			template<typename T> static std::false_type test_func_is_before_begin(...);
 			template<typename T, typename R = decltype( std::declval<const T&>().is_after_end() )> static std::is_convertible<R, bool> test_func_is_after_end(int);
 			template<typename T> static std::false_type test_func_is_after_end(...);
+			template<typename T, typename R = decltype( std::declval<T&>().previous() )> static std::is_convertible<R, bool> test_func_previous(int);
+			template<typename T> static std::false_type test_func_previous(...);
+			template<typename T, typename = decltype( std::declval<T&>().reset(std::declval<const IteratorOrigin&>()) )> static std::true_type test_func_reset(int);
+			template<typename T> static std::false_type test_func_reset(...);
 		};
 		template<typename T>
 		struct DoIsBidirectionalOrderIterator_t : DoIsBidirectionalOrderIterator_impl
 		{
-			typedef decltype(test_func_previous<T>(0)) passed_func_previous;
-			typedef decltype(test_func_reset<T>(0)) passed_func_reset;
 			typedef decltype(test_func_is_before_begin<T>(0)) passed_func_is_before_begin;
 			typedef decltype(test_func_is_after_end<T>(0)) passed_func_is_after_end;
+			typedef decltype(test_func_previous<T>(0)) passed_func_previous;
+			typedef decltype(test_func_reset<T>(0)) passed_func_reset;
 		};
 	protected:
 		template<class T>
@@ -179,14 +179,35 @@ namespace zawa_ch::StationaryOrbit
 			: std::conjunction
 			<
 				IsSequencialOrderIterator_t<T>,
-				typename DoIsBidirectionalOrderIterator_t<T>::passed_func_previous,
-				typename DoIsBidirectionalOrderIterator_t<T>::passed_func_reset,
 				typename DoIsBidirectionalOrderIterator_t<T>::passed_func_is_before_begin,
-				typename DoIsBidirectionalOrderIterator_t<T>::passed_func_is_after_end
+				typename DoIsBidirectionalOrderIterator_t<T>::passed_func_is_after_end,
+				typename DoIsBidirectionalOrderIterator_t<T>::passed_func_previous,
+				typename DoIsBidirectionalOrderIterator_t<T>::passed_func_reset
 			>
 		{};
 	public:
 		template<class T> inline constexpr static bool is_bidirectional_order_iterator = IsBidirectionalOrderIterator_t<T>::value;
+
+		template<typename T> [[nodiscard]] static constexpr bool is_before_begin(const T& obj)
+		{
+			static_assert(is_bidirectional_order_iterator<T>, "テンプレート引数型 T は 型要件:BidirectionalOrderIterator を満たしません。");
+			return obj.is_before_begin();
+		}
+		template<typename T> [[nodiscard]] static constexpr bool is_after_end(const T& obj)
+		{
+			static_assert(is_bidirectional_order_iterator<T>, "テンプレート引数型 T は 型要件:BidirectionalOrderIterator を満たしません。");
+			return obj.is_after_end();
+		}
+		template<typename T> static constexpr bool previous(T& obj)
+		{
+			static_assert(is_bidirectional_order_iterator<T>, "テンプレート引数型 T は 型要件:BidirectionalOrderIterator を満たしません。");
+			return obj.previous();
+		}
+		template<typename T> static constexpr void reset(T& obj, const IteratorOrigin& origin)
+		{
+			static_assert(is_bidirectional_order_iterator<T>, "テンプレート引数型 T は 型要件:BidirectionalOrderIterator を満たしません。");
+			obj.reset(origin);
+		}
 	};
 
 	///	型要件:LinearOrderIterator を満たす型を識別します。
