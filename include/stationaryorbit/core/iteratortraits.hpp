@@ -50,21 +50,21 @@ namespace zawa_ch::StationaryOrbit
 			template<typename T> static std::false_type test_type_value_type(...);
 			template<typename T, typename R = decltype( std::declval<const T&>().equals(std::declval<const T&>()) )> static std::is_convertible<R, bool> test_func_equals(int);
 			template<typename T> static std::false_type test_func_equals(...);
-			template<typename T, typename R = decltype( std::declval<T&>().next() )> static std::is_convertible<R, bool> test_func_next(int);
-			template<typename T> static std::false_type test_func_next(...);
 			template<typename T, typename R = decltype( std::declval<const T&>().has_value() )> static std::is_convertible<R, bool> test_func_has_value(int);
 			template<typename T> static std::false_type test_func_has_value(...);
 			template<typename T, typename R = decltype( std::declval<const T&>().current() ), typename V = typename T::ValueType> static std::is_convertible<R, V> test_func_current(int);
 			template<typename T> static std::false_type test_func_current(...);
+			template<typename T, typename R = decltype( std::declval<T&>().next() )> static std::is_convertible<R, bool> test_func_next(int);
+			template<typename T> static std::false_type test_func_next(...);
 		};
 		template<typename T>
 		struct DoIsIterator_t : DoIsIterator_impl
 		{
 			typedef decltype(test_type_value_type<T>(0)) passed_type_value_type;
 			typedef decltype(test_func_equals<T>(0)) passed_func_equals;
-			typedef decltype(test_func_next<T>(0)) passed_func_next;
 			typedef decltype(test_func_has_value<T>(0)) passed_func_has_value;
 			typedef decltype(test_func_current<T>(0)) passed_func_current;
+			typedef decltype(test_func_next<T>(0)) passed_func_next;
 		};
 	protected:
 		template<typename T>
@@ -74,13 +74,35 @@ namespace zawa_ch::StationaryOrbit
 				std::is_copy_constructible<T>,
 				typename DoIsIterator_t<T>::passed_type_value_type,
 				typename DoIsIterator_t<T>::passed_func_equals,
-				typename DoIsIterator_t<T>::passed_func_next,
 				typename DoIsIterator_t<T>::passed_func_has_value,
 				typename DoIsIterator_t<T>::passed_func_current
+				typename DoIsIterator_t<T>::passed_func_next,
 			>
 		{};
 	public:
-		template<typename T> constexpr static bool is_iterator = IsIterator_t<T>::value;
+		template<typename T> static constexpr bool is_iterator = IsIterator_t<T>::value;
+
+		template<typename T> using ValueType = typename T::ValueType;
+		template<typename T> [[nodiscard]] static constexpr bool equals(const T& obj, const T& other)
+		{
+			static_assert(is_iterator<T>, "テンプレート引数型 T は 型要件:Iterator を満たしません。");
+			return obj.equals(other);
+		}
+		template<typename T> [[nodiscard]] static constexpr bool has_value(const T& obj)
+		{
+			static_assert(is_iterator<T>, "テンプレート引数型 T は 型要件:Iterator を満たしません。");
+			return obj.has_value();
+		}
+		template<typename T> [[nodiscard]] static constexpr ValueType<T> current(const T& obj)
+		{
+			static_assert(is_iterator<T>, "テンプレート引数型 T は 型要件:Iterator を満たしません。");
+			return obj.current();
+		}
+		template<typename T> static constexpr bool next(T& obj)
+		{
+			static_assert(is_iterator<T>, "テンプレート引数型 T は 型要件:Iterator を満たしません。");
+			return obj.next();
+		}
 	};
 
 	///	型要件:SequencialOrderIterator を満たす型を識別します。
