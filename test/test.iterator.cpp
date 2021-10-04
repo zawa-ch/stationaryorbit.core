@@ -45,14 +45,14 @@ std::array<std::function<int(void)>, 3> tests =
 	[]()
 	{
 		std::vector<int> cont = {1, 2, 3, 4, 5};
-		ItrProcesser::ForEach(LegacyIterator(cont), [](auto item) { std::cout << item << " "; });
+		IteratorProcesser::ForEach(LegacyIterator(cont), [](auto item) { std::cout << item << " "; });
 		std::cout << std::endl;
 		return 0;
 	},
 	[]()
 	{
 		std::vector<int> cont = {1, 2, 3, 4, 5};
-		ItrProcesser::ForEach(LegacyReverseIterator(cont), [](const auto& item)->void { std::cout << item << " "; });
+		IteratorProcesser::ForEach(LegacyReverseIterator(cont), [](const auto& item)->void { std::cout << item << " "; });
 		std::cout << std::endl;
 		return 0;
 	},

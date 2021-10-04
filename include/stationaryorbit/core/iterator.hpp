@@ -20,7 +20,6 @@
 #define __stationaryorbit_core_iterator__
 #include <stdexcept>
 #include <utility>
-#include <functional>
 #include <optional>
 #include "iteratortraits.hpp"
 #include "invalidoperation.hpp"
@@ -75,21 +74,6 @@ namespace zawa_ch::StationaryOrbit
 	template<class T, std::enable_if_t<LinearOrderIteratorTraits::is_linear_order_iterator<T>, int> = 0>
 	T operator>=(const T& value, const T& other) { return value.compare(other) >= 0; }
 	#endif
-	///	イテレータを使用した処理を行います。
-	class ItrProcesser
-	{
-	public:
-		///	イテレータで列挙されるすべての要素に対して、指定された述語を適用します。
-		///	@note
-		///	計算時間はイテレータの要素数に比例。
-		template<class It, class resultT = typename It::ValueType, class predT = std::function<void(resultT)>>
-		constexpr static void ForEach(It iter, const predT& pred)
-		{
-			iter.reset();
-			while(iter.has_value()) { pred(iter.current()); (void)iter.next(); }
-		}
-	};
-
 	///	このライブラリで使用されるイテレータをC++標準のイテレータに変換します。
 	///	@param	T
 	///	変換するイテレータの型。 @a IteratorTraits::is_iterator を満たす必要があります。

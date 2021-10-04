@@ -1,5 +1,5 @@
 //	stationaryorbit/core.iteration
-//	Copyright 2020 zawa-ch.
+//	Copyright 2020-2021 zawa-ch.
 //	GPLv3 (or later) license
 //
 //	This program is free software: you can redistribute it and/or modify
@@ -18,3 +18,4 @@
 //
 
 #include "core/iterator.hpp"
+#include "core/iteratorprocesser.hpp"
