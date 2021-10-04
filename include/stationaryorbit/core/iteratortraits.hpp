@@ -222,22 +222,22 @@ namespace zawa_ch::StationaryOrbit
 	private:
 		struct DoIsLinearOrderIterator_impl
 		{
+			template<typename T, typename R = decltype( std::declval<const T&>().compare(std::declval<const T&>()) )> static std::is_convertible<R, int> test_func_compare(int);
+			template<typename T> static std::false_type test_func_compare(...);
+			template<typename T, typename R = decltype( std::declval<const T&>().distance(std::declval<const T&>()) )> static std::is_convertible<R, IteratorDiff> test_func_distance(int);
+			template<typename T> static std::false_type test_func_distance(...);
 			template<typename T, typename R = decltype( std::declval<T&>().next(std::declval<const IteratorDiff&>()) )> static std::is_convertible<R, bool> test_func_next(int);
 			template<typename T> static std::false_type test_func_next(...);
 			template<typename T, typename R = decltype( std::declval<T&>().previous(std::declval<const IteratorDiff&>()) )> static std::is_convertible<R, bool> test_func_previous(int);
 			template<typename T> static std::false_type test_func_previous(...);
-			template<typename T, typename R = decltype( std::declval<const T&>().distance(std::declval<const T&>()) )> static std::is_convertible<R, IteratorDiff> test_func_distance(int);
-			template<typename T> static std::false_type test_func_distance(...);
-			template<typename T, typename R = decltype( std::declval<const T&>().compare(std::declval<const T&>()) )> static std::is_convertible<R, int> test_func_compare(int);
-			template<typename T> static std::false_type test_func_compare(...);
 		};
 		template<typename T>
 		struct DoIsLinearOrderIterator_t : DoIsLinearOrderIterator_impl
 		{
+			typedef decltype(test_func_compare<T>(0)) passed_func_compare;
+			typedef decltype(test_func_distance<T>(0)) passed_func_distance;
 			typedef decltype(test_func_next<T>(0)) passed_func_next;
 			typedef decltype(test_func_previous<T>(0)) passed_func_previous;
-			typedef decltype(test_func_distance<T>(0)) passed_func_distance;
-			typedef decltype(test_func_compare<T>(0)) passed_func_compare;
 		};
 	protected:
 		template<class T>
@@ -245,14 +245,35 @@ namespace zawa_ch::StationaryOrbit
 			: std::conjunction
 			<
 				IsBidirectionalOrderIterator_t<T>,
-				typename DoIsLinearOrderIterator_t<T>::passed_func_next,
-				typename DoIsLinearOrderIterator_t<T>::passed_func_previous,
+				typename DoIsLinearOrderIterator_t<T>::passed_func_compare,
 				typename DoIsLinearOrderIterator_t<T>::passed_func_distance,
-				typename DoIsLinearOrderIterator_t<T>::passed_func_compare
+				typename DoIsLinearOrderIterator_t<T>::passed_func_next,
+				typename DoIsLinearOrderIterator_t<T>::passed_func_previous
 			>
 		{};
 	public:
 		template<class T> inline constexpr static bool is_linear_order_iterator = IsLinearOrderIterator_t<T>::value;
+
+		template<typename T> [[nodiscard]] static constexpr int compare(const T& obj, const T& other)
+		{
+			static_assert(is_linear_order_iterator<T>, "テンプレート引数型 T は 型要件:LinearOrderIterator を満たしません。");
+			return obj.compare(other);
+		}
+		template<typename T> [[nodiscard]] static constexpr IteratorDiff distance(const T& obj, const T& other)
+		{
+			static_assert(is_linear_order_iterator<T>, "テンプレート引数型 T は 型要件:LinearOrderIterator を満たしません。");
+			return obj.distance(other);
+		}
+		template<typename T> static constexpr bool next(T& obj, const IteratorDiff& count)
+		{
+			static_assert(is_linear_order_iterator<T>, "テンプレート引数型 T は 型要件:LinearOrderIterator を満たしません。");
+			return obj.next(count);
+		}
+		template<typename T> static constexpr bool previous(T& obj, const IteratorDiff& count)
+		{
+			static_assert(is_linear_order_iterator<T>, "テンプレート引数型 T は 型要件:LinearOrderIterator を満たしません。");
+			return obj.previous(count);
+		}
 	};
 }
 #endif // __stationaryorbit_core_iteratortraits__
