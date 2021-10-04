@@ -25,7 +25,7 @@
 #include "numericaltypetraits.hpp"
 #include "ordertypetraits.hpp"
 #include "iteratortraits.hpp"
-#include "iteratoradapter.hpp"
+#include "iteratoradaptcontainer.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	template<class T, bool floor_included, bool ceiling_included> class Range;
