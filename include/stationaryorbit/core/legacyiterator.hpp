@@ -19,6 +19,7 @@
 #ifndef __stationaryorbit_core_legacyiterator__
 #define __stationaryorbit_core_legacyiterator__
 #include <stdexcept>
+#include "stditeratortraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	template<class contT, class T = typename contT::value_type>
@@ -31,11 +32,12 @@ namespace zawa_ch::StationaryOrbit
 		const ContainerType& _cont;
 		typename contT::const_iterator _itr;
 	public:
-		LegacyIterator(const ContainerType& container) : _cont(container) {}
-		virtual void reset() { _itr = _cont.cbegin(); }
-		virtual bool has_value() const { return _itr != _cont.cend(); }
-		virtual const T& current() const { if (has_value()) { return *_itr; } else { throw std::out_of_range("要素の範囲外にあるイテレータに対して逆参照を試みました。"); } }
-		virtual bool next() { if (has_value()) { ++_itr; } return _itr != _cont.cend(); }
+		constexpr LegacyIterator(const ContainerType& container) : _cont(container) {}
+		[[nodiscard]] constexpr bool equals(const LegacyIterator<contT>& other) { return _itr == other._itr; }
+		[[nodiscard]] constexpr bool has_value() const { return _itr != _cont.cend(); }
+		[[nodiscard]] constexpr const T& current() const { if (has_value()) { return *_itr; } else { throw std::out_of_range("要素の範囲外にあるイテレータに対して逆参照を試みました。"); } }
+		constexpr bool next() { if (has_value()) { ++_itr; } return _itr != _cont.cend(); }
+		constexpr void reset() { _itr = _cont.cbegin(); }
 	};
 
 	template<class contT, class T = typename contT::value_type>
@@ -48,11 +50,12 @@ namespace zawa_ch::StationaryOrbit
 		const ContainerType& _cont;
 		typename contT::const_reverse_iterator _itr;
 	public:
-		LegacyReverseIterator(const ContainerType& container) : _cont(container) {}
-		virtual void reset() { _itr = _cont.crbegin(); }
-		virtual bool has_value() const { return _itr != _cont.crend(); }
-		virtual const T& current() const { if (has_value()) { return *_itr; } else { throw std::out_of_range("要素の範囲外にあるイテレータに対して逆参照を試みました。"); } }
-		virtual bool next() { if (has_value()) { ++_itr; } return _itr != _cont.crend(); }
+		constexpr LegacyReverseIterator(const ContainerType& container) : _cont(container) {}
+		[[nodiscard]] constexpr bool equals(const LegacyReverseIterator<contT>& other) { return _itr == other._itr; }
+		[[nodiscard]] constexpr bool has_value() const { return _itr != _cont.crend(); }
+		[[nodiscard]] constexpr const T& current() const { if (has_value()) { return *_itr; } else { throw std::out_of_range("要素の範囲外にあるイテレータに対して逆参照を試みました。"); } }
+		constexpr bool next() { if (has_value()) { ++_itr; } return _itr != _cont.crend(); }
+		constexpr void reset() { _itr = _cont.crbegin(); }
 	};
 }
 #endif // __stationaryorbit_core_legacyiterator__
