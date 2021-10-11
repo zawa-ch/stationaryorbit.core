@@ -42,6 +42,7 @@ add_library(stationaryorbit.core SHARED
     rect2dsize.cpp
     rectangle2d.cpp
     rotation.cpp
+    stdcontainertraits.cpp
     stditeratortraits.cpp
     typetraitsbase.cpp
     valuetypetraits.cpp
