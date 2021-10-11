@@ -359,6 +359,39 @@ namespace zawa_ch::StationaryOrbit
 		{};
 	public:
 		template<typename Tp> static constexpr bool is_reversible_container = IsStdReversibleContainer_t<Tp>::value;
+
+		template<typename Tp> using ReverseIterator = typename Tp::reverse_iterator;
+		template<typename Tp> using ConstReverseIterator = typename Tp::const_reverse_iterator;
+		template<typename Tp> static constexpr ReverseIterator<Tp> rbegin(Tp& cont)
+		{
+			static_assert(is_reversible_container<Tp>, "テンプレート引数型 Tp は 名前付き要件:ReversibleContainer を満たしません。");
+			return cont.rbegin();
+		}
+		template<typename Tp> static constexpr ConstReverseIterator<Tp> rbegin(const Tp& cont)
+		{
+			static_assert(is_reversible_container<Tp>, "テンプレート引数型 Tp は 名前付き要件:ReversibleContainer を満たしません。");
+			return cont.rbegin();
+		}
+		template<typename Tp> static constexpr ReverseIterator<Tp> rend(Tp& cont)
+		{
+			static_assert(is_reversible_container<Tp>, "テンプレート引数型 Tp は 名前付き要件:ReversibleContainer を満たしません。");
+			return cont.rend();
+		}
+		template<typename Tp> static constexpr ConstReverseIterator<Tp> rend(const Tp& cont)
+		{
+			static_assert(is_reversible_container<Tp>, "テンプレート引数型 Tp は 名前付き要件:ReversibleContainer を満たしません。");
+			return cont.rend();
+		}
+		template<typename Tp> static constexpr ConstReverseIterator<Tp> crbegin(const Tp& cont)
+		{
+			static_assert(is_reversible_container<Tp>, "テンプレート引数型 Tp は 名前付き要件:ReversibleContainer を満たしません。");
+			return cont.crbegin();
+		}
+		template<typename Tp> static constexpr ConstReverseIterator<Tp> crend(const Tp& cont)
+		{
+			static_assert(is_reversible_container<Tp>, "テンプレート引数型 Tp は 名前付き要件:ReversibleContainer を満たしません。");
+			return cont.crend();
+		}
 	};
 }
 #endif // __stationaryorbit_core_stdcontainertraits
