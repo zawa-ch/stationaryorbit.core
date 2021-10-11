@@ -222,5 +222,80 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		template<typename Tp> static constexpr bool is_container = IsStdContainer_t<Tp>::value;
 	};
+
+	///	名前付き要件:ReversibleContainer を満たす型を識別します。
+	class StdReversibleContainerTraits : public StdContainerTraits
+	{
+		StdReversibleContainerTraits() = delete;
+		StdReversibleContainerTraits(const StdReversibleContainerTraits&) = delete;
+		StdReversibleContainerTraits(StdReversibleContainerTraits&&) = delete;
+		StdReversibleContainerTraits& operator=(const StdReversibleContainerTraits&) = delete;
+		StdReversibleContainerTraits& operator=(StdReversibleContainerTraits&&) = delete;
+		~StdReversibleContainerTraits() = delete;
+	public:
+		struct DoIsStdReversibleContainer_impl
+		{
+			template<typename Tp, typename It = typename Tp::iterator, typename V = typename Tp::value_type> static std::conjunction<std::bool_constant<StdLegacyBidirectionalIteratorTraits::is_std_legacy_bidirectional_iterator<It>>, std::is_same<typename std::iterator_traits<It>::value_type, V>> test_type_iterator(int);
+			template<typename Tp> static std::false_type test_type_iterator(...);
+			template<typename Tp, typename It = typename Tp::const_iterator, typename V = typename Tp::value_type> static std::conjunction<std::bool_constant<StdLegacyBidirectionalIteratorTraits::is_std_legacy_bidirectional_iterator<It>>, std::is_same<typename std::iterator_traits<It>::value_type, V>> test_type_const_iterator(int);
+			template<typename Tp> static std::false_type test_type_const_iterator(...);
+			template<typename Tp, typename It = typename Tp::iterator, typename Itc = typename Tp::const_iterator> static std::is_convertible<It, Itc> iterator_test_convert_const_iterator(...);
+			template<typename Tp, typename It = typename Tp::reverse_iterator, typename V = typename Tp::value_type> static std::conjunction<std::bool_constant<StdLegacyBidirectionalIteratorTraits::is_std_legacy_bidirectional_iterator<It>>, std::is_same<typename std::iterator_traits<It>::value_type, V>> test_type_reverse_iterator(int);
+			template<typename Tp> static std::false_type test_type_reverse_iterator(...);
+			template<typename Tp, typename It = typename Tp::const_reverse_iterator, typename V = typename Tp::value_type> static std::conjunction<std::bool_constant<StdLegacyBidirectionalIteratorTraits::is_std_legacy_bidirectional_iterator<It>>, std::is_same<typename std::iterator_traits<It>::value_type, V>> test_type_const_reverse_iterator(int);
+			template<typename Tp> static std::false_type test_type_const_reverse_iterator(...);
+			template<typename Tp, typename It = typename Tp::reverse_iterator, typename Itc = typename Tp::const_reverse_iterator> static std::is_convertible<It, Itc> reverse_iterator_test_convert_const_reverse_iterator(...);
+			template<typename Tp, typename R = decltype(std::declval<Tp&>().rbegin()), typename It = typename Tp::reverse_iterator> static std::is_same<R, It> test_func_rbegin(int);
+			template<typename Tp> static std::false_type test_func_rbegin(...);
+			template<typename Tp, typename R = decltype(std::declval<const Tp&>().rbegin()), typename It = typename Tp::const_reverse_iterator> static std::is_same<R, It> test_const_func_rbegin(int);
+			template<typename Tp> static std::false_type test_const_func_rbegin(...);
+			template<typename Tp, typename R = decltype(std::declval<Tp&>().rend()), typename It = typename Tp::reverse_iterator> static std::is_same<R, It> test_func_rend(int);
+			template<typename Tp> static std::false_type test_func_rend(...);
+			template<typename Tp, typename R = decltype(std::declval<const Tp&>().rend()), typename It = typename Tp::const_reverse_iterator> static std::is_same<R, It> test_const_func_rend(int);
+			template<typename Tp> static std::false_type test_const_func_rend(...);
+			template<typename Tp, typename R = decltype(std::declval<const Tp&>().crbegin()), typename It = typename Tp::const_reverse_iterator> static std::is_same<R, It> test_func_crbegin(int);
+			template<typename Tp> static std::false_type test_func_crbegin(...);
+			template<typename Tp, typename R = decltype(std::declval<const Tp&>().crend()), typename It = typename Tp::const_reverse_iterator> static std::is_same<R, It> test_func_crend(int);
+			template<typename Tp> static std::false_type test_func_crend(...);
+		};
+		template<typename Tp>
+		struct DoIsStdReversibleContainer_t : DoIsStdReversibleContainer_impl
+		{
+			typedef decltype(test_type_iterator<Tp>(0)) passed_type_iterator;
+			typedef decltype(test_type_const_iterator<Tp>(0)) passed_type_const_iterator;
+			typedef decltype(iterator_test_convert_const_iterator<Tp>(0)) iterator_passed_convert_const_iterator;
+			typedef decltype(test_type_reverse_iterator<Tp>(0)) passed_type_reverse_iterator;
+			typedef decltype(test_type_const_reverse_iterator<Tp>(0)) passed_type_const_reverse_iterator;
+			typedef decltype(reverse_iterator_test_convert_const_reverse_iterator<Tp>(0)) reverse_iterator_passed_convert_const_reverse_iterator;
+			typedef decltype(test_func_rbegin<Tp>(0)) passed_func_rbegin;
+			typedef decltype(test_const_func_rbegin<Tp>(0)) passed_const_func_rbegin;
+			typedef decltype(test_func_rend<Tp>(0)) passed_func_rend;
+			typedef decltype(test_const_func_rend<Tp>(0)) passed_const_func_rend;
+			typedef decltype(test_func_crbegin<Tp>(0)) passed_func_crbegin;
+			typedef decltype(test_func_crend<Tp>(0)) passed_func_crend;
+		};
+	protected:
+		template<typename Tp>
+		struct IsStdReversibleContainer_t :
+			std::conjunction
+			<
+				IsStdContainer_t<Tp>,
+				typename DoIsStdReversibleContainer_t<Tp>::passed_type_iterator,
+				typename DoIsStdReversibleContainer_t<Tp>::passed_type_const_iterator,
+				typename DoIsStdReversibleContainer_t<Tp>::iterator_passed_convert_const_iterator,
+				typename DoIsStdReversibleContainer_t<Tp>::passed_type_reverse_iterator,
+				typename DoIsStdReversibleContainer_t<Tp>::passed_type_const_reverse_iterator,
+				typename DoIsStdReversibleContainer_t<Tp>::reverse_iterator_passed_convert_const_reverse_iterator,
+				typename DoIsStdReversibleContainer_t<Tp>::passed_func_rbegin,
+				typename DoIsStdReversibleContainer_t<Tp>::passed_const_func_rbegin,
+				typename DoIsStdReversibleContainer_t<Tp>::passed_func_rend,
+				typename DoIsStdReversibleContainer_t<Tp>::passed_const_func_rend,
+				typename DoIsStdReversibleContainer_t<Tp>::passed_func_crbegin,
+				typename DoIsStdReversibleContainer_t<Tp>::passed_func_crend
+			>
+		{};
+	public:
+		template<typename Tp> static constexpr bool is_reversible_container = IsStdReversibleContainer_t<Tp>::value;
+	};
 }
 #endif // __stationaryorbit_core_stdcontainertraits

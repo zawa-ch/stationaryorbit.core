@@ -31,3 +31,10 @@ static_assert(StdContainerTraits::is_container<std::deque<int>>, "std::deque は
 static_assert(StdContainerTraits::is_container<std::list<int>>, "std::list は 名前付き要件:Container を満たしますが、Traits判定は false でした。");
 static_assert(StdContainerTraits::is_container<std::set<int>>, "std::set は 名前付き要件:Container を満たしますが、Traits判定は false でした。");
 static_assert(StdContainerTraits::is_container<std::map<int, int>>, "std::map は 名前付き要件:Container を満たしますが、Traits判定は false でした。");
+
+static_assert(StdReversibleContainerTraits::is_reversible_container<std::array<int, 16>>, "std::array は 名前付き要件:Container を満たしますが、Traits判定は false でした。");
+static_assert(StdReversibleContainerTraits::is_reversible_container<std::vector<int>>, "std::vector は 名前付き要件:Container を満たしますが、Traits判定は false でした。");
+static_assert(StdReversibleContainerTraits::is_reversible_container<std::deque<int>>, "std::deque は 名前付き要件:Container を満たしますが、Traits判定は false でした。");
+static_assert(StdReversibleContainerTraits::is_reversible_container<std::list<int>>, "std::list は 名前付き要件:Container を満たしますが、Traits判定は false でした。");
+static_assert(StdReversibleContainerTraits::is_reversible_container<std::set<int>>, "std::set は 名前付き要件:Container を満たしますが、Traits判定は false でした。");
+static_assert(StdReversibleContainerTraits::is_reversible_container<std::map<int, int>>, "std::map は 名前付き要件:Container を満たしますが、Traits判定は false でした。");
