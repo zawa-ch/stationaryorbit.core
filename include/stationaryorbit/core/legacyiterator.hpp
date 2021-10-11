@@ -20,11 +20,13 @@
 #define __stationaryorbit_core_legacyiterator__
 #include <stdexcept>
 #include "stditeratortraits.hpp"
+#include "stdcontainertraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	template<class contT, class T = typename contT::value_type>
 	class LegacyIterator
 	{
+		static_assert(StdContainerTraits::is_container<contT>, "テンプレート引数型 contT は 名前付き要件:Container を満たす必要があります。");
 	public:
 		typedef contT ContainerType;
 		typedef T ValueType;
@@ -33,11 +35,11 @@ namespace zawa_ch::StationaryOrbit
 		typename contT::const_iterator _itr;
 	public:
 		constexpr LegacyIterator(const ContainerType& container) : _cont(container) {}
-		[[nodiscard]] constexpr bool equals(const LegacyIterator<contT>& other) { return _itr == other._itr; }
-		[[nodiscard]] constexpr bool has_value() const { return _itr != _cont.cend(); }
-		[[nodiscard]] constexpr const T& current() const { if (has_value()) { return *_itr; } else { throw std::out_of_range("要素の範囲外にあるイテレータに対して逆参照を試みました。"); } }
-		constexpr bool next() { if (has_value()) { ++_itr; } return _itr != _cont.cend(); }
-		constexpr void reset() { _itr = _cont.cbegin(); }
+		[[nodiscard]] constexpr bool equals(const LegacyIterator<contT>& other) { return StdLegacyForwardIteratorTraits::equals(_itr, other._itr); }
+		[[nodiscard]] constexpr bool has_value() const { return StdLegacyForwardIteratorTraits::not_equals(_itr, StdContainerTraits::cend(_cont)); }
+		[[nodiscard]] constexpr const T& current() const { if (has_value()) { return StdLegacyForwardIteratorTraits::dereference(_itr); } else { throw std::out_of_range("要素の範囲外にあるイテレータに対して逆参照を試みました。"); } }
+		constexpr bool next() { if (has_value()) { StdLegacyForwardIteratorTraits::next(_itr); } return has_value(); }
+		constexpr void reset() { _itr = StdContainerTraits::cbegin(_cont); }
 	};
 
 	template<class contT, class T = typename contT::value_type>
