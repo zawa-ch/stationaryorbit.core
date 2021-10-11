@@ -89,7 +89,7 @@ namespace zawa_ch::StationaryOrbit
 			return *it;
 		}
 		template<typename It>
-		[[nodiscard]] static constexpr It& next(It& it)
+		static constexpr It& next(It& it)
 		{
 			static_assert(is_std_legacy_iterator<It>, "名前付き要件:LegacyIterator を満たす必要があります。");
 			return ++it;
@@ -192,12 +192,12 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		template<typename It, typename O> static constexpr bool is_std_legacy_output_iterator = IsStdLegacyOutputIterator_t<It, O>::value;
 
-		template<typename It, typename O> [[nodiscard]] static constexpr auto assign_into_reference(It& it, const O& object)
+		template<typename It, typename O> static constexpr auto assign_into_reference(It& it, const O& object)
 		{
 			static_assert(is_std_legacy_output_iterator<It, O>, "名前付き要件:LegacyOutputIterator を満たす必要があります。");
 			return *it = object;
 		}
-		template<typename It, typename O> [[nodiscard]] static constexpr auto assign_into_reference_and_next(It& it, const O& object)
+		template<typename It, typename O> static constexpr auto assign_into_reference_and_next(It& it, const O& object)
 		{
 			static_assert(is_std_legacy_output_iterator<It, O>, "名前付き要件:LegacyOutputIterator を満たす必要があります。");
 			return *it++ = object;
@@ -288,7 +288,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename It> constexpr static bool is_std_legacy_bidirectional_iterator = IsStdLegacyBidirectionalIterator_t<It>::value;
 
 		template<typename It>
-		[[nodiscard]] static constexpr It& previous(It& it)
+		static constexpr It& previous(It& it)
 		{
 			static_assert(is_std_legacy_bidirectional_iterator<It>, "名前付き要件:LegacyBidirectionalIterator を満たす必要があります。");
 			return --it;
@@ -353,13 +353,13 @@ namespace zawa_ch::StationaryOrbit
 		template<typename It> constexpr static bool is_std_legacy_random_access_iterator = IsStdLegacyRandomAccessIterator_t<It>::value;
 
 		template<typename It>
-		[[nodiscard]] static constexpr It& forward(It& it, const difference_type<It>& count)
+		 static constexpr It& forward(It& it, const difference_type<It>& count)
 		{
 			static_assert(is_std_legacy_random_access_iterator<It>, "名前付き要件:LegacyRandomAccessIterator を満たす必要があります。");
 			return it += count;
 		}
 		template<typename It>
-		[[nodiscard]] static constexpr It& backward(It& it, const difference_type<It>& count)
+		 static constexpr It& backward(It& it, const difference_type<It>& count)
 		{
 			static_assert(is_std_legacy_random_access_iterator<It>, "名前付き要件:LegacyRandomAccessIterator を満たす必要があります。");
 			return it -= count;
