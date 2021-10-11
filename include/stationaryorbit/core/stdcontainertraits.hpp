@@ -221,6 +221,69 @@ namespace zawa_ch::StationaryOrbit
 		{};
 	public:
 		template<typename Tp> static constexpr bool is_container = IsStdContainer_t<Tp>::value;
+
+		template<typename Tp> using ValueType = typename Tp::value_type;
+		template<typename Tp> using Reference = typename Tp::reference;
+		template<typename Tp> using ConstReference = typename Tp::const_reference;
+		template<typename Tp> using Iterator = typename Tp::iterator;
+		template<typename Tp> using ConstIterator = typename Tp::const_iterator;
+		template<typename Tp> using DifferenceType = typename Tp::difference_type;
+		template<typename Tp> using SizeType = typename Tp::size_type;
+		template<typename Tp> static constexpr Iterator<Tp> begin(Tp& cont)
+		{
+			static_assert(is_container<Tp>, "テンプレート引数型 Tp は 名前付き要件:Container を満たしません。");
+			return cont.begin();
+		}
+		template<typename Tp> static constexpr ConstIterator<Tp> begin(const Tp& cont)
+		{
+			static_assert(is_container<Tp>, "テンプレート引数型 Tp は 名前付き要件:Container を満たしません。");
+			return cont.begin();
+		}
+		template<typename Tp> static constexpr Iterator<Tp> end(Tp& cont)
+		{
+			static_assert(is_container<Tp>, "テンプレート引数型 Tp は 名前付き要件:Container を満たしません。");
+			return cont.end();
+		}
+		template<typename Tp> static constexpr ConstIterator<Tp> end(const Tp& cont)
+		{
+			static_assert(is_container<Tp>, "テンプレート引数型 Tp は 名前付き要件:Container を満たしません。");
+			return cont.end();
+		}
+		template<typename Tp> static constexpr ConstIterator<Tp> cbegin(const Tp& cont)
+		{
+			static_assert(is_container<Tp>, "テンプレート引数型 Tp は 名前付き要件:Container を満たしません。");
+			return cont.cbegin();
+		}
+		template<typename Tp> static constexpr ConstIterator<Tp> cend(const Tp& cont)
+		{
+			static_assert(is_container<Tp>, "テンプレート引数型 Tp は 名前付き要件:Container を満たしません。");
+			return cont.cend();
+		}
+		template<typename Tp> static constexpr bool equals(const Tp& cont, const Tp& other)
+		{
+			static_assert(is_container<Tp>, "テンプレート引数型 Tp は 名前付き要件:Container を満たしません。");
+			return cont == other;
+		}
+		template<typename Tp> static constexpr bool not_equals(const Tp& cont, const Tp& other)
+		{
+			static_assert(is_container<Tp>, "テンプレート引数型 Tp は 名前付き要件:Container を満たしません。");
+			return cont != other;
+		}
+		template<typename Tp> static constexpr SizeType<Tp> size(const Tp& cont)
+		{
+			static_assert(is_container<Tp>, "テンプレート引数型 Tp は 名前付き要件:Container を満たしません。");
+			return cont.size();
+		}
+		template<typename Tp> static constexpr SizeType<Tp> max_size(const Tp& cont)
+		{
+			static_assert(is_container<Tp>, "テンプレート引数型 Tp は 名前付き要件:Container を満たしません。");
+			return cont.max_size();
+		}
+		template<typename Tp> static constexpr bool empty(const Tp& cont)
+		{
+			static_assert(is_container<Tp>, "テンプレート引数型 Tp は 名前付き要件:Container を満たしません。");
+			return cont.empty();
+		}
 	};
 
 	///	名前付き要件:ReversibleContainer を満たす型を識別します。
