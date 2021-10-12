@@ -27,6 +27,7 @@ namespace zawa_ch::StationaryOrbit
 	template<typename contT, typename> class LegacyIterator;
 	template<typename contT> class LegacyReverseIterator;
 
+	///	C++標準のコンテナをライブラリのイテレータに変換します。
 	template<typename contT, typename = std::void_t<>>
 	class LegacyIterator final
 	{
@@ -49,6 +50,7 @@ namespace zawa_ch::StationaryOrbit
 		constexpr bool next() { if (has_value()) { StdLegacyForwardIteratorTraits::next(_itr); } return has_value(); }
 		constexpr void reset() { _itr = StdContainerTraits::cbegin(_cont); }
 	};
+	///	C++標準のコンテナをライブラリのイテレータに変換します。
 	template<typename contT>
 	class LegacyIterator<contT, std::enable_if_t<StdReversibleContainerTraits::is_reversible_container<contT>>> final
 	{
@@ -85,6 +87,7 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr LegacyReverseIterator<contT> reverse() const { return LegacyReverseIterator<contT>(_cont, StdReversibleContainerTraits::ConstReverseIterator<contT>(_itr)); }
 	};
 
+	///	C++標準のコンテナをライブラリのイテレータに変換します。
 	template<typename contT>
 	class LegacyReverseIterator final
 	{
