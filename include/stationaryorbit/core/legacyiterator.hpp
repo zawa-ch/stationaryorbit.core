@@ -25,6 +25,7 @@
 namespace zawa_ch::StationaryOrbit
 {
 	template<typename contT, typename> class LegacyIterator;
+	template<typename contT> class LegacyReverseIterator;
 
 	template<typename contT, typename = std::void_t<>>
 	class LegacyIterator final
@@ -62,6 +63,7 @@ namespace zawa_ch::StationaryOrbit
 		constexpr LegacyIterator(const ContainerType& container, const StdReversibleContainerTraits::ConstIterator<contT>& iterator) : _cont(container), _itr(iterator) {}
 	public:
 		constexpr LegacyIterator(const ContainerType& container) : LegacyIterator(container, StdReversibleContainerTraits::cbegin(container)) {}
+		constexpr explicit LegacyIterator(const LegacyReverseIterator<contT>& iterator) : LegacyIterator(iterator.reverse()) {}
 		[[nodiscard]] constexpr bool equals(const LegacyIterator<contT>& other) const { return StdLegacyBidirectionalIteratorTraits::equals(_itr, other._itr); }
 		[[nodiscard]] constexpr bool operator==(const LegacyIterator<contT>& other) const { return equals(other); }
 		[[nodiscard]] constexpr bool operator!=(const LegacyIterator<contT>& other) const { return !equals(other); }
@@ -80,24 +82,44 @@ namespace zawa_ch::StationaryOrbit
 				case IteratorOrigin::End: { _itr = StdReversibleContainerTraits::cend(_cont); return; }
 			}
 		}
+		[[nodiscard]] constexpr LegacyReverseIterator<contT> reverse() const { return LegacyReverseIterator<contT>(_cont, StdReversibleContainerTraits::ConstReverseIterator<contT>(_itr)); }
 	};
 
-	template<class contT, class T = typename contT::value_type>
-	class LegacyReverseIterator
+	template<typename contT>
+	class LegacyReverseIterator final
 	{
+		static_assert(StdReversibleContainerTraits::is_reversible_container<contT>, "テンプレート引数型 contT は 名前付き要件:ReversibleContainer を満たす必要があります。");
+		friend class LegacyIterator<contT>;
 	public:
 		typedef contT ContainerType;
-		typedef T ValueType;
+		typedef typename contT::value_type ValueType;
 	private:
 		const ContainerType& _cont;
-		typename contT::const_reverse_iterator _itr;
+		StdReversibleContainerTraits::ConstReverseIterator<contT> _itr;
+
+		constexpr LegacyReverseIterator(const ContainerType& container, const StdReversibleContainerTraits::ConstReverseIterator<contT>& iterator) : _cont(container), _itr(iterator) {}
 	public:
-		constexpr LegacyReverseIterator(const ContainerType& container) : _cont(container) {}
-		[[nodiscard]] constexpr bool equals(const LegacyReverseIterator<contT>& other) { return _itr == other._itr; }
-		[[nodiscard]] constexpr bool has_value() const { return _itr != _cont.crend(); }
-		[[nodiscard]] constexpr const T& current() const { if (has_value()) { return *_itr; } else { throw std::out_of_range("要素の範囲外にあるイテレータに対して逆参照を試みました。"); } }
-		constexpr bool next() { if (has_value()) { ++_itr; } return _itr != _cont.crend(); }
-		constexpr void reset() { _itr = _cont.crbegin(); }
+		constexpr LegacyReverseIterator(const ContainerType& container) : LegacyReverseIterator(container, StdReversibleContainerTraits::crbegin(container)) {}
+		constexpr explicit LegacyReverseIterator(const LegacyIterator<contT>& iterator) : LegacyReverseIterator(iterator.reverse()) {}
+		[[nodiscard]] constexpr bool equals(const LegacyReverseIterator<contT>& other) const { return StdLegacyBidirectionalIteratorTraits::equals(_itr, other._itr); }
+		[[nodiscard]] constexpr bool operator==(const LegacyReverseIterator<contT>& other) const { return equals(other); }
+		[[nodiscard]] constexpr bool operator!=(const LegacyReverseIterator<contT>& other) const { return !equals(other); }
+		[[nodiscard]] constexpr bool has_value() const { return StdLegacyBidirectionalIteratorTraits::not_equals(_itr, StdReversibleContainerTraits::crend(_cont)); }
+		[[nodiscard]] constexpr bool is_before_begin() const { return StdLegacyBidirectionalIteratorTraits::not_equals(_itr, StdReversibleContainerTraits::crend(_cont)); }
+		[[nodiscard]] constexpr bool is_after_end() const { return false; }
+		[[nodiscard]] constexpr StdReversibleContainerTraits::ConstReference<contT> current() const { if (has_value()) { return StdLegacyBidirectionalIteratorTraits::dereference(_itr); } else { throw std::out_of_range("要素の範囲外にあるイテレータに対して逆参照を試みました。"); } }
+		constexpr bool next() { if (has_value()) { StdLegacyBidirectionalIteratorTraits::next(_itr); } return has_value(); }
+		constexpr bool previous() { if (has_value()) { StdLegacyBidirectionalIteratorTraits::previous(_itr); } return has_value(); }
+		constexpr void reset() { reset(IteratorOrigin::Begin); }
+		constexpr void reset(const IteratorOrigin& origin)
+		{
+			switch(origin)
+			{
+				case IteratorOrigin::Begin: { _itr = StdReversibleContainerTraits::crbegin(_cont); return; }
+				case IteratorOrigin::End: { _itr = StdReversibleContainerTraits::crend(_cont); return; }
+			}
+		}
+		[[nodiscard]] constexpr LegacyIterator<contT> reverse() const { return LegacyIterator<contT>(_cont, StdReversibleContainerTraits::ConstIterator<contT>(_itr)); }
 	};
 }
 #endif // __stationaryorbit_core_legacyiterator__
