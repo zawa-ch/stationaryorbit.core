@@ -472,21 +472,21 @@ namespace std
 	class iterator_traits<zawa_ch::StationaryOrbit::IteratorAdapter<T>>
 	{
 	public:
-		typedef typename T::ValueType value_type;
-		typedef zawa_ch::StationaryOrbit::IteratorTraits::IteratorDiff difference_type;
-		typedef const value_type& reference;
-		typedef const value_type* pointer;
-		typedef std::input_iterator_tag iteretor_category;
+		typedef typename zawa_ch::StationaryOrbit::IteratorAdapter<T>::ValueType value_type;
+		typedef typename zawa_ch::StationaryOrbit::IteratorAdapter<T>::DifferenceType difference_type;
+		typedef typename zawa_ch::StationaryOrbit::IteratorAdapter<T>::Reference reference;
+		typedef typename zawa_ch::StationaryOrbit::IteratorAdapter<T>::Pointer pointer;
+		typedef typename zawa_ch::StationaryOrbit::IteratorAdapter<T>::IteratorCategory iteretor_category;
 	};
 	template<class T>
 	class iterator_traits<zawa_ch::StationaryOrbit::IteratorReverseAdapter<T>>
 	{
 	public:
-		typedef typename T::ValueType value_type;
-		typedef zawa_ch::StationaryOrbit::IteratorTraits::IteratorDiff difference_type;
-		typedef const value_type& reference;
-		typedef const value_type* pointer;
-		typedef std::input_iterator_tag iteretor_category;
+		typedef typename zawa_ch::StationaryOrbit::IteratorReverseAdapter<T>::ValueType value_type;
+		typedef typename zawa_ch::StationaryOrbit::IteratorReverseAdapter<T>::DifferenceType difference_type;
+		typedef typename zawa_ch::StationaryOrbit::IteratorReverseAdapter<T>::Reference reference;
+		typedef typename zawa_ch::StationaryOrbit::IteratorReverseAdapter<T>::Pointer pointer;
+		typedef typename zawa_ch::StationaryOrbit::IteratorReverseAdapter<T>::IteratorCategory iteretor_category;
 	};
 }
 #endif // __stationaryorbit_core_iteratoradapter__
