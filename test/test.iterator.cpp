@@ -40,8 +40,38 @@ public:
 };
 static_assert(SequencialOrderIteratorTraits::is_sequencial_order_iterator<IncrementIterator>, "テストに使用される IncrementIterator が is_sequencial_order_iterator の要件を満たしませんでした。");
 
-std::array<std::function<int(void)>, 3> tests =
+std::array<std::function<int(void)>, 9> tests =
 {
+	[]()
+	{
+		std::cout << "1. Type LegacyIterator<std::vector<int>> meets the traits Iterator?";
+		return check_if(IteratorTraits::is_iterator<LegacyIterator<std::vector<int>>>);
+	},
+	[]()
+	{
+		std::cout << "2. Type LegacyIterator<std::vector<int>> meets the traits SequencialOrderIterator?";
+		return check_if(SequencialOrderIteratorTraits::is_sequencial_order_iterator<LegacyIterator<std::vector<int>>>);
+	},
+	[]()
+	{
+		std::cout << "3. Type LegacyIterator<std::vector<int>> meets the traits BidirectionalOrderIterator?";
+		return check_if(BidirectionalOrderIteratorTraits::is_bidirectional_order_iterator<LegacyIterator<std::vector<int>>>);
+	},
+	[]()
+	{
+		std::cout << "4. Type LegacyReverseIterator<std::vector<int>> meets the traits Iterator?";
+		return check_if(IteratorTraits::is_iterator<LegacyReverseIterator<std::vector<int>>>);
+	},
+	[]()
+	{
+		std::cout << "5. Type LegacyReverseIterator<std::vector<int>> meets the traits SequencialOrderIterator?";
+		return check_if(SequencialOrderIteratorTraits::is_sequencial_order_iterator<LegacyReverseIterator<std::vector<int>>>);
+	},
+	[]()
+	{
+		std::cout << "6. Type LegacyReverseIterator<std::vector<int>> meets the traits BidirectionalOrderIterator?";
+		return check_if(BidirectionalOrderIteratorTraits::is_bidirectional_order_iterator<LegacyReverseIterator<std::vector<int>>>);
+	},
 	[]()
 	{
 		std::vector<int> cont = {1, 2, 3, 4, 5};
