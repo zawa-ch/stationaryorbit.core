@@ -19,6 +19,7 @@
 #ifndef __stationaryorbit_core_iteratorprocesser__
 #define __stationaryorbit_core_iteratorprocesser__
 #include <functional>
+#include "iteratortraits.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	///	イテレータを使用した処理を行います。
@@ -31,8 +32,9 @@ namespace zawa_ch::StationaryOrbit
 		template<class It, class resultT = typename It::ValueType, class predT = std::function<void(resultT)>>
 		constexpr static void ForEach(It iter, const predT& pred)
 		{
-			iter.reset();
-			while(iter.has_value()) { pred(iter.current()); (void)iter.next(); }
+			static_assert(SequencialOrderIteratorTraits::is_sequencial_order_iterator<It>, "テンプレート引数型 It は 型要件:SequencialOrderItterator を満たす必要があります。");
+			SequencialOrderIteratorTraits::reset(iter);
+			while(SequencialOrderIteratorTraits::has_value(iter)) { pred(SequencialOrderIteratorTraits::current(iter)); (void)SequencialOrderIteratorTraits::next(iter); }
 		}
 	};
 }
