@@ -163,8 +163,12 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr bool is_after_end() const noexcept { return !_range.is_under_top(_value); }
 		///	このイテレータを次に進めます。
 		constexpr bool next() noexcept { return _range.is_under_top(_range.is_under_top(_value)?(++_value):(_value)); }
+		constexpr IteratorType& operator++() { next(); return *this; }
+		constexpr IteratorType operator++(int) { IteratorType result = *this; next(); return result; }
 		///	このイテレータを前に進めます。
 		constexpr bool previous() noexcept { return _range.is_over_bottom(_range.is_over_bottom(_value)?(--_value):(_value)); }
+		constexpr IteratorType& operator--() { previous(); return *this; }
+		constexpr IteratorType operator--(int) { IteratorType result = *this; previous(); return result; }
 		///	このイテレータを初期位置に進めます。
 		constexpr void reset() { reset(IteratorOrigin::Begin); }
 		///	このイテレータを初期位置に進めます。
@@ -173,7 +177,6 @@ namespace zawa_ch::StationaryOrbit
 		constexpr void reset(const IteratorOrigin& origin) { _value = get_origin(_range, origin); }
 		///	指定されたオブジェクトがこのオブジェクトと等価であることを判定します。
 		[[nodiscard]] constexpr bool equals(const IteratorType& other) const noexcept { return (_range.equals(other._range))&&(_value == other._value); }
-
 		[[nodiscard]] constexpr bool operator==(const IteratorType& other) const noexcept { return equals(other); }
 		[[nodiscard]] constexpr bool operator!=(const IteratorType& other) const noexcept { return !equals(other); }
 
