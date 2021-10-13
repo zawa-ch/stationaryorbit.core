@@ -25,6 +25,7 @@
 #include "ordertypetraits.hpp"
 #include "iteratortraits.hpp"
 #include "iteratoradaptcontainer.hpp"
+#include "arithmetic.hpp"
 namespace zawa_ch::StationaryOrbit
 {
 	template<class T, bool floor_included, bool ceiling_included> class Range;
@@ -62,56 +63,48 @@ namespace zawa_ch::StationaryOrbit
 
 	public: // menber
 		///	範囲の下限値を取得します。
-		[[nodiscard]] constexpr ValueType bottom() const { return _bottom; }
+		[[nodiscard]] constexpr ValueType bottom() const noexcept { return _bottom; }
 		///	範囲の上限値を取得します。
-		[[nodiscard]] constexpr ValueType top() const { return _top; }
+		[[nodiscard]] constexpr ValueType top() const noexcept { return _top; }
 		///	範囲の長さを求めます。
-		[[nodiscard]] constexpr ValueType length() const
-		{
-			if ((_bottom < 0)&&((std::numeric_limits<ValueType>::max() - _bottom) < _top)) { throw std::overflow_error("計算結果がテンプレートで指定されている型の最大値を超えています。"); }
-
-			if (_top < _bottom) { return ValueType(0); }
-			else if (_top < 0) { return ValueType(-(-_top + _bottom)); }
-			else if (_bottom < 0) { return ValueType(_top) + ValueType(-_bottom); }
-			else { return ValueType(_top - _bottom); }
-		}
+		[[nodiscard]] constexpr ValueType length() const { return ArithmeticOperation::subtract_checked(_top, _bottom); }
 
 		///	指定された値が範囲に含まれているかを検査します。
 		///	@param	value
 		///	検査を行う値
 		///	@return
 		///	範囲に含まれれば @a true を返します。そうでなければ @a false を返します。
-		[[nodiscard]] constexpr bool is_included(const T& value) const { return is_over_bottom(value) && is_under_top(value); }
+		[[nodiscard]] constexpr bool is_included(const T& value) const noexcept { return is_over_bottom(value) && is_under_top(value); }
 
 		///	指定された値が範囲より大きいかを検査します。
 		///	@param	value
 		///	検査を行う値
 		///	@return
 		///	範囲より大きければ @a true を返します。そうでなければ @a false を返します。
-		[[nodiscard]] constexpr bool is_over_top(const T& value) const { return is_over_bottom(value) && !is_under_top(value); }
-		[[nodiscard]] constexpr bool operator<(const T& value) const { return is_over_top(value); }
+		[[nodiscard]] constexpr bool is_over_top(const T& value) const noexcept { return is_over_bottom(value) && !is_under_top(value); }
+		[[nodiscard]] constexpr bool operator<(const T& value) const noexcept { return is_over_top(value); }
 
 		///	指定された値が範囲より小さいかを検査します。
 		///	@param	value
 		///	検査を行う値
 		///	@return
 		///	範囲より小さければ @a true を返します。そうでなければ @a false を返します。
-		[[nodiscard]] constexpr bool is_under_bottom(const ValueType& value) const { return !is_over_bottom(value) && is_under_top(value); }
-		[[nodiscard]] constexpr bool operator>(const ValueType& value) const { return is_under_bottom(value); }
+		[[nodiscard]] constexpr bool is_under_bottom(const ValueType& value) const noexcept { return !is_over_bottom(value) && is_under_top(value); }
+		[[nodiscard]] constexpr bool operator>(const ValueType& value) const noexcept { return is_under_bottom(value); }
 
 		///	指定された値が範囲の下限より大きいかを検査します。
 		///	@param	value
 		///	検査を行う値
 		///	@return
 		///	下限より大きければ @a true を返します。そうでなければ @a false を返します。
-		[[nodiscard]] constexpr bool is_over_bottom(const ValueType& value) const noexcept { if constexpr (floor_included) { return _bottom <= value; } else { return _bottom < value; } }
+		[[nodiscard]] constexpr bool is_over_bottom(const ValueType& value) const noexcept { if constexpr (floor_included) { return NumericalTypeTraits::compare_smaller_or_equal(_bottom, value); } else { return NumericalTypeTraits::compare_smaller(_bottom, value); } }
 
 		///	指定された値が範囲の上限より小さいかを検査します。
 		///	@param	value
 		///	検査を行う値
 		///	@return
 		///	上限より小さければ @a true を返します。そうでなければ @a false を返します。
-		[[nodiscard]] constexpr bool is_under_top(const ValueType& value) const noexcept { if constexpr (ceiling_included) { return value <= _top; } else { return value < _top; } }
+		[[nodiscard]] constexpr bool is_under_top(const ValueType& value) const noexcept { if constexpr (ceiling_included) { return NumericalTypeTraits::compare_smaller_or_equal(value, _top); } else { return NumericalTypeTraits::compare_smaller(value, _top); } }
 
 		[[nodiscard]] constexpr IteratorType get_iterator_begin() const noexcept { return IteratorType(*this, IteratorOrigin::Begin); }
 		[[nodiscard]] constexpr IteratorType get_iterator_end() const noexcept { return IteratorType(*this, IteratorOrigin::End); }
@@ -121,9 +114,9 @@ namespace zawa_ch::StationaryOrbit
 	public: // equatable
 
 		///	指定されたオブジェクトがこのオブジェクトと等価であることを判定します。
-		[[nodiscard]] constexpr bool equals(const RangeType& value) const { return (_bottom == value._bottom)&&(_top == value._top); }
-		[[nodiscard]] constexpr bool operator==(const RangeType& value) const { return equals(value); }
-		[[nodiscard]] constexpr bool operator!=(const RangeType& value) const { return !equals(value); }
+		[[nodiscard]] constexpr bool equals(const RangeType& value) const noexcept { return NumericalTypeTraits::equals(_bottom, value._bottom)&&NumericalTypeTraits::equals(_top, value._top); }
+		[[nodiscard]] constexpr bool operator==(const RangeType& value) const noexcept { return equals(value); }
+		[[nodiscard]] constexpr bool operator!=(const RangeType& value) const noexcept { return !equals(value); }
 	};
 
 	///	@a Range の区間内を反復するためのイテレータを提供します。
