@@ -36,7 +36,7 @@ namespace zawa_ch::StationaryOrbit
 	public:
 		///	@brief	整数の除算と乗算を同時に行います。
 		///	@param	Tp
-		///	演算を行う整数型。型要件:IntegralTypeを満たす型か、 bool のどちらかである必要があります。
+		///	演算を行う整数型。型要件:IntegralType を満たす型か、 bool のどちらかである必要があります。
 		///	@param	numerator
 		///	除算時の被除数。
 		///	@param	denominator
@@ -47,7 +47,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class Tp>
 		[[nodiscard]] static constexpr DivisionResult<Tp> integral_fraction(const Tp& numerator, const Tp& denominator, const Tp& scale)
 		{
-			static_assert(std::is_same_v<Tp, bool> || IntegralTypeTraits::is_integraltype<Tp>, "テンプレート型 Tp は整数型またはboolである必要があります。");
+			static_assert(std::is_same_v<Tp, bool> || IntegralTypeTraits::is_integraltype<Tp>, "テンプレート型 Tp は 型要件:IntegralType を満たす型またはboolである必要があります。");
 
 			if constexpr (std::is_same_v<Tp, bool>)
 			{
@@ -136,7 +136,6 @@ namespace zawa_ch::StationaryOrbit
 
 		///	@brief	指定された数値の平方根を導出します。
 		///
-		///	@note
 		///	このメソッドは std::sqrt(Tp) の constexpr な代替であるほか、 BasicMathematics::square_root(const Tp&) で有効な実装が存在しない場合のフォールバック実装としても用いられます。
 		template<class Tp>
 		[[nodiscard]] static constexpr Tp square_root(const Tp& value) noexcept
@@ -210,7 +209,7 @@ namespace zawa_ch::StationaryOrbit
 		template<typename Tp>
 		class ModuloIterator
 		{
-			static_assert(NumericalTypeTraits::is_numericaltype<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+			static_assert(NumericalTypeTraits::is_numericaltype<Tp>, "テンプレート引数型 Tp は、 型要件:NumericalType を満たす必要があります。");
 			static_assert(std::numeric_limits<Tp>::radix > 0, "テンプレート引数型 Tp の基数が正しい値ではありません。");
 		public:
 			typedef Tp ValueType;
@@ -252,10 +251,13 @@ namespace zawa_ch::StationaryOrbit
 			}
 		};
 
+		///	@brief	正弦関数の導出を行うためのイテレータです。
+		///	@param	Tp
+		///	正弦関数を導出する値の型。型要件:NumericalType を満たす必要があります。
 		template<typename Tp>
 		class SinProgressionSequenceIterator
 		{
-			static_assert(NumericalTypeTraits::is_numericaltype<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+			static_assert(NumericalTypeTraits::is_numericaltype<Tp>, "テンプレート引数型 Tp は、 型要件:NumericalType を満たす必要があります。");
 		public:
 			typedef Tp ValueType;
 		private:
@@ -279,10 +281,13 @@ namespace zawa_ch::StationaryOrbit
 			}
 		};
 
+		///	@brief	余弦関数の導出を行うためのイテレータです。
+		///	@param	Tp
+		///	余弦関数を導出する値の型。型要件:NumericalType を満たす必要があります。
 		template<typename Tp>
 		class CosProgressionSequenceIterator
 		{
-			static_assert(NumericalTypeTraits::is_numericaltype<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+			static_assert(NumericalTypeTraits::is_numericaltype<Tp>, "テンプレート引数型 Tp は、 型要件:NumericalType を満たす必要があります。");
 		public:
 			typedef Tp ValueType;
 		private:
@@ -306,10 +311,13 @@ namespace zawa_ch::StationaryOrbit
 			}
 		};
 
+		///	@brief	逆正接関数の導出を行うためのイテレータです。
+		///	@param	Tp
+		///	逆正接関数を導出する値の型。型要件:NumericalType を満たす必要があります。
 		template<typename Tp>
 		class ArctanProgressionSequenceIterator
 		{
-			static_assert(NumericalTypeTraits::is_numericaltype<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+			static_assert(NumericalTypeTraits::is_numericaltype<Tp>, "テンプレート引数型 Tp は、 型要件:NumericalType を満たす必要があります。");
 		public:
 			typedef Tp ValueType;
 		private:
@@ -335,10 +343,13 @@ namespace zawa_ch::StationaryOrbit
 			}
 		};
 
+		///	@brief	逆正弦関数の導出を行うためのイテレータです。
+		///	@param	Tp
+		///	逆正弦関数を導出する値の型。型要件:NumericalType を満たす必要があります。
 		template<typename Tp>
 		class ArcsinProgressionSequenceIterator
 		{
-			static_assert(NumericalTypeTraits::is_numericaltype<Tp>, "テンプレート引数型 Tp は、型要件:NumericalType を満たす必要があります。");
+			static_assert(NumericalTypeTraits::is_numericaltype<Tp>, "テンプレート引数型 Tp は、 型要件:NumericalType を満たす必要があります。");
 		public:
 			typedef Tp ValueType;
 		private:
