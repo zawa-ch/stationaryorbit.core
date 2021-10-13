@@ -123,8 +123,7 @@ namespace zawa_ch::StationaryOrbit
 	template<class T, bool floor_included = true, bool ceiling_included = false>
 	class RangeIterator
 	{
-		static_assert(NumericalTypeTraits::is_numericaltype<T>, "この型のテンプレート T は数値型のクラスである必要があります。");
-		static_assert(BidirectionalOrderTypeTraits::is_bidirectionalordertype<T>, "テンプレート型 T は 型要件:BidirectionalOrderType を満たす必要があります。");
+		static_assert(IntegralTypeTraits::is_integraltype<T>, "この型のテンプレート T は 型要件:IntegralType を満たす必要があります。");
 
 	public: // type
 
