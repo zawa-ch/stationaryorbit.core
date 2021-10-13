@@ -96,7 +96,7 @@ namespace zawa_ch::StationaryOrbit
 		{
 			auto result = TrigonometricResult<valueT>{ valueT(0), valueT(1) };
 			Tp w = ( ((quadrant() % 2) == 1)?(_value & ~(1 << (bitwidth<Tp> - 1))):((1 << (bitwidth<Tp> - 1)) - (_value & ~(1 << (bitwidth<Tp> - 1)))) );
-			for(auto i: Range<size_t>(0, bitwidth<Tp> - 1).GetStdIterator())
+			for(auto i: Range<size_t>(0, bitwidth<Tp> - 1).get_std_iterator())
 			{
 				if ((w & (1 << (bitwidth<Tp> - 2 - i))) != 0)
 				{

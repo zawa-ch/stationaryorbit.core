@@ -90,7 +90,7 @@ namespace zawa_ch::StationaryOrbit
 			chunk[15] = (_message_length >> 32) & 0xFFFFFFFF;
 			round_f(w, chunk);
 			DigestType result = DigestType();
-			for(auto i: Range<size_t>(0, 16).GetStdIterator())
+			for(auto i: Range<size_t>(0, 16).get_std_iterator())
 			{
 				result[i] = (w[i / 4] >> ((i % 4) * 8)) & (0xFF);
 			}
@@ -100,7 +100,7 @@ namespace zawa_ch::StationaryOrbit
 		static constexpr void round_f(BufferType& buffer, const ChunkType& chunk)
 		{
 			auto w = buffer;
-			for(auto i: Range<size_t>(0, 64).GetStdIterator())
+			for(auto i: Range<size_t>(0, 64).get_std_iterator())
 			{
 				uint32_t f = 0;
 				size_t data_index= 0;
@@ -139,7 +139,7 @@ namespace zawa_ch::StationaryOrbit
 				w[2] = w[1];
 				w[1] += rot_l(res_f, shift_amount);
 			}
-			for(auto i: Range<size_t>(0, 4).GetStdIterator())
+			for(auto i: Range<size_t>(0, 4).get_std_iterator())
 			{
 				buffer[i] += w[i];
 			}

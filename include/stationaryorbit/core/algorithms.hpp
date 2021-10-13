@@ -247,7 +247,7 @@ namespace zawa_ch::StationaryOrbit
 			[[nodiscard]] constexpr static Tp power(const Tp& x, size_t n) noexcept
 			{
 				auto result = x;
-				for(auto i: Range<size_t>(0, n).GetStdIterator()) { result *= std::numeric_limits<Tp>::radix; }
+				for(auto i: Range<size_t>(0, n).get_std_iterator()) { result *= std::numeric_limits<Tp>::radix; }
 				return result;
 			}
 		};

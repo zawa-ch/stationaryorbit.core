@@ -54,7 +54,7 @@ std::array<std::function<int(void)>, 2> tests =
 	[]()
 	{
 		std::cout << "1. ConstProgression<int, Suc, 1, 10>::values ? ";
-		for (auto i: Range<size_t>(0, 10).GetStdIterator())
+		for (auto i: Range<size_t>(0, 10).get_std_iterator())
 		{
 			std::cout << ConstProgressionArray<SuccessorIterator<1>, 10>::values[i] << " ";
 		}

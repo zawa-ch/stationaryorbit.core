@@ -54,7 +54,7 @@ std::array<std::function<int(void)>, 8> tests =
 	{
 		std::cout << "6. Iterate Range(0, 10)? ";
 		// 範囲forを用いて0..9の数値を列挙する
-		for(auto i : Range(0, 10).GetStdIterator())
+		for(auto i : Range(0, 10).get_std_iterator())
 		{
 			std::cout << i << " ";
 		}
@@ -65,7 +65,7 @@ std::array<std::function<int(void)>, 8> tests =
 	{
 		std::cout << "7. Reverce iterate Range(5, 12)? ";
 		// 逆イテレータを使用して5..11の数値を逆に列挙する
-		for(auto i : Range(5, 12).GetStdReverseIterator())
+		for(auto i : Range(5, 12).get_std_reverse_iterator())
 		{
 			std::cout << i << " ";
 		}
@@ -75,8 +75,8 @@ std::array<std::function<int(void)>, 8> tests =
 	[]()
 	{
 		// 0.5fが0.0f以上1.0f未満であることを検査する
-		std::cout << "8. Range(0.0f, 1.0f).isIncluded(0.5f) -> true?";
-		return check_if(Range(0.0f, 1.0f).isIncluded(0.5f));
+		std::cout << "8. Range(0.0f, 1.0f).is_included(0.5f) -> true?";
+		return check_if(Range(0.0f, 1.0f).is_included(0.5f));
 	},
 };
 

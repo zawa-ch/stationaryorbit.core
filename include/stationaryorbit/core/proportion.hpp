@@ -159,7 +159,7 @@ namespace zawa_ch::StationaryOrbit
 					const size_t itr = bitwidth<castT> / length;
 					const size_t mod = bitwidth<castT> % length;
 					auto result = castT(_value) >> ((length - mod) % length);
-					for (auto i : Range<size_t>(0, itr).GetStdIterator())
+					for (auto i : Range<size_t>(0, itr).get_std_iterator())
 					{
 						result |= castT(_value) << ((length * i) + mod);
 					}

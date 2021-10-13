@@ -52,7 +52,7 @@ namespace zawa_ch::StationaryOrbit
 		{
 			bool c = false;
 			auto result = MultipleULong<T, N>();
-			for (auto i: Range<size_t>(0, _data.size()).GetStdIterator())
+			for (auto i: Range<size_t>(0, _data.size()).get_std_iterator())
 			{
 				result._data[i] = _data[i] + (c?1U:0U);
 				c = (c && (std::numeric_limits<T>::max() == result._data[i])) || ((std::numeric_limits<T>::max()-other._data[i]) < result._data[i]);
@@ -64,7 +64,7 @@ namespace zawa_ch::StationaryOrbit
 		{
 			bool b = false;
 			auto result = MultipleULong<T, N>();
-			for (auto i: Range<size_t>(0, _data.size()).GetStdIterator())
+			for (auto i: Range<size_t>(0, _data.size()).get_std_iterator())
 			{
 				result._data[i] = _data[i] - (b?1U:0U);
 				b = (_data[i] < (b?1U:0U)) || (result._data[i] < other._data[i]);
@@ -75,7 +75,7 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr MultipleULong<T, N> operator*(const MultipleULong<T, N>& other) const noexcept
 		{
 			auto result = MultipleULong<T, N>();
-			for (auto i: Range<size_t>(0, bitwidth<T> * N).GetStdIterator())
+			for (auto i: Range<size_t>(0, bitwidth<T> * N).get_std_iterator())
 			{
 				if ((other & (MultipleULong<T, N>(1)<<i)) != 0)
 				{
@@ -87,13 +87,13 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr DivisionResult<MultipleULong<T, N>> Divide(const MultipleULong<T, N>& other) const noexcept
 		{
 			size_t w = 0;
-			for (auto i: Range<size_t>(0, bitwidth<T> * N).GetStdIterator())
+			for (auto i: Range<size_t>(0, bitwidth<T> * N).get_std_iterator())
 			{
 				if (((other << i) & (MultipleULong<T, N>(1U) << (bitwidth<T> * N - 1))) != 0) { w = i; break; }
 			}
 			auto result = MultipleULong<T, N>();
 			MultipleULong<T, N> surplus = *this;
-			for (auto i: Range<size_t>(0, w).GetStdReverseIterator())
+			for (auto i: Range<size_t>(0, w).get_std_reverse_iterator())
 			{
 				MultipleULong<T, N> div = other << i;
 				if (div <= surplus)
@@ -115,7 +115,7 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr MultipleULong<T, N> operator~() const noexcept
 		{
 			auto result = MultipleULong<T, N>();
-			for (auto i: Range<size_t>(0, _data.size()).GetStdIterator())
+			for (auto i: Range<size_t>(0, _data.size()).get_std_iterator())
 			{
 				result._data[i] = ~_data[i];
 			}
@@ -124,7 +124,7 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr MultipleULong<T, N> operator|(const MultipleULong<T, N>& other) const noexcept
 		{
 			auto result = MultipleULong<T, N>();
-			for (auto i: Range<size_t>(0, _data.size()).GetStdIterator())
+			for (auto i: Range<size_t>(0, _data.size()).get_std_iterator())
 			{
 				result._data[i] = _data[i] | other._data[i];
 			}
@@ -133,7 +133,7 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr MultipleULong<T, N> operator&(const MultipleULong<T, N>& other) const noexcept
 		{
 			auto result = MultipleULong<T, N>();
-			for (auto i: Range<size_t>(0, _data.size()).GetStdIterator())
+			for (auto i: Range<size_t>(0, _data.size()).get_std_iterator())
 			{
 				result._data[i] = _data[i] & other._data[i];
 			}
@@ -142,7 +142,7 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr MultipleULong<T, N> operator^(const MultipleULong<T, N>& other) const noexcept
 		{
 			auto result = MultipleULong<T, N>();
-			for (auto i: Range<size_t>(0, _data.size()).GetStdIterator())
+			for (auto i: Range<size_t>(0, _data.size()).get_std_iterator())
 			{
 				result._data[i] = _data[i] ^ other._data[i];
 			}
@@ -195,7 +195,7 @@ namespace zawa_ch::StationaryOrbit
 		///	このオブジェクトが他のオブジェクトと等しいか比較します。
 		[[nodiscard]] constexpr bool Equals(const MultipleULong<T, N>& other) const noexcept
 		{
-			for (auto i: Range<size_t>(0, _data.size()).GetStdIterator())
+			for (auto i: Range<size_t>(0, _data.size()).get_std_iterator())
 			{
 				if (_data[i] != other._data[i]) { return false; }
 			}
@@ -204,7 +204,7 @@ namespace zawa_ch::StationaryOrbit
 		///	このオブジェクトと他のオブジェクトの大小関係を比較します。
 		[[nodiscard]] constexpr int Compare(const MultipleULong<T, N>& other) const noexcept
 		{
-			for (auto i: Range<size_t>(0, _data.size()).GetStdReverseIterator())
+			for (auto i: Range<size_t>(0, _data.size()).get_std_reverse_iterator())
 			{
 				if (other._data[i] < _data[i]) { return 1; }
 				if (_data[i] < other._data[i]) { return -1; }

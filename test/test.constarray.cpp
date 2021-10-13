@@ -38,7 +38,7 @@ std::array<std::function<int(void)>, 1> tests =
 	[]()
 	{
 		std::cout << "1. a1 ? ";
-		for(auto i: Range<size_t>(0, A1::size).GetStdIterator())
+		for(auto i: Range<size_t>(0, A1::size).get_std_iterator())
 		{
 			std::cout << A1::values[i] << " ";
 		}

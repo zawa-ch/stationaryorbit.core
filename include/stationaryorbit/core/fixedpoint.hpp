@@ -87,7 +87,7 @@ namespace zawa_ch::StationaryOrbit
 			const size_t width = sizeof(Tp) * 8U;
 			const size_t point = width - Ql;
 			auto result = Tp();
-			for (auto i : Range<size_t>(0U, width).GetStdIterator())
+			for (auto i : Range<size_t>(0U, width).get_std_iterator())
 			{
 				result |=
 					((other._value & (1U << (width - 1U - i))) != 0U)
@@ -104,7 +104,7 @@ namespace zawa_ch::StationaryOrbit
 		{
 			auto result = Tp(_value / other._value);
 			auto remain = Tp(_value % other._value);
-			for (auto i : Range<size_t>(0U, QLength).GetStdIterator())
+			for (auto i : Range<size_t>(0U, QLength).get_std_iterator())
 			{
 				remain *= 2U;
 				result = (result * 2U) + (remain / other._value);

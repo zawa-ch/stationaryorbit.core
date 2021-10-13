@@ -28,7 +28,7 @@ std::array<std::function<int(void)>, 2> tests =
 	[]()
 	{
 		std::cout << "1. HalfAngleFormulaArray<double, 10>::values.sin ?" << std::endl;
-		for (auto i: Range<size_t>(0, 10).GetStdIterator())
+		for (auto i: Range<size_t>(0, 10).get_std_iterator())
 		{
 			std::cout.precision(16);
 			std::cout << HalfAngleFormulaArray<double, 10>::values[i].sin << std::endl;
@@ -38,7 +38,7 @@ std::array<std::function<int(void)>, 2> tests =
 	[]()
 	{
 		std::cout << "1. HalfAngleFormulaArray<double, 10>::values.cos ?" << std::endl;
-		for (auto i: Range<size_t>(0, 10).GetStdIterator())
+		for (auto i: Range<size_t>(0, 10).get_std_iterator())
 		{
 			std::cout.precision(16);
 			std::cout << HalfAngleFormulaArray<double, 10>::values[i].cos << std::endl;

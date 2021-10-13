@@ -68,7 +68,7 @@ namespace zawa_ch::StationaryOrbit
 		constexpr explicit Integer(const fromT& value) : Integer()
 		{
 			auto v = value;
-			for (auto i: Range<size_t>(0, bitwidth<T>).GetStdIterator())
+			for (auto i: Range<size_t>(0, bitwidth<T>).get_std_iterator())
 			{
 				setbit(i, (v % 2) != 0);
 				v /= 2;
@@ -79,7 +79,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class fromT>
 		constexpr explicit Integer(const Integer<fromT>& from) : Integer()
 		{
-			for (auto i: Range<size_t>(0, std::min(bitwidth<fromT>, bitwidth<T>)).GetStdIterator()) { setbit(i, from.getbit(i)); }
+			for (auto i: Range<size_t>(0, std::min(bitwidth<fromT>, bitwidth<T>)).get_std_iterator()) { setbit(i, from.getbit(i)); }
 		}
 		///	@a SignedInteger から変換します。
 		constexpr explicit Integer(const SignedType& from) noexcept : _data(from.data()) {}
@@ -124,7 +124,7 @@ namespace zawa_ch::StationaryOrbit
 			{
 				auto result = Integer<T>();
 				bool c = false;
-				for (auto i: Range<size_t>(0, bitwidth<T>).GetStdIterator())
+				for (auto i: Range<size_t>(0, bitwidth<T>).get_std_iterator())
 				{
 					bool a = getbit(i);
 					bool b = other.getbit(i);
@@ -141,7 +141,7 @@ namespace zawa_ch::StationaryOrbit
 			{
 				auto result = Integer<T>();
 				bool c = true;
-				for (auto i: Range<size_t>(0, bitwidth<T>).GetStdIterator())
+				for (auto i: Range<size_t>(0, bitwidth<T>).get_std_iterator())
 				{
 					bool a = getbit(i);
 					bool b = !other.getbit(i);
@@ -157,7 +157,7 @@ namespace zawa_ch::StationaryOrbit
 			else
 			{
 				auto result = Integer<T>();
-				for (auto i: Range<size_t>(0, bitwidth<T>).GetStdIterator())
+				for (auto i: Range<size_t>(0, bitwidth<T>).get_std_iterator())
 				{
 					if (getbit(i)) { result = result + (other << i); }
 				}
@@ -187,7 +187,7 @@ namespace zawa_ch::StationaryOrbit
 			else
 			{
 				bool c = true;
-				for (auto i: Range<size_t>(0, bitwidth<T>).GetStdIterator())
+				for (auto i: Range<size_t>(0, bitwidth<T>).get_std_iterator())
 				{
 					bool a = getbit(i);
 					setbit(i, Algorithms::boolean_xor(a, c));
@@ -207,7 +207,7 @@ namespace zawa_ch::StationaryOrbit
 			else
 			{
 				bool c = true;
-				for (auto i: Range<size_t>(0, bitwidth<T>).GetStdIterator())
+				for (auto i: Range<size_t>(0, bitwidth<T>).get_std_iterator())
 				{
 					bool a = getbit(i);
 					setbit(i, Algorithms::boolean_xor({a, true, c}));
@@ -232,7 +232,7 @@ namespace zawa_ch::StationaryOrbit
 			}
 			else
 			{
-				for (auto i: Range<size_t>(0, bitwidth<T>).GetStdReverseIterator())
+				for (auto i: Range<size_t>(0, bitwidth<T>).get_std_reverse_iterator())
 				{
 					auto a = getbit(i);
 					auto b = other.getbit(i);
@@ -290,13 +290,13 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr DivisionResult<Integer<T>> divide_impl(const Integer<T>& other) const
 		{
 			size_t w = 0;
-			for (auto i: Range<size_t>(0, bitwidth<T>).GetStdIterator())
+			for (auto i: Range<size_t>(0, bitwidth<T>).get_std_iterator())
 			{
 				if (other.getbit(i)) { w = i; }
 			}
 			auto result = Integer<T>();
 			Integer<T> surplus = *this;
-			for (auto i: Range<size_t, true, true>(0, w).GetStdReverseIterator())
+			for (auto i: Range<size_t, true, true>(0, w).get_std_reverse_iterator())
 			{
 				Integer<T> div = Integer<T>(T(other._data << i));
 				if (div <= surplus)
@@ -332,7 +332,7 @@ namespace zawa_ch::StationaryOrbit
 		constexpr explicit SignedInteger(const fromT& value) : SignedInteger()
 		{
 			auto v = value;
-			for (auto i: Range<size_t>(0, bitwidth<T>).GetStdIterator())
+			for (auto i: Range<size_t>(0, bitwidth<T>).get_std_iterator())
 			{
 				setbit(i, (v % 2) != fromT(0));
 				v /= 2;
@@ -347,7 +347,7 @@ namespace zawa_ch::StationaryOrbit
 		template<class fromT>
 		constexpr explicit SignedInteger(const SignedInteger<fromT>& from) : SignedInteger()
 		{
-			for (auto i: Range<size_t>(0, std::min(bitwidth<fromT>, bitwidth<T>)).GetStdIterator()) { setbit(i, from.getbit(i)); }
+			for (auto i: Range<size_t>(0, std::min(bitwidth<fromT>, bitwidth<T>)).get_std_iterator()) { setbit(i, from.getbit(i)); }
 		}
 		constexpr explicit SignedInteger(const UnsignedType& from) noexcept : _data(from.data()) {}
 		constexpr SignedInteger(const ZeroValue_t&) noexcept : _data(value_construct<uint8_t>(0)) {}
@@ -385,7 +385,7 @@ namespace zawa_ch::StationaryOrbit
 		{
 			auto result = SignedInteger<T>();
 			bool c = false;
-			for (auto i: Range<size_t>(0, bitwidth<T>).GetStdIterator())
+			for (auto i: Range<size_t>(0, bitwidth<T>).get_std_iterator())
 			{
 				bool a = getbit(i);
 				bool b = other.getbit(i);
@@ -398,7 +398,7 @@ namespace zawa_ch::StationaryOrbit
 		{
 			auto result = SignedInteger<T>();
 			bool c = true;
-			for (auto i: Range<size_t>(0, bitwidth<T>).GetStdIterator())
+			for (auto i: Range<size_t>(0, bitwidth<T>).get_std_iterator())
 			{
 				bool a = getbit(i);
 				bool b = !other.getbit(i);
@@ -411,7 +411,7 @@ namespace zawa_ch::StationaryOrbit
 		{
 			auto result = SignedInteger<T>();
 			auto ov = other ^ (Epsilon() << (bitwidth<T> - 1));
-			for (auto i: Range<size_t>(0, bitwidth<T> - 1).GetStdIterator())
+			for (auto i: Range<size_t>(0, bitwidth<T> - 1).get_std_iterator())
 			{
 				if (getbit(i)) { result = result + (ov << i); }
 			}
@@ -438,7 +438,7 @@ namespace zawa_ch::StationaryOrbit
 			else
 			{
 				bool c = true;
-				for (auto i: Range<size_t>(0, bitwidth<T>).GetStdIterator())
+				for (auto i: Range<size_t>(0, bitwidth<T>).get_std_iterator())
 				{
 					bool a = getbit(i);
 					setbit(i, Algorithms::boolean_xor(a, c));
@@ -458,7 +458,7 @@ namespace zawa_ch::StationaryOrbit
 			else
 			{
 				bool c = true;
-				for (auto i: Range<size_t>(0, bitwidth<T>).GetStdIterator())
+				for (auto i: Range<size_t>(0, bitwidth<T>).get_std_iterator())
 				{
 					bool a = getbit(i);
 					setbit(i, Algorithms::boolean_xor({a, true, c}));
@@ -482,7 +482,7 @@ namespace zawa_ch::StationaryOrbit
 				if (sa) { return -1; }
 				else { return 1; }
 			}
-			for (auto i: Range<size_t>(0, bitwidth<T> - 1).GetStdReverseIterator())
+			for (auto i: Range<size_t>(0, bitwidth<T> - 1).get_std_reverse_iterator())
 			{
 				auto a = getbit(i);
 				auto b = other.getbit(i);
@@ -536,13 +536,13 @@ namespace zawa_ch::StationaryOrbit
 		{
 			auto vb = (other < Zero)?(-other):(other);
 			size_t w = 0;
-			for (auto i: Range<size_t>(0, bitwidth<T>).GetStdIterator())
+			for (auto i: Range<size_t>(0, bitwidth<T>).get_std_iterator())
 			{
 				if (vb.getbit(i)) { w = i; }
 			}
 			auto result = SignedInteger<T>();
 			SignedInteger<T> surplus = (*this < Zero)?(-(*this)):(*this);
-			for (auto i: Range<size_t, true, true>(0, w).GetStdReverseIterator())
+			for (auto i: Range<size_t, true, true>(0, w).get_std_reverse_iterator())
 			{
 				SignedInteger<T> div = SignedInteger<T>(vb._data << i);
 				if (div <= surplus)
