@@ -234,11 +234,11 @@ namespace zawa_ch::StationaryOrbit
 		///	このイテレータが最後の位置より後にあるかを取得します。
 		[[nodiscard]] constexpr bool is_after_end() const noexcept { return !_range.is_under_top(_value); }
 		///	このイテレータを次に進めます。
-		constexpr bool next() noexcept { return _range.is_under_top(_range.is_under_top(_value)?(++_value):(_value)); }
+		constexpr bool next() noexcept { return _range.is_under_top(_range.is_under_top(_value)?(IntegralTypeTraits::pre_increment(_value)):(_value)); }
 		constexpr IteratorType& operator++() { next(); return *this; }
 		constexpr IteratorType operator++(int) { IteratorType result = *this; next(); return result; }
 		///	このイテレータを前に進めます。
-		constexpr bool previous() noexcept { return _range.is_over_bottom(_range.is_over_bottom(_value)?(--_value):(_value)); }
+		constexpr bool previous() noexcept { return _range.is_over_bottom(_range.is_over_bottom(_value)?(IntegralTypeTraits::pre_decrement(_value)):(_value)); }
 		constexpr IteratorType& operator--() { previous(); return *this; }
 		constexpr IteratorType operator--(int) { IteratorType result = *this; previous(); return result; }
 		///	このイテレータを初期位置に進めます。
@@ -248,7 +248,7 @@ namespace zawa_ch::StationaryOrbit
 		///	進める初期位置の場所。
 		constexpr void reset(const IteratorOrigin& origin) { _value = get_origin(_range, origin); }
 		///	指定されたオブジェクトがこのオブジェクトと等価であることを判定します。
-		[[nodiscard]] constexpr bool equals(const IteratorType& other) const noexcept { return (_range.equals(other._range))&&(_value == other._value); }
+		[[nodiscard]] constexpr bool equals(const IteratorType& other) const noexcept { return _range.equals(other._range)&&IntegralTypeTraits::equals(_value, other._value); }
 		[[nodiscard]] constexpr bool operator==(const IteratorType& other) const noexcept { return equals(other); }
 		[[nodiscard]] constexpr bool operator!=(const IteratorType& other) const noexcept { return !equals(other); }
 
@@ -258,9 +258,9 @@ namespace zawa_ch::StationaryOrbit
 			switch(origin)
 			{
 			case IteratorOrigin::Begin:
-				return floor_included?(range.bottom()):(range.bottom() + 1);
+				return floor_included?(range.bottom()):(IntegralTypeTraits::add(range.bottom(), T(1)));
 			case IteratorOrigin::End:
-				return ceiling_included?(range.top()):(range.top() - 1);
+				return ceiling_included?(range.top()):(IntegralTypeTraits::subtract(range.top(), T(1)));
 			default:
 				throw std::invalid_argument("origin に無効な値が設定されています。");
 			}
