@@ -102,7 +102,7 @@ namespace zawa_ch::StationaryOrbit
 	template<class T>
 	class IteratorReverseAdaptContainer
 	{
-		static_assert(BidirectionalOrderIteratorTraits::is_bidirectional_order_iterator<T>, "テンプレート型 T はIteratorTraits::IsBidirectionalOrderIteratorを満たす必要があります。");
+		static_assert(BidirectionalOrderIteratorTraits::is_bidirectional_order_iterator<T>, "テンプレート型 T は 型要件:BidirectionalOrderIterator を満たす必要があります。");
 	public:
 		typedef typename T::ValueType value_type;
 		typedef typename T::ValueType& reference;
@@ -119,7 +119,7 @@ namespace zawa_ch::StationaryOrbit
 		explicit constexpr IteratorReverseAdaptContainer(const T& itr) : _itr(itr) {}
 
 		///	イテレータの方向を反転します。
-		constexpr IteratorAdaptContainer<T> Reverce() const { return IteratorAdaptContainer(_itr); }
+		constexpr IteratorAdaptContainer<T> reverse() const { return IteratorAdaptContainer(_itr); }
 
 		///	最初の要素を指すイテレータを取得します。
 		constexpr iterator begin() const { auto result = _itr; result.reset(IteratorOrigin::End); return iterator(result); }
