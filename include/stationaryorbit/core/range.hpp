@@ -42,7 +42,7 @@ namespace zawa_ch::StationaryOrbit
 	struct Range final
 	{
 		static_assert(NumericalTypeTraits::is_numericaltype<T>, "この型のテンプレート T は 型要件:NumericalType を満たす必要があります。");
-	public: // type
+	public:
 		///	値の表現に使用されている型。
 		typedef T ValueType;
 		///	この @a Range の型。
@@ -50,17 +50,16 @@ namespace zawa_ch::StationaryOrbit
 		///	この @a Range のイテレータ。
 		typedef RangeIterator<T, floor_included, ceiling_included> IteratorType;
 
-	private: // contains
+	private:
 		ValueType _bottom;
 		ValueType _top;
 
-	public: // constructor
+	public:
 		///	オブジェクトを既定の値で初期化します。
 		constexpr Range() = default;
 		///	値を指定してオブジェクトを構築します。
 		constexpr Range(const T& bottom, const T& top) noexcept : _bottom(bottom), _top(top) {}
 
-	public: // menber
 		///	範囲の下限値を取得します。
 		[[nodiscard]] constexpr ValueType bottom() const noexcept { return _bottom; }
 		///	範囲の上限値を取得します。
@@ -105,14 +104,11 @@ namespace zawa_ch::StationaryOrbit
 		///	上限より小さければ @a true を返します。そうでなければ @a false を返します。
 		[[nodiscard]] constexpr bool is_under_top(const ValueType& value) const noexcept { if constexpr (ceiling_included) { return NumericalTypeTraits::compare_smaller_or_equal(value, _top); } else { return NumericalTypeTraits::compare_smaller(value, _top); } }
 
-	public: // equatable
-
 		///	指定されたオブジェクトがこのオブジェクトと等価であることを判定します。
 		[[nodiscard]] constexpr bool equals(const RangeType& value) const noexcept { return NumericalTypeTraits::equals(_bottom, value._bottom)&&NumericalTypeTraits::equals(_top, value._top); }
 		[[nodiscard]] constexpr bool operator==(const RangeType& value) const noexcept { return equals(value); }
 		[[nodiscard]] constexpr bool operator!=(const RangeType& value) const noexcept { return !equals(value); }
 	};
-
 	///	二つの値に囲まれた範囲を表します。
 	///	@param	T
 	///	値を表現する型。型要件:IntegralType を満たす場合の特殊化が存在します。
@@ -123,7 +119,7 @@ namespace zawa_ch::StationaryOrbit
 	template<typename T, bool floor_included, bool ceiling_included>
 	struct Range<T, floor_included, ceiling_included, std::enable_if_t<IntegralTypeTraits::is_integraltype<T>>> final
 	{
-	public: // type
+	public:
 		///	値の表現に使用されている型。
 		typedef T ValueType;
 		///	この @a Range の型。
@@ -131,17 +127,16 @@ namespace zawa_ch::StationaryOrbit
 		///	この @a Range のイテレータ。
 		typedef RangeIterator<T, floor_included, ceiling_included> IteratorType;
 
-	private: // contains
+	private:
 		ValueType _bottom;
 		ValueType _top;
 
-	public: // constructor
+	public:
 		///	オブジェクトを既定の値で初期化します。
 		constexpr Range() = default;
 		///	値を指定してオブジェクトを構築します。
 		constexpr Range(const T& bottom, const T& top) noexcept : _bottom(bottom), _top(top) {}
 
-	public: // menber
 		///	範囲の下限値を取得します。
 		[[nodiscard]] constexpr ValueType bottom() const noexcept { return _bottom; }
 		///	範囲の上限値を取得します。
@@ -191,8 +186,6 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr IteratorAdaptContainer<IteratorType> get_std_iterator() const noexcept { return IteratorAdaptContainer<IteratorType>(get_iterator_begin()); }
 		[[nodiscard]] constexpr IteratorReverseAdaptContainer<IteratorType> get_std_reverse_iterator() const noexcept { return IteratorReverseAdaptContainer<IteratorType>(get_iterator_end()); }
 
-	public: // equatable
-
 		///	指定されたオブジェクトがこのオブジェクトと等価であることを判定します。
 		[[nodiscard]] constexpr bool equals(const RangeType& value) const noexcept { return NumericalTypeTraits::equals(_bottom, value._bottom)&&NumericalTypeTraits::equals(_top, value._top); }
 		[[nodiscard]] constexpr bool operator==(const RangeType& value) const noexcept { return equals(value); }
@@ -204,8 +197,7 @@ namespace zawa_ch::StationaryOrbit
 	class RangeIterator
 	{
 		static_assert(IntegralTypeTraits::is_integraltype<T>, "この型のテンプレート T は 型要件:IntegralType を満たす必要があります。");
-
-	public: // type
+	public:
 
 		///	値の表現に使用されている型。
 		typedef T ValueType;
@@ -213,17 +205,15 @@ namespace zawa_ch::StationaryOrbit
 		typedef Range<T, floor_included, ceiling_included> RangeType;
 		typedef RangeIterator<T, floor_included, ceiling_included> IteratorType;
 
-	private: // contains
+	private:
 
 		RangeType _range;
 		ValueType _value;
 
-	public: // constructor
+	public:
 
 		constexpr RangeIterator(const RangeType& range) noexcept : RangeIterator(range, IteratorOrigin::Begin) {}
 		constexpr RangeIterator(const RangeType& range, const IteratorOrigin& origin) : _range(range), _value(get_origin(range, origin)) {}
-
-	public: // member
 
 		///	このイテレータの現在示している値を取得します。
 		[[nodiscard]] constexpr const ValueType& current() const noexcept { return _value; }
