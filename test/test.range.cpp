@@ -21,6 +21,7 @@
 #include <functional>
 #include "test-helper.hpp"
 #include "stationaryorbit/core.numeral.hpp"
+#include "stationaryorbit/core.traits.hpp"
 using namespace zawa_ch::StationaryOrbit;
 
 std::array<std::function<int(void)>, 8> tests =

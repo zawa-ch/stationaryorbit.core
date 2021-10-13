@@ -18,12 +18,8 @@
 //
 #ifndef __stationaryorbit_core_range__
 #define __stationaryorbit_core_range__
-#include <limits>
 #include <type_traits>
-#include <stdexcept>
 #include "numericaltypetraits.hpp"
-#include "ordertypetraits.hpp"
-#include "iteratortraits.hpp"
 #include "iteratoradaptcontainer.hpp"
 #include "arithmetic.hpp"
 namespace zawa_ch::StationaryOrbit
