@@ -28,11 +28,11 @@ namespace zawa_ch::StationaryOrbit
 	///	このライブラリで使用されるイテレータをC++標準のイテレータに変換します。
 	///	@param	T
 	///	変換するイテレータの型。 型要件:Iterator を満たす必要があります。
-	template<class T, class = void>
+	template<typename T, typename = void>
 	class IteratorAdapter
 	{
 		static_assert(IteratorTraits::is_iterator<T>, "テンプレート型 T は 型要件:Iterator を満たす必要があります。");
-		template<class, class> friend class IteratorAdaptContainer;
+		template<typename, typename> friend class IteratorAdaptContainer;
 	public:
 		typedef IteratorTraits::ValueType<T> ValueType;
 		typedef IteratorTraits::ValueType<T> Refernece;
@@ -81,12 +81,12 @@ namespace zawa_ch::StationaryOrbit
 	///	このライブラリで使用されるイテレータをC++標準のイテレータに変換します。
 	///	@param	T
 	///	変換するイテレータの型。 型要件:BidirectionalOrderIterator を満たす場合の拡張が存在します。
-	template<class T>
+	template<typename T>
 	class IteratorAdapter<T, std::enable_if_t<BidirectionalOrderIteratorTraits::is_bidirectional_order_iterator<T> && !LinearOrderIteratorTraits::is_linear_order_iterator<T>>>
 	{
 		static_assert(BidirectionalOrderIteratorTraits::is_bidirectional_order_iterator<T>, "テンプレート型 T は 型要件:BidirectionalOrderIterator を満たす必要があります。");
-		template<class, class> friend class IteratorAdaptContainer;
-		template<class> friend class IteratorReverseAdaptContainer;
+		template<typename, typename> friend class IteratorAdaptContainer;
+		template<typename> friend class IteratorReverseAdaptContainer;
 	public:
 		typedef BidirectionalOrderIteratorTraits::ValueType<T> ValueType;
 		typedef BidirectionalOrderIteratorTraits::ValueType<T> Refernece;
@@ -148,12 +148,12 @@ namespace zawa_ch::StationaryOrbit
 	///	このライブラリで使用されるイテレータをC++標準のイテレータに変換します。
 	///	@param	T
 	///	変換するイテレータの型。 型要件:LinearOrderIterator を満たす場合の拡張が存在します。
-	template<class T>
+	template<typename T>
 	class IteratorAdapter<T, std::enable_if_t<LinearOrderIteratorTraits::is_linear_order_iterator<T>>>
 	{
 		static_assert(LinearOrderIteratorTraits::is_linear_order_iterator<T>, "テンプレート型 T は 型要件:LinearOrderIterator を満たす必要があります。");
-		template<class, class> friend class IteratorAdaptContainer;
-		template<class> friend class IteratorReverseAdaptContainer;
+		template<typename, typename> friend class IteratorAdaptContainer;
+		template<typename> friend class IteratorReverseAdaptContainer;
 	public:
 		typedef LinearOrderIteratorTraits::ValueType<T> ValueType;
 		typedef LinearOrderIteratorTraits::ValueType<T> Refernece;
@@ -275,12 +275,12 @@ namespace zawa_ch::StationaryOrbit
 	///	このライブラリで使用されるイテレータをC++標準の逆イテレータに変換します。
 	///	@param	T
 	///	変換するイテレータの型。 型要件:BidirectionalOrderIterator を満たす必要があります。
-	template<class T, class = void>
+	template<typename T, typename = void>
 	class IteratorReverseAdapter
 	{
 		static_assert(BidirectionalOrderIteratorTraits::is_bidirectional_order_iterator<T>, "テンプレート型 T は 型要件:BidirectionalOrderIterator を満たす必要があります。");
-		template<class, class> friend class IteratorAdaptContainer;
-		template<class> friend class IteratorReverseAdaptContainer;
+		template<typename, typename> friend class IteratorAdaptContainer;
+		template<typename> friend class IteratorReverseAdaptContainer;
 	public:
 		typedef BidirectionalOrderIteratorTraits::ValueType<T> ValueType;
 		typedef BidirectionalOrderIteratorTraits::ValueType<T> Refernece;
@@ -342,12 +342,12 @@ namespace zawa_ch::StationaryOrbit
 	///	このライブラリで使用されるイテレータをC++標準の逆イテレータに変換します。
 	///	@param	T
 	///	変換するイテレータの型。 型要件:LinearOrderIterator を満たす場合の拡張が存在します。
-	template<class T>
+	template<typename T>
 	class IteratorReverseAdapter<T, std::enable_if_t<LinearOrderIteratorTraits::is_linear_order_iterator<T>>>
 	{
 		static_assert(LinearOrderIteratorTraits::is_linear_order_iterator<T>, "テンプレート型 T は 型要件:LinearOrderIterator を満たす必要があります。");
-		template<class, class> friend class IteratorAdaptContainer;
-		template<class> friend class IteratorReverseAdaptContainer;
+		template<typename, typename> friend class IteratorAdaptContainer;
+		template<typename> friend class IteratorReverseAdaptContainer;
 	public:
 		typedef LinearOrderIteratorTraits::ValueType<T> ValueType;
 		typedef LinearOrderIteratorTraits::ValueType<T> Refernece;
@@ -468,7 +468,7 @@ namespace zawa_ch::StationaryOrbit
 }
 namespace std
 {
-	template<class T>
+	template<typename T>
 	class iterator_traits<zawa_ch::StationaryOrbit::IteratorAdapter<T>>
 	{
 	public:
@@ -478,7 +478,7 @@ namespace std
 		typedef typename zawa_ch::StationaryOrbit::IteratorAdapter<T>::Pointer pointer;
 		typedef typename zawa_ch::StationaryOrbit::IteratorAdapter<T>::IteratorCategory iteretor_category;
 	};
-	template<class T>
+	template<typename T>
 	class iterator_traits<zawa_ch::StationaryOrbit::IteratorReverseAdapter<T>>
 	{
 	public:
