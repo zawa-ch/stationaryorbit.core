@@ -27,7 +27,7 @@ namespace zawa_ch::StationaryOrbit
 {
 	///	このライブラリで使用されるイテレータをC++標準のイテレータに変換します。
 	///	@param	T
-	///	変換するイテレータの型。 @a IteratorTraits::is_iterator を満たす必要があります。
+	///	変換するイテレータの型。 型要件:Iterator を満たす必要があります。
 	template<class T, class = void>
 	class IteratorAdapter
 	{
@@ -80,7 +80,7 @@ namespace zawa_ch::StationaryOrbit
 	};
 	///	このライブラリで使用されるイテレータをC++標準のイテレータに変換します。
 	///	@param	T
-	///	変換するイテレータの型。 @a IteratorTraits::is_bidirectional_order_iterator を満たす場合の拡張が存在します。
+	///	変換するイテレータの型。 型要件:BidirectionalOrderIterator を満たす場合の拡張が存在します。
 	template<class T>
 	class IteratorAdapter<T, std::enable_if_t<BidirectionalOrderIteratorTraits::is_bidirectional_order_iterator<T> && !LinearOrderIteratorTraits::is_linear_order_iterator<T>>>
 	{
@@ -147,7 +147,7 @@ namespace zawa_ch::StationaryOrbit
 	};
 	///	このライブラリで使用されるイテレータをC++標準のイテレータに変換します。
 	///	@param	T
-	///	変換するイテレータの型。 @a IteratorTraits::is_linear_order_iterator を満たす場合の拡張が存在します。
+	///	変換するイテレータの型。 型要件:LinearOrderIterator を満たす場合の拡張が存在します。
 	template<class T>
 	class IteratorAdapter<T, std::enable_if_t<LinearOrderIteratorTraits::is_linear_order_iterator<T>>>
 	{
@@ -274,7 +274,7 @@ namespace zawa_ch::StationaryOrbit
 
 	///	このライブラリで使用されるイテレータをC++標準の逆イテレータに変換します。
 	///	@param	T
-	///	変換するイテレータの型。 @a IteratorTraits::is_bidirectional_order_iterator を満たす必要があります。
+	///	変換するイテレータの型。 型要件:BidirectionalOrderIterator を満たす必要があります。
 	template<class T, class = void>
 	class IteratorReverseAdapter
 	{
@@ -341,7 +341,7 @@ namespace zawa_ch::StationaryOrbit
 	};
 	///	このライブラリで使用されるイテレータをC++標準の逆イテレータに変換します。
 	///	@param	T
-	///	変換するイテレータの型。 @a IteratorTraits::is_linear_order_iterator を満たす場合の拡張が存在します。
+	///	変換するイテレータの型。 型要件:LinearOrderIterator を満たす場合の拡張が存在します。
 	template<class T>
 	class IteratorReverseAdapter<T, std::enable_if_t<LinearOrderIteratorTraits::is_linear_order_iterator<T>>>
 	{
