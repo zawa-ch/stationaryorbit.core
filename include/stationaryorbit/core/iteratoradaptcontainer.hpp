@@ -25,7 +25,9 @@ namespace zawa_ch::StationaryOrbit
 {
 	///	このライブラリで使用されるイテレータをC++範囲ベースforで使用できるようにします。
 	///	@param	T
-	///	変換するイテレータの型。 @a IteratorTraits::is_sequencial_order_iterator を満たす必要があります。
+	///	変換するイテレータの型。 型要件:SequencialOrderIterator を満たす必要があります。
+	///	@note
+	///	@a IteratorAdaptContainer は 名前付き要件:Container を満たしません。
 	template<typename T, typename = void>
 	class IteratorAdaptContainer
 	{
@@ -57,7 +59,9 @@ namespace zawa_ch::StationaryOrbit
 
 	///	このライブラリで使用されるイテレータをC++範囲ベースforで使用できるようにします。
 	///	@param	T
-	///	変換するイテレータの型。 @a IteratorTraits::is_bidirectional_order_iterator を満たす場合の拡張が存在します。
+	///	変換するイテレータの型。 型要件:BidirectionalOrderIterator を満たす場合の拡張が存在します。
+	///	@note
+	///	@a IteratorAdaptContainer は 名前付き要件:Container を満たしません。
 	template<typename T>
 	class IteratorAdaptContainer<T, std::enable_if_t<BidirectionalOrderIteratorTraits::is_bidirectional_order_iterator<T>>>
 	{
@@ -99,6 +103,10 @@ namespace zawa_ch::StationaryOrbit
 	};
 
 	///	このライブラリで使用される逆方向のイテレータをC++範囲ベースforで使用できるようにします。
+	///	@param	T
+	///	変換するイテレータの型。 型要件:BidirectionalOrderIterator を満たす必要があります。
+	///	@note
+	///	@a IteratorAdaptContainer は 名前付き要件:Container を満たしません。
 	template<class T>
 	class IteratorReverseAdaptContainer
 	{
