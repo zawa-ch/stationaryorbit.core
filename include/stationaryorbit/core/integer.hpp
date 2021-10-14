@@ -89,23 +89,23 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr const ValueType& data() const noexcept { return _data; }
 		[[nodiscard]] constexpr explicit operator ValueType() const { return _data; }
 
-		[[nodiscard]] constexpr Integer<T> operator~() const { return Integer(T(~_data)); }
-		[[nodiscard]] constexpr Integer<T> operator&(const Integer<T>& other) const { return Integer(T(_data & other._data)); }
-		[[nodiscard]] constexpr Integer<T> operator|(const Integer<T>& other) const { return Integer(T(_data | other._data)); }
-		[[nodiscard]] constexpr Integer<T> operator^(const Integer<T>& other) const { return Integer(T(_data ^ other._data)); }
+		[[nodiscard]] constexpr Integer<T> operator~() const { return Integer(BitSequenceTypeTraits::bitwise_not(_data)); }
+		[[nodiscard]] constexpr Integer<T> operator&(const Integer<T>& other) const { return Integer(BitSequenceTypeTraits::bitwise_and(_data, other._data)); }
+		[[nodiscard]] constexpr Integer<T> operator|(const Integer<T>& other) const { return Integer(BitSequenceTypeTraits::bitwise_or(_data, other._data)); }
+		[[nodiscard]] constexpr Integer<T> operator^(const Integer<T>& other) const { return Integer(BitSequenceTypeTraits::bitwise_xor(_data, other._data)); }
 		template<class rightT, std::enable_if_t<std::is_integral_v<rightT>, int> = 0>
-		[[nodiscard]] constexpr Integer<T> operator>>(const rightT& other) const { return Integer(T(_data >> other)); }
+		[[nodiscard]] constexpr Integer<T> operator>>(const rightT& other) const { return Integer(BitSequenceTypeTraits::rshift(_data, other)); }
 		template<class rightT, std::enable_if_t<std::is_integral_v<rightT>, int> = 0>
-		[[nodiscard]] constexpr Integer<T> operator<<(const rightT& other) const { return Integer(T(_data << other)); }
-		constexpr Integer<T>& operator&=(const Integer<T>& other) { _data &= other._data; return *this; }
-		constexpr Integer<T>& operator|=(const Integer<T>& other) { _data |= other._data; return *this; }
-		constexpr Integer<T>& operator^=(const Integer<T>& other) { _data ^= other._data; return *this; }
+		[[nodiscard]] constexpr Integer<T> operator<<(const rightT& other) const { return Integer(BitSequenceTypeTraits::lshift(_data, other)); }
+		constexpr Integer<T>& operator&=(const Integer<T>& other) { BitSequenceTypeTraits::substitution_bitwise_and(_data, other._data); return *this; }
+		constexpr Integer<T>& operator|=(const Integer<T>& other) { BitSequenceTypeTraits::substitution_bitwise_or(_data, other._data); return *this; }
+		constexpr Integer<T>& operator^=(const Integer<T>& other) { BitSequenceTypeTraits::substitution_bitwise_xor(_data, other._data); return *this; }
 		template<class rightT, std::enable_if_t<std::is_integral_v<rightT>, int> = 0>
-		constexpr Integer<T>& operator>>=(const rightT& other) { _data >>= other; return *this; }
+		constexpr Integer<T>& operator>>=(const rightT& other) { BitSequenceTypeTraits::substitution_rshift(_data, other); return *this; }
 		template<class rightT, std::enable_if_t<std::is_integral_v<rightT>, int> = 0>
-		constexpr Integer<T>& operator<<=(const rightT& other) { _data <<= other; return *this; }
-		[[nodiscard]] constexpr bool operator==(const Integer<T>& other) const { return _data == other._data; }
-		[[nodiscard]] constexpr bool operator!=(const Integer<T>& other) const { return _data != other._data; }
+		constexpr Integer<T>& operator<<=(const rightT& other) { BitSequenceTypeTraits::substitution_lshift(_data, other); return *this; }
+		[[nodiscard]] constexpr bool operator==(const Integer<T>& other) const { return BitSequenceTypeTraits::equals(_data, other._data); }
+		[[nodiscard]] constexpr bool operator!=(const Integer<T>& other) const { return BitSequenceTypeTraits::not_equals(_data, other._data); }
 
 		[[nodiscard]] constexpr Integer<T> operator+() const
 		{
@@ -115,7 +115,7 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr Integer<T> operator-() const
 		{
 			if constexpr (TypeTraitsBase::has_promotion<T>) { return Integer<T>(TypeTraitsBase::inverse(_data)); }
-			else { return Integer(~_data); }
+			else { return Integer(BitSequenceTypeTraits::bitwise_not(_data)); }
 		}
 		[[nodiscard]] constexpr Integer<T> operator+(const Integer<T>& other) const
 		{
