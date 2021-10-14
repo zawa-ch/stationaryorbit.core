@@ -355,23 +355,23 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr const ValueType& data() const noexcept { return _data; }
 		[[nodiscard]] constexpr explicit operator ValueType() const { return _data; }
 
-		[[nodiscard]] constexpr SignedInteger<T> operator~() const { return SignedInteger(T(~_data)); }
-		[[nodiscard]] constexpr SignedInteger<T> operator&(const SignedInteger<T>& other) const { return SignedInteger(T(_data & other._data)); }
-		[[nodiscard]] constexpr SignedInteger<T> operator|(const SignedInteger<T>& other) const { return SignedInteger(T(_data | other._data)); }
-		[[nodiscard]] constexpr SignedInteger<T> operator^(const SignedInteger<T>& other) const { return SignedInteger(T(_data ^ other._data)); }
+		[[nodiscard]] constexpr SignedInteger<T> operator~() const { return SignedInteger(BitSequenceTypeTraits::bitwise_not(_data)); }
+		[[nodiscard]] constexpr SignedInteger<T> operator&(const SignedInteger<T>& other) const { return SignedInteger(BitSequenceTypeTraits::bitwise_and(_data, other._data)); }
+		[[nodiscard]] constexpr SignedInteger<T> operator|(const SignedInteger<T>& other) const { return SignedInteger(BitSequenceTypeTraits::bitwise_or(_data, other._data)); }
+		[[nodiscard]] constexpr SignedInteger<T> operator^(const SignedInteger<T>& other) const { return SignedInteger(BitSequenceTypeTraits::bitwise_xor(_data, other._data)); }
 		template<class rightT, std::enable_if_t<std::is_integral_v<rightT>, int> = 0>
-		[[nodiscard]] constexpr SignedInteger<T> operator>>(const rightT& other) const { return SignedInteger(T(_data >> other)); }
+		[[nodiscard]] constexpr SignedInteger<T> operator>>(const rightT& other) const { return SignedInteger(BitSequenceTypeTraits::rshift(_data, other)); }
 		template<class rightT, std::enable_if_t<std::is_integral_v<rightT>, int> = 0>
-		[[nodiscard]] constexpr SignedInteger<T> operator<<(const rightT& other) const { return SignedInteger(T(_data << other)); }
-		constexpr SignedInteger<T>& operator&=(const SignedInteger<T>& other) { _data &= other._data; return *this; }
-		constexpr SignedInteger<T>& operator|=(const SignedInteger<T>& other) { _data |= other._data; return *this; }
-		constexpr SignedInteger<T>& operator^=(const SignedInteger<T>& other) { _data ^= other._data; return *this; }
+		[[nodiscard]] constexpr SignedInteger<T> operator<<(const rightT& other) const { return SignedInteger(BitSequenceTypeTraits::lshift(_data, other)); }
+		constexpr SignedInteger<T>& operator&=(const SignedInteger<T>& other) { BitSequenceTypeTraits::substitution_bitwise_and(_data, other._data); return *this; }
+		constexpr SignedInteger<T>& operator|=(const SignedInteger<T>& other) { BitSequenceTypeTraits::substitution_bitwise_or(_data, other._data); return *this; }
+		constexpr SignedInteger<T>& operator^=(const SignedInteger<T>& other) { BitSequenceTypeTraits::substitution_bitwise_xor(_data, other._data); return *this; }
 		template<class rightT, std::enable_if_t<std::is_integral_v<rightT>, int> = 0>
-		constexpr SignedInteger<T>& operator>>=(const rightT& other) { _data >>= other; return *this; }
+		constexpr SignedInteger<T>& operator>>=(const rightT& other) { BitSequenceTypeTraits::substitution_rshift(_data, other); return *this; }
 		template<class rightT, std::enable_if_t<std::is_integral_v<rightT>, int> = 0>
-		constexpr SignedInteger<T>& operator<<=(const rightT& other) { _data <<= other; return *this; }
-		[[nodiscard]] constexpr bool operator==(const SignedInteger<T>& other) const { return _data == other._data; }
-		[[nodiscard]] constexpr bool operator!=(const SignedInteger<T>& other) const { return _data != other._data; }
+		constexpr SignedInteger<T>& operator<<=(const rightT& other) { BitSequenceTypeTraits::substitution_lshift(_data, other); return *this; }
+		[[nodiscard]] constexpr bool operator==(const SignedInteger<T>& other) const { return BitSequenceTypeTraits::equals(_data, other._data); }
+		[[nodiscard]] constexpr bool operator!=(const SignedInteger<T>& other) const { return BitSequenceTypeTraits::not_equals(_data, other._data); }
 
 		[[nodiscard]] constexpr SignedInteger<T> operator+() const
 		{
@@ -379,7 +379,7 @@ namespace zawa_ch::StationaryOrbit
 		}
 		[[nodiscard]] constexpr SignedInteger<T> operator-() const
 		{
-			return ++SignedInteger(T(~_data));
+			return ++SignedInteger(BitSequenceTypeTraits::bitwise_not(_data));
 		}
 		[[nodiscard]] constexpr SignedInteger<T> operator+(const SignedInteger<T>& other) const
 		{
@@ -525,12 +525,12 @@ namespace zawa_ch::StationaryOrbit
 		[[nodiscard]] constexpr bool getbit(const size_t& index) const
 		{
 			if (bitwidth<T> <= index) { throw std::out_of_range("指定されたインデックスはこのオブジェクトの境界を超えています。"); }
-			return (_data & (value_construct<uint8_t>(1) << index)) != ValueType(0);
+			return BitSequenceTypeTraits::not_equals(BitSequenceTypeTraits::bitwise_and(_data, BitSequenceTypeTraits::lshift(value_construct<uint8_t>(1), index)), ValueType(0));
 		}
 		constexpr void setbit(const size_t& index, const bool& value)
 		{
 			if (bitwidth<T> <= index) { throw std::out_of_range("指定されたインデックスはこのオブジェクトの境界を超えています。"); }
-			_data = (_data & ~(value_construct<uint8_t>(1) << index)) | (value?(value_construct<uint8_t>(1) << index):(value_construct<uint8_t>(0)));
+			_data = BitSequenceTypeTraits::bitwise_or(BitSequenceTypeTraits::bitwise_and(_data, BitSequenceTypeTraits::bitwise_not(BitSequenceTypeTraits::lshift(value_construct<uint8_t>(1), index))), (value?BitSequenceTypeTraits::lshift(value_construct<uint8_t>(1), index):(value_construct<uint8_t>(0))));
 		}
 		[[nodiscard]] constexpr DivisionResult<SignedInteger<T>> divide_impl(const SignedInteger<T>& other) const
 		{
@@ -544,10 +544,10 @@ namespace zawa_ch::StationaryOrbit
 			SignedInteger<T> surplus = (*this < Zero)?(-(*this)):(*this);
 			for (auto i: Range<size_t, true, true>(0, w).get_std_reverse_iterator())
 			{
-				SignedInteger<T> div = SignedInteger<T>(vb._data << i);
+				SignedInteger<T> div = SignedInteger<T>(BitSequenceTypeTraits::lshift(vb._data, i));
 				if (div <= surplus)
 				{
-					result._data |= value_construct<uint8_t>(1) << i;
+					BitSequenceTypeTraits::substitution_bitwise_or(result._data, BitSequenceTypeTraits::lshift(value_construct<uint8_t>(1), i));
 					surplus -= div;
 				}
 			}
