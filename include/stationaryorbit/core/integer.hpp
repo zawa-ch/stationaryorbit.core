@@ -37,7 +37,7 @@ namespace zawa_ch::StationaryOrbit
 	template<class T>
 	struct Integer final
 	{
-		static_assert(BitSequenceTypeTraits::is_bitsequence_type<T>, "テンプレート引数型 T はビット列である必要があります。");
+		static_assert(BitSequenceTypeTraits::is_bitsequence_type<T>, "テンプレート引数型 T は 型要件:BitSequenceType を満たす必要があります。");
 		template<class> friend class Integer;
 		template<class> friend class SignedInteger;
 	public:
@@ -50,17 +50,17 @@ namespace zawa_ch::StationaryOrbit
 		Integer() = default;
 		///	内部の型と同じビット列型から @a Integer を構築します。
 		///	@note
-		///	内部型が整数型トレイトを満たす場合にこちらのコンストラクタが適用されます。
+		///	内部型が 型要件:IntegralType を満たす場合にこちらのコンストラクタが適用されます。
 		template<class fromT, std::enable_if_t< std::is_same_v<ValueType, fromT> && IntegralTypeTraits::is_integraltype<fromT>, int> = 0>
 		constexpr Integer(const fromT& value) noexcept : _data(value) {}
 		///	内部の型と同じビット列型から @a Integer を構築します。
 		///	@note
-		///	内部型が整数型トレイトを満たさない場合にこちらのコンストラクタが適用されます。
+		///	内部型が 型要件:IntegralType を満たさない場合にこちらのコンストラクタが適用されます。
 		template<class fromT, std::enable_if_t< std::is_same_v<ValueType, fromT> && !IntegralTypeTraits::is_integraltype<fromT>, int> = 0>
 		constexpr explicit Integer(const fromT& value) noexcept : _data(value) {}
 		///	内部の型に変換可能な型から @a Integer を構築します。
 		///	@note
-		///	内部型が暗黙の変換をサポートし、整数型トレイトを満たす場合にこちらのコンストラクタが適用されます。
+		///	内部型が暗黙の変換をサポートし、 型要件:IntegralType を満たす場合にこちらのコンストラクタが適用されます。
 		template<class fromT, std::enable_if_t< !(std::is_same_v<ValueType, fromT>) && (std::is_convertible_v<ValueType, fromT> || TypeTraitsBase::is_aggregatable<ValueType, fromT>) && IntegralTypeTraits::is_integraltype<fromT>, int> = 0>
 		constexpr Integer(const fromT& value) : _data(value_construct<fromT>(value)) {}
 		///	整数型から @a Integer を構築します。
@@ -325,9 +325,14 @@ namespace zawa_ch::StationaryOrbit
 		ValueType _data;
 	public:
 		SignedInteger() = default;
+		///	内部の型と同じビット列型から @a SignedInteger を構築します。
 		constexpr explicit SignedInteger(const ValueType& value) noexcept : _data(value) {}
+		///	内部の型に変換可能な型から @a SignedInteger を構築します。
+		///	@note
+		///	内部型が暗黙の変換をサポートし、 型要件:IntegralType を満たす場合にこちらのコンストラクタが適用されます。
 		template<class fromT, std::enable_if_t< std::is_convertible_v<ValueType, fromT> || TypeTraitsBase::is_aggregatable<ValueType, fromT>, int> = 0>
 		constexpr explicit SignedInteger(const fromT& value) : _data(value_construct<fromT>(value)) {}
+		///	整数型から @a SignedInteger を構築します。
 		template<class fromT, std::enable_if_t< !(std::is_convertible_v<ValueType, fromT> || TypeTraitsBase::is_aggregatable<ValueType, fromT>) && IntegralTypeTraits::is_integraltype<fromT> && std::numeric_limits<fromT>::is_signed, int> = 0>
 		constexpr explicit SignedInteger(const fromT& value) : SignedInteger()
 		{
@@ -344,12 +349,15 @@ namespace zawa_ch::StationaryOrbit
 				++(*this);
 			}
 		}
+		///	異なるテンプレートの @a SignedInteger から変換します。
 		template<class fromT>
 		constexpr explicit SignedInteger(const SignedInteger<fromT>& from) : SignedInteger()
 		{
 			for (auto i: Range<size_t>(0, std::min(bitwidth<fromT>, bitwidth<T>)).get_std_iterator()) { setbit(i, from.getbit(i)); }
 		}
+		///	@a Integer から変換します。
 		constexpr explicit SignedInteger(const UnsignedType& from) noexcept : _data(from.data()) {}
+		///	@a ZeroValue_t から変換します。
 		constexpr SignedInteger(const ZeroValue_t&) noexcept : _data(value_construct<uint8_t>(0)) {}
 
 		[[nodiscard]] constexpr const ValueType& data() const noexcept { return _data; }
