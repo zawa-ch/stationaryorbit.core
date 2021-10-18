@@ -23,6 +23,7 @@
 #include "core/bitwidth.hpp"
 #include "core/constarray.hpp"
 #include "core/constprogression.hpp"
+#include "core/crc.hpp"
 #include "core/delegate.hpp"
 #include "core/disperse.hpp"
 #include "core/event.hpp"
